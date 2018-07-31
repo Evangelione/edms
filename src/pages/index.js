@@ -13,6 +13,7 @@ import 'echarts/lib/chart/effectScatter'
 import 'echarts/map/js/china' // 引入中国地图
 // import ReactEcharts from 'echarts-for-react'
 import CountUp from 'react-countup'
+import {routerRedux} from "dva/router"
 
 class IndexPage extends React.Component {
   constructor(props) {
@@ -22,6 +23,9 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     // this.initMap()
+    this.props.dispatch(routerRedux.push({
+      pathname: '/login',
+    }))
   }
 
   componentDidUpdate() {
