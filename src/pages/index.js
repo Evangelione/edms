@@ -23,9 +23,9 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     // this.initMap()
-    this.props.dispatch(routerRedux.push({
-      pathname: '/login',
-    }))
+    // this.props.dispatch(routerRedux.push({
+    //   pathname: '/login',
+    // }))
   }
 
   componentDidUpdate() {
