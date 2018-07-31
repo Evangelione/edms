@@ -1,0 +1,71 @@
+.layout {
+  height: 100vh;
+  overflow: hidden;;
+}
+
+.scrollLayout {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.logo {
+  height: 120px;
+  background-color: #233D7A;
+  background-image: url("../assets/image/Group.png");
+  background-repeat: no-repeat;
+  background-position: 27px 27px;
+}
+
+.header {
+  background: #fff;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+  box-shadow: 6px 1px 12px #D8DDE6;
+}
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.menu {
+  height: 64px;
+  line-height: 64px !important;
+  float: right;
+}
+
+.content {
+  padding: 20px 20px 54px 20px;
+  margin-top: 64px;
+  overflow: auto;
+}
+
+.login {
+  overflow: hidden;
+  height: 100%;
+  background: url('../assets/image/qianduan_login_bg.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.backstagelogin {
+  overflow: hidden;
+  height: 100%;
+  background: url('../assets/image/houtai_login_bg.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.footer {
+  text-align: center;
+}
+
+

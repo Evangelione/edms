@@ -1,0 +1,84 @@
+.welcome {
+  height: 328px;
+  background: url(../assets/image/yay.jpg) no-repeat center 0;
+  background-size: 388px 328px;
+}
+
+.dashBoard {
+  margin-top: 20px;
+}
+
+.dashBoard > div > div {
+  height: 160px;
+  background: #FFFFFF;
+  box-shadow: 2px 2px 4px 1px rgba(221, 219, 219, 0.50);
+  border-radius: 4px;
+  padding: 5px 0;
+}
+
+.dashImg {
+  position: absolute;
+  top: 56px;
+  left: 68px;
+}
+
+.dashTitle {
+  position: absolute;
+  top: 40px;
+  left: 145px;
+  font-family: PingFangHK-Regular;
+  font-size: 18px;
+  color: #929292;
+}
+
+.dashCount {
+  position: absolute;
+  top: 70px;
+  left: 145px;
+  font-family: PingFangHK-Regular;
+  font-size: 36px;
+  color: #676767;
+}
+
+.contentBox > div > div {
+  padding: 20px;
+  margin-top: 20px;
+  background: #fff;
+  box-shadow: 2px 2px 4px 1px rgba(221, 219, 219, 0.50);
+}
+
+.detailBox > div {
+  height: 120px;
+  position: relative;
+}
+
+.boxImg {
+  position: absolute;
+  top: 36px;
+  left: 60px;
+  width: 45px;
+  height: 45px;
+}
+
+.boxCount {
+  font-family: PingFangHK-Regular;
+  font-size: 39.41px;
+  color: #4A90E2;
+  letter-spacing: 1.75px;
+  text-align: center;
+  position: absolute;
+  top: 10px;
+  right: 82px;
+  width: 60px;
+}
+
+.boxText {
+  font-family: PingFangHK-Regular;
+  font-size: 16.42px;
+  color: #9B9B9B;
+  letter-spacing: 0.73px;
+  text-align: center;
+  position: absolute;
+  top: 68px;
+  right: 72px;
+}

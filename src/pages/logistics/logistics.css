@@ -1,0 +1,23 @@
+
+.createTime {
+  position: absolute;
+  top: 17px;
+  left: 300px;
+}
+
+.ColStyle {
+  margin: 10px 0 50px 0;
+}
+
+.ColStyle > div:first-child {
+  font-weight: 600;
+}
+
+.pageName {
+  font-family: PingFangHK-Regular;
+  font-size: 16px;
+  color: #545F76;
+  letter-spacing: 0;
+  font-weight: 600;
+  margin-bottom: 22px;
+}

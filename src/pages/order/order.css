@@ -1,0 +1,10 @@
+
+.resultBox {
+  float: right;
+  text-align: right;
+  color: #A1A9B3;
+}
+
+.resultBox button {
+  margin: 5px;
+}
