@@ -70,7 +70,6 @@ export function modifyCustomer({form}) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key]);
   })
-  console.log(formData)
   return request(`${IP}/admin/customer/modify-customer`, {
     method: 'POST',
     body: formData

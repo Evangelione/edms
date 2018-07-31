@@ -65,8 +65,6 @@ class Order extends React.Component {
   }
 
   rangeChange = (dates, dateString) => {
-    console.log(dates)
-    console.log(dateString)
     this.props.dispatch({
       type: 'customer/salesDetailFetch',
       payload: {

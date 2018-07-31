@@ -69,7 +69,6 @@ class Logistics extends React.Component {
   }
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -94,7 +93,6 @@ class Logistics extends React.Component {
         delete values.zhuanghuoxiangxidizhi
         values.expect_time = values.expect_time.format('YYYY-MM-DD hh:00:00')
         values.id = this.state.id
-        console.log('Received values of form: ', values);
         this.props.dispatch({
           type: 'logisticsDetail/doDispatch',
           payload: {

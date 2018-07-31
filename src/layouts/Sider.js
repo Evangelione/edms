@@ -38,9 +38,6 @@ class MySider extends React.Component {
   }
 
   render() {
-    console.log((sessionStorage.getItem('backAuth') & 1) !== 0)
-    console.log(sessionStorage.getItem('backAuth') & 2 !== 0)
-    console.log(sessionStorage.getItem('backAuth') & 4 !== 0)
     const {collapsed} = this.props
     return (
       <Sider trigger={null}

@@ -9,13 +9,6 @@ class SalesPerformance extends React.Component {
     this.state = {}
   }
 
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'company/fetchCompanyList',
-      payload: {page: 1}
-    })
-  }
-
   pageChangeHandler = (page) => {
     this.props.dispatch({
       type: 'company/fetchCompanyList',

@@ -26,7 +26,6 @@ class operateUser extends React.Component {
       }
     })
     if (this.props.location.query.type === 'edit') {
-      console.log(this.props.editForm)
       if (!Object.keys(this.props.editForm).length) {
         this.props.dispatch(routerRedux.push({
           pathname: '/maintain'
@@ -53,7 +52,6 @@ class operateUser extends React.Component {
         values.delivery_city = delivery_city
         values.delivery_area = delivery_area
         delete values.delivery
-        console.log(values)
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'maintain/insertCustomer',

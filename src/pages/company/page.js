@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, Tabs, Input } from 'antd'
+import {Card, Tabs, Input} from 'antd'
+import {connect} from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import CompanyDetail from './components/CompanyDetail'
 import SalesPerformance from './components/SalesPerformance'
@@ -19,16 +20,35 @@ class Company extends React.Component {
     this.setState({
       paneKey: key
     })
+    if(key === '2') {
+      this.props.dispatch({
+        type: 'company/fetchCompanyList',
+        payload: {
+          page: 1,
+          find_str: ''
+        }
+      })
+    }
+  }
+
+  iptSearch = (value) => {
+    this.props.dispatch({
+      type: 'company/fetchCompanyList',
+      payload: {
+        page: 1,
+        find_str: value,
+      }
+    })
   }
 
   render() {
-    return(
+    return (
       <div>
         <PageTitle>我的公司</PageTitle>
         {this.state.paneKey === '2' ?
           <div className={'searchBox'}>
             <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
-                    onSearch={value => console.log(value)}/>
+                    onSearch={this.iptSearch}/>
           </div>
           : ''}
         <Card>
@@ -46,4 +66,4 @@ class Company extends React.Component {
   }
 }
 
-export default Company
+export default connect()(Company)

@@ -11,7 +11,6 @@ export default {
 
   effects: {
     * change({payload}, {call, put}) {
-      console.log(payload)
       yield put({
         type: 'done',
         payload: payload

@@ -66,7 +66,6 @@ class ResultModal extends Component {
   }
 
   next = () => {
-    console.log('next')
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({
@@ -92,7 +91,6 @@ class ResultModal extends Component {
   }
 
   last = () => {
-    console.log('last')
     this.setState({
       step: this.state.step - 1,
       title: this.state.titleText[this.state.step - 1]
@@ -100,7 +98,6 @@ class ResultModal extends Component {
   }
 
   goResult = () => {
-    console.log('result')
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // 提交表单在这做
@@ -112,7 +109,6 @@ class ResultModal extends Component {
         delete form.customerTotal
         delete form.supplierTotal
         form.id = this.props.location.query.id
-        console.log(form)
         this.props.dispatch({
           type: 'orderDetail/doResult',
           payload: form
