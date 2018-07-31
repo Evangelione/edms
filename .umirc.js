@@ -3,11 +3,12 @@ export default {
     'umi-plugin-dva',
     'umi-plugin-polyfill'
   ],
-  proxy: {
-    "/api": {
-      target: "http://jsonplaceholder.typicode.com/",
-      changeOrigin: true,
-      pathRewrite: { "^/api" : "" }
-    }
-  },
+  hashHistory: true
+  // proxy: {
+  //   "/api": {
+  //     target: "http://jsonplaceholder.typicode.com/",
+  //     changeOrigin: true,
+  //     pathRewrite: { "^/api" : "" }
+  //   }
+  // },
 }
