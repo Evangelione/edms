@@ -1,1 +1,1 @@
-window.routerBase = "/"
+window.routerBase = "/";

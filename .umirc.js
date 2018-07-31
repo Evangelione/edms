@@ -3,7 +3,8 @@ export default {
     'umi-plugin-dva',
     'umi-plugin-polyfill'
   ],
-  // hashHistory: true
+  publicPath: '/static',
+  // hashHistory: true,
   // proxy: {
   //   "/api": {
   //     target: "http://jsonplaceholder.typicode.com/",
