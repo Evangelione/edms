@@ -138,6 +138,7 @@ class CompanyDetail extends React.Component {
                   name='CompanyForm[img]'
                   action={`${IP}/home/company/img`}
                   listType="picture-card"
+                  className="avatar-uploader"
                   fileList={fileList}
                   onPreview={this.handlePreview}
                   onRemove={this.handleRemove}
