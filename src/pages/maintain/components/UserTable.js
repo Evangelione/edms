@@ -219,7 +219,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-        scroll={{x: 1800}}
+        scroll={{x: 1900}}
       ></Table>
       <Pagination
         className="ant-table-pagination"

@@ -89,8 +89,8 @@ function OrderTable({dispatch, list, total, page, loading}) {
     },
     {
       title: '订单状态',
-      dataIndex: 'order_status',
-      key: 'order_status',
+      dataIndex: 'status_name',
+      key: 'status_name',
       align: 'center',
     },
     {

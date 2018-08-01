@@ -27,8 +27,9 @@ export default connect(mapStateToProps)(({dispatch, editable, step, detailForm})
           创建时间：{detailForm.create_time}
         </div>
         <Steps progressDot current={step} style={{margin: '70px 0'}}>
-          <Step title="待发货"/>
-          <Step title="已结算"/>
+          <Step title="待调度"/>
+          <Step title="待接单"/>
+          <Step title="已接单"/>
           <Step title="运输中"/>
           <Step title="已卸车"/>
           <Step title="已完成"/>
