@@ -143,11 +143,11 @@ html, body, :global(#root) {
 
 .ant-menu-submenu > .ant-menu-sub > .ant-menu-item-selected {
   background: #1890ff !important;
+  color: #eee !important;
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
   background: #172850;
-  color: #54A8FD !important;
 }
 
 .ant-menu-dark.ant-menu-inline .ant-menu-item, .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
@@ -167,9 +167,6 @@ html, body, :global(#root) {
   height: 48px;
 }
 
-.ant-menu-dark .ant-menu-item-active, .ant-menu-dark .ant-menu-item:hover, .ant-menu-dark .ant-menu-submenu-active, .ant-menu-dark .ant-menu-submenu-open, .ant-menu-dark .ant-menu-submenu-selected, .ant-menu-dark .ant-menu-submenu-title:hover {
-  color: #54A8FD !important;
-}
 
 /*不可编辑样式*/
 .ant-input-disabled {
