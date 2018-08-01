@@ -72,13 +72,13 @@ class SalesContract extends React.Component {
       align: 'center'
     }, {
       title: '乙方名称',
-      dataIndex: 'customer_name',
-      key: 'customer_name',
+      dataIndex: 'supp_name',
+      key: 'supp_name',
       align: 'center'
     }, {
       title: '乙方类型',
-      dataIndex: 'customer_type',
-      key: 'customer_type',
+      dataIndex: 'supp_type',
+      key: 'supp_type',
       align: 'center',
       render: (text, record, index) => {
         if (record.company_type === '1') {
@@ -89,13 +89,13 @@ class SalesContract extends React.Component {
       }
     }, {
       title: '联系人',
-      dataIndex: 'customer_contact',
-      key: 'customer_contact',
+      dataIndex: 'supp_contact',
+      key: 'supp_contact',
       align: 'center'
     }, {
       title: '联系电话',
-      dataIndex: 'customer_mobile',
-      key: 'customer_mobile',
+      dataIndex: 'supp_mobile',
+      key: 'supp_mobile',
       align: 'center'
     }, {
       title: '到期时间',
