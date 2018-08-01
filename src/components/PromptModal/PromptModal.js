@@ -216,8 +216,7 @@ class PromptModal extends Component {
                       className={'grayButton'}>{modalState.cancelText}</Button>
             </Col>
             <Col>
-              <Button onClick={modalState.okHandler} type='primary' style={{width: 120}}
-                      loading={billLoading}>{modalState.okText}</Button>
+              <Button onClick={modalState.okHandler} type='primary' style={{width: 120}}>{modalState.okText}</Button>
             </Col>
           </Row>
         </Modal>
