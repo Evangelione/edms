@@ -15,7 +15,7 @@ function MyHeader({dispatch, location, collapsed}) {
   }
 
   function logout() {
-    if (this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) {
+    if (location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) {
       dispatch({type: 'login/backlogout'})
     } else {
       dispatch({type: 'login/logout'})
@@ -29,7 +29,7 @@ function MyHeader({dispatch, location, collapsed}) {
         type={collapsed ? 'menu-unfold' : 'menu-fold'}
         onClick={toggle}
       />
-      {(this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) ?
+      {(location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) ?
         <div className={styles.user}>
           <img src={JSON.parse(sessionStorage.getItem('adminData')).head_img} alt=""/>
           <div>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
