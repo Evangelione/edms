@@ -85,6 +85,19 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       dataIndex: 'supp_type',
       key: 'supp_type',
       align: 'center',
+      render: (text, record, index) => {
+        if (text === '1') {
+          return '贸易商'
+        } else if (text === '2') {
+          return '运贸商'
+        } else if (text === '3') {
+          return '液厂'
+        } else if (text === '4') {
+          return '接收站'
+        } else if (text === '0') {
+          return '--'
+        }
+      }
     },
     {
       title: '供应商联系人',

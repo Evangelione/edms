@@ -66,6 +66,8 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         return '终端用户'
       } else if (text === '2') {
         return '贸易商'
+      } else if (text === '0') {
+        return '--'
       }
     }
   }, {
@@ -128,6 +130,8 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         return '加气站'
       } else if (text === '2') {
         return '气化站'
+      } else if (text === '0') {
+        return '--'
       }
     }
   }, {
@@ -151,6 +155,8 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
           return 'LNG泵船'
         } else if (text === '7') {
           return '其他'
+        } else if (text === '0') {
+          return '--'
         }
       } else if (record.site_type === '2') {
         if (text === '1') {
@@ -169,7 +175,11 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
           return '其他'
         } else if (text === '8') {
           return '分布式项目'
+        } else if (text === '0') {
+          return '--'
         }
+      } else {
+        return '--'
       }
     }
   }, {
@@ -209,7 +219,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-        scroll={{x: 1500}}
+        scroll={{x: 1800}}
       ></Table>
       <Pagination
         className="ant-table-pagination"
