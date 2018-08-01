@@ -43,7 +43,7 @@ class MySider extends React.Component {
       <Sider trigger={null}
              collapsible
              collapsed={collapsed}>
-        {(this.props.location.pathname === '/backstage' || this.props.location.pathname === '/permission' || this.props.location.pathname === '/maintain') ?
+        {(this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) ?
           <div>
             <div className={styles.logo}/>
             <Menu theme="dark"

@@ -56,6 +56,19 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     align: 'center',
     fixed: 'left',
   }, {
+    title: '客户类型',
+    dataIndex: 'customer_type',
+    key: 'customer_type',
+    align: 'center',
+    fixed: 'left',
+    render: (text, record, index) => {
+      if (text === '1') {
+        return '终端用户'
+      } else if (text === '2') {
+        return '贸易商'
+      }
+    }
+  }, {
     title: '客户联系人',
     dataIndex: 'customer_contact',
     key: 'customer_contact',
@@ -110,11 +123,74 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'site_type',
     key: 'site_type',
     align: 'center',
+    render: (text, record, index) => {
+      if (text === '1') {
+        return '加气站'
+      } else if (text === '2') {
+        return '气化站'
+      }
+    }
+    //   一、site_type=1 加气站
+    // 1：LNG加气站
+    // 2：L-CNG加气站
+    // 3：LNG L-CNG合建站
+    // 4：LNG CNG合建站
+    // 5：LNG 汽柴油合建站
+    // 6：LNG泵船
+    // 7：其他
+    // 二、site_type=2 气化站
+    // 1：电厂
+    // 2：城市居民
+    // 3：城市商服
+    // 4：城市供暖
+    // 5：工业燃料
+    // 6：工业原料
+    // 7：其他
+    // 8：分布式项目
+
+
   }, {
     title: '用户类型',
     dataIndex: 'user_type',
     key: 'user_type',
     align: 'center',
+    render: (text, record, index) => {
+      if (record.site_type === '1') {
+        if (text === '1') {
+          return 'LNG加气站'
+        } else if (text === '2') {
+          return 'L-CNG加气站'
+        } else if (text === '3') {
+          return 'LNG L-CNG合建站'
+        } else if (text === '4') {
+          return 'LNG CNG合建站'
+        } else if (text === '5') {
+          return 'LNG 汽柴油合建站'
+        } else if (text === '6') {
+          return 'LNG泵船'
+        } else if (text === '7') {
+          return '其他'
+        }
+      } else if (record.site_type === '2') {
+        if (text === '1') {
+          return '电厂'
+        } else if (text === '2') {
+          return '城市居民'
+        } else if (text === '3') {
+          return '城市商服'
+        } else if (text === '4') {
+          return '城市供暖'
+        } else if (text === '5') {
+          return '工业燃料'
+        } else if (text === '6') {
+          return '工业原料'
+        } else if (text === '7') {
+          return '其他'
+        } else if (text === '8') {
+          return '分布式项目'
+        }
+      }
+    }
   }, {
     title: '操作',
     align: 'center',
