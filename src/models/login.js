@@ -17,7 +17,7 @@ export default {
       if (data.code === 1) {
         message.success(data.msg)
         sessionStorage.setItem('loginAuth', data.user.auth)
-        sessionStorage.setItem('userData', data.user)
+        sessionStorage.setItem('userData', JSON.stringify(data.user))
         yield put(routerRedux.push({
           pathname: '/',
         }))
@@ -44,7 +44,7 @@ export default {
       if (data.code === 1) {
         message.success(data.msg)
         sessionStorage.setItem('backAuth', data.admin.auth)
-        sessionStorage.setItem('adminData', data.admin)
+        sessionStorage.setItem('adminData', JSON.stringify(data.admin))
         yield put(routerRedux.push({
           pathname: '/backstage',
         }))

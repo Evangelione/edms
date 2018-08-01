@@ -143,11 +143,11 @@ export default connect(mapStateToProps)(({detailForm}) => {
       <Row style={{marginTop: 35}}>
         <Col span={6} className={styles.ColStyle}>
           <Col span={8} offset={3}>销售员：</Col>
-          <Col span={13}>{sessionStorage.getItem('userData').name}</Col>
+          <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>
         </Col>
         <Col span={5} className={styles.ColStyle}>
           <Col span={8} offset={3}>联系电话：</Col>
-          <Col span={13}>{sessionStorage.getItem('userData').mobile}</Col>
+          <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).mobile}</Col>
         </Col>
       </Row>
     </Card>

@@ -676,7 +676,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('xiaoshouyuan', {
-                  initialValue: sessionStorage.getItem('userData').name
+                  initialValue: JSON.parse(sessionStorage.getItem('userData')).name
                 })(
                   <Input placeholder="请填写销售员..." disabled/>
                 )}
@@ -689,7 +689,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('lianxidianhua', {
-                  initialValue: sessionStorage.getItem('userData').mobile
+                  initialValue: JSON.parse(sessionStorage.getItem('userData')).mobile
                 })(
                   <Input placeholder="请填写联系电话..." disabled/>
                 )}
