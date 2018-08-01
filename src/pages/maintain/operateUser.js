@@ -22,7 +22,7 @@ class operateUser extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        district_code: ''
+        name: ''
       }
     })
     if (this.props.location.query.type === 'edit') {
@@ -48,9 +48,11 @@ class operateUser extends React.Component {
         let delivery_province = values.delivery[0]
         let delivery_city = values.delivery[1]
         let delivery_area = values.delivery[2]
+        if (delivery_area === undefined) {
+          values.delivery_area = ''
+        }
         values.delivery_province = delivery_province
         values.delivery_city = delivery_city
-        values.delivery_area = delivery_area
         delete values.delivery
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
@@ -64,10 +66,6 @@ class operateUser extends React.Component {
             payload: values
           })
         }
-        // this.props.dispatch({
-        //   type: 'maintain/save',
-        //   payload: {currentTab: 2}
-        // })
       }
     })
   }
@@ -95,13 +93,48 @@ class operateUser extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        district_code: targetOption.code,
+        name: targetOption.value,
         targetOption
       }
     })
   }
 
+  // displayRender = (labels, selectedOptions, value) => labels.map((label, i) => {
+  //   const option = selectedOptions[i]
+  //   this.firstEnter = this.props.firstEnter;
+  //   if (this.firstEnter && labels.length == 1) {
+  //     var mvs = value.filter(function (item, index) {
+  //       if (item) {
+  //         return item
+  //       }
+  //     });
+  //     var len = mvs.length;
+  //     var mks = mvs.map(function (item, index) {
+  //       if (item) {
+  //         if (len - 1 == index) {
+  //           return item
+  //         } else {
+  //           return item + "/"
+  //         }
+  //       }
+  //     });
+  //     return <span key={option.value}>{mks.join("")} </span>;
+  //   }
+  //
+  //   if (i === labels.length - 1) {
+  //     return (
+  //       <span key={option.value}>
+  //           {label}
+  //         </span>
+  //     )
+  //   }
+  //   return <span key={option.value}>{label} / </span>;
+  // })
+
   render() {
+    setTimeout(() => {
+      console.log(this.props.editForm)
+    }, 2000)
     const typeList1 = this.state.userType1.map((type, index) => <Option key={type} value={index + 1}>{type}</Option>)
     const typeList2 = this.state.userType2.map((type, index) => <Option key={type} value={index + 1}>{type}</Option>)
     const {getFieldDecorator} = this.props.form
@@ -317,12 +350,13 @@ class operateUser extends React.Component {
                       wrapperCol={{span: 18}}
                     >
                       {getFieldDecorator('delivery', {
-                        initialValue: this.props.editForm ? [this.props.editForm.delivery_province.code, this.props.editForm.delivery_city.code, this.props.editForm.delivery_area.code] : undefined,
+                        initialValue: this.props.editForm ? [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name] : undefined,
                         rules: [{required: true, message: '请选择收货地址！'}],
                       })(
                         <Cascader options={this.props.CascaderOptions}
                                   loadData={this.loadData}
                                   placeholder="请选择收货地址..."
+                                  // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
                         />
                       )}
                     </FormItem>
@@ -364,7 +398,7 @@ function mapStateToProps(state) {
   return {
     editForm,
     CascaderOptions,
-    loading: state.loading.models.order
+    loading: state.loading.models.maintain
   }
 }
 

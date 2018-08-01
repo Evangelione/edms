@@ -52,7 +52,10 @@ class DetailForm extends React.Component {
         values.recv_time = values.recv_time.format('YYYY-MM-DD hh:00:00')
         this.props.dispatch({
           type: 'order/addOrder',
-          payload: values
+          payload: {
+            id: this.props.location.query.id,
+            values
+          }
         })
       }
     })

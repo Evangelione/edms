@@ -201,9 +201,9 @@ export default {
         message.error(data.msg)
       }
     },
-    * fetchOptions({payload: {district_code = '', targetOption}}, {call, put, select}) {
+    * fetchOptions({payload: {name = '', targetOption}}, {call, put, select}) {
       if (targetOption) {
-        const {data} = yield call(maintainService.fetchOptions, {district_code})
+        const {data} = yield call(maintainService.fetchOptions, {name})
         if (data.code === -2) return false
         if (data.code === 1) {
           targetOption.loading = false
@@ -216,7 +216,7 @@ export default {
           })
         }
       } else {
-        const {data} = yield call(maintainService.fetchOptions, {district_code})
+        const {data} = yield call(maintainService.fetchOptions, {name})
         if (data.code === -2) return false
         if (data.code === 1) {
           yield put({

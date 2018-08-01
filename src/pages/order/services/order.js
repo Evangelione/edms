@@ -43,10 +43,10 @@ export function fetchGoods({supplier_id}) {
   })
 }
 
-export function addOrder({form}) {
+export function addOrder({values}) {
   let formData = new FormData()
-  Object.keys(form).forEach((key, i) => {
-    formData.append(key, form[key]);
+  Object.keys(values).forEach((key, i) => {
+    formData.append(key, values[key]);
   })
   return request(`${IP}/home/order/add-order`, {
     method: 'POST',

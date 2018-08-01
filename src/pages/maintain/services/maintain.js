@@ -150,9 +150,9 @@ export function deleteCar({id}) {
   })
 }
 
-export function fetchOptions({district_code}) {
+export function fetchOptions({name}) {
   let formData = new FormData()
-  formData.append('district_code', district_code)
+  formData.append('district_name', name)
   return request(`${IP}/admin/base/district`, {
     method: 'POST',
     body: formData

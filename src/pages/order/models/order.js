@@ -79,13 +79,16 @@ export default {
         })
       }
     },
-    * addOrder({payload: form}, {call, put}) {
-      const {data} = yield call(orderService.addOrder, {form})
+    * addOrder({payload: {values, id}}, {call, put}) {
+      const {data} = yield call(orderService.addOrder, {values})
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
         yield put(routerRedux.push({
-          pathname: '/order',
+          pathname: '/order/orderDetail',
+          query:{
+            id
+          }
         }))
       } else {
         message.error(data.msg)
