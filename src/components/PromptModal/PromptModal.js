@@ -190,6 +190,9 @@ class PromptModal extends Component {
   };
 
   render() {
+    // this.props.delay ? openState :
+    console.log(this.props.openState)
+    console.log(this.props.billLoading)
     const {children, state, openState, billLoading} = this.props
     const modalState = this.state.modalState[state]
     return (
@@ -197,7 +200,7 @@ class PromptModal extends Component {
         {children}
         <Modal
           title='提示'
-          visible={this.props.delay ? openState : this.state.visible}
+          visible={this.state.visible}
           footer={null}
           onCancel={this.hideModelHandler}
           bodyStyle={{textAlign: 'center', fontSize: 16, fontFamily: 'PingFangHK-Medium'}}
@@ -224,12 +227,12 @@ class PromptModal extends Component {
 }
 
 function mapStateToProps(state) {
-  const {openState} = state.orderDetail
+  // const {openState} = state.orderDetail
   const {billLoading} = state.logisticsDetail
   return {
-    openState,
+    // openState,
     billLoading,
-    loading: state.loading.models.PromptModal
+    loading: state.loading.models.logisticsDetail
   }
 }
 

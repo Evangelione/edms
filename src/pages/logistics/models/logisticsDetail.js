@@ -12,8 +12,8 @@ export default {
       car_body: [],
       driver: [],
       supercargo: [],
-      billLoading: false
-    }
+    },
+    billLoading: false
   },
   subscriptions: {
     setup({dispatch, history}) {
