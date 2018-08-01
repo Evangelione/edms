@@ -26,7 +26,7 @@ export function purchaseDetailFetch({page, find_str, stime, etime}) {
 }
 
 export function fetchOptions() {
-  return request(`${IP}/home/select/customer`, {
+  return request(`${IP}/home/select/supplier`, {
     method: 'POST'
   })
 }
