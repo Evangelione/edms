@@ -54,11 +54,13 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'customer_name',
     key: 'customer_name',
     align: 'center',
+    fixed: 'left',
   }, {
     title: '客户类型',
     dataIndex: 'customer_type',
     key: 'customer_type',
     align: 'center',
+    fixed: 'left',
     render: (text, record, index) => {
       if (text === '1') {
         return '终端用户'
@@ -174,6 +176,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     title: '操作',
     align: 'center',
     key: 'createdAt',
+    fixed: 'right',
     render: (text, record, index) => {
       return (
         <div className={'operating'}>
