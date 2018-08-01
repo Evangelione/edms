@@ -1,8 +1,6 @@
 import {connect} from 'dva'
 import {Layout, Menu, Icon} from 'antd'
-// import Link from 'umi/link'
 import styles from './index.css'
-import images from '../utils/images'
 
 const {Header} = Layout
 

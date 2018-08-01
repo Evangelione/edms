@@ -76,42 +76,42 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                          className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
                       <span>全部</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daizhifu', '1')}
                          className={currentTab === 'daizhifu' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daizhifu' ? 'daizhifuBlue ' : 'daizhifuGray'}></span>
                       <span>待支付</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daifahuo', '2')}
                          className={currentTab === 'daifahuo' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daifahuo' ? 'daifahuoBlue ' : 'daifahuoGray'}></span>
                       <span>待发货</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daishouhuo', '3')}
                          className={currentTab === 'daishouhuo' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daishouhuo' ? 'daishouhuoBlue ' : 'daishouhuoGray'}></span>
                       <span>待收货</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daijiesuan', '4')}
                          className={currentTab === 'daijiesuan' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daijiesuan' ? 'daijiesuanBlue ' : 'daijiesuanGray'}></span>
                       <span>待结算</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={changeClass.bind(null, 'yijiesuan', '5')}
                          className={currentTab === 'yijiesuan' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'yijiesuan' ? 'yijiesuanBlue ' : 'yijiesuanGray'}></span>
                       <span>已结算</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                   </div>
                 </TabPane>

@@ -23,18 +23,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(({dispatch, location, list, page, total, loading, currentTab, find_auth, find_str}) => {
-  function changeClass(type, auth) {
-    if (loading) return false
-    dispatch({
-      type: 'backstage/save',
-      payload: {currentTab: type}
-    })
-    dispatch({
-      type: 'backstage/fetch',
-      payload: {find_auth: auth, find_str: find_str}
-    })
-  }
-
   function editUser(type, record) {
     dispatch({
       type: 'backstage/save',
@@ -156,49 +144,22 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                   <Button className={'blueBorder'} icon="plus"
                           onClick={editUser.bind(null, 'insert')}>新增管理员</Button>
                 </div>
-                <div className={'changeList'}>
-                  <div onClick={changeClass.bind(null, 'quanbu', '')}
-                       className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
-                    <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
-                    <span>全部</span>
-                  </div>
-                  <div onClick={changeClass.bind(null, 'guanliyuan', '1')}
-                       className={currentTab === 'guanliyuan' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'guanliyuan' ? 'daidiaoduBlue ' : 'daidiaoduGray'}></span>
-                    <span>管理员设置</span>
-                  </div>
-                  <div onClick={changeClass.bind(null, 'yonghuquanxian', '2')}
-                       className={currentTab === 'yonghuquanxian' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'yonghuquanxian' ? 'daijiedanBlue ' : 'daijiedanGray'}></span>
-                    <span>用户权限设置</span>
-                  </div>
-                  <div onClick={changeClass.bind(null, 'shujuweihu', '4')}
-                       className={currentTab === 'shujuweihu' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'shujuweihu' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
-                    <span>数据维护</span>
-                  </div>
-                </div>
+                <Table
+                  columns={columns}
+                  dataSource={list}
+                  rowKey={record => record.id}
+                  pagination={false}
+                  loading={loading}
+                ></Table>
+                <Pagination
+                  className="ant-table-pagination"
+                  total={total}
+                  current={page}
+                  pageSize={PAGE_SIZE}
+                  onChange={pageChangeHandler}
+                />
               </TabPane>
             </Tabs>
-          </Card>
-          <Card style={{marginTop: 5}}>
-            <Table
-              columns={columns}
-              dataSource={list}
-              rowKey={record => record.id}
-              pagination={false}
-              loading={loading}
-            ></Table>
-            <Pagination
-              className="ant-table-pagination"
-              total={total}
-              current={page}
-              pageSize={PAGE_SIZE}
-              onChange={pageChangeHandler}
-            />
           </Card>
         </div>
         :

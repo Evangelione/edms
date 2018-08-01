@@ -64,6 +64,7 @@ class OperateUser extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let auth = 0
+        debugger
         values.gly === true ? auth += 1 : auth += 0
         values.yhqx === true ? auth += 2 : auth += 0
         values.sjwh === true ? auth += 4 : auth += 0
@@ -299,16 +300,16 @@ class OperateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>3.管理员角色</div>
-              <Divider></Divider>
-              <Row style={{marginTop: 35}}>
+              <div className={'itemTitle'} style={{display: 'none'}}>3.管理员角色</div>
+              <Divider style={{display: 'none'}}></Divider>
+              <Row style={{marginTop: 35}} style={{display: 'none'}}>
                 <Col span={12} offset={1}>
                   <FormItem
                     label=""
                     {...formItemLayout2}
                   >
                     {getFieldDecorator('role', {
-                      initialValue: this.props.editForm.role ? this.props.editForm.role : '2',
+                      initialValue: '2',
                       valuePropName: 'checked',
                     })(
                       <RadioGroup value={this.state.value}
@@ -320,9 +321,9 @@ class OperateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>4.角色权限</div>
-              <Divider></Divider>
-              <Row style={{marginTop: 35}}>
+              <div className={'itemTitle'} style={{display: 'none'}}>4.角色权限</div>
+              <Divider style={{display: 'none'}}></Divider>
+              <Row style={{marginTop: 35}} style={{display: 'none'}}>
                 <Col span={5}>
                   <FormItem
                     label="管理员设置"
@@ -330,7 +331,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('gly', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 1) !== 0) ? true : false,
+                      initialValue: false,
                     })(
                       <Switch onChange={this.checkChange.bind(null, 'gly')}/>,
                     )}
@@ -343,7 +344,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('yhqx', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 2) !== 0) ? true : false,
+                      initialValue: true,
                     })(
                       <Switch onChange={this.checkChange.bind(null, 'yhqx')}/>,
                     )}
@@ -356,7 +357,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('sjwh', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 4) !== 0) ? true : false,
+                      initialValue: true,
                     })(
                       <Switch onChange={this.checkChange.bind(null, 'sjwh')}/>,
                     )}

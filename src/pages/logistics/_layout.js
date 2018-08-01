@@ -104,47 +104,47 @@ class Order extends React.Component {
                          className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
                       <span>全部</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'daidiaodu', '1')}
                          className={currentTab === 'daidiaodu' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'daidiaodu' ? 'daidiaoduBlue ' : 'daidiaoduGray'}></span>
                       <span>待调度</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'daijiedan', '2')}
                          className={currentTab === 'daijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'daijiedan' ? 'daijiedanBlue ' : 'daijiedanGray'}></span>
                       <span>待接单</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yijiedan', '3')}
                          className={currentTab === 'yijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'yijiedan' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
                       <span>已接单</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yunshuzhong', '4')}
                          className={currentTab === 'yunshuzhong' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'yunshuzhong' ? 'yunshuzhongBlue ' : 'yunshuzhongGray'}></span>
                       <span>运输中</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yixieche', '5')}
                          className={currentTab === 'yixieche' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'yixieche' ? 'yixiecheBlue ' : 'yixiecheGray'}></span>
                       <span>已卸车</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yiwancheng', '6')}
                          className={currentTab === 'yiwancheng' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'yiwancheng' ? 'yiwanchengBlue ' : 'yiwanchengGray'}></span>
                       <span>已完成</span>
-                      <span>(200)</span>
+                      <span></span>
                     </div>
                   </div>
                 </TabPane>

@@ -38,7 +38,7 @@ class MySider extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       currentKey: this.getCurrentTab()
     })
