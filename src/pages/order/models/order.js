@@ -46,12 +46,13 @@ export default {
     * fetchSelect({payload}, {call, put}) {
       const custom = yield call(orderService.fetchCustom)
       const supplier = yield call(orderService.fetchSupplier)
-      if (custom.code === 1 && supplier.code === 1) {
+      debugger
+      if (custom.data.code === 1 && supplier.data.code === 1) {
         yield put({
           type: 'save',
           payload: {
-            customOption: custom.data.list,
-            supplierOption: supplier.data.list,
+            customOption: custom.data.data.list,
+            supplierOption: supplier.data.data.list,
           }
         })
       }
