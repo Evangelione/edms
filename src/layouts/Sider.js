@@ -37,6 +37,34 @@ class MySider extends React.Component {
     }
   }
 
+  getCurrentTab = () => {
+    if (this.props.location.pathname === '/') {
+      return ['home']
+    } else if (this.props.location.pathname.indexOf('/backstage') === 0) {
+      return ['administrator']
+    } else if (this.props.location.pathname.indexOf('/permission') === 0) {
+      return ['permission']
+    } else if (this.props.location.pathname.indexOf('/maintain') === 0) {
+      return ['maintain']
+    } else if (this.props.location.pathname.indexOf('/order') === 0) {
+      return ['order']
+    } else if (this.props.location.pathname.indexOf('/logistics') === 0) {
+      return ['logistics']
+    } else if (this.props.location.pathname.indexOf('/account/balance') === 0) {
+      return ['balance']
+    } else if (this.props.location.pathname.indexOf('/account/analysis') === 0) {
+      return ['analysis']
+    } else if (this.props.location.pathname.indexOf('/customer') === 0) {
+      return ['customer']
+    } else if (this.props.location.pathname.indexOf('/supplier') === 0) {
+      return ['supplier']
+    } else if (this.props.location.pathname.indexOf('/company') === 0) {
+      return ['company']
+    } else {
+      return ['administrator']
+    }
+  }
+
   render() {
     const {collapsed} = this.props
     return (
@@ -47,7 +75,7 @@ class MySider extends React.Component {
           <div>
             <div className={styles.logo}/>
             <Menu theme="dark"
-                  defaultSelectedKeys={['administrator']}
+                  defaultSelectedKeys={this.getCurrentTab}
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onSelect={this.onSelect}
@@ -67,7 +95,7 @@ class MySider extends React.Component {
           <div>
             <div className={styles.logo}/>
             <Menu theme="dark"
-                  defaultSelectedKeys={['home']}
+                  defaultSelectedKeys={this.getCurrentTab}
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onSelect={this.onSelect}
