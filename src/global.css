@@ -146,9 +146,8 @@ html, body, :global(#root) {
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
-  /*#1890ff*/
   background: #172850;
-  color: #54A8FD;
+  color: #54A8FD !important;
 }
 
 .ant-menu-dark.ant-menu-inline .ant-menu-item, .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
