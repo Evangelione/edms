@@ -1,10 +1,10 @@
-import { Card, Tabs, Button, Input, Table, Pagination } from 'antd'
-import { connect } from 'dva'
+import {Card, Tabs, Button, Input, Table, Pagination} from 'antd'
+import {connect} from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import OperateUser from './operateUser'
-import { routerRedux } from 'dva/router'
-import { PAGE_SIZE } from "../../constants";
+import {routerRedux} from 'dva/router'
+import {PAGE_SIZE} from "../../constants";
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -94,7 +94,14 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     title: '角色',
     dataIndex: 'role',
     key: 'role',
-    align: 'center'
+    align: 'center',
+    render: (text, record, index) => {
+      if (text === '1') {
+        return '超级管理员'
+      } else if (text === '2') {
+        return '普通管理员'
+      }
+    }
   }, {
     title: '权限',
     dataIndex: 'forbidden',

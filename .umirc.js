@@ -3,7 +3,7 @@ export default {
     'umi-plugin-dva',
     'umi-plugin-polyfill'
   ],
-  hashHistory: true,
+  // hashHistory: true,
   // publicPath: '/static/',
   // proxy: {
   //   "/api": {

@@ -290,7 +290,6 @@ class OperateUser extends React.Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('pwd', {
-                      initialValue: this.props.editForm.pwd ? this.props.editForm.pwd : '',
                       rules: [{required: true, message: '请填写正确密码！', min: 6, max: 16, pattern: '^(\\w){6,16}$'}],
                       validateTrigger: 'onBlur',
                     })(
