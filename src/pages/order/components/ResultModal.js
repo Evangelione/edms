@@ -78,11 +78,15 @@ class ResultModal extends Component {
           title: this.state.titleText[this.state.step + 1]
         }, () => {
           if (this.state.step === 4) {
+            console.log(this.state.resultForm)
+            let caigou = (this.state.resultForm.purchase_price - 0) * (this.props.detailForm.load_num - 0)
+            let xiaoshou = ((this.state.resultForm.saler_price - 0) * (this.state.resultForm.final_num - 0)) + ((this.state.resultNum - 0) * (this.state.resultForm.deliver_price - 0) * (this.state.resultForm.distance) + (this.state.resultForm.extra_fee - 0))
+            let wuliu = ((this.state.resultNum - 0) * (this.state.resultForm.wl_deliver_price - 0) * (this.state.distance - 0)) + (this.state.resultForm.wl_extra_fee - 0)
             this.props.form.setFieldsValue({
-              caigou: (this.state.resultForm.purchase_price - 0) * (this.props.detailForm.load_num - 0),
-              xiaoshou: (this.state.resultForm.saler_price - 0) * (this.state.resultForm.final_num - 0) + ((this.state.resultNum - 0) * (this.state.resultForm.purchase_price - 0) * (this.state.resultNum - 0) + (this.state.resultForm.extra_fee - 0)),
-              wuliu: (this.state.resultNum - 0) * (this.state.resultForm.wl_deliver_price - 0) * (this.state.resultNum - 0) + (this.state.resultForm.wl_extra_fee - 0),
-              yingli: ((this.state.resultForm.saler_price - 0) * (this.state.resultForm.final_num - 0) + ((this.state.resultNum - 0) * (this.state.resultForm.purchase_price - 0) * (this.state.resultNum - 0) + (this.state.resultForm.extra_fee - 0))) - ((this.state.resultForm.purchase_price - 0) * (this.props.detailForm.load_num - 0)) - ((this.state.resultNum - 0) * (this.state.resultForm.wl_deliver_price - 0) * (this.state.resultNum - 0) + (this.state.resultForm.wl_extra_fee - 0))
+              caigou: caigou,
+              xiaoshou: xiaoshou,
+              wuliu: wuliu,
+              yingli: xiaoshou - caigou - wuliu
             })
           }
         })
@@ -123,7 +127,7 @@ class ResultModal extends Component {
       const distance = this.props.form.getFieldValue('distance')
       const extra_fee = this.props.form.getFieldValue('extra_fee')
       this.setState({
-        customerTotal: (deliver_price - 0) * (distance - 0) * (this.state.resultNum - 0) + (extra_fee - 0)
+        customerTotal: ((deliver_price - 0) * (distance - 0) * (this.state.resultNum - 0)) + (extra_fee - 0)
       }, () => {
         this.props.form.setFieldsValue({
           customerTotal: this.state.customerTotal
@@ -141,7 +145,7 @@ class ResultModal extends Component {
         return false
       }
       this.setState({
-        supplierTotal: (deliver_price - 0) * (distance - 0) * (this.state.resultNum - 0) + (extra_fee - 0)
+        supplierTotal: ((deliver_price - 0) * (distance - 0) * (this.state.resultNum - 0)) + (extra_fee - 0)
       }, () => {
         this.props.form.setFieldsValue({
           supplierTotal: this.state.supplierTotal

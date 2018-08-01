@@ -77,7 +77,7 @@ class OperateUser extends React.Component {
         delete values.sjwh
         values.auth = auth.toString()
         values.role = this.state.value
-        if(values.pwd === undefined) values.pwd === ''
+        if(values.pwd === undefined) values.pwd = ''
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'backstage/insertAdmin',

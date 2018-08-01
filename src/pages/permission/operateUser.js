@@ -71,7 +71,8 @@ class OperateUser extends React.Component {
         delete values.wdgys
         delete values.wdgs
         values.auth = auth.toString()
-        if(values.pwd === undefined) values.pwd === ''
+        if(values.pwd === undefined) values.pwd = ''
+        debugger
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'permission/insertAdmin',
