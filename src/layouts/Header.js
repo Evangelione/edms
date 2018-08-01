@@ -53,13 +53,13 @@ function MyHeader({dispatch, location, collapsed}) {
           <div className={styles.avatar}>
             <img src={JSON.parse(sessionStorage.getItem('adminData')).head_img} alt=""/>
           </div>
-          <div>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
+          <div style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
         </div> :
         <div className={styles.user}>
           <div className={styles.avatar}>
             <img src={JSON.parse(sessionStorage.getItem('userData')).head_img} alt=""/>
           </div>
-          <div>{JSON.parse(sessionStorage.getItem('userData')).name}</div>
+          <div style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('userData')).name}</div>
         </div>
       }
     </Header>

@@ -53,12 +53,9 @@ function OrderTable({dispatch, list, total, page, loading}) {
     },
     {
       title: '订单金额（元）',
-      dataIndex: 'nl',
-      key: 'nl',
-      align: 'center',
-      render: (text, record, index) => {
-        return record.saler_price * record.saler_num
-      }
+      dataIndex: 'final_money',
+      key: 'final_money',
+      align: 'center'
     },
     {
       title: '配送方式',
