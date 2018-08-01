@@ -17,6 +17,7 @@ export default {
       if (data.code === 1) {
         message.success(data.msg)
         sessionStorage.setItem('loginAuth', data.user.auth)
+        sessionStorage.setItem('userData', data.user)
         yield put(routerRedux.push({
           pathname: '/',
         }))
@@ -30,6 +31,7 @@ export default {
       if (data.code === 1) {
         message.success(data.msg)
         sessionStorage.removeItem('loginAuth')
+        sessionStorage.removeItem('userData')
         yield put(routerRedux.push({
           pathname: '/login',
         }))
@@ -42,6 +44,7 @@ export default {
       if (data.code === 1) {
         message.success(data.msg)
         sessionStorage.setItem('backAuth', data.admin.auth)
+        sessionStorage.setItem('adminData', data.admin)
         yield put(routerRedux.push({
           pathname: '/backstage',
         }))
@@ -54,6 +57,7 @@ export default {
       const {data} = yield call(loginServices.backlogout)
       if (data.code === 1) {
         sessionStorage.removeItem('backAuth')
+        sessionStorage.removeItem('adminData')
         // message.success(data.msg)
         yield put(routerRedux.push({
           pathname: '/backstagelogin',
