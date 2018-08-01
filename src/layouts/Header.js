@@ -35,14 +35,6 @@ function MyHeader({dispatch, location, collapsed}) {
         className={styles.menu}
       >
         <Menu.Item key="alipay">
-          {/*{location.pathname === '/home' ?*/}
-          {/*<Link to='/'>*/}
-          {/*<Icon type='export'/>管理中心*/}
-          {/*</Link>*/}
-          {/*:*/}
-          {/*<Link to='/home'>*/}
-          {/*<Icon type='export'/>返回商城*/}
-          {/*</Link>}*/}
           <div onClick={logout}>
             <Icon type="logout"/>退出登录
           </div>

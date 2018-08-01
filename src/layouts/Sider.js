@@ -12,7 +12,8 @@ class MySider extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      openKeys: []
+      openKeys: [],
+      currentKey: ['']
     }
   }
 
@@ -36,6 +37,12 @@ class MySider extends React.Component {
       })
     }
   }
+
+  componentWillMount() {
+    this.setState({
+      currentKey: this.getCurrentTab()
+    })
+ }
 
   getCurrentTab = () => {
     if (this.props.location.pathname === '/') {
@@ -75,7 +82,7 @@ class MySider extends React.Component {
           <div>
             <div className={styles.logo}/>
             <Menu theme="dark"
-                  defaultSelectedKeys={this.getCurrentTab}
+                  defaultSelectedKeys={this.state.currentKey}
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onSelect={this.onSelect}
@@ -95,7 +102,7 @@ class MySider extends React.Component {
           <div>
             <div className={styles.logo}/>
             <Menu theme="dark"
-                  defaultSelectedKeys={this.getCurrentTab}
+                  defaultSelectedKeys={this.state.currentKey}
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onSelect={this.onSelect}

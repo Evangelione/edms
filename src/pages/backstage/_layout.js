@@ -103,27 +103,6 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       }
     }
   }, {
-    title: '权限',
-    dataIndex: 'auth',
-    key: 'auth',
-    align: 'center',
-    render: (text, record, index) => {
-      let txt = ''
-      if (((text - 0) & 1) !== 0) {
-        txt = txt + '管理员设置,'
-      }
-      if (((text - 0) & 2) !== 0) {
-        txt = txt + '用户权限设置,'
-      }
-      if (((text - 0) & 4) !== 0) {
-        txt = txt + '数据维护,'
-      }
-      if (txt.endsWith(',')) {
-        txt = txt.slice(0, txt.length - 1)
-      }
-      return <div className='txt-overflow' title={txt}>{txt}</div>
-    }
-  }, {
     title: '创建时间',
     dataIndex: 'creation_time',
     key: 'creation_time',
