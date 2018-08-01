@@ -21,8 +21,8 @@ class ContractModal extends React.Component {
       type: 'supplier/fetchOptions',
     }).then(() => {
       const supplierOptions = this.props.supplierOption.map((option, index) =>
-        <Option key={index} value={option.id} contact={option.customer_contact} mobile={option.customer_mobile}
-                type={option.customer_type}>{option.customer_name}</Option>
+        <Option key={index} value={option.id} contact={option.supp_contact} mobile={option.supp_mobile}
+                type={option.supp_type}>{option.supp_name}</Option>
       )
       this.setState({
         supplierOptions

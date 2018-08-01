@@ -108,22 +108,22 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     align: 'center',
     render: (text, record, index) => {
       let txt = ''
-      if ((text - 0) & 1 !== 0) {
+      if (((text - 0) & 1) !== 0) {
         txt = txt + '我的订单,'
       }
-      if ((text - 0) & 2 !== 0) {
+      if (((text - 0) & 2) !== 0) {
         txt = txt + '我的物流,'
       }
-      if ((text - 0) & 4 !== 0) {
+      if (((text - 0) & 4) !== 0) {
         txt = txt + '我的账务,'
       }
-      if ((text - 0) & 8 !== 0) {
+      if (((text - 0) & 8) !== 0) {
         txt = txt + '我的客户,'
       }
-      if ((text - 0) & 16 !== 0) {
+      if (((text - 0) & 16) !== 0) {
         txt = txt + '我的供应商,'
       }
-      if ((text - 0) & 32 !== 0) {
+      if (((text - 0) & 32) !== 0) {
         txt = txt + '我的公司,'
       }
       if (txt.endsWith(',')) {
