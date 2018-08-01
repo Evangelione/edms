@@ -1,11 +1,11 @@
 import React from 'react'
-import { Card, Tabs, Button, Input, Table, Pagination } from 'antd'
-import { connect } from 'dva'
+import {Card, Tabs, Button, Input, Table, Pagination} from 'antd'
+import {connect} from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import OperateUser from './operateUser'
-import { routerRedux } from 'dva/router'
-import { PAGE_SIZE } from "../../constants";
+import {routerRedux} from 'dva/router'
+import {PAGE_SIZE} from "../../constants";
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -103,9 +103,29 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     align: 'center'
   }, {
     title: '权限',
-    dataIndex: 'forbidden',
-    key: 'forbidden',
-    align: 'center'
+    dataIndex: 'auth',
+    key: 'auth',
+    align: 'center',
+    render: (text, record, index) => {
+      let txt = ''
+      if ((text - 0) & 1 !== 0) {
+        txt = txt + '我的订单,'
+      } else if ((text - 0) & 2 !== 0) {
+        txt = txt + '我的物流,'
+      } else if ((text - 0) & 4 !== 0) {
+        txt = txt + '我的账务,'
+      } else if ((text - 0) & 8 !== 0) {
+        txt = txt + '我的客户,'
+      } else if ((text - 0) & 16 !== 0) {
+        txt = txt + '我的供应商,'
+      } else if ((text - 0) & 32 !== 0) {
+        txt = txt + '我的公司,'
+      }
+      if (txt.endsWith(',')) {
+        txt.slice(0, txt.length - 1)
+      }
+      return <div className='txt-overflow' title={txt}>{txt}</div>
+    }
   }, {
     title: '创建时间',
     dataIndex: 'creation_time',
