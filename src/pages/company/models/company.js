@@ -9,7 +9,7 @@ export default {
     total: 0,
     find_str: '',
     companyDetail: {},
-    imgUrl: ''
+    imgUrl: []
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -46,15 +46,16 @@ export default {
         })
       }
     },
-    * postImg({payload: file}, {call, put}) {
+    * postImg({payload: file}, {call, put, select}) {
       const {data} = yield call(companyServices.postImg, {file})
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        const imgUrl = yield select(state => state.company.imgUrl)
         yield put({
           type: 'save',
           payload: {
-            imgUrl: data.url
+            imgUrl: [...imgUrl, data.url]
           }
         })
       } else {
@@ -76,6 +77,10 @@ export default {
   reducers: {
     save(state, action) {
       return {...state, ...action.payload}
+    },
+    saveImg(state, action) {
+      debugger
+      return {...state, ...{imgUrl: JSON.parse(action.payload.imgUrl)}}
     }
   }
 }

@@ -146,13 +146,13 @@ class RegisterModal extends React.Component {
                 initialValue: ['jack']
               })(
                 <Select placeholder='请选择付款渠道...'>
-                  <Option value="jack">网络转账</Option>
+                  <Option value="jack">网银转账</Option>
                 </Select>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="收款时间"
+              label={this.props.type ==='client' ? '收款登记' : '付款登记'}
             >
               {getFieldDecorator('send_time', {
                 rules: [{required: true, message: '此项为必选项！'}],
@@ -162,12 +162,12 @@ class RegisterModal extends React.Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="收款金额"
+              label={this.props.type ==='client' ? '收款金额' : '付款金额'}
             >
               {getFieldDecorator('record_sum', {
                 rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
               })(
-                <Input placeholder='请输入收款金额...'/>
+                <Input placeholder={this.props.type ==='client' ? '请输入收款金额...' : '请输入付款金额...'}/>
               )}
             </FormItem>
             <FormItem

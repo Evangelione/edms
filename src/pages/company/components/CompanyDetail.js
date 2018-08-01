@@ -28,13 +28,25 @@ class CompanyDetail extends React.Component {
     this.props.dispatch({
       type: 'company/fetchCompanyDetail'
     }).then(() => {
-      this.setState({
-        fileList: [{
-          uid: -1,
+      this.props.dispatch({
+        type: 'company/saveImg',
+        payload: {
+          imgUrl: this.props.companyDetail.certificate
+        }
+      })
+      let fileList = []
+      JSON.parse(this.props.companyDetail.certificate).forEach((val, index) => {
+        fileList.push({
+          uid: index,
           name: 'xxx.png',
           status: 'done',
-          url: this.props.companyDetail.certificate,
-        }]
+          url: val,
+        })
+      })
+      this.setState({
+        fileList: fileList
+      }, () => {
+        console.log(this.state.fileList)
       })
     })
   }
@@ -45,7 +57,7 @@ class CompanyDetail extends React.Component {
         this.setState({
           submitLoading: true
         })
-        this.props.imgUrl ? values.certificate = this.props.imgUrl : this.props.imgUrl = ''
+        this.props.imgUrl.length ? values.certificate = JSON.stringify(this.props.imgUrl) : values.certificate = JSON.stringify(values.certificate)
         this.props.dispatch({
           type: 'company/modifyCompany',
           payload: {
@@ -53,7 +65,8 @@ class CompanyDetail extends React.Component {
           }
         }).then(() => {
           this.setState({
-            editable: false
+            editable: false,
+            submitLoading: false
           })
         })
       }
@@ -82,7 +95,15 @@ class CompanyDetail extends React.Component {
     });
   }
 
-  handleRemove = () => {
+  handleRemove = (val) => {
+    let arr = this.props.imgUrl
+    arr.splice(arr.findIndex(v => v === val), 1)
+    this.props.dispatch({
+      type: 'company/saveImg',
+      payload: {
+        imgUrl: JSON.stringify(arr)
+      }
+    })
     if (!this.state.editable) return false
   }
 
@@ -124,11 +145,12 @@ class CompanyDetail extends React.Component {
       <Form style={{margin: '0 30px'}}>
         <div className={styles.title}>1.证件信息</div>
         <FormItem
-          {...formItemLayout}
+          labelCol={{span: 2}}
+          wrapperCol={{span: 20}}
           label="证件照片"
         >
           {getFieldDecorator('certificate', {
-            initialValue: this.props.companyDetail.certificate,
+            initialValue: ["http://lch-img.oss-cn-beijing.aliyuncs.com/lch-bill20180801094752u0.png"],
             rules: [{required: true, message: 'Please input your note!'}],
           })(
             <div>
@@ -146,7 +168,7 @@ class CompanyDetail extends React.Component {
                   beforeUpload={this.beforeUpload}
                   customRequest={this.customRequest}
                 >
-                  {(fileList.length >= 1 || !this.state.editable) ? null : uploadButton}
+                  {(fileList.length >= 5 || !this.state.editable) ? null : uploadButton}
                 </Upload>
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                   <img alt="example" style={{width: '100%'}} src={previewImage}/>

@@ -284,8 +284,8 @@ class Logistics extends React.Component {
       },
       {
         title: '运单状态',
-        dataIndex: 'deliver_status',
-        key: 'deliver_status',
+        dataIndex: 'status_name',
+        key: 'status_name',
         align: 'center',
         width: 120
       },

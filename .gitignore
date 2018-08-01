@@ -13,3 +13,4 @@ npm-debug.log*
 
 /mock
 .idea
+.user.ini

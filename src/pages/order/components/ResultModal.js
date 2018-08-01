@@ -78,7 +78,6 @@ class ResultModal extends Component {
           title: this.state.titleText[this.state.step + 1]
         }, () => {
           if (this.state.step === 4) {
-            console.log(this.state.resultForm)
             let caigou = (this.state.resultForm.purchase_price - 0) * (this.props.detailForm.load_num - 0)
             let xiaoshou = ((this.state.resultForm.saler_price - 0) * (this.state.resultForm.final_num - 0)) + ((this.state.resultNum - 0) * (this.state.resultForm.deliver_price - 0) * (this.state.resultForm.distance) + (this.state.resultForm.extra_fee - 0))
             let wuliu = ((this.state.resultNum - 0) * (this.state.resultForm.wl_deliver_price - 0) * (this.state.distance - 0)) + (this.state.resultForm.wl_extra_fee - 0)

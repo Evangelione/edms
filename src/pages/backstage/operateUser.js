@@ -64,7 +64,6 @@ class OperateUser extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let auth = 0
-        debugger
         values.gly === true ? auth += 1 : auth += 0
         values.yhqx === true ? auth += 2 : auth += 0
         values.sjwh === true ? auth += 4 : auth += 0
