@@ -54,13 +54,11 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'customer_name',
     key: 'customer_name',
     align: 'center',
-    fixed: 'left',
   }, {
     title: '客户类型',
     dataIndex: 'customer_type',
     key: 'customer_type',
     align: 'center',
-    fixed: 'left',
     render: (text, record, index) => {
       if (text === '1') {
         return '终端用户'
@@ -130,25 +128,6 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         return '气化站'
       }
     }
-    //   一、site_type=1 加气站
-    // 1：LNG加气站
-    // 2：L-CNG加气站
-    // 3：LNG L-CNG合建站
-    // 4：LNG CNG合建站
-    // 5：LNG 汽柴油合建站
-    // 6：LNG泵船
-    // 7：其他
-    // 二、site_type=2 气化站
-    // 1：电厂
-    // 2：城市居民
-    // 3：城市商服
-    // 4：城市供暖
-    // 5：工业燃料
-    // 6：工业原料
-    // 7：其他
-    // 8：分布式项目
-
-
   }, {
     title: '用户类型',
     dataIndex: 'user_type',
@@ -195,7 +174,6 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     title: '操作',
     align: 'center',
     key: 'createdAt',
-    fixed: 'right',
     render: (text, record, index) => {
       return (
         <div className={'operating'}>
