@@ -50,8 +50,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            customOption: custom.data.data.list,
-            supplierOption: supplier.data.data.list,
+            customOption: custom.data.list,
+            supplierOption: supplier.data.list,
           }
         })
       }
