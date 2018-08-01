@@ -533,6 +533,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   white-space: nowrap;
 }
 
+avatar-uploader {
+  width: 130px;
+  height: 160px;
+}
+
 avatar-uploader > .ant-upload {
   width: 130px;
   height: 160px;
