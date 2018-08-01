@@ -227,10 +227,10 @@ class PromptModal extends Component {
 
 function mapStateToProps(state) {
   // const {openState} = state.orderDetail
-  const {billLoading} = state.logisticsDetail
+  // const {billLoading} = state.logisticsDetail
   return {
     // openState,
-    billLoading,
+    // billLoading,
     loading: state.loading.models.logisticsDetail
   }
 }
