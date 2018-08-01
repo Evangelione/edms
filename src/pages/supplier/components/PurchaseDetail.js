@@ -82,14 +82,14 @@ class SalesDetail extends React.Component {
       key: 'final_num',
       align: 'center'
     }, {
-      title: '销售单价（元）',
-      dataIndex: 'saler_price',
-      key: 'saler_price',
+      title: '采购单价（元）',
+      dataIndex: 'purchase_price',
+      key: 'purchase_price',
       align: 'center'
     }, {
-      title: '销售额（元）',
-      dataIndex: 'sale_money',
-      key: 'sale_money',
+      title: '采购额（元）',
+      dataIndex: 'purchase_money',
+      key: 'purchase_money',
       align: 'center'
     }]
     return (

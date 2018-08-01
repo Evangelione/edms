@@ -6,7 +6,7 @@ export function purchaseContractFetch({page, find_str}) {
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  return request(`${IP}/home/customer/sales-contract-list`, {
+  return request(`${IP}/home/supplier/purchase-contract-list`, {
     method: 'POST',
     body: formData
   })
@@ -19,7 +19,7 @@ export function purchaseDetailFetch({page, find_str, stime, etime}) {
   formData.append('find_str', find_str)
   formData.append('start_date', stime)
   formData.append('end_date', etime)
-  return request(`${IP}/home/customer/sales-performance`, {
+  return request(`${IP}/home/supplier/purchase-performance`, {
     method: 'POST',
     body: formData
   })
