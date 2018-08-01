@@ -41,8 +41,8 @@ function OrderTable({dispatch, list, total, page, loading}) {
     },
     {
       title: '销售价（元/吨）',
-      dataIndex: 'deliver_type',
-      key: 'deliver_type',
+      dataIndex: 'saler_price',
+      key: 'saler_price',
       align: 'center',
     },
     {
@@ -53,9 +53,12 @@ function OrderTable({dispatch, list, total, page, loading}) {
     },
     {
       title: '订单金额（元）',
-      dataIndex: 'saler_price',
-      key: 'saler_price',
-      align: 'center'
+      dataIndex: 'nl',
+      key: 'nl',
+      align: 'center',
+      render: (text, record, index) => {
+        return record.saler_price * record.saler_num
+      }
     },
     {
       title: '配送方式',

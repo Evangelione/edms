@@ -30,6 +30,18 @@
   float: right;
 }
 
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.avatar img{
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
 .trigger {
   font-size: 18px;
   line-height: 64px;

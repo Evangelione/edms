@@ -29,17 +29,6 @@ function MyHeader({dispatch, location, collapsed}) {
         type={collapsed ? 'menu-unfold' : 'menu-fold'}
         onClick={toggle}
       />
-      {(location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) ?
-        <div className={styles.user}>
-          <img src={JSON.parse(sessionStorage.getItem('adminData')).head_img} alt=""/>
-          <div>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
-        </div> :
-        <div className={styles.user}>
-          <img src={JSON.parse(sessionStorage.getItem('userData')).head_img} alt=""/>
-          <div>{JSON.parse(sessionStorage.getItem('userData')).name}</div>
-        </div>
-      }
-
       <Menu
         selectedKeys={[location.pathname]}
         mode="horizontal"
@@ -59,6 +48,20 @@ function MyHeader({dispatch, location, collapsed}) {
           </div>
         </Menu.Item>
       </Menu>
+      {(location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) ?
+        <div className={styles.user}>
+          <div className={styles.avatar}>
+            <img src={JSON.parse(sessionStorage.getItem('adminData')).head_img} alt=""/>
+          </div>
+          <div>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
+        </div> :
+        <div className={styles.user}>
+          <div className={styles.avatar}>
+            <img src={JSON.parse(sessionStorage.getItem('userData')).head_img} alt=""/>
+          </div>
+          <div>{JSON.parse(sessionStorage.getItem('userData')).name}</div>
+        </div>
+      }
     </Header>
 
   )
