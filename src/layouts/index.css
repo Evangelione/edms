@@ -26,6 +26,10 @@
   box-shadow: 6px 1px 12px #D8DDE6;
 }
 
+.user {
+  float: right;
+}
+
 .trigger {
   font-size: 18px;
   line-height: 64px;

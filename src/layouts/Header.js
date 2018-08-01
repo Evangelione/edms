@@ -15,7 +15,7 @@ function MyHeader({dispatch, location, collapsed}) {
   }
 
   function logout() {
-    if (location.pathname === '/backstage' || location.pathname === '/maintain' || location.pathname === '/permission') {
+    if (this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) {
       dispatch({type: 'login/backlogout'})
     } else {
       dispatch({type: 'login/logout'})
@@ -29,11 +29,17 @@ function MyHeader({dispatch, location, collapsed}) {
         type={collapsed ? 'menu-unfold' : 'menu-fold'}
         onClick={toggle}
       />
-      {location.pathname === '/home' ?
-        <img src={images.lchlogo} alt="" width={400} height={50} style={{marginLeft: 20}}/>
-        :
-        ''
+      {(this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) ?
+        <div className={styles.user}>
+          <img src={JSON.parse(sessionStorage.getItem('adminData')).head_img} alt=""/>
+          <div>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
+        </div> :
+        <div className={styles.user}>
+          <img src={JSON.parse(sessionStorage.getItem('userData')).head_img} alt=""/>
+          <div>{JSON.parse(sessionStorage.getItem('userData')).name}</div>
+        </div>
       }
+
       <Menu
         selectedKeys={[location.pathname]}
         mode="horizontal"
