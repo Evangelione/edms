@@ -133,7 +133,6 @@ class DetailForm extends React.Component {
   }
 
   siteChange = (value, item) => {
-    debugger
     this.props.form.setFieldsValue({
       site_id2: item.props.sitetype,
       site_id3: item.props.usertype,
@@ -206,7 +205,6 @@ class DetailForm extends React.Component {
                      contact={option.customer_contact}>{option.customer_name}</Option>
     })
     const siteOptions = siteOption.map(option => {
-      debugger
       return <Option key={option.id}
                      sitetype={option.site_type}
                      usertype={option.user_type_name}
