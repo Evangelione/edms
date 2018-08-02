@@ -53,7 +53,6 @@ class DetailForm extends React.Component {
         this.props.dispatch({
           type: 'order/addOrder',
           payload: {
-            id: this.props.location.query.id,
             values
           }
         })

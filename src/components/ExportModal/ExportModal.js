@@ -45,14 +45,26 @@ class ExportModal extends React.Component {
   }
 
   export = () => {
-    if (this.props.type === 'supp' && this.state.stime && this.state.etime) {
-      window.location.href = `${IP}/home/supplier/excel-purchase-performance?end_date=${this.state.etime}&start_date=${this.state.stime}&find_str=采购`
-    } else if (this.props.type === 'logistics' && this.state.stime && this.state.etime) {
-      window.location.href = `${IP}/home/logistics/export?etime=${this.state.etime}&stime=${this.state.stime}`
-    } else if (this.state.stime && this.state.etime) {
-      window.location.href = `${IP}/home/customer/excel-sales-performance?end_date=${this.state.etime}&start_date=${this.state.stime}&find_str=销售`
-    } else {
+    if (!(this.state.stime && this.state.etime)) {
       message.error('请选择要导出时间段！')
+      return false
+    }
+    if (this.props.type === 'accountClient') {
+      window.location.href = `${IP}/home/account/excel-cust-balance-list?find_str=${this.props.str}`
+    } else if (this.props.type === 'accountSupplier') {
+      window.location.href = `${IP}/home/account/excel-supp-balance-list?find_str=${this.props.str}`
+    } else if (this.props.type === 'logistics') {
+      window.location.href = `${IP}/home/logistics/export?etime=${this.state.etime}&stime=${this.state.stime}`
+    } else if (this.props.type === 'customerSalesDetail') {
+      window.location.href = `${IP}/home/customer/excel-sales-performance?end_date=${this.state.etime}&start_date=${this.state.stime}&find_str=${this.props.str}`
+    } else if (this.props.type === 'accountRecipt') {
+      window.location.href = `${IP}/home/account/excel-cust-record-list?cust_id=${this.props.id}&record_type='1'&stime=${this.state.stime}&etime=${this.state.etime}`
+    } else if (this.props.type === 'accountBill') {
+      window.location.href = `${IP}/home/account/excel-cust-record-list?cust_id=${this.props.id}&record_type=''&stime=${this.state.stime}&etime=${this.state.etime}`
+    } else if (this.props.type === 'supplierRecipt') {
+      window.location.href = `${IP}/home/account/excel-supp-record-list?supp_id=${this.props.id}&record_type=1&stime=${this.state.stime}&etime=${this.state.etime}`
+    } else if (this.props.type === 'supplierBill') {
+      window.location.href = `${IP}/home/account/excel-supp-record-list?supp_id=${this.props.id}&record_type=''&stime=${this.state.stime}&etime=${this.state.etime}`
     }
   }
 

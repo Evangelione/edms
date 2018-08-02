@@ -60,7 +60,7 @@ export default {
     },
     * fetchSite({payload: {customer_id}}, {call, put}) {
       const {data} = yield call(orderService.fetchSite, {customer_id})
-      if (data.code === 1){
+      if (data.code === 1) {
         yield put({
           type: 'save',
           payload: {
@@ -71,7 +71,7 @@ export default {
     },
     * fetchGoods({payload: {supplier_id}}, {call, put}) {
       const {data} = yield call(orderService.fetchGoods, {supplier_id})
-      if (data.code === 1){
+      if (data.code === 1) {
         yield put({
           type: 'save',
           payload: {
@@ -80,15 +80,15 @@ export default {
         })
       }
     },
-    * addOrder({payload: {values, id}}, {call, put}) {
+    * addOrder({payload: {values}}, {call, put}) {
       const {data} = yield call(orderService.addOrder, {values})
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
         yield put(routerRedux.push({
           pathname: '/order/orderDetail',
-          query:{
-            id
+          query: {
+            id: data.id
           }
         }))
       } else {

@@ -79,7 +79,6 @@ export default {
       return {...state, ...action.payload}
     },
     saveImg(state, action) {
-      debugger
       return {...state, ...{imgUrl: JSON.parse(action.payload.imgUrl)}}
     }
   }

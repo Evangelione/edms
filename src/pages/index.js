@@ -2270,7 +2270,7 @@ class IndexPage extends React.Component {
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
                   <div
-                    className={styles.percentage}>{count.order_num_f === 1 ? `${count.order_num_h}%` : `-${count.order_num_h}%`}</div>
+                    className={styles.percentage}>{count.order_num_f === 1 ? `${(count.order_num_h - 0).toFixed(2)}%` : `-${(count.order_num_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.order_num_f === 1 ? '↑' : count.order_num_f === 2 ? '↓' : '-'}</div>
                   <div className={styles.ring}>环比昨日</div>
@@ -2288,7 +2288,7 @@ class IndexPage extends React.Component {
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
                   <div
-                    className={styles.percentage}>{count.sale_num_f === 1 ? `${count.sale_num_h}%` : `-${count.sale_num_h}%`}</div>
+                    className={styles.percentage}>{count.sale_num_f === 1 ? `${(count.sale_num_h - 0).toFixed(2)}%` : `-${(count.sale_num_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.sale_num_f === 1 ? '↑' : count.sale_num_f === 2 ? '↓' : '-'}</div>
                   <div className={styles.ring}>环比昨日</div>
@@ -2307,7 +2307,7 @@ class IndexPage extends React.Component {
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
                   <div
-                    className={styles.percentage}>{count.saler_money_f === 1 ? `${count.saler_money_h}%` : `-${count.saler_money_h}%`}</div>
+                    className={styles.percentage}>{count.saler_money_f === 1 ? `${(count.saler_money_h - 0).toFixed(2)}%` : `-${(count.saler_money_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.saler_money_f === 1 ? '↑' : count.saler_money_f === 2 ? '↓' : '-'}</div>
                   <div className={styles.ring}>环比昨日</div>
@@ -2326,7 +2326,7 @@ class IndexPage extends React.Component {
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
                   <div
-                    className={styles.percentage}>{count.purchase_money_f === 1 ? `${count.purchase_money_h}%` : `-${count.purchase_money_h}%`}</div>
+                    className={styles.percentage}>{count.purchase_money_f === 1 ? `${(count.purchase_money_h - 0).toFixed(2)}%` : `-${(count.purchase_money_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.purchase_money_f === 1 ? '↑' : count.purchase_money_f === 2 ? '↓' : '-'}</div>
                   <div className={styles.ring}>环比昨日</div>
