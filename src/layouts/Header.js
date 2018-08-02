@@ -41,15 +41,21 @@ function MyHeader({dispatch, location, collapsed}) {
       {(location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) ?
         <div className={styles.user}>
           <div className={styles.avatar}>
-            <img src={JSON.parse(sessionStorage.getItem('adminData')).head_img} alt=""/>
+            <img
+              src={JSON.parse(sessionStorage.getItem('adminData')) ? JSON.parse(sessionStorage.getItem('adminData')).head_img : ''}
+              alt=""/>
           </div>
-          <div style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('adminData')).name}</div>
+          <div
+            style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('adminData')) ? JSON.parse(sessionStorage.getItem('adminData')).name : ''}</div>
         </div> :
         <div className={styles.user}>
           <div className={styles.avatar}>
-            <img src={JSON.parse(sessionStorage.getItem('userData')).head_img} alt=""/>
+            <img
+              src={JSON.parse(sessionStorage.getItem('userData')) ? JSON.parse(sessionStorage.getItem('userData')).head_img : ''}
+              alt=""/>
           </div>
-          <div style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('userData')).name}</div>
+          <div
+            style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('userData')) ? JSON.parse(sessionStorage.getItem('userData')).name : ''}</div>
         </div>
       }
     </Header>
