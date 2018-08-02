@@ -1,5 +1,6 @@
 import React from 'react'
 import {Modal, DatePicker, Button, Row, Col, message} from 'antd'
+import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import {IP} from "../../constants"
 
@@ -39,6 +40,10 @@ class ExportModal extends React.Component {
     })
   }
 
+  disabledDate = (current) => {
+    return current && current > moment().endOf('day');
+  }
+
   export = () => {
     if (this.props.type === 'supp' && this.state.stime && this.state.etime) {
       window.location.href = `${IP}/home/supplier/excel-purchase-performance?end_date=${this.state.etime}&start_date=${this.state.stime}&find_str=采购`
@@ -66,7 +71,8 @@ class ExportModal extends React.Component {
         >
           <Row type='flex' justify='center' style={{margin: '80px 0'}}>
             <Col>
-              <RangePicker locale={locale} onChange={this.rangeChange} format={'YYYY-MM-DD'}/>
+              <RangePicker locale={locale} onChange={this.rangeChange} format={'YYYY-MM-DD'}
+                           disabledDate={this.disabledDate} defaultValue={moment().subtract(1, 'months')}/>
             </Col>
           </Row>
           <Row type='flex' justify='space-around' style={{margin: '20px 10px 10px 10px'}}>

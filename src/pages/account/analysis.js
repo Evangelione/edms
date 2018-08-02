@@ -5,6 +5,7 @@ import withRouter from 'umi/withRouter'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import {PAGE_SIZE} from "../../constants"
 import {routerRedux} from "dva/router"
+import moment from 'moment'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -23,7 +24,7 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(withRouter((({dispatch, list, page, total, find_str,stime,etime, loading}) => {
+export default connect(mapStateToProps)(withRouter((({dispatch, list, page, total, find_str, stime, etime, loading}) => {
   function pageChangeHandler(page) {
     dispatch(routerRedux.push({
       pathname: '/account/analysis',
@@ -44,6 +45,10 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
         find_str
       }
     })
+  }
+
+  function disabledDate(current) {
+    return current && current > moment().endOf('day');
   }
 
   function iptSearch(value) {
@@ -111,7 +116,8 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
   return (
     <div>
       <div className={'searchBox'}>
-        <RangePicker locale={locale} onChange={rangeChange}/>
+        <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}
+                     defaultValue={moment().subtract(1, 'months')}/>
         <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
                 onSearch={iptSearch}/>
       </div>

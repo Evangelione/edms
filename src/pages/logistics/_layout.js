@@ -5,7 +5,8 @@ import PageTitle from '../../components/PageTitle/PageTitle'
 import LogisticsDetail from './logisticsDetail'
 import LogisticsTable from './components/LogisticsTable'
 import ExportModal from '../../components/ExportModal/ExportModal'
-import locale from 'antd/lib/date-picker/locale/zh_CN';
+import locale from 'antd/lib/date-picker/locale/zh_CN'
+import moment from 'moment'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -38,6 +39,9 @@ class Order extends React.Component {
     })
   }
 
+  disabledDate = (current) => {
+    return current && current > moment().endOf('day');
+  }
 
   callback = (key) => {
     this.setState({
@@ -88,7 +92,8 @@ class Order extends React.Component {
             <div className={'searchBox'}>
               {this.state.tableKey === '2' ?
                 <span>
-                    <RangePicker locale={locale} onChange={this.rangeChange}/>
+                    <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}
+                                 defaultValue={moment().subtract(1, 'months')}/>
                   </span>
                 : ''
               }

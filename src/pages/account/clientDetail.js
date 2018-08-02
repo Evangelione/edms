@@ -3,7 +3,7 @@ import {connect} from 'dva'
 import ReceiptTable from './components/ReceiptTable'
 import BillTable from './components/BillTable'
 import withRouter from 'umi/withRouter'
-
+import moment from 'moment'
 
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 
@@ -50,10 +50,15 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
     })
   }
 
+  function disabledDate(current) {
+    return current && current > moment().endOf('day');
+  }
+
   return (
     <div>
       <div className={'searchBox'}>
-        <RangePicker locale={locale} onChange={rangeChange}/>
+        <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}
+                     defaultValue={moment().subtract(1, 'months')}/>
       </div>
       <Card>
         <Tabs onChange={tabChange} activeKey={currentTab}>

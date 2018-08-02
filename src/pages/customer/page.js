@@ -1,6 +1,7 @@
 import React from 'react'
 import {Card, Tabs, DatePicker, Input} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
+import moment from 'moment'
 import {connect} from 'dva'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import SalesContract from './components/SalesContract'
@@ -36,6 +37,10 @@ class Client extends React.Component {
     })
   }
 
+  disabledDate = (current) => {
+    return current && current > moment().endOf('day');
+  }
+
   iptSearch = (value) => {
     this.props.dispatch({
       type: 'customer/salesContractFetch',
@@ -62,7 +67,8 @@ class Client extends React.Component {
         <div className={'searchBox'}>
           {this.state.paneKey === '2' ?
             <span>
-              <RangePicker locale={locale} onChange={this.rangeChange}/>
+              <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}
+                           defaultValue={moment().subtract(1, 'months')}/>
             </span>
             : ''
           }

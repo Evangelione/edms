@@ -5,6 +5,7 @@ import locale from 'antd/lib/date-picker/locale/zh_CN'
 import PurchaseContract from './components/PurchaseContract'
 import PurchaseDetail from './components/PurchaseDetail'
 import {connect} from 'dva'
+import moment from 'moment'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -36,6 +37,10 @@ class Supplier extends React.Component {
     })
   }
 
+  disabledDate = (current) => {
+    return current && current > moment().endOf('day');
+  }
+
   iptSearch = (value) => {
     this.props.dispatch({
       type: 'supplier/purchaseContractFetch',
@@ -62,7 +67,8 @@ class Supplier extends React.Component {
         <div className={'searchBox'}>
           {this.state.paneKey === '2' ?
             <span>
-              <RangePicker locale={locale} onChange={this.rangeChange}/>
+              <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}
+                           defaultValue={moment().subtract(1, 'months')}/>
             </span>
             : ''}
           <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
