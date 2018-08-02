@@ -77,7 +77,7 @@ class BillTable extends React.Component {
     return (
       <div>
         <div className='toolBar'>
-          <ExportModal title='批量导出' type='accountBill'>
+          <ExportModal title='批量导出' type='accountBill' id={this.props.location.query.id}>
             <Button className={'blueBorder'} icon='export'>批量导出</Button>
           </ExportModal>
         </div>
