@@ -49,7 +49,7 @@ class IndexPage extends React.Component {
     }
     setTimeout(() => {
       this.initBmp()
-    }, 1000)
+    }, 500)
     // fetch('mapData').then(function (response) {
     //   response.json().then(function (data) {
     //     console.log(data)
@@ -130,7 +130,7 @@ class IndexPage extends React.Component {
   }
 
   initChart = (chartOption) => {
-    if (!Object.keys(this.props.trend).length) return false
+    if (!Object.keys(this.props.trend).length || !Object.keys(this.refs).length) return false
     let myChart = echarts.init(this.refs.echart) //初始化echarts
     //设置options
     myChart.setOption(chartOption)
@@ -141,7 +141,8 @@ class IndexPage extends React.Component {
   }
 
   initBmp = () => {
-    // if (!Object.keys(this.props.logistics).length) return false
+    // !Object.keys(this.props.logistics).length ||
+    if (!Object.keys(this.refs).length) return false
     let allData = {
       "citys": [{
         "name": "延寿",
