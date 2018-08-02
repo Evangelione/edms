@@ -13,7 +13,8 @@ export default {
     customOption: [],
     siteOption: [],
     supplierOption: [],
-    goodsOption: []
+    goodsOption: [],
+    statusNum: {}
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -38,7 +39,8 @@ export default {
             total: parseInt(data.data.count, 10),
             page: parseInt(page, 10),
             order_status,
-            find_str
+            find_str,
+            statusNum: data.data.status_num
           }
         })
       }

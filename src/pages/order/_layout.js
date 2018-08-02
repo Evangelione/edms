@@ -11,16 +11,17 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, order_status} = state.order
+  const {currentTab, find_str, order_status, statusNum} = state.order
   return {
     currentTab,
     find_str,
     order_status,
-    loading: state.loading.models.backstage
+    statusNum,
+    loading: state.loading.models.order
   }
 }
 
-export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, find_str}) => {
+export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, find_str, statusNum}) => {
   function changeClass(type, state) {
     if (loading) return false
     dispatch({
@@ -83,28 +84,28 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                         <span
                           className={currentTab === 'daizhifu' ? 'daizhifuBlue ' : 'daizhifuGray'}></span>
                       <span>待支付</span>
-                      <span></span>
+                      <span>({statusNum.dzf})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daifahuo', '2')}
                          className={currentTab === 'daifahuo' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daifahuo' ? 'daifahuoBlue ' : 'daifahuoGray'}></span>
                       <span>待发货</span>
-                      <span></span>
+                      <span>({statusNum.dfh})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daishouhuo', '3')}
                          className={currentTab === 'daishouhuo' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daishouhuo' ? 'daishouhuoBlue ' : 'daishouhuoGray'}></span>
                       <span>待收货</span>
-                      <span></span>
+                      <span>({statusNum.dsh})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daijiesuan', '4')}
                          className={currentTab === 'daijiesuan' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daijiesuan' ? 'daijiesuanBlue ' : 'daijiesuanGray'}></span>
                       <span>待结算</span>
-                      <span></span>
+                      <span>({statusNum.djs})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'yijiesuan', '5')}
                          className={currentTab === 'yijiesuan' ? 'blueBG ' : 'grayBG'}>

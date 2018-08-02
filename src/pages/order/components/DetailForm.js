@@ -199,7 +199,7 @@ class DetailForm extends React.Component {
   }
 
   render() {
-    const {editable, form, defaultSubmit, customOption, siteOption, supplierOption, goodsOption} = this.props
+    const {editable, form, defaultSubmit, customOption, siteOption, supplierOption, goodsOption, loading} = this.props
     const customOptions = customOption.map(option => {
       return <Option key={option.id} value={option.id} mobile={option.customer_mobile}
                      contact={option.customer_contact}>{option.customer_name}</Option>
@@ -718,7 +718,7 @@ class DetailForm extends React.Component {
                 }}>合计：￥{isNaN(this.state.heji) ? '填写错误' : this.state.heji}</span>（含7.5%浮动计费）
               </div>
               <Button>取消</Button>
-              <Button type='primary' onClick={this.submit}>提交订单</Button>
+              <Button type='primary' onClick={this.submit} loading={loading}>提交订单</Button>
             </div>
           </div>
           :
@@ -739,7 +739,7 @@ function mapStateToProps(state) {
     supplierOption,
     goodsOption,
     detailForm,
-    loading: state.loading.models.backstage
+    loading: state.loading.models.orderDetail
   }
 }
 

@@ -77,7 +77,7 @@ class Order extends React.Component {
   }
 
   render() {
-    const {currentTab} = this.props
+    const {currentTab, statusNum} = this.props
     return (
       <div>
         {this.props.location.pathname === '/logistics/logisticsDetail' ?
@@ -111,33 +111,33 @@ class Order extends React.Component {
                       <span
                         className={currentTab === 'daidiaodu' ? 'daidiaoduBlue ' : 'daidiaoduGray'}></span>
                       <span>待调度</span>
-                      <span></span>
+                      <span>({statusNum.ddd})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'daijiedan', '2')}
                          className={currentTab === 'daijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'daijiedan' ? 'daijiedanBlue ' : 'daijiedanGray'}></span>
                       <span>待接单</span>
-                      <span></span>
+                      <span>({statusNum.djd})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yijiedan', '3')}
                          className={currentTab === 'yijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'yijiedan' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
                       <span>已接单</span>
-                      <span></span>
+                      <span>({statusNum.yjd})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yunshuzhong', '4')}
                          className={currentTab === 'yunshuzhong' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'yunshuzhong' ? 'yunshuzhongBlue ' : 'yunshuzhongGray'}></span>
                       <span>运输中</span>
-                      <span></span>
+                      <span>({statusNum.ysz})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yixieche', '5')}
                          className={currentTab === 'yixieche' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'yixieche' ? 'yixiecheBlue ' : 'yixiecheGray'}></span>
                       <span>已卸车</span>
-                      <span></span>
+                      <span>({statusNum.yxc})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yiwancheng', '6')}
                          className={currentTab === 'yiwancheng' ? 'blueBG ' : 'grayBG'}>
@@ -170,12 +170,13 @@ class Order extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, deliver_status} = state.logistics
+  const {currentTab, find_str, deliver_status, statusNum} = state.logistics
   return {
     currentTab,
     find_str,
     deliver_status,
-    loading: state.loading.models.backstage
+    statusNum,
+    loading: state.loading.models.logistics
   }
 }
 

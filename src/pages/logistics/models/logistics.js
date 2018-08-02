@@ -14,7 +14,8 @@ export default {
     find_str: '',
     currentTab: 'quanbu',
     stime: '',
-    etime: ''
+    etime: '',
+    statusNum: {}
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -37,7 +38,8 @@ export default {
             page: parseInt(page, 10),
             total: parseInt(data.data.count, 10),
             deliver_status,
-            find_str
+            find_str,
+            statusNum: data.data.status_num
           }
         })
       }
