@@ -19,7 +19,7 @@
 .dashImg-chudan {
   position: absolute;
   top: 36px;
-  left: 36px;
+  left: 40px;
   width: 62px;
   height: 62px;
   background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
@@ -28,7 +28,7 @@
 .dashImg-xiaoshouliang {
   position: absolute;
   top: 36px;
-  left: 36px;
+  left: 40px;
   width: 62px;
   height: 62px;
   background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
@@ -37,7 +37,7 @@
 .dashImg-xiaoshoue {
   position: absolute;
   top: 36px;
-  left: 36px;
+  left: 40px;
   width: 62px;
   height: 62px;
   background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
@@ -46,7 +46,7 @@
 .dashImg-caigoue {
   position: absolute;
   top: 36px;
-  left: 36px;
+  left: 40px;
   width: 62px;
   height: 62px;
   background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
@@ -55,7 +55,7 @@
 .dashImg-yingkui {
   position: absolute;
   top: 36px;
-  left: 36px;
+  left: 40px;
   width: 62px;
   height: 62px;
   background: url(../assets/image/shouye_icon.png) -554px 0px no-repeat;
@@ -63,8 +63,8 @@
 
 .dashTitle {
   position: absolute;
-  top: 32px;
-  left: 118px;
+  top: 35px;
+  left: 124px;
   font-family: PingFangHK-Regular;
   font-size: 16px;
   color: #929292;
@@ -72,8 +72,8 @@
 
 .dashCount {
   position: absolute;
-  top: 59px;
-  left: 117px;
+  top: 64px;
+  left: 122px;
   font-family: PingFangHK-Regular;
   font-size: 30px;
   color: #676767;
@@ -176,4 +176,11 @@
 
 .btnBefore::after {
   display: none !important;
+}
+
+.changeChart {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+  border-radius: 10px;
 }

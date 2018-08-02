@@ -42,7 +42,7 @@ class MySider extends React.Component {
     this.setState({
       currentKey: this.getCurrentTab()
     })
- }
+  }
 
   getCurrentTab = () => {
     if (this.props.location.pathname === '/') {
