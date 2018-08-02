@@ -49,7 +49,7 @@ class IndexPage extends React.Component {
     }
     setTimeout(() => {
       this.initBmp()
-    }, 500)
+    }, 1000)
     // fetch('mapData').then(function (response) {
     //   response.json().then(function (data) {
     //     console.log(data)
@@ -2166,7 +2166,7 @@ class IndexPage extends React.Component {
         <Menu.Item key="4">近6个月</Menu.Item>
         <Menu.Item key="5">近36个月</Menu.Item>
       </Menu>
-    );
+    )
     const chartOption = {
       title: {
         text: '销售与采购价格趋势图',
