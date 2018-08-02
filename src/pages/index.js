@@ -2130,7 +2130,7 @@ class IndexPage extends React.Component {
     const {count, customerPer, supplierPer, logistics, trend} = this.props
     const {width = "100%", height = "540px"} = this.props
     const customerDivs = customerPer.map((val, index) => {
-      return <div key={index + '1'}>
+      return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.customer_name}</div>
         <div key={index + '3'} style={{width: '80%', display: 'inline-block'}}>
           <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
@@ -2145,7 +2145,7 @@ class IndexPage extends React.Component {
       </div>
     })
     const supplierDivs = supplierPer.map((val, index) => {
-      return <div key={index + '1'}>
+      return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.supp_name}</div>
         <div key={index + '3'} style={{width: '80%', display: 'inline-block'}}>
           <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'

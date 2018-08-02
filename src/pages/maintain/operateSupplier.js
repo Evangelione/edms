@@ -257,14 +257,14 @@ class operateUser extends React.Component {
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
                   <FormItem
-                    label="收货联系人"
+                    label="装货联系人"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('cargo_contact', {
                       initialValue: this.props.editForm.cargo_contact ? this.props.editForm.cargo_contact : '',
-                      rules: [{required: true, message: '填写正确收货联系人！'}],
+                      rules: [{required: true, message: '填写正确装货联系人！'}],
                     })(
-                      <Input placeholder="请填写收货联系人..."/>
+                      <Input placeholder="请填写装货联系人..."/>
                     )}
                   </FormItem>
                 </Col>
@@ -290,17 +290,17 @@ class operateUser extends React.Component {
                 <Col span={24} style={{margin: '0 10px'}}>
                   <Col span={7} style={{padding: '0 10px'}}>
                     <FormItem
-                      label="收货地址"
+                      label="装货地址"
                       labelCol={{span: 6}}
                       wrapperCol={{span: 18}}
                     >
                       {getFieldDecorator('delivery', {
                         initialValue: this.props.editForm ? [[this.props.editForm.cargo_province.code, this.props.editForm.cargo_city.code, this.props.editForm.cargo_area.code]] : undefined,
-                        rules: [{required: true, message: '请填写正确收货地址！'}],
+                        rules: [{required: true, message: '请填写正确装货地址！'}],
                       })(
                         <Cascader options={this.props.CascaderOptions}
                                   loadData={this.loadData}
-                                  placeholder="请选择收货地址..."
+                                  placeholder="请选择装货地址..."
                         />
                       )}
                     </FormItem>
@@ -313,9 +313,9 @@ class operateUser extends React.Component {
                     >
                       {getFieldDecorator('detailed_address', {
                         initialValue: this.props.editForm.detailed_address ? this.props.editForm.detailed_address : '',
-                        rules: [{required: true, message: '请填写正确详细收货地址！'}],
+                        rules: [{required: true, message: '请填写正确详细装货地址！'}],
                       })(
-                        <Input placeholder="请选择详细收货地址..."/>
+                        <Input placeholder="请选择详细装货地址..."/>
                       )}
                     </FormItem>
                   </Col>
