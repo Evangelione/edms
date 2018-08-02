@@ -45,9 +45,15 @@ export default {
         message.success(data.msg)
         sessionStorage.setItem('backAuth', data.admin.auth)
         sessionStorage.setItem('adminData', JSON.stringify(data.admin))
-        yield put(routerRedux.push({
-          pathname: '/backstage',
-        }))
+        if ((data.admin.auth - 0) === 6) {
+          yield put(routerRedux.push({
+            pathname: '/permission',
+          }))
+        } else {
+          yield put(routerRedux.push({
+            pathname: '/backstage',
+          }))
+        }
       } else {
         message.error(data.msg)
       }

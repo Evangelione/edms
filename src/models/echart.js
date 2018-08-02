@@ -4,7 +4,6 @@ export default {
   namespace: 'echart',
   state: {
     options: {},
-    count: {}
   },
 
   subscriptions: {
@@ -20,8 +19,7 @@ export default {
   effects: {
     * fetch({payload}, {call, put}) {
       const {data} = yield call(echartService.queryEchart)
-      const count = yield call(echartService.queryCount)
-      yield put({type: 'save', payload: {options: data, count: count.data}});
+      yield put({type: 'save', payload: {options: data}});
     },
   },
 

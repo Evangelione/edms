@@ -22,7 +22,7 @@ class operateUser extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        district_code: ''
+        name: ''
       }
     })
     if (this.props.location.query.type === 'edit') {
@@ -91,7 +91,7 @@ class operateUser extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        district_code: targetOption.value,
+        name: targetOption.value,
         targetOption
       }
     })

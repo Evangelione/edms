@@ -9,42 +9,82 @@
 }
 
 .dashBoard > div > div {
-  height: 160px;
+  height: 150px;
   background: #FFFFFF;
   box-shadow: 2px 2px 4px 1px rgba(221, 219, 219, 0.50);
   border-radius: 4px;
   padding: 5px 0;
 }
 
-.dashImg {
+.dashImg-chudan {
   position: absolute;
-  top: 56px;
-  left: 68px;
+  top: 36px;
+  left: 36px;
+  width: 62px;
+  height: 62px;
+  background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
+}
+
+.dashImg-xiaoshouliang {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 62px;
+  height: 62px;
+  background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
+}
+
+.dashImg-xiaoshoue {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 62px;
+  height: 62px;
+  background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
+}
+
+.dashImg-caigoue {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 62px;
+  height: 62px;
+  background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
+}
+
+.dashImg-yingkui {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 62px;
+  height: 62px;
+  background: url(../assets/image/shouye_icon.png) -554px 0px no-repeat;
 }
 
 .dashTitle {
   position: absolute;
-  top: 40px;
-  left: 145px;
+  top: 32px;
+  left: 118px;
   font-family: PingFangHK-Regular;
-  font-size: 18px;
+  font-size: 16px;
   color: #929292;
 }
 
 .dashCount {
   position: absolute;
-  top: 70px;
-  left: 145px;
+  top: 59px;
+  left: 117px;
   font-family: PingFangHK-Regular;
-  font-size: 36px;
+  font-size: 30px;
   color: #676767;
 }
 
-.contentBox > div > div {
+.contentBox > div {
   padding: 20px;
   margin-top: 20px;
   background: #fff;
-  box-shadow: 2px 2px 4px 1px rgba(221, 219, 219, 0.50);
+  font-size: 18px;
+  color: #545F76;
 }
 
 .detailBox > div {
@@ -81,4 +121,59 @@
   position: absolute;
   top: 68px;
   right: 72px;
+}
+
+.topBox {
+  width: 20%;
+  display: inline-block;
+  position: relative;
+}
+
+.boxBottomTip {
+  position: absolute;
+  right: 36px;
+  bottom: 16px;
+}
+
+.boxBottomTip > div {
+  display: inline-block;
+  font-size: 12px;
+}
+
+.wan {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: top;
+}
+
+.down {
+  color: #EA7878;
+}
+
+.top {
+  color: #59C694;
+}
+
+.percentage {
+}
+
+.toBottom {
+  margin: 0 10px;
+}
+
+.ring {
+  color: #D8D8D8;
+}
+
+.barBox {
+  margin: 20px;
+}
+
+
+.btnBefore::before {
+  display: none !important;
+}
+
+.btnBefore::after {
+  display: none !important;
 }

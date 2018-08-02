@@ -542,3 +542,8 @@ avatar-uploader > .ant-upload {
   width: 130px;
   height: 160px;
 }
+
+.ant-radio-button-wrapper-checked {
+  background: #fff !important;
+  color: #1890ff !important;
+}

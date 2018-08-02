@@ -9,7 +9,7 @@ class Cascade extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        district_code: ''
+        name: ''
       }
     })
   }
