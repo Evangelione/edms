@@ -53,7 +53,7 @@ class IndexPage extends React.Component {
           <Col className={'pageName'}>首页</Col>
         </Row>
         <Row className={styles.dashBoard} gutter={24}>
-          <Col span={6}>
+          <Col style={{width: '20%', display: 'inline-block'}}>
             <div>
               <img className={styles.dashImg} src={images.dajiedan2} alt="" width={36} height={40}/>
               <div className={styles.dashTitle}>累计成交订单</div>
@@ -62,7 +62,7 @@ class IndexPage extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={6}>
+          <Col style={{width: '20%', display: 'inline-block'}}>
             <div>
               <img className={styles.dashImg} src={images.dajiedan2} alt="" width={36} height={40}/>
               <div className={styles.dashTitle}>累计销售量(吨)</div>
@@ -71,7 +71,7 @@ class IndexPage extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={6}>
+          <Col style={{width: '20%', display: 'inline-block'}}>
             <div>
               <img className={styles.dashImg} src={images.dajiedan2} alt="" width={36} height={40}/>
               <div className={styles.dashTitle}>累计销售金额</div>
@@ -80,7 +80,16 @@ class IndexPage extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={6}>
+          <Col style={{width: '20%', display: 'inline-block'}}>
+            <div>
+              <img className={styles.dashImg} src={images.dajiedan2} alt="" width={36} height={40}/>
+              <div className={styles.dashTitle}>累计客户数量</div>
+              <div className={styles.dashCount}>
+                <CountUp start={0} end={6423} duration={3}/>
+              </div>
+            </div>
+          </Col>
+          <Col style={{width: '20%', display: 'inline-block'}}>
             <div>
               <img className={styles.dashImg} src={images.dajiedan2} alt="" width={36} height={40}/>
               <div className={styles.dashTitle}>累计客户数量</div>
