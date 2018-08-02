@@ -7,7 +7,10 @@ export default {
     customerPer: [],
     supplierPer: [],
     logistics: [],
-    trend: {}
+    trend: {},
+    countLoading: false,
+    customerLoading: false,
+    supplierLoading: false
   },
 
   subscriptions: {
@@ -26,6 +29,7 @@ export default {
 
   effects: {
     * count({payload: {flag = '1'}}, {call, put}) {
+      yield put({type: 'save', payload: {countLoading: true}})
       const {data} = yield call(loginServices.count, {flag})
       if (data.code === 1) {
         yield put({
@@ -35,8 +39,10 @@ export default {
           }
         })
       }
+      yield put({type: 'save', payload: {countLoading: false}})
     },
     * customerPer({payload: {flag = '1'}}, {call, put}) {
+      yield put({type: 'save', payload: {customerLoading: true}})
       const {data} = yield call(loginServices.customerPer, {flag})
       if (data.code === 1) {
         yield put({
@@ -46,8 +52,10 @@ export default {
           }
         })
       }
+      yield put({type: 'save', payload: {customerLoading: false}})
     },
     * supplierPer({payload: {flag = '1'}}, {call, put}) {
+      yield put({type: 'save', payload: {supplierLoading: true}})
       const {data} = yield call(loginServices.supplierPer, {flag})
       if (data.code === 1) {
         yield put({
@@ -57,6 +65,7 @@ export default {
           }
         })
       }
+      yield put({type: 'save', payload: {supplierLoading: false}})
     },
     * logistics({payload}, {call, put}) {
       const {data} = yield call(loginServices.logistics)

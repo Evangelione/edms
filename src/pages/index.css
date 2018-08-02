@@ -169,18 +169,21 @@
   margin: 20px;
 }
 
+.btnBefore {
+  box-shadow: 0 0 0 0 transparent;
+}
 
 .btnBefore::before {
   display: none !important;
 }
 
-.btnBefore::after {
-  display: none !important;
+.btnBefore:hover {
+  box-shadow: 0 0 0 0 transparent;
 }
 
 .changeChart {
   position: absolute;
   top: 20px;
-  right: 80px;
+  right: 90px;
   border-radius: 10px;
 }

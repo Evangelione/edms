@@ -24,7 +24,10 @@ class IndexPage extends React.Component {
     this.state = {
       status: '1',
       currentSelect: '近7日',
-      topTip: '今日'
+      topTip: '今日',
+      currentCount: '1',
+      currentCustomer: '1',
+      currentSupplier: '1'
     }
   }
 
@@ -58,6 +61,7 @@ class IndexPage extends React.Component {
   }
 
   topRadioChange = (e) => {
+    if (this.props.countLoading) return false
     if (e.target.value === '1') {
       this.setState({
         topTip: '今日'
@@ -76,7 +80,8 @@ class IndexPage extends React.Component {
       })
     }
     this.setState({
-      status: e.target.value
+      status: e.target.value,
+      currentCount: e.target.value
     })
     this.props.dispatch({
       type: 'home/count',
@@ -87,6 +92,10 @@ class IndexPage extends React.Component {
   }
 
   customerRadioChange = (e) => {
+    if (this.props.customerLoading) return false
+    this.setState({
+      currentCustomer: e.target.value
+    })
     this.props.dispatch({
       type: 'home/customerPer',
       payload: {
@@ -96,6 +105,10 @@ class IndexPage extends React.Component {
   }
 
   supplierRadioChange = (e) => {
+    if (this.props.supplierLoading) return false
+    this.setState({
+      currentSupplier: e.target.value
+    })
     this.props.dispatch({
       type: 'home/supplierPer',
       payload: {
@@ -2181,7 +2194,8 @@ class IndexPage extends React.Component {
       toolbox: {
         feature: {
           saveAsImage: {}
-        }
+        },
+        right: 18
       },
       xAxis: {
         type: 'category',
@@ -2236,7 +2250,7 @@ class IndexPage extends React.Component {
         <Row>
           <Col className={'pageName'}>首页</Col>
           <div style={{position: 'absolute', top: 0, right: 0}}>
-            <RadioGroup onChange={this.topRadioChange} defaultValue="1">
+            <RadioGroup onChange={this.topRadioChange} value={this.state.currentCount}>
               <RadioButton value="1" style={{color: '#ACB4BF'}}>今日</RadioButton>
               <RadioButton value="2" style={{color: '#ACB4BF'}}>本周</RadioButton>
               <RadioButton value="3" style={{color: '#ACB4BF'}}>本月</RadioButton>
@@ -2397,7 +2411,7 @@ class IndexPage extends React.Component {
           <div style={{width: '49%', display: 'inline-block', position: 'relative', verticalAlign: 'top'}}>
             <div style={{margin: '0 20px'}}>我的供应商 (采购量占比)</div>
             <div style={{position: 'absolute', top: 15, right: 20}}>
-              <RadioGroup onChange={this.supplierRadioChange} defaultValue="1">
+              <RadioGroup onChange={this.supplierRadioChange} value={this.state.currentSupplier}>
                 <RadioButton className={styles.btnBefore} value="1"
                              style={{color: '#ACB4BF', border: 'none'}}>今日</RadioButton>
                 <RadioButton className={styles.btnBefore} value="2"
@@ -2421,7 +2435,7 @@ class IndexPage extends React.Component {
 
 function mapStateToProps(state) {
   const {options} = state.echart
-  const {count, customerPer, supplierPer, logistics, trend} = state.home
+  const {count, customerPer, supplierPer, logistics, trend, countLoading, customerLoading, supplierLoading} = state.home
   return {
     options,
     count,
@@ -2429,6 +2443,9 @@ function mapStateToProps(state) {
     supplierPer,
     logistics,
     trend,
+    countLoading,
+    customerLoading,
+    supplierLoading,
     loading: state.loading.models.home
   }
 }
