@@ -23,7 +23,8 @@ class IndexPage extends React.Component {
     super(props)
     this.state = {
       status: '1',
-      currentSelect: '近7日'
+      currentSelect: '近7日',
+      topTip: '今日'
     }
   }
 
@@ -57,6 +58,23 @@ class IndexPage extends React.Component {
   }
 
   topRadioChange = (e) => {
+    if (e.target.value === '1') {
+      this.setState({
+        topTip: '今日'
+      })
+    } else if (e.target.value === '2') {
+      this.setState({
+        topTip: '本周'
+      })
+    } else if (e.target.value === '3') {
+      this.setState({
+        topTip: '本月'
+      })
+    } else if (e.target.value === '4') {
+      this.setState({
+        topTip: '总'
+      })
+    }
     this.setState({
       status: e.target.value
     })
@@ -2098,26 +2116,32 @@ class IndexPage extends React.Component {
     const {count, customerPer, supplierPer, logistics, trend} = this.props
     const {width = "100%", height = "540px"} = this.props
     const customerDivs = customerPer.map((val, index) => {
-      return <div key={index+'1'}>
-        <div key={index+'2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.customer_name}</div>
-        <div key={index+'3'} style={{width: '75%', display: 'inline-block'}}>
-          <Progress key={index+'4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2' strokeWidth={6}/>
+      return <div key={index + '1'}>
+        <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.customer_name}</div>
+        <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
+          <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
+                    strokeWidth={6}/>
         </div>
-        <div key={index+'5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
-          <div key={index+'6'} style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.sale_num} 吨</div>
-          <div key={index+'7'} style={{display: 'inline-block', color: '#545F76', fontSize: 14}}>76.8%</div>
+        <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
+          <div key={index + '6'}
+               style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.sale_num} 吨
+          </div>
+          <div key={index + '7'} style={{display: 'inline-block', color: '#545F76', fontSize: 14}}>76.8%</div>
         </div>
       </div>
     })
     const supplierDivs = supplierPer.map((val, index) => {
-      return <div key={index+'1'}>
-        <div key={index+'2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.supp_name}</div>
-        <div key={index+'3'} style={{width: '75%', display: 'inline-block'}}>
-          <Progress key={index+'4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2' strokeWidth={6}/>
+      return <div key={index + '1'}>
+        <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.supp_name}</div>
+        <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
+          <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
+                    strokeWidth={6}/>
         </div>
-        <div key={index+'5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
-          <div key={index+'6'} style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.load_num} 吨</div>
-          <div key={index+'7'} style={{display: 'inline-block', color: '#545F76', fontSize: 14}}>76.8%</div>
+        <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
+          <div key={index + '6'}
+               style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.load_num} 吨
+          </div>
+          <div key={index + '7'} style={{display: 'inline-block', color: '#545F76', fontSize: 14}}>76.8%</div>
         </div>
       </div>
     })
@@ -2224,7 +2248,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-chudan"]}></div>
-              <div className={styles.dashTitle}>今日出单数</div>
+              <div className={styles.dashTitle}>{this.state.topTip}出单数</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.order_num - 0)} duration={3}/>
               </div>
@@ -2242,7 +2266,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-xiaoshouliang"]}></div>
-              <div className={styles.dashTitle}>今日销售量 (吨)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}销售量 (吨)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.sale_num - 0)} duration={3}/>
               </div>
@@ -2260,7 +2284,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-xiaoshoue"]}></div>
-              <div className={styles.dashTitle}>今日销售额 (元)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}销售额 (元)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.saler_money - 0)} duration={3}/>
                 <div className={styles.wan}>万</div>
@@ -2279,7 +2303,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-caigoue"]}></div>
-              <div className={styles.dashTitle}>今日采购额 (元)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}采购额 (元)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.purchase_money - 0)} duration={3}/>
                 <div className={styles.wan}>万</div>
@@ -2298,7 +2322,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-yingkui"]}></div>
-              <div className={styles.dashTitle}>今日盈亏</div>
+              <div className={styles.dashTitle}>{this.state.topTip}盈亏</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.profit_and_loss - 0)} duration={3}/>
                 <div className={styles.wan}>万</div>
