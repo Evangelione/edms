@@ -35,6 +35,7 @@ class CompanyDetail extends React.Component {
         }
       })
       let fileList = []
+      debugger
       let certificate = JSON.parse(this.props.companyDetail.certificate)
       if (typeof certificate === 'string') {
         certificate = Array(certificate)
@@ -101,6 +102,9 @@ class CompanyDetail extends React.Component {
 
   handleRemove = (val) => {
     let arr = this.props.imgUrl
+    if (typeof arr === 'string') {
+      arr = Array(arr)
+    }
     arr.splice(arr.findIndex(v => v === val), 1)
     this.props.dispatch({
       type: 'company/saveImg',
