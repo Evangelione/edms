@@ -63,7 +63,7 @@ class PoundModal extends React.Component {
     });
   }
 
-  // handleChange = ({fileList}) => this.setState({fileList})
+  handleChange = ({fileList}) => this.setState({fileList})
 
   saveFile = (file) => {
     this.setState({
@@ -74,7 +74,6 @@ class PoundModal extends React.Component {
   }
 
   customRequest = (id, type) => {
-    debugger
     if (this.state.file === null) {
       message.error('请上传磅单！')
       return false
@@ -101,7 +100,6 @@ class PoundModal extends React.Component {
   }
 
   beforeUpload = (file) => {
-    debugger
     this.setState({
       file: {
         file,
@@ -219,6 +217,7 @@ class PoundModal extends React.Component {
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={this.handlePreview}
+                    onChange={this.handleChange}
                     beforeUpload={this.beforeUpload}
                   >
                     {fileList.length >= 1 ? null : uploadButton}
@@ -246,6 +245,7 @@ class PoundModal extends React.Component {
                     action={`${IP}/home/logistics/load-bill`}
                     listType="picture-card"
                     fileList={fileList}
+                    onChange={this.handleChange}
                     onPreview={this.handlePreview}
                     beforeUpload={this.beforeUpload}
                   >
