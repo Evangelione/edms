@@ -74,6 +74,47 @@ class DetailForm extends React.Component {
           report: form.temperament_report,
           dataSource: form.shouhuo.map(this.renderOption)
         })
+        let text = form.user_type
+        let result_type = ''
+        if (form.site_type === '1') {
+          if (text === '1') {
+            result_type =  'LNG加气站'
+          } else if (text === '2') {
+            result_type =  'L-CNG加气站'
+          } else if (text === '3') {
+            result_type =  'LNG L-CNG合建站'
+          } else if (text === '4') {
+            result_type =  'LNG CNG合建站'
+          } else if (text === '5') {
+            result_type =  'LNG 汽柴油合建站'
+          } else if (text === '6') {
+            result_type =  'LNG泵船'
+          } else if (text === '7') {
+            result_type =  '其他'
+          } else if (text === '0') {
+            result_type =  '--'
+          }
+        } else if (form.site_type === '2') {
+          if (text === '1') {
+            result_type =  '电厂'
+          } else if (text === '2') {
+            result_type =  '城市居民'
+          } else if (text === '3') {
+            result_type =  '城市商服'
+          } else if (text === '4') {
+            result_type =  '城市供暖'
+          } else if (text === '5') {
+            result_type =  '工业燃料'
+          } else if (text === '6') {
+            result_type =  '工业原料'
+          } else if (text === '7') {
+            result_type =  '其他'
+          } else if (text === '8') {
+            result_type =  '分布式项目'
+          } else if (text === '0') {
+            result_type =  '--'
+          }
+        }
         this.props.form.setFieldsValue({
           cust_id: form.cust_id,
           cust_id2: form.customer_contact,
@@ -86,7 +127,7 @@ class DetailForm extends React.Component {
           deliver_price: form.deliver_price,
           site_id: form.site_id,
           site_id2: form.site_type,
-          site_id3: form.user_type,
+          site_id3: result_type,
           recv_contact: form.recv_contact,
           recv_phone: form.recv_phone,
           recv_time: moment(form.order_date),

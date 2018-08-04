@@ -126,7 +126,7 @@ class ResultModal extends Component {
             <Row>
               <Col span={12}>
                 <div>
-                  <div style={{display: 'inline-block', margin: '20px 10px 30px 10px'}}>装车吨位：20吨</div>
+                  <div style={{display: 'inline-block', margin: '20px 10px 30px 10px'}}>装车吨位：{this.props.detailForm.load_num}吨</div>
                   <ImageModal style={{display: 'inline-block'}} imgUrl={this.props.detailForm.load_url}>
                     <Icon type="folder"/> 查看装车磅票
                   </ImageModal>
@@ -134,7 +134,7 @@ class ResultModal extends Component {
               </Col>
               <Col span={12}>
                 <div>
-                  <div style={{display: 'inline-block', margin: '20px 10px 30px 10px'}}>卸车吨位：20吨</div>
+                  <div style={{display: 'inline-block', margin: '20px 10px 30px 10px'}}>卸车吨位：{this.props.detailForm.unload_num}吨</div>
                   <ImageModal style={{display: 'inline-block'}} imgUrl={this.props.detailForm.unload_url}>
                     <Icon type="folder"/> 查看卸车磅票
                   </ImageModal>
