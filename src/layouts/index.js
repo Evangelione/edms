@@ -13,7 +13,7 @@ function MyLayout({children, location}) {
         <MyContent location={location} children={children}></MyContent>
       </Layout>
     )
-  } else if (location.pathname === '/backstagelogin') {
+  } else if (location.pathname === '/admin') {
     return (
       <Layout className={styles.scrollLayout}>
         <MyContent location={location} children={children}></MyContent>

@@ -66,7 +66,7 @@ export default {
         sessionStorage.removeItem('adminData')
         // message.success(data.msg)
         yield put(routerRedux.push({
-          pathname: '/backstagelogin',
+          pathname: '/admin',
         }))
       }
     },

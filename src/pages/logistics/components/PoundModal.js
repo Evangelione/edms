@@ -74,14 +74,14 @@ class PoundModal extends React.Component {
   }
 
   customRequest = (id, type) => {
-    this.setState({
-      uploading: true,
-    })
-    let num = ''
     if (this.state.file === null) {
       message.error('请上传磅单！')
       return false
     }
+    this.setState({
+      uploading: true,
+    })
+    let num = ''
     type === 'load' ? num = this.state.load_num : num = this.state.unload_num
     this.props.dispatch({
       type: 'logisticsDetail/uploadPound',

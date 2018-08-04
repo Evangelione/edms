@@ -14,7 +14,7 @@ class MyContent extends React.Component {
     return (
       <div style={{height: '100%'}} ref={node => this.node = node}>
         <Content id='layout'
-                 className={location.pathname === '/login' ? styles.login : location.pathname === '/backstagelogin' ? styles.backstagelogin : styles.content}>
+                 className={location.pathname === '/login' ? styles.login : location.pathname === '/admin' ? styles.backstagelogin : styles.content}>
           {children}
         </Content>
         {/*<BackTop visibilityHeight={100} target={() => document.querySelector('#layout')}/>*/}

@@ -35,7 +35,7 @@ class IndexPage extends React.Component {
     if ((this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0)) {
       if (!sessionStorage.getItem('backAuth')) {
         this.props.dispatch(routerRedux.push({
-          pathname: '/backstagelogin',
+          pathname: '/admin',
         }))
         return false
       }

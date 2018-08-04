@@ -43,7 +43,7 @@ export default function request(url, options) {
         return {data}
       } else if (data.code === -2) {
         router.push({
-          pathname: '/backstagelogin',
+          pathname: '/admin',
         })
         return {data}
       } else {
