@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Row, Col, Button, Input, Card, Upload, Icon} from 'antd'
+import {Modal, Row, Col, Button, Input, Card, Upload, Icon, message} from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import {connect} from 'dva'
@@ -63,7 +63,7 @@ class PoundModal extends React.Component {
     });
   }
 
-  handleChange = ({fileList}) => this.setState({fileList})
+  // handleChange = ({fileList}) => this.setState({fileList})
 
   saveFile = (file) => {
     this.setState({
@@ -78,6 +78,10 @@ class PoundModal extends React.Component {
       uploading: true,
     })
     let num = ''
+    if (this.state.file === null) {
+      message.error('请上传磅单！')
+      return false
+    }
     type === 'load' ? num = this.state.load_num : num = this.state.unload_num
     this.props.dispatch({
       type: 'logisticsDetail/uploadPound',
@@ -213,7 +217,6 @@ class PoundModal extends React.Component {
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={this.handlePreview}
-                    onChange={this.handleChange}
                     beforeUpload={this.beforeUpload}
                   >
                     {fileList.length >= 1 ? null : uploadButton}
@@ -242,7 +245,6 @@ class PoundModal extends React.Component {
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={this.handlePreview}
-                    onChange={this.handleChange}
                     beforeUpload={this.beforeUpload}
                   >
                     {fileList.length >= 1 ? null : uploadButton}
