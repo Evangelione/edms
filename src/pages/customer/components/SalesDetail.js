@@ -107,7 +107,7 @@ class SalesDetail extends React.Component {
     return (
       <div>
         <div className={'toolBar'}>
-          <ExportModal title='批量导出' type='customerSalesDetail'>
+          <ExportModal title='批量导出' type='customerSalesDetail' str={this.props.find_str}>
             <Button className={'blueBorder'} icon='export'>批量导出</Button>
           </ExportModal>
         </div>
@@ -131,13 +131,14 @@ class SalesDetail extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {detailList, detailPage, detailTotal, stime, etime} = state.customer
+  const {detailList, detailPage, detailTotal, stime, etime, find_str} = state.customer
   return {
     detailList,
     detailPage,
     detailTotal,
     stime,
     etime,
+    find_str,
     loading: state.loading.models.customer
   }
 }
