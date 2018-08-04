@@ -24,7 +24,7 @@ class DetailForm extends React.Component {
 
   renderOption = (item) => {
     return (
-      <Option2 key={item.delivery_mobile}>
+      <Option2 key={item.delivery_mobile} value={item.delivery_contact}>
         {item.delivery_contact}
       </Option2>
     );
@@ -33,6 +33,8 @@ class DetailForm extends React.Component {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values)
+        debugger
         delete values.cust_id2
         delete values.cust_id3
         delete values.delivery
@@ -78,41 +80,41 @@ class DetailForm extends React.Component {
         let result_type = ''
         if (form.site_type === '1') {
           if (text === '1') {
-            result_type =  'LNG加气站'
+            result_type = 'LNG加气站'
           } else if (text === '2') {
-            result_type =  'L-CNG加气站'
+            result_type = 'L-CNG加气站'
           } else if (text === '3') {
-            result_type =  'LNG L-CNG合建站'
+            result_type = 'LNG L-CNG合建站'
           } else if (text === '4') {
-            result_type =  'LNG CNG合建站'
+            result_type = 'LNG CNG合建站'
           } else if (text === '5') {
-            result_type =  'LNG 汽柴油合建站'
+            result_type = 'LNG 汽柴油合建站'
           } else if (text === '6') {
-            result_type =  'LNG泵船'
+            result_type = 'LNG泵船'
           } else if (text === '7') {
-            result_type =  '其他'
+            result_type = '其他'
           } else if (text === '0') {
-            result_type =  '--'
+            result_type = '--'
           }
         } else if (form.site_type === '2') {
           if (text === '1') {
-            result_type =  '电厂'
+            result_type = '电厂'
           } else if (text === '2') {
-            result_type =  '城市居民'
+            result_type = '城市居民'
           } else if (text === '3') {
-            result_type =  '城市商服'
+            result_type = '城市商服'
           } else if (text === '4') {
-            result_type =  '城市供暖'
+            result_type = '城市供暖'
           } else if (text === '5') {
-            result_type =  '工业燃料'
+            result_type = '工业燃料'
           } else if (text === '6') {
-            result_type =  '工业原料'
+            result_type = '工业原料'
           } else if (text === '7') {
-            result_type =  '其他'
+            result_type = '其他'
           } else if (text === '8') {
-            result_type =  '分布式项目'
+            result_type = '分布式项目'
           } else if (text === '0') {
-            result_type =  '--'
+            result_type = '--'
           }
         }
         this.props.form.setFieldsValue({
@@ -352,7 +354,8 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('saler_price', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写销售价" addonAfter='元 / 吨' disabled={!editable} onChange={this.calculation} className={styles.blueBd}/>
+                  <Input placeholder="请填写销售价" addonAfter='元 / 吨' disabled={!editable} onChange={this.calculation}
+                         className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -365,7 +368,8 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('saler_num', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写数量" addonAfter='吨' disabled={!editable} onChange={this.calculation} className={styles.blueBd}/>
+                  <Input placeholder="请填写数量" addonAfter='吨' disabled={!editable} onChange={this.calculation}
+                         className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -395,7 +399,8 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('distance', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写运距" addonAfter='公里' disabled={!editable} onChange={this.calculation} className={styles.blueBd}/>
+                  <Input placeholder="请填写运距" addonAfter='公里' disabled={!editable} onChange={this.calculation}
+                         className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -514,7 +519,8 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('recv_time', {
                   rules: [{required: true, message: '请选择交货时间！'}],
                 })(
-                  <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD hh:mm:ss'} disabled={!editable} showTime locale={locale}></DatePicker>
+                  <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD hh:mm:ss'} disabled={!editable} showTime
+                              locale={locale}></DatePicker>
                 )}
               </FormItem>
             </Col>
@@ -720,36 +726,36 @@ class DetailForm extends React.Component {
               </Col>
             </Col>
           </Row>
-          <div className={'itemTitle'} style={{display: 'none'}}>5.我的销售员</div>
-          <Divider style={{display: 'none'}}></Divider>
-          <Row style={{marginTop: 35}} style={{display: 'none'}}>
-            <Col span={6}>
-              <FormItem
-                label="销售员"
-                labelCol={{span: 7}}
-                wrapperCol={{span: 13, offset: 1}}
-              >
-                {getFieldDecorator('xiaoshouyuan', {
-                  initialValue: JSON.parse(sessionStorage.getItem('userData')).name
-                })(
-                  <Input placeholder="请填写销售员" disabled/>
-                )}
-              </FormItem>
-            </Col>
-            <Col span={5}>
-              <FormItem
-                label="联系电话"
-                labelCol={{span: 7, offset: 1}}
-                wrapperCol={{span: 13, offset: 1}}
-              >
-                {getFieldDecorator('lianxidianhua', {
-                  initialValue: JSON.parse(sessionStorage.getItem('userData')).mobile
-                })(
-                  <Input placeholder="请填写联系电话" disabled/>
-                )}
-              </FormItem>
-            </Col>
-          </Row>
+          {/*<div className={'itemTitle'} style={{display: 'none'}}>5.我的销售员</div>*/}
+          {/*<Divider style={{display: 'none'}}></Divider>*/}
+          {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
+          {/*<Col span={6}>*/}
+          {/*<FormItem*/}
+          {/*label="销售员"*/}
+          {/*labelCol={{span: 7}}*/}
+          {/*wrapperCol={{span: 13, offset: 1}}*/}
+          {/*>*/}
+          {/*{getFieldDecorator('xiaoshouyuan', {*/}
+          {/*initialValue: JSON.parse(sessionStorage.getItem('userData')).name*/}
+          {/*})(*/}
+          {/*<Input placeholder="请填写销售员" disabled/>*/}
+          {/*)}*/}
+          {/*</FormItem>*/}
+          {/*</Col>*/}
+          {/*<Col span={5}>*/}
+          {/*<FormItem*/}
+          {/*label="联系电话"*/}
+          {/*labelCol={{span: 7, offset: 1}}*/}
+          {/*wrapperCol={{span: 13, offset: 1}}*/}
+          {/*>*/}
+          {/*{getFieldDecorator('lianxidianhua', {*/}
+          {/*initialValue: JSON.parse(sessionStorage.getItem('userData')).mobile*/}
+          {/*})(*/}
+          {/*<Input placeholder="请填写联系电话" disabled/>*/}
+          {/*)}*/}
+          {/*</FormItem>*/}
+          {/*</Col>*/}
+          {/*</Row>*/}
         </Form>
         {defaultSubmit ?
           <div>

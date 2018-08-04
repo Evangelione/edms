@@ -138,16 +138,22 @@ export default connect(mapStateToProps)(({detailForm}) => {
             span={13}>{detailForm.cargo_province + (detailForm.cargo_city ? detailForm.cargo_city : '') + (detailForm.cargo_area ? detailForm.cargo_area : '') + detailForm.detaileds_address}</Col>
         </Col>
       </Row>
-      <div className={'itemTitle'}>5.我的销售员</div>
+      <div className={'itemTitle'}>5.费用信息</div>
       <Divider></Divider>
       <Row style={{marginTop: 35}}>
         <Col span={6} className={styles.ColStyle}>
-          <Col span={8} offset={3}>销售员：</Col>
+          <Col span={8} offset={3}>结算运费：</Col>
           <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>
         </Col>
         <Col span={5} className={styles.ColStyle}>
-          <Col span={8} offset={3}>联系电话：</Col>
+          <Col span={8} offset={3}>结算货款：</Col>
           <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).mobile}</Col>
+        </Col>
+      </Row>
+      <Row style={{marginTop: 35}}>
+        <Col span={6} className={styles.ColStyle}>
+          <Col span={8} offset={3}>结算金额：</Col>
+          <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>
         </Col>
       </Row>
     </Card>

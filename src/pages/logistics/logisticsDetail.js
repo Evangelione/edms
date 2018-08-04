@@ -1,10 +1,11 @@
-import {Card, Steps} from 'antd'
+import {Card, Steps, Button} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import styles from './logistics.css'
 import LogisticsForm from './components/LogisticsForm'
 import TimeLine from '../../components/TimeLine/TimeLine'
 import {Map, Marker, NavigationControl, InfoWindow} from 'react-bmap'
 import {connect} from 'dva'
+import {routerRedux} from "dva/router";
 
 const Step = Steps.Step
 
@@ -18,9 +19,17 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(({dispatch, editable, step, detailForm}) => {
+  function goLogisticsList() {
+    dispatch(routerRedux.push({
+      pathname: '/logistics',
+    }))
+  }
+
   return (
     <div>
       <PageTitle>运单详情</PageTitle>
+      <Button className='blueBorder' style={{position: 'absolute', top: 84, right: 30, zIndex: 999}}
+              onClick={goLogisticsList}>返回我的物流</Button>
       <Card style={{borderColor: '#CFCFCF', marginBottom: 10}} title={`运单编号：${detailForm.deliver_code}`}
             extra={<div>对应订单编号：{detailForm.order_code}</div>}>
         <div className={styles.createTime} style={{marginLeft: 20}}>

@@ -10,10 +10,18 @@ import ResultModal from './components/ResultModal'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import StatusModal from './components/StatusModal'
 import withRouter from 'umi/withRouter'
+import {routerRedux} from "dva/router";
 
 const Step = Steps.Step
 
 class orderDetail extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      step: ['待支付', '待发货', '待收货', '待结算', '已结算']
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
@@ -43,6 +51,12 @@ class orderDetail extends React.Component {
     })
   }
 
+  goOrderList = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/order',
+    }))
+  }
+
   getNum = (yunju, yunfeidanjia, shuliang, xiaoshoujiage) => {
     this.props.dispatch({
       type: 'orderDetail/save',
@@ -59,6 +73,7 @@ class orderDetail extends React.Component {
     return (
       <div>
         <PageTitle>订单详情</PageTitle>
+        <Button className='blueBorder' style={{position: 'absolute', top: 84, right: 30, zIndex: 999}} onClick={this.goOrderList}>返回我的订单</Button>
         <Card style={{borderColor: '#CFCFCF', marginBottom: 10}} title={`订单编号：${detailForm.order_code}`}
               extra={<div>创建时间：{detailForm.order_date}</div>}>
           <Steps progressDot current={detailForm.order_status} style={{margin: '70px 0'}}>
@@ -68,19 +83,23 @@ class orderDetail extends React.Component {
             <Step title="待结算"/>
             <Step title="已结算"/>
           </Steps>
-          {detailForm.order_status === 0 || detailForm.order_status === 3 ?
+          {detailForm.order_status < 4 ?
             <div>
               <Divider></Divider>
               <div style={{lineHeight: '35px', margin: '20px 0', float: 'left'}}>
-                <div style={{fontWeight: 600, fontSize: 18, marginBottom: 20}}>订单状态：待支付</div>
+                <div style={{
+                  fontWeight: 600,
+                  fontSize: 18,
+                  marginBottom: 20
+                }}>订单状态：{this.state.step[detailForm.order_status]}</div>
                 <div>
                   预计运费：￥{yunfei}
                 </div>
                 <div>
-                  预计货费：￥{huofei}
+                  预计货款：￥{huofei}
                 </div>
                 <div>
-                  （多含7.5%预付款）<span style={{fontSize: 18, fontWeight: 600, color: '#3477ED'}}>合计金额：￥{heji}</span>
+                  <span style={{fontSize: 18, fontWeight: 600, color: '#3477ED'}}>合计金额：￥{heji}</span>（多含7.5%预付款）
                 </div>
               </div>
               <div className={styles.resultBox} style={{marginTop: 120}}>
@@ -99,17 +118,47 @@ class orderDetail extends React.Component {
                       </ResultModal>
                       :
                       <div>
-                        <StatusModal></StatusModal>
-                        <Button className={'blueBorder'} onClick={this.editForm.bind(null, true)}>修改订单</Button>
-                        <PromptModal state={'cancelOrder'} cancelId={location.query.id}>
-                          <Button>取消订单</Button>
-                        </PromptModal>
+                        {detailForm.order_status === 0 ? <div>
+                          <StatusModal></StatusModal>
+                          <Button className={'blueBorder'} onClick={this.editForm.bind(null, true)}>修改订单</Button>
+                          <PromptModal state={'cancelOrder'} cancelId={location.query.id}>
+                            <Button>取消订单</Button>
+                          </PromptModal>
+                        </div> : ''}
                       </div>
                     }
                   </div>
                 }
               </div>
-            </div> : ''
+            </div>
+            :
+            <div>
+              {detailForm.order_status === 4 ?
+                <div>
+                  <Divider></Divider>
+                  <div style={{lineHeight: '35px', margin: '20px 0', float: 'left'}}>
+                    <div style={{
+                      fontWeight: 600,
+                      fontSize: 18,
+                      marginBottom: 20
+                    }}>订单状态：{this.state.step[detailForm.order_status]}</div>
+                    <div>
+                      结算运费：￥{detailForm.jiesuan.deliver_fee}
+                    </div>
+                    <div>
+                      结算货款：￥{detailForm.jiesuan.goods_total}
+                    </div>
+                    <div>
+                      <span style={{
+                        fontSize: 18,
+                        fontWeight: 600,
+                        color: '#3477ED'
+                      }}>结算金额：￥{detailForm.jiesuan.final_money}</span>
+                    </div>
+                  </div>
+                </div> : ''}
+            </div>
+
           }
         </Card>
         <DetailForm id='scroll' defaultSubmit={false} editable={editable} detailForm={detailForm}

@@ -25,7 +25,7 @@ class PoundModal extends React.Component {
     })
   }
 
-  showModalHandler = () => {
+  showModalHandler = (e) => {
     this.setState({
       visible: true,
     })
@@ -35,6 +35,7 @@ class PoundModal extends React.Component {
     e.stopPropagation()
     this.setState({
       visible: false,
+      fileList: []
     })
   }
 
@@ -94,7 +95,8 @@ class PoundModal extends React.Component {
     }).then(() => {
       this.setState({
         uploading: false,
-        visible: false
+        visible: false,
+        fileList: []
       })
     })
   }
