@@ -74,6 +74,7 @@ class PoundModal extends React.Component {
   }
 
   customRequest = (id, type) => {
+    debugger
     if (this.state.file === null) {
       message.error('请上传磅单！')
       return false
@@ -100,6 +101,7 @@ class PoundModal extends React.Component {
   }
 
   beforeUpload = (file) => {
+    debugger
     this.setState({
       file: {
         file,
