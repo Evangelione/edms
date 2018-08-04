@@ -3,6 +3,7 @@ import {Table, Button, Pagination} from 'antd'
 import {connect} from 'dva'
 import ContractModal from '../components/ContractModal'
 import {PAGE_SIZE} from "../../../constants"
+import * as dateUtils from "../../../utils/getTime";
 
 class SalesContract extends React.Component {
   constructor(props) {
@@ -111,7 +112,18 @@ class SalesContract extends React.Component {
       title: '到期时间',
       dataIndex: 'end_date',
       key: 'end_date',
-      align: 'center'
+      align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     }]
     return (
       <div>

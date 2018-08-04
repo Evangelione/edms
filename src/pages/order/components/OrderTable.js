@@ -2,6 +2,7 @@ import {Table, Button, Pagination} from 'antd'
 import {connect} from 'dva'
 import {routerRedux} from 'dva/router'
 import {PAGE_SIZE} from "../../../constants"
+import * as dateUtils from '../../../utils/getTime'
 
 function OrderTable({dispatch, list, total, page, loading}) {
 
@@ -61,7 +62,14 @@ function OrderTable({dispatch, list, total, page, loading}) {
       title: '配送方式',
       dataIndex: 'deliver_type_name',
       key: 'deliver_type_name',
-      align: 'center'
+      align: 'center',
+      render: (text, record, index) => {
+        if (text === '卖家配送') {
+          return (
+            <div style={{color: '#EA7878'}}>{text}</div>
+          )
+        }
+      }
     },
     {
       title: '供应商名称',
@@ -80,18 +88,144 @@ function OrderTable({dispatch, list, total, page, loading}) {
       dataIndex: 'recv_time',
       key: 'recv_time',
       align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     },
     {
       title: '下单时间',
       dataIndex: 'order_date',
       key: 'order_date',
       align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     },
     {
       title: '订单状态',
       dataIndex: 'status_name',
       key: 'status_name',
       align: 'center',
+      width: 110,
+      render: (text, record, index) => {
+        if (text === '待支付') {
+          return (
+            <div style={{
+              background: 'rgba(255, 66, 65, .1)',
+              borderRadius: 4,
+              position: 'relative',
+              padding: '0 0 0 10px',
+            }}>
+              <div style={{
+                background: '#FF4241',
+                width: 6,
+                height: 6,
+                position: 'absolute',
+                top: '8px',
+                left: '12px',
+                borderRadius: 6
+              }}></div>
+              {text}
+            </div>
+          )
+        } else if (text === '待发货') {
+          return (
+            <div style={{
+              background: 'rgba(254, 191, 43, .1)',
+              borderRadius: 4,
+              position: 'relative',
+              padding: '0 0 0 10px',
+            }}>
+              <div style={{
+                background: '#FEBF2B',
+                width: 6,
+                height: 6,
+                position: 'absolute',
+                top: '8px',
+                left: '12px',
+                borderRadius: 6
+              }}></div>
+              {text}
+            </div>
+          )
+        } else if (text === '待收货') {
+          return (
+            <div style={{
+              background: 'rgba(255, 154, 116, .1)',
+              borderRadius: 4,
+              position: 'relative',
+              padding: '0 0 0 10px',
+            }}>
+              <div style={{
+                background: '#FF9A74',
+                width: 6,
+                height: 6,
+                position: 'absolute',
+                top: '8px',
+                left: '12px',
+                borderRadius: 6
+              }}></div>
+              {text}
+            </div>
+          )
+        } else if (text === '待结算') {
+          return (
+            <div style={{
+              background: 'rgba(84, 168, 253, .1)',
+              borderRadius: 4,
+              position: 'relative',
+              padding: '0 0 0 10px',
+            }}>
+              <div style={{
+                background: '#54A8FD',
+                width: 6,
+                height: 6,
+                position: 'absolute',
+                top: '8px',
+                left: '12px',
+                borderRadius: 6
+              }}></div>
+              {text}
+            </div>
+          )
+        } else if (text === '已结算') {
+          return (
+            <div style={{
+              background: 'rgba(0, 183, 99, .1)',
+              borderRadius: 4,
+              position: 'relative',
+              padding: '0 0 0 10px',
+            }}>
+              <div style={{
+                background: '#00B763',
+                width: 6,
+                height: 6,
+                position: 'absolute',
+                top: '8px',
+                left: '12px',
+                borderRadius: 6
+              }}></div>
+              {text}
+            </div>
+          )
+        }
+      }
     },
     {
       title: '操作',

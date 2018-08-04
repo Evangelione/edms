@@ -64,7 +64,7 @@ class SupplierTable extends React.Component {
       render: (text, record, index) => {
         return (
           <RegisterModal title='采购预付款登记' id={record.id} name={record.supp_name}>
-            <Button type='primary' icon='plus' size='small'>采购预付款登记</Button>
+            <Button type='primary' icon='plus' size='small' style={{height: 28, padding: '0px 14px 0 10px'}}>采购预付款登记</Button>
           </RegisterModal>
         )
       }

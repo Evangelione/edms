@@ -3,6 +3,7 @@ import {Table, Button, Pagination} from 'antd'
 import {connect} from 'dva'
 import ExportModal from '../../../components/ExportModal/ExportModal'
 import {PAGE_SIZE} from "../../../constants";
+import * as dateUtils from "../../../utils/getTime";
 
 class SalesDetail extends React.Component {
   constructor(props) {
@@ -55,7 +56,18 @@ class SalesDetail extends React.Component {
       title: '卸车时间',
       dataIndex: 'unload_time',
       key: 'unload_time',
-      align: 'center'
+      align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     }, {
       title: '站点简称',
       dataIndex: 'site_name',

@@ -117,7 +117,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
     <div>
       <div className={'searchBox'}>
         <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}/>
-        <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
+        <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                 onSearch={iptSearch}/>
       </div>
       <Card>

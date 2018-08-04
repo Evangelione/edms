@@ -64,7 +64,7 @@ class ClientTable extends React.Component {
       render: (text, record, index) => {
         return (
           <RegisterModal title='收款登记' id={record.id} name={record.customer_name} type='client'>
-            <Button type='primary' icon='plus' size='small'>收款登记</Button>
+            <Button type='primary' icon='plus' size='small' style={{height: 28, padding: '0px 14px 0 10px'}}>收款登记</Button>
           </RegisterModal>
         )
       }

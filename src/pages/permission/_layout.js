@@ -6,6 +6,7 @@ import PromptModal from '../../components/PromptModal/PromptModal'
 import OperateUser from './operateUser'
 import {routerRedux} from 'dva/router'
 import {PAGE_SIZE} from "../../constants";
+import * as dateUtils from "../../utils/getTime";
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -135,7 +136,18 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     title: '创建时间',
     dataIndex: 'creation_time',
     key: 'creation_time',
-    align: 'center'
+    align: 'center',
+    width: 120,
+    render: (text, record, index) => {
+      let time = dateUtils.getTime(text)
+      let date = dateUtils.getYear(text)
+      return (
+        <div>
+          <div>{date}</div>
+          <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+        </div>
+      )
+    }
   }, {
     title: '操作',
     align: 'center',
@@ -174,7 +186,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
         <div>
           <PageTitle>用户权限设置</PageTitle>
           <div className={'searchBox'}>
-            <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
+            <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={iptSearch}
             />
           </div>

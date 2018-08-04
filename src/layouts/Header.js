@@ -33,7 +33,7 @@ function MyHeader({dispatch, location, collapsed}) {
         className={styles.menu}
       >
         <Menu.Item key="alipay">
-          <div onClick={logout}>
+          <div onClick={logout} style={{color: '#545f76'}}>
             <Icon type="logout"/>退出登录
           </div>
         </Menu.Item>

@@ -22,7 +22,7 @@ export default connect()(({dispatch}) => {
   return (
     <div>
       <div className={'searchBox'}>
-        <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
+        <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                 onSearch={iptSearch}/>
       </div>
       <Card>

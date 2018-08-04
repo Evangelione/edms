@@ -61,7 +61,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
           <div>
             <PageTitle>我的订单</PageTitle>
             <div className={'searchBox'}>
-              <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
+              <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                       onSearch={iptSearch}
               />
             </div>
@@ -69,8 +69,9 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
               <Tabs>
                 <TabPane tab="我的订单" key="1">
                   <div className={'toolBar'}>
+                    <Button type='primary' icon="plus" onClick={doOrder}
+                            style={{boxShadow: '0px 1px 10px #1890ff'}}>我要下单</Button>
                     <Button className={'blueBorder'} icon="select">批量导入</Button>
-                    <Button type='primary' icon="plus" onClick={doOrder}>我要下单</Button>
                   </div>
                   <div className={'changeList'}>
                     <div onClick={changeClass.bind(null, 'quanbu', '')}

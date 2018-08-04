@@ -5,6 +5,7 @@ import ExportModal from '../../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
 import {PAGE_SIZE} from "../../../constants"
 import ImageModal from '../../../components/ImageModal/ImageModal'
+import * as dateUtils from "../../../utils/getTime";
 
 class ReceiptTable extends React.Component {
   constructor(props) {
@@ -52,7 +53,18 @@ class ReceiptTable extends React.Component {
       title: '收款时间',
       dataIndex: 'recv_time',
       key: 'recv_time',
-      align: 'center'
+      align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     }, {
       title: '收款金额',
       dataIndex: 'record_sum',
@@ -67,7 +79,18 @@ class ReceiptTable extends React.Component {
       title: '操作时间',
       dataIndex: 'oper_time',
       key: 'oper_time',
-      align: 'center'
+      align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     }, {
       title: '操作人',
       dataIndex: 'name',

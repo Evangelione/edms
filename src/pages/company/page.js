@@ -47,7 +47,7 @@ class Company extends React.Component {
         <PageTitle>我的公司</PageTitle>
         {this.state.paneKey === '2' ?
           <div className={'searchBox'}>
-            <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
+            <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={this.iptSearch}/>
           </div>
           : ''}

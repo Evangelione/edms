@@ -7,6 +7,7 @@ import PromptModal from '../../../components/PromptModal/PromptModal'
 import PoundModal from './PoundModal'
 import {PAGE_SIZE} from "../../../constants"
 import locale from 'antd/lib/date-picker/locale/zh_CN'
+import * as dateUtils from "../../../utils/getTime";
 
 
 const FormItem = Form.Item
@@ -293,6 +294,17 @@ class Logistics extends React.Component {
         dataIndex: 'recv_time',
         key: 'recv_time',
         align: 'center',
+        width: 120,
+        render: (text, record, index) => {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        }
       },
       {
         title: '运单状态',
@@ -418,14 +430,34 @@ class Logistics extends React.Component {
         dataIndex: 'load_time',
         key: 'load_time',
         width: 120,
-        align: 'center'
+        align: 'center',
+        render: (text, record, index) => {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        }
       },
       {
         title: '卸车时间',
         dataIndex: 'unload_time',
         key: 'unload_time',
         width: 120,
-        align: 'center'
+        align: 'center',
+        render: (text, record, index) => {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        }
       },
       {
         title: '供货商名称',
@@ -528,7 +560,7 @@ class Logistics extends React.Component {
               rowKey={record => record.deliver_code}
               pagination={false}
               loading={loading}
-              scroll={{x: 1920}}
+              scroll={{x:2100}}
             />
             <Pagination
               className="ant-table-pagination"

@@ -4,6 +4,7 @@ import {Table, Button, Pagination} from 'antd'
 import ExportModal from '../../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
 import {PAGE_SIZE} from "../../../constants"
+import * as dateUtils from "../../../utils/getTime";
 
 class BillTable extends React.Component {
   constructor(props) {
@@ -62,7 +63,18 @@ class BillTable extends React.Component {
       title: '操作时间',
       dataIndex: 'oper_time',
       key: 'oper_time',
-      align: 'center'
+      align: 'center',
+      width: 120,
+      render: (text, record, index) => {
+        let time = dateUtils.getTime(text)
+        let date = dateUtils.getYear(text)
+        return (
+          <div>
+            <div>{date}</div>
+            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+          </div>
+        )
+      }
     }, {
       title: '操作人',
       dataIndex: 'name',
