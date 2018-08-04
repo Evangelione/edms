@@ -65,6 +65,8 @@ class ExportModal extends React.Component {
       window.location.href = `${IP}/home/account/excel-supp-record-list?supp_id=${this.props.id}&record_type=1&stime=${this.state.stime}&etime=${this.state.etime}`
     } else if (this.props.type === 'supplierBill') {
       window.location.href = `${IP}/home/account/excel-supp-record-list?supp_id=${this.props.id}&record_type=''&stime=${this.state.stime}&etime=${this.state.etime}`
+    } else if (this.props.type === 'accountAnalysis') {
+      window.location.href = `${IP}/home/account/excel-analysis?stime=${this.state.stime}&etime=${this.state.etime}`
     }
   }
 

@@ -124,7 +124,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
         <Tabs onChange={this.callback}>
           <TabPane tab="数据分析" key='1'>
             <div className='toolBar'>
-              <ExportModal title='批量导出'>
+              <ExportModal title='批量导出' type='accountAnalysis'>
                 <Button className={'blueBorder'} icon='export'>批量导出</Button>
               </ExportModal>
             </div>
