@@ -8,3 +8,7 @@
 .resultBox button {
   margin: 5px;
 }
+
+.blueBd {
+  border-color: #1C86F6 !important;
+}

@@ -8,18 +8,13 @@ import {Map, Marker, NavigationControl, InfoWindow} from 'react-bmap'
 import {connect} from 'dva'
 import ResultModal from './components/ResultModal'
 import PromptModal from '../../components/PromptModal/PromptModal'
+import StatusModal from './components/StatusModal'
 import withRouter from 'umi/withRouter'
 
 const Step = Steps.Step
 
 class orderDetail extends React.Component {
-
-  componentDidMount() {
-
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    debugger
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
     }
@@ -36,15 +31,6 @@ class orderDetail extends React.Component {
         }
       })
     }
-  }
-
-  doPay = () => {
-    this.props.dispatch({
-      type: 'orderDetail/doPay',
-      payload: {
-        id: this.props.location.query.id
-      }
-    })
   }
 
   getForm = (form, id) => {
@@ -94,7 +80,7 @@ class orderDetail extends React.Component {
                   预计货费：￥{huofei}
                 </div>
                 <div>
-                  <span style={{fontSize: 18, fontWeight: 600, color: '#3477ED'}}>合计：￥{heji}</span>（含7.5%浮动计费）
+                  （多含7.5%预付款）<span style={{fontSize: 18, fontWeight: 600, color: '#3477ED'}}>合计金额：￥{heji}</span>
                 </div>
               </div>
               <div className={styles.resultBox} style={{marginTop: 120}}>
@@ -113,9 +99,7 @@ class orderDetail extends React.Component {
                       </ResultModal>
                       :
                       <div>
-                        <PromptModal delay={true} state={'success'}>
-                          <Button type='primary' onClick={this.doPay}>立即支付</Button>
-                        </PromptModal>
+                        <StatusModal></StatusModal>
                         <Button className={'blueBorder'} onClick={this.editForm.bind(null, true)}>修改订单</Button>
                         <PromptModal state={'cancelOrder'} cancelId={location.query.id}>
                           <Button>取消订单</Button>

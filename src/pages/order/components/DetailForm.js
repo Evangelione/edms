@@ -4,6 +4,7 @@ import {Card, Divider, Row, Col, Form, Input, Select, DatePicker, Button, Icon, 
 import {connect} from 'dva'
 import withRouter from 'umi/withRouter'
 import styles from '../order.css'
+import locale from 'antd/lib/date-picker/locale/zh_CN'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -49,7 +50,7 @@ class DetailForm extends React.Component {
         delete values.supp_id2
         delete values.supp_id3
         delete values.xiaoshouyuan
-        values.recv_time = values.recv_time.format('YYYY-MM-DD hh:00:00')
+        values.recv_time = values.recv_time.format('YYYY-MM-DD hh:mm:ss')
         this.props.dispatch({
           type: 'order/addOrder',
           payload: {
@@ -127,7 +128,13 @@ class DetailForm extends React.Component {
       site_id2: undefined,
       site_id3: undefined,
       delivery: undefined,
-      adress: undefined
+      adress: undefined,
+      pay_type: undefined,
+      saler_price: undefined,
+      saler_num: undefined,
+      deliver_type: undefined,
+      distance: undefined,
+      deliver_price: undefined
     })
   }
 
@@ -136,7 +143,10 @@ class DetailForm extends React.Component {
       site_id2: item.props.sitetype,
       site_id3: item.props.usertype,
       delivery: item.props.province + item.props.city + item.props.area,
-      adress: item.props.address
+      adress: item.props.address,
+      recv_contact: undefined,
+      recv_phone: undefined,
+      recv_time: undefined
     })
     this.setState({
       dataSource: item.props.shouhuo.map(this.renderOption)
@@ -153,6 +163,7 @@ class DetailForm extends React.Component {
     this.props.form.setFieldsValue({
       supp_id2: item.props.contact,
       supp_id3: item.props.mobile,
+      purchase_price: undefined
     })
   }
 
@@ -245,7 +256,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('cust_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择客户名称..." style={{width: 180}} disabled={!editable}
+                  <Select placeholder="请选择客户名称" style={{width: 180}} disabled={!editable}
                           onChange={this.customerChange}>
                     {customOptions}
                   </Select>
@@ -259,7 +270,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('cust_id2')(
-                  <Input placeholder="请填写客户联系人..." disabled/>
+                  <Input placeholder="请填写客户联系人姓名" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -270,7 +281,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('cust_id3')(
-                  <Input placeholder="请填写联系电话..." disabled/>
+                  <Input placeholder="请填写联系电话" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -285,7 +296,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('pay_type', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择付款方式..." style={{width: 150}} disabled={!editable}>
+                  <Select placeholder="请选择付款方式" style={{width: 150}} disabled={!editable}>
                     <Option value="1">预付款</Option>
                   </Select>
                 )}
@@ -293,14 +304,14 @@ class DetailForm extends React.Component {
             </Col>
             <Col span={5}>
               <FormItem
-                label="销售价格"
+                label="销售金额"
                 labelCol={{span: 7, offset: 1}}
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('saler_price', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写销售价..." addonAfter='元 / 吨' disabled={!editable} onChange={this.calculation}/>
+                  <Input placeholder="请填写销售价" addonAfter='元 / 吨' disabled={!editable} onChange={this.calculation} className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -313,7 +324,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('saler_num', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写数量..." addonAfter='吨' disabled={!editable} onChange={this.calculation}/>
+                  <Input placeholder="请填写数量" addonAfter='吨' disabled={!editable} onChange={this.calculation} className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -328,7 +339,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('deliver_type', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择配送方式..." style={{width: 150}} disabled={!editable}>
+                  <Select placeholder="请选择配送方式" style={{width: 150}} disabled={!editable}>
                     <Option value="1">卖家配送</Option>
                   </Select>
                 )}
@@ -343,7 +354,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('distance', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写运距..." addonAfter='公里' disabled={!editable} onChange={this.calculation}/>
+                  <Input placeholder="请填写运距" addonAfter='公里' disabled={!editable} onChange={this.calculation} className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -356,8 +367,8 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('deliver_price', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写运费单价..." addonAfter='元 / 吨 / 公里' disabled={!editable}
-                         onChange={this.calculation}/>
+                  <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' disabled={!editable}
+                         onChange={this.calculation} className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
@@ -374,7 +385,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('site_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择站点简称..." style={{width: 150}} disabled={!editable} onChange={this.siteChange}>
+                  <Select placeholder="请选择站点简称" style={{width: 150}} disabled={!editable} onChange={this.siteChange}>
                     {siteOptions}
                   </Select>
                 )}
@@ -389,7 +400,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('site_id2', {
                   rules: [{required: true, message: 'Please input your note!'}],
                 })(
-                  <Select placeholder="请选择站点类型..." style={{width: 150}} disabled>
+                  <Select placeholder="请选择站点类型" style={{width: 150}} disabled>
                     <Option value="1">加气站</Option>
                     <Option value="2">气化站</Option>
                   </Select>
@@ -405,7 +416,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('site_id3', {
                   rules: [{required: true, message: 'Please input your note!'}],
                 })(
-                  <Select placeholder="请选择用户类型..." style={{width: 150}} disabled>
+                  <Select placeholder="请选择用户类型" style={{width: 150}} disabled>
 
                   </Select>
                 )}
@@ -425,7 +436,7 @@ class DetailForm extends React.Component {
                   <AutoComplete
                     onSelect={this.autoSelect}
                     dataSource={this.state.dataSource}
-                    placeholder="请填写收货联系人..."
+                    placeholder="请填写收货联系人姓名"
                     disabled={!editable}
                     filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                   />
@@ -447,7 +458,7 @@ class DetailForm extends React.Component {
                   }],
                   validateTrigger: 'onBlur',
                 })(
-                  <Input placeholder="请填写联系电话..." disabled={!editable}/>
+                  <Input placeholder="请填写联系电话" disabled={!editable}/>
                 )}
               </FormItem>
             </Col>
@@ -462,7 +473,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('recv_time', {
                   rules: [{required: true, message: '请选择交货时间！'}],
                 })(
-                  <DatePicker placeholder="请选择交货时间..." format={'YYYY-MM-DD hh:00:00'} disabled={!editable}></DatePicker>
+                  <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD hh:mm:ss'} disabled={!editable} showTime locale={locale}></DatePicker>
                 )}
               </FormItem>
             </Col>
@@ -476,7 +487,7 @@ class DetailForm extends React.Component {
                   {getFieldDecorator('delivery', {
                     rules: [{required: true, message: '请选择收货地址！'}],
                   })(
-                    <Input placeholder="请选择收货地址..." style={{marginLeft: 16}} disabled/>
+                    <Input placeholder="请选择收货地址" style={{marginLeft: 16}} disabled/>
                   )}
                 </FormItem>
               </Col>
@@ -489,7 +500,7 @@ class DetailForm extends React.Component {
                   {getFieldDecorator('adress', {
                     rules: [{required: true, message: '请填写正确详细收货地址！'}],
                   })(
-                    <Input placeholder="请选择详细收货地址..." style={{marginLeft: 26}} disabled/>
+                    <Input placeholder="请选择详细收货地址" style={{marginLeft: 26}} disabled/>
                   )}
                 </FormItem>
               </Col>
@@ -507,7 +518,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('supp_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择供应商名称..." style={{width: 150}} disabled={!editable}
+                  <Select placeholder="请选择供应商名称" style={{width: 150}} disabled={!editable}
                           onChange={this.suppChange}>
                     {supplierOptions}
                   </Select>
@@ -521,7 +532,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('supp_id2')(
-                  <Input placeholder="请填写供应商联系人..." disabled/>
+                  <Input placeholder="请填写供应商联系人" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -532,7 +543,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('supp_id3')(
-                  <Input placeholder="请填写联系电话..." disabled/>
+                  <Input placeholder="请填写联系电话" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -547,20 +558,20 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('purchase_price', {
                   rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写采购价..." addonAfter='元 / 吨' disabled={!editable}/>
+                  <Input placeholder="请填写采购价" addonAfter='元 / 吨' disabled={!editable} className={styles.blueBd}/>
                 )}
               </FormItem>
             </Col>
-            <Col span={5}>
+            <Col span={5} style={{display: 'none'}}>
               <FormItem
                 label="数量"
                 labelCol={{span: 7, offset: 1}}
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('shuliang', {
-                  rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: false, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                 })(
-                  <Input placeholder="请填写数量..." addonAfter='吨' disabled={!editable}/>
+                  <Input placeholder="请填写数量" addonAfter='吨' disabled={!editable}/>
                 )}
               </FormItem>
             </Col>
@@ -577,7 +588,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('goods_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选气源名称..." style={{width: 150}} disabled={!editable} onChange={this.goodsChange}>
+                  <Select placeholder="请选气源名称" style={{width: 150}} disabled={!editable} onChange={this.goodsChange}>
                     {goodsOptions}
                   </Select>
                 )}
@@ -590,7 +601,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('goods_source')(
-                  <Input placeholder="请填写气源产地..." disabled/>
+                  <Input placeholder="请填写气源产地" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -622,7 +633,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('goods_contact')(
-                  <Input placeholder="请填写装货联系人..." disabled/>
+                  <Input placeholder="请填写装货联系人姓名" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -633,7 +644,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('goods_mobile')(
-                  <Input placeholder="请填写联系电话..." disabled/>
+                  <Input placeholder="请填写联系电话" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -649,7 +660,7 @@ class DetailForm extends React.Component {
                   {getFieldDecorator('goods_delivery', {
                     rules: [{required: true, message: '请选择收货地址！'}],
                   })(
-                    <Input placeholder="请选择收货地址..." style={{marginLeft: 16}} disabled/>
+                    <Input placeholder="请选择收货地址" style={{marginLeft: 16}} disabled/>
                   )}
                 </FormItem>
               </Col>
@@ -662,15 +673,15 @@ class DetailForm extends React.Component {
                   {getFieldDecorator('goods_adress', {
                     rules: [{required: true, message: '请填写正确详细收货地址！'}],
                   })(
-                    <Input placeholder="请选择详细收货地址..." style={{marginLeft: 26}} disabled/>
+                    <Input placeholder="请填写详细收货地址" style={{marginLeft: 26}} disabled/>
                   )}
                 </FormItem>
               </Col>
             </Col>
           </Row>
-          <div className={'itemTitle'}>5.我的销售员</div>
-          <Divider></Divider>
-          <Row style={{marginTop: 35}}>
+          <div className={'itemTitle'} style={{display: 'none'}}>5.我的销售员</div>
+          <Divider style={{display: 'none'}}></Divider>
+          <Row style={{marginTop: 35}} style={{display: 'none'}}>
             <Col span={6}>
               <FormItem
                 label="销售员"
@@ -680,7 +691,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('xiaoshouyuan', {
                   initialValue: JSON.parse(sessionStorage.getItem('userData')).name
                 })(
-                  <Input placeholder="请填写销售员..." disabled/>
+                  <Input placeholder="请填写销售员" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -693,7 +704,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('lianxidianhua', {
                   initialValue: JSON.parse(sessionStorage.getItem('userData')).mobile
                 })(
-                  <Input placeholder="请填写联系电话..." disabled/>
+                  <Input placeholder="请填写联系电话" disabled/>
                 )}
               </FormItem>
             </Col>
@@ -703,21 +714,22 @@ class DetailForm extends React.Component {
           <div>
             <Divider></Divider>
             <div className={styles.resultBox}>
-              <div>
+              <div style={{margin: '5px 0'}}>
                 预计运费：￥{isNaN(this.state.yunfei) ? '填写错误' : this.state.yunfei}
               </div>
-              <div>
-                预计货费：￥{isNaN(this.state.huofei) ? '填写错误' : this.state.huofei}
+              <div style={{margin: '5px 0'}}>
+                预计货款：￥{isNaN(this.state.huofei) ? '填写错误' : this.state.huofei}
               </div>
-              <div>
+              <div style={{margin: '5px 0'}}>
+                （多含7.5%预付款）
                 <span style={{
                   fontSize: 18,
                   fontWeight: 600,
                   color: '#3477ED'
-                }}>合计：￥{isNaN(this.state.heji) ? '填写错误' : this.state.heji}</span>（含7.5%浮动计费）
+                }}>合计金额：￥{isNaN(this.state.heji) ? '填写错误' : this.state.heji}</span>
               </div>
-              <Button>取消</Button>
-              <Button type='primary' onClick={this.submit} loading={loading}>提交订单</Button>
+              <Button style={{margin: '10px 10px'}}>取消</Button>
+              <Button type='primary' onClick={this.submit} loading={loading} style={{margin: '10px 0'}}>提交订单</Button>
             </div>
           </div>
           :

@@ -57,8 +57,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
   return (
     <div>
       <div className={'searchBox'}>
-        <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}
-                     defaultValue={moment().subtract(1, 'months')}/>
+        <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}/>
       </div>
       <Card>
         <Tabs onChange={tabChange} activeKey={currentTab}>

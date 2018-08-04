@@ -34,10 +34,6 @@ class RegisterModal extends React.Component {
   handleImgCancel = () => this.setState({previewVisible: false})
 
   beforeUpload = (file) => {
-    const isJPG = file.type === 'image/png';
-    if (!isJPG) {
-      message.error('You can only upload PNG file!');
-    }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error('Image must smaller than 2MB!');

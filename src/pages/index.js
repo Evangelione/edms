@@ -2170,7 +2170,7 @@ class IndexPage extends React.Component {
     )
     const chartOption = {
       title: {
-        text: '销售与采购价格趋势图',
+        text: '销售与采购费用趋势图',
         textStyle: {
           color: '#545F76',
           fontFamily: 'PingFangHK-Regular'
@@ -2181,7 +2181,7 @@ class IndexPage extends React.Component {
         trigger: 'axis'
       },
       legend: {
-        data: ['采购价格', '销售价格'],
+        data: ['采购费用', '销售金额'],
         top: 5,
         right: 200
       },
@@ -2231,13 +2231,13 @@ class IndexPage extends React.Component {
       },
       series: [
         {
-          name: '采购价格',
+          name: '采购费用',
           type: 'line',
           smooth: true,
           data: trend.saler_price
         },
         {
-          name: '销售价格',
+          name: '销售金额',
           type: 'line',
           smooth: true,
           data: trend.purchase_price

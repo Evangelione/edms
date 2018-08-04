@@ -6,7 +6,7 @@ export default {
   namespace: 'orderDetail',
   state: {
     editable: false,
-    openState: false,
+    isSuccess: 'success',
     step: 0,
     detailForm: '',
     modifyForm: '',
@@ -20,7 +20,7 @@ export default {
             type: 'save',
             payload: {
               editable: false,
-              openState: false
+              // isSuccess: false
             }
           })
         }
@@ -112,11 +112,17 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            openState: true
+            isSuccess: 'success'
           }
         })
       } else {
         message.error(data.msg)
+        yield put({
+          type: 'save',
+          payload: {
+            isSuccess: 'error'
+          }
+        })
       }
     },
     * cancelOrder({payload: id}, {call, put}) {
@@ -124,12 +130,6 @@ export default {
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put({
-          type: 'save',
-          payload: {
-            openState: true
-          }
-        })
         yield put(routerRedux.push({
           pathname: '/order',
         }))

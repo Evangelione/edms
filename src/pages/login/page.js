@@ -27,7 +27,7 @@ export default connect(mapStateToProps)(Form.create()(({dispatch, loading, form}
 
   return (
     <Card className={styles.card} bodyStyle={{padding: 0}}>
-      <div className={styles.title}>实华ED+登录界面</div>
+      <div className={styles.title}>蓝采和平台登录界面</div>
       <Form onSubmit={handleSubmit} className={styles["login-form"]} id='special'>
         <FormItem>
           {form.getFieldDecorator('account', {

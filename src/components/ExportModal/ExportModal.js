@@ -84,7 +84,7 @@ class ExportModal extends React.Component {
           <Row type='flex' justify='center' style={{margin: '80px 0'}}>
             <Col>
               <RangePicker locale={locale} onChange={this.rangeChange} format={'YYYY-MM-DD'}
-                           disabledDate={this.disabledDate} defaultValue={moment().subtract(1, 'months')}/>
+                           disabledDate={this.disabledDate}/>
             </Col>
           </Row>
           <Row type='flex' justify='space-around' style={{margin: '20px 10px 10px 10px'}}>

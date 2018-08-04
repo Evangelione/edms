@@ -67,7 +67,7 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
               <TabPane tab="我的供应商" key="2">
                 <SupplierTable></SupplierTable>
               </TabPane>
-              <TabPane tab="车辆管理" key="3">
+              <TabPane tab="我的物流" key="3">
                 <VehicleTable></VehicleTable>
               </TabPane>
             </Tabs>

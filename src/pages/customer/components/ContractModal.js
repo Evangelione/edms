@@ -113,7 +113,7 @@ class ContractModal extends React.Component {
               {getFieldDecorator('customer_id', {
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
-                <Select placeholder='请选择甲方名称...' onChange={this.customerChange}>
+                <Select placeholder='请选择甲方名称' onChange={this.customerChange}>
                   {this.state.customerOptions}
                 </Select>
               )}
@@ -124,7 +124,7 @@ class ContractModal extends React.Component {
               label="甲方类型"
             >
               {getFieldDecorator('customer_type')(
-                <Input placeholder='请输入甲方类型...' disabled/>
+                <Input placeholder='请输入甲方类型' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -133,7 +133,7 @@ class ContractModal extends React.Component {
               label="联系人"
             >
               {getFieldDecorator('customer_contact')(
-                <Input placeholder='请输入联系人...' disabled/>
+                <Input placeholder='请输入联系人' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -142,7 +142,7 @@ class ContractModal extends React.Component {
               label="联系电话"
             >
               {getFieldDecorator('customer_mobile')(
-                <Input placeholder='请输入联系电话...' disabled/>
+                <Input placeholder='请输入联系电话' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -153,7 +153,7 @@ class ContractModal extends React.Component {
               {getFieldDecorator('g13s', {
                 initialValue: this.props.company.full_name
               })(
-                <Input placeholder='请输入乙方名称...' disabled/>
+                <Input placeholder='请输入乙方名称' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -164,7 +164,7 @@ class ContractModal extends React.Component {
               {getFieldDecorator('qd5', {
                 initialValue: this.props.company.company_type
               })(
-                <Select placeholder="请选择乙方类型..." disabled>
+                <Select placeholder="请选择乙方类型" disabled>
                   <Option value="1">贸易商</Option>
                   <Option value="2">运贸商</Option>
                   <Option value="3">液厂</Option>
@@ -181,7 +181,7 @@ class ContractModal extends React.Component {
               {getFieldDecorator('da51ta', {
                 initialValue: this.props.company.contact
               })(
-                <Input placeholder='请输入联系人...' disabled/>
+                <Input placeholder='请输入联系人' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -192,7 +192,7 @@ class ContractModal extends React.Component {
               {getFieldDecorator('j4e', {
                 initialValue: this.props.company.contact_mobile
               })(
-                <Input placeholder='请输入联系电话...' disabled/>
+                <Input placeholder='请输入联系电话' disabled/>
               )}
             </FormItem>
             <FormItem

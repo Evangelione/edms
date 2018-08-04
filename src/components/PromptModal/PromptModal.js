@@ -1,10 +1,10 @@
-import {Component} from 'react'
+import React from 'react'
 import {Modal, Button, Row, Col} from 'antd'
 import {connect} from 'dva'
 import {routerRedux} from 'dva/router'
 import images from '../../utils/images'
 
-class PromptModal extends Component {
+class PromptModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -190,10 +190,7 @@ class PromptModal extends Component {
   };
 
   render() {
-    // this.props.delay ? openState :
-    console.log(this.props.openState)
-    console.log(this.props.billLoading)
-    const {children, state, openState, billLoading} = this.props
+    const {children, state} = this.props
     const modalState = this.state.modalState[state]
     return (
       <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block'}} onClick={this.showModelHandler}>
@@ -229,8 +226,6 @@ function mapStateToProps(state) {
   // const {openState} = state.orderDetail
   // const {billLoading} = state.logisticsDetail
   return {
-    // openState,
-    // billLoading,
     loading: state.loading.models.logisticsDetail
   }
 }

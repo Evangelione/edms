@@ -30,7 +30,7 @@ export default {
   effects: {
     * getDeliverList({payload: {page = 1, deliver_status = '', find_str = ''}}, {call, put}) {
       const {data} = yield call(logisticsService.getDeliverList, {page, deliver_status, find_str})
-      if (data.code === 1){
+      if (data.code === 1) {
         yield put({
           type: 'save',
           payload: {
@@ -44,7 +44,7 @@ export default {
         })
       }
     },
-    * getDeliverFee({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
+    * getDeliverFee({payload: {page = 1, find_str = '', stime = '', etime = ''}}, {call, put}) {
       const {data} = yield call(logisticsService.getDeliverFee, {page, find_str, stime, etime})
       if (data.code === 1) {
         yield put({

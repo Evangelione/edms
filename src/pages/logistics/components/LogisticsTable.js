@@ -1,14 +1,16 @@
 import React from 'react'
-import {Table, Button, Modal, Row, Col, Form, Input, Select, Pagination, DatePicker} from 'antd'
+import {Table, Button, Modal, Row, Col, Form, Input, Pagination, DatePicker, AutoComplete} from 'antd'
 import {connect} from 'dva'
 import {routerRedux} from 'dva/router'
 import styles from '../logistics.css'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import PoundModal from './PoundModal'
-import {PAGE_SIZE} from "../../../constants";
+import {PAGE_SIZE} from "../../../constants"
+import locale from 'antd/lib/date-picker/locale/zh_CN'
+
 
 const FormItem = Form.Item
-const Option = Select.Option
+const Option = AutoComplete.Option
 
 class Logistics extends React.Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class Logistics extends React.Component {
       refuseBtn: false,
       schedulingBtn: false,
       id: '',
-      uploading: false
+      uploading: false,
     }
   }
 
@@ -86,12 +88,13 @@ class Logistics extends React.Component {
         delete values.shouhuoxiangxidizhi
         delete values.siji
         delete values.yayunyuan
+        delete values.supercargo_mobile
         delete values.zhuanghuodizhi
         delete values.zhuanghuolianxiren
         delete values.zhuanghuolianxidianhua
         delete values.zhuanghuoshuliang
         delete values.zhuanghuoxiangxidizhi
-        values.expect_time = values.expect_time.format('YYYY-MM-DD hh:00:00')
+        values.expect_time = values.expect_time.format('YYYY-MM-DD hh:mm:ss')
         values.id = this.state.id
         this.props.dispatch({
           type: 'logisticsDetail/doDispatch',
@@ -149,16 +152,6 @@ class Logistics extends React.Component {
     })
   }
 
-  companyChange = (value, item) => {
-    this.props.dispatch({
-      type: 'logisticsDetail/getCarOption',
-      payload: {
-        logistic_company: value
-      }
-    })
-    this.props.form.resetFields('chetoupaizhao')
-  }
-
   bodyChange = (value, item) => {
     this.props.form.setFieldsValue({
       edingzaizhong: item.props.load,
@@ -195,12 +188,34 @@ class Logistics extends React.Component {
     })
   }
 
+  companyChange = (value, item) => {
+    this.props.dispatch({
+      type: 'logisticsDetail/getCarOption',
+      payload: {
+        logistic_company: value
+      }
+    })
+    this.props.form.resetFields('chetoupaizhao')
+    // this.props.form.setFieldsValue({
+    //   recv_phone: option.key
+    // })
+  }
+
+  renderOption = (item) => {
+    return (
+      <Option key={item.delivery_mobile}>
+        {item.delivery_contact}
+      </Option>
+    );
+  }
 
   render() {
     const {tableKey, list, page, total, list2, page2, total2, companyOption, carOption, loading} = this.props
     const {getFieldDecorator} = this.props.form
     const companyOptions = companyOption.map((option, index) =>
-      <Option key={index} value={option.logistic_company}>{option.logistic_company}</Option>)
+      <Option key={option.logistic_company} value={option.logistic_company}>
+        {option.logistic_company}
+      </Option>)
     const carHeadOptions = carOption.car_head.map((option, index) =>
       <Option key={index} value={option.car_head}>{option.car_head}</Option>
     )
@@ -209,9 +224,6 @@ class Logistics extends React.Component {
     )
     const driverOptions = carOption.driver.map((option, index) =>
       <Option key={index} value={option.driver} phone={option.driver_mobile}>{option.driver}</Option>
-    )
-    const supercargoOptions = carOption.supercargo.map((option, index) =>
-      <Option key={index} value={option.supercargo} phone={option.supercargo_mobile}>{option.supercargo}</Option>
     )
     const columns = [
       {
@@ -259,9 +271,9 @@ class Logistics extends React.Component {
         title: '收货地址',
         key: 'address',
         align: 'center',
-        width: 120,
         render: (text, record, index) => {
-          return <div>{record.delivery_province + record.delivery_city ? record.delivery_city : '' + record.delivery_area ? record.delivery_area : '' + record.detailed_address}</div>
+          return <div
+            className='txt-overflow'>{record.delivery_province + (record.delivery_city ? record.delivery_city : '') + (record.delivery_area ? record.delivery_area : '') + record.detailed_address}</div>
         }
       },
       {
@@ -452,15 +464,15 @@ class Logistics extends React.Component {
       },
       {
         title: '结算吨位',
-        dataIndex: 'final_num',
-        key: 'final_num',
+        dataIndex: 'wl_final_num',
+        key: 'wl_final_num',
         width: 100,
         align: 'center',
       },
       {
         title: '公里数',
-        dataIndex: 'distance',
-        key: 'distance',
+        dataIndex: 'wl_distance',
+        key: 'wl_distance',
         width: 80,
         align: 'center',
       },
@@ -484,7 +496,7 @@ class Logistics extends React.Component {
         width: 160,
         align: 'center',
         render: (text, record, index) => {
-          return (record.distance - 0) * (record.wl_deliver_price - 0) * (record.final_num - 0) + (record.wl_extra_fee - 0)
+          return (record.wl_distance - 0) * (record.wl_deliver_price - 0) * (record.wl_final_num - 0) + (record.wl_extra_fee - 0)
         }
       }
     ]
@@ -498,7 +510,7 @@ class Logistics extends React.Component {
               rowKey={record => record.id}
               pagination={false}
               loading={loading}
-              scroll={{x: 1800}}
+              scroll={{x: 1900}}
             />
             <Pagination
               className="ant-table-pagination"
@@ -535,7 +547,7 @@ class Logistics extends React.Component {
           footer={[
             <Row key='row' type='flex' justify='center' style={{margin: '10px 0'}}>
               <Col key='col'>
-                <Button key='submit' type='primary' onClick={this.submit}>确定调度</Button>
+                <Button key='submit' type='primary' onClick={this.submit} loading={loading}>确定调度</Button>
               </Col>
             </Row>
           ]}
@@ -552,9 +564,15 @@ class Logistics extends React.Component {
               {getFieldDecorator('logistics_company', {
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
-                <Select placeholder="请选择物流公司..." style={{marginLeft: 8}} onChange={this.companyChange}>
-                  {companyOptions}
-                </Select>
+                <AutoComplete
+                  onSelect={this.companyChange}
+                  dataSource={companyOptions}
+                  placeholder="请填写物流公司全程（合同名称）"
+                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                />
+                // <Select placeholder="请选择物流公司..." style={{marginLeft: 8}} onChange={this.companyChange}>
+                //   {companyOptions}
+                // </Select>
               )}
             </FormItem>
             <div className={styles.pageName}>2.车辆信息</div>
@@ -568,9 +586,11 @@ class Logistics extends React.Component {
                   {getFieldDecorator('car_head', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选车头牌照...">
-                      {carHeadOptions}
-                    </Select>
+                    <AutoComplete
+                      dataSource={carHeadOptions}
+                      placeholder="请选车头牌照..."
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />
                   )}
                 </FormItem>
               </Col>
@@ -583,14 +603,17 @@ class Logistics extends React.Component {
                   {getFieldDecorator('car_body', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选车挂牌照..." onChange={this.bodyChange}>
-                      {carBodyOptions}
-                    </Select>
+                    <AutoComplete
+                      onChange={this.bodyChange}
+                      dataSource={carBodyOptions}
+                      placeholder="请选车挂牌照..."
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />
                   )}
                 </FormItem>
               </Col>
             </Row>
-            <Row>
+            <Row style={{display: 'none'}}>
               <Col span={12}>
                 <FormItem
                   label="额定载重"
@@ -598,7 +621,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('edingzaizhong', {
-                    rules: [{required: true, message: '此项为必选项！'}],
+                    rules: [{required: false, message: '此项为必选项！'}],
                   })(
                     <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>
                   )}
@@ -613,12 +636,15 @@ class Logistics extends React.Component {
                   labelCol={{span: 7}}
                   wrapperCol={{span: 13, offset: 1}}
                 >
-                  {getFieldDecorator('siji', {
+                  {getFieldDecorator('driver_name', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择司机..." onChange={this.driverChange}>
-                      {driverOptions}
-                    </Select>
+                    <AutoComplete
+                      onChange={this.driverChange}
+                      dataSource={driverOptions}
+                      placeholder="请选择司机..."
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />
                   )}
                 </FormItem>
               </Col>
@@ -628,13 +654,21 @@ class Logistics extends React.Component {
                   labelCol={{span: 7, offset: 1}}
                   wrapperCol={{span: 13, offset: 1}}
                 >
-                  {getFieldDecorator('driver_mobile')(
-                    <Input placeholder="选择司机后显示..." disabled/>
+                  {getFieldDecorator('driver_mobile', {
+                    rules: [{
+                      required: true,
+                      message: '请填写正确联系电话！',
+                      max: 11,
+                      pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$'
+                    }],
+                    validateTrigger: 'onBlur',
+                  })(
+                    <Input placeholder="填写司机电话..."/>
                   )}
                 </FormItem>
               </Col>
             </Row>
-            <Row>
+            <Row style={{display: 'none'}}>
               <Col span={12}>
                 <FormItem
                   label="押运员"
@@ -642,11 +676,9 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('yayunyuan', {
-                    rules: [{required: true, message: '此项为必选项！'}],
+                    rules: [{required: false, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择押运员..." onChange={this.supercargoChange}>
-                      {supercargoOptions}
-                    </Select>
+                    <Input/>
                   )}
                 </FormItem>
               </Col>
@@ -663,7 +695,7 @@ class Logistics extends React.Component {
               </Col>
             </Row>
             <div className={styles.pageName}>4.装货信息</div>
-            <Row>
+            <Row style={{display: 'none'}}>
               <Col span={12}>
                 <FormItem
                   label="装货联系人"
@@ -697,11 +729,12 @@ class Logistics extends React.Component {
                   {getFieldDecorator('expect_time', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <DatePicker placeholder='请选择装货时间...' format={'YYYY-MM-DD hh:00:00'}></DatePicker>
+                    <DatePicker placeholder='请选择装货时间...' showTime format={'YYYY-MM-DD hh:mm:ss'}
+                                locale={locale}></DatePicker>
                   )}
                 </FormItem>
               </Col>
-              <Col span={12}>
+              <Col span={12} style={{display: 'none'}}>
                 <FormItem
                   label="数量"
                   labelCol={{span: 7, offset: 1}}
@@ -713,7 +746,7 @@ class Logistics extends React.Component {
                 </FormItem>
               </Col>
             </Row>
-            <Row>
+            <Row style={{display: 'none'}}>
               <Col span={24}>
                 <Col span={12} style={{padding: '0 10px'}}>
                   <FormItem
@@ -739,8 +772,8 @@ class Logistics extends React.Component {
                 </Col>
               </Col>
             </Row>
-            <div className={styles.pageName}>5.收货信息</div>
-            <Row>
+            <div className={styles.pageName} style={{display: 'none'}}>5.收货信息</div>
+            <Row style={{display: 'none'}}>
               <Col span={12}>
                 <FormItem
                   label="收货联系人"
@@ -764,7 +797,7 @@ class Logistics extends React.Component {
                 </FormItem>
               </Col>
             </Row>
-            <Row>
+            <Row style={{display: 'none'}}>
               <Col span={12}>
                 <FormItem
                   label="收货时间"
@@ -788,7 +821,7 @@ class Logistics extends React.Component {
                 </FormItem>
               </Col>
             </Row>
-            <Row>
+            <Row style={{display: 'none'}}>
               <Col span={24}>
                 <Col span={12} style={{padding: '0 10px'}}>
                   <FormItem
@@ -834,7 +867,7 @@ function mapStateToProps(state) {
     detailForm,
     companyOption,
     carOption,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.logisticsDetail
   }
 }
 

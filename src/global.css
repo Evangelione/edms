@@ -547,3 +547,11 @@ avatar-uploader > .ant-upload {
   background: #fff !important;
   color: #1890ff !important;
 }
+
+.table-zebra {
+  background: #F7F8FA;
+}
+
+.table-borderNone > td {
+  border: none;
+}

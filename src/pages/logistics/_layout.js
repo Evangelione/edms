@@ -63,6 +63,8 @@ class Order extends React.Component {
         type: 'logistics/getDeliverFee',
         payload: {
           find_str: value,
+          stime: this.props.stime,
+          etime: this.props.etime
         }
       })
     }
@@ -70,7 +72,7 @@ class Order extends React.Component {
 
   rangeChange = (dates, dateString) => {
     this.props.dispatch({
-      type: 'customer/salesDetailFetch',
+      type: 'logistics/getDeliverFee',
       payload: {
         page: 1,
         stime: dateString[0],
@@ -92,8 +94,7 @@ class Order extends React.Component {
             <div className={'searchBox'}>
               {this.state.tableKey === '2' ?
                 <span>
-                    <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}
-                                 defaultValue={moment().subtract(1, 'months')}/>
+                    <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
                   </span>
                 : ''
               }
@@ -175,12 +176,14 @@ class Order extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, deliver_status, statusNum} = state.logistics
+  const {currentTab, find_str, deliver_status, statusNum, stime, etime} = state.logistics
   return {
     currentTab,
     find_str,
     deliver_status,
     statusNum,
+    stime,
+    etime,
     loading: state.loading.models.logistics
   }
 }

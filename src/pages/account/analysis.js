@@ -94,13 +94,13 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
     align: 'center'
   }, {
     title: '运费（元）',
-    dataIndex: 'deliver_price',
-    key: 'deliver_price',
+    dataIndex: 'deliver_fee',
+    key: 'deliver_fee',
     align: 'center'
   }, {
     title: '结算量（吨）',
-    dataIndex: 'final_num',
-    key: 'final_num',
+    dataIndex: 'xs_final_num',
+    key: 'xs_final_num',
     align: 'center'
   }, {
     title: '结算金额（元）',
@@ -116,8 +116,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
   return (
     <div>
       <div className={'searchBox'}>
-        <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}
-                     defaultValue={moment().subtract(1, 'months')}/>
+        <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}/>
         <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"
                 onSearch={iptSearch}/>
       </div>

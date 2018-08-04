@@ -245,7 +245,7 @@ class OperateUser extends React.Component {
                       initialValue: this.props.editForm.name ? this.props.editForm.name : '',
                       rules: [{required: true, message: '请填写姓名!'}],
                     })(
-                      <Input placeholder="请填写姓名..."/>
+                      <Input placeholder="请填写真实姓名"/>
                     )}
                   </FormItem>
                 </Col>
@@ -263,7 +263,7 @@ class OperateUser extends React.Component {
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写手机号..."/>
+                      <Input placeholder="请填写手机号"/>
                     )}
                   </FormItem>
                 </Col>
@@ -281,7 +281,7 @@ class OperateUser extends React.Component {
                       rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: '^[A-Za-z0-9]{1,11}$'}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="只支持英文/数字..."/>
+                      <Input placeholder="只支持英文/数字"/>
                     )}
                   </FormItem>
                 </Col>
@@ -294,7 +294,7 @@ class OperateUser extends React.Component {
                       rules: [{required: false, message: '请填写正确密码！', min: 6, max: 16, pattern: '^(\\w){6,16}$'}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="6-16位字母/数字/下划线..." type='password'/>
+                      <Input placeholder="6-16位字母/数字/下划线" type='password'/>
                     )}
                   </FormItem>
                 </Col>

@@ -159,9 +159,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('customer_name', {
                       initialValue: this.props.editForm.customer_name ? this.props.editForm.customer_name : '',
-                      rules: [{required: true, message: '请输入客户姓名！'}],
+                      rules: [{required: true, message: '请填写客户公司全称（合同名称）！'}],
                     })(
-                      <Input placeholder="请填写客户姓名..."/>
+                      <Input placeholder="请填写客户公司全称（合同名称）"/>
                     )}
                   </FormItem>
                 </Col>
@@ -174,7 +174,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.customer_type ? this.props.editForm.customer_type : undefined,
                       rules: [{required: true, message: '请选择客户类型！'}],
                     })(
-                      <Select placeholder="请选择客户类型...">
+                      <Select placeholder="请选择客户类型">
                         <Option value="1">终端用户</Option>
                         <Option value="2">贸易商</Option>
                       </Select>
@@ -188,9 +188,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('customer_contact', {
                       initialValue: this.props.editForm.customer_contact ? this.props.editForm.customer_contact : '',
-                      rules: [{required: true, message: '请输入客户联系人！'}],
+                      rules: [{required: true, message: '请输入客户联系人姓名！'}],
                     })(
-                      <Input placeholder="请填写客户联系人..."/>
+                      <Input placeholder="请填写客户联系人姓名"/>
                     )}
                   </FormItem>
                 </Col>
@@ -209,7 +209,7 @@ class operateUser extends React.Component {
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话..."/>
+                      <Input placeholder="请填写联系电话"/>
                     )}
                   </FormItem>
                 </Col>
@@ -226,7 +226,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.site_name ? this.props.editForm.site_name : '',
                       rules: [{required: true, message: '请填写站点简称！'}],
                     })(
-                      <Input placeholder="请填写站点简称..."/>
+                      <Input placeholder="请填写站点简称（公司缩写+地区+加气站）"/>
                     )}
                   </FormItem>
                 </Col>
@@ -237,9 +237,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('full_site_name', {
                       initialValue: this.props.editForm.full_site_name ? this.props.editForm.full_site_name : '',
-                      rules: [{required: true, message: '请填写站点全称！'}],
+                      rules: [{required: true, message: '请填写站点全称（合同名称）！'}],
                     })(
-                      <Input placeholder="请填写站点全称..."/>
+                      <Input placeholder="请填写站点全称（合同名称）"/>
                     )}
                   </FormItem>
                 </Col>
@@ -252,7 +252,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.site_type ? this.props.editForm.site_type : undefined,
                       rules: [{required: true, message: '请选择站点类型！'}],
                     })(
-                      <Select placeholder="请选择站点类型..." onChange={this.selectChange}>
+                      <Select placeholder="请选择站点类型" onChange={this.selectChange}>
                         <Option value="1">加气站</Option>
                         <Option value="2">气化站</Option>
                       </Select>
@@ -267,7 +267,7 @@ class operateUser extends React.Component {
                     {getFieldDecorator('user_type', {
                       rules: [{required: true, message: '请选择用户类型！'}],
                     })(
-                      <Select placeholder="请选择用户类型...">
+                      <Select placeholder="请选择用户类型">
                         {this.state.selectOption === '1' ?
                           typeList1 : typeList2
                         }
@@ -286,9 +286,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('delivery_contact1', {
                       initialValue: this.props.editForm.delivery_contact1 ? this.props.editForm.delivery_contact1 : '',
-                      rules: [{required: true, message: '请填写收货联系人！'}],
+                      rules: [{required: true, message: '请填写收货联系人姓名！'}],
                     })(
-                      <Input placeholder="请填写收货联系人1..."/>
+                      <Input placeholder="请填写收货联系人姓名"/>
                     )}
                   </FormItem>
                 </Col>
@@ -307,7 +307,7 @@ class operateUser extends React.Component {
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话..."/>
+                      <Input placeholder="请填写联系电话"/>
                     )}
                   </FormItem>
                 </Col>
@@ -320,7 +320,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.delivery_mobile2 ? this.props.editForm.delivery_mobile2 : '',
                       rules: [{message: '请填写收货联系人！'}],
                     })(
-                      <Input placeholder="请填写收货联系人2..."/>
+                      <Input placeholder="请填写收货联系人姓名"/>
                     )}
                   </FormItem>
                 </Col>
@@ -338,7 +338,7 @@ class operateUser extends React.Component {
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话..."/>
+                      <Input placeholder="请填写联系电话"/>
                     )}
                   </FormItem>
                 </Col>
@@ -355,7 +355,7 @@ class operateUser extends React.Component {
                       })(
                         <Cascader options={this.props.CascaderOptions}
                                   loadData={this.loadData}
-                                  placeholder="请选择收货地址..."
+                                  placeholder="请选择收货地址"
                                   // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
                         />
                       )}
@@ -371,7 +371,7 @@ class operateUser extends React.Component {
                         initialValue: this.props.editForm.detailed_address ? this.props.editForm.detailed_address : '',
                         rules: [{required: true, message: '请填写正确详细收货地址！'}],
                       })(
-                        <Input placeholder="请选择详细收货地址..."/>
+                        <Input placeholder="请填写详细收货地址"/>
                       )}
                     </FormItem>
                   </Col>

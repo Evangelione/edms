@@ -134,7 +134,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.supp_name ? this.props.editForm.supp_name : '',
                       rules: [{required: true, message: '填写正确供应商名称!'}],
                     })(
-                      <Input placeholder="请填写供应商名称..."/>
+                      <Input placeholder="请填写供应商全称（合同名称）"/>
                     )}
                   </FormItem>
                 </Col>
@@ -147,7 +147,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.supp_type ? this.props.editForm.supp_type : undefined,
                       rules: [{required: true, message: '此项为必选项！'}],
                     })(
-                      <Select placeholder="请选择供应商类型...">
+                      <Select placeholder="请选择供应商类型">
                         <Option value="1">贸易商</Option>
                         <Option value="2">运贸商</Option>
                         <Option value="3">液厂</Option>
@@ -165,7 +165,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.supp_contact ? this.props.editForm.supp_contact : '',
                       rules: [{required: true, message: '填写正确供应商联系人！'}],
                     })(
-                      <Input placeholder="请填写供应商联系人..."/>
+                      <Input placeholder="请填写供应商联系人姓名"/>
                     )}
                   </FormItem>
                 </Col>
@@ -184,7 +184,7 @@ class operateUser extends React.Component {
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话..."/>
+                      <Input placeholder="请填写联系电话"/>
                     )}
                   </FormItem>
                 </Col>
@@ -201,7 +201,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.name_gas_source ? this.props.editForm.name_gas_source : '',
                       rules: [{required: true, message: '填写正确气源名称！'}],
                     })(
-                      <Input placeholder="请填写气源名称..."/>
+                      <Input placeholder="请填写气源名称"/>
                     )}
                   </FormItem>
                 </Col>
@@ -214,7 +214,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.origin_gas_source ? this.props.editForm.origin_gas_source : '',
                       rules: [{required: true, message: '填写正确气源产地！'}],
                     })(
-                      <Input placeholder="请填写气源产地..."/>
+                      <Input placeholder="请填写气源产地"/>
                     )}
                   </FormItem>
                 </Col>
@@ -262,9 +262,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('cargo_contact', {
                       initialValue: this.props.editForm.cargo_contact ? this.props.editForm.cargo_contact : '',
-                      rules: [{required: true, message: '填写正确装货联系人！'}],
+                      rules: [{required: true, message: '填写正确装货联系人姓名！'}],
                     })(
-                      <Input placeholder="请填写装货联系人..."/>
+                      <Input placeholder="请填写装货联系人姓名"/>
                     )}
                   </FormItem>
                 </Col>
@@ -283,7 +283,7 @@ class operateUser extends React.Component {
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话..."/>
+                      <Input placeholder="请填写联系电话"/>
                     )}
                   </FormItem>
                 </Col>
@@ -300,7 +300,7 @@ class operateUser extends React.Component {
                       })(
                         <Cascader options={this.props.CascaderOptions}
                                   loadData={this.loadData}
-                                  placeholder="请选择装货地址..."
+                                  placeholder="请选择装货地址"
                         />
                       )}
                     </FormItem>
@@ -315,7 +315,7 @@ class operateUser extends React.Component {
                         initialValue: this.props.editForm.detailed_address ? this.props.editForm.detailed_address : '',
                         rules: [{required: true, message: '请填写正确详细装货地址！'}],
                       })(
-                        <Input placeholder="请选择详细装货地址..."/>
+                        <Input placeholder="请填写详细装货地址"/>
                       )}
                     </FormItem>
                   </Col>

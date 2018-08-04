@@ -35,7 +35,11 @@ class CompanyDetail extends React.Component {
         }
       })
       let fileList = []
-      JSON.parse(this.props.companyDetail.certificate).forEach((val, index) => {
+      let certificate = JSON.parse(this.props.companyDetail.certificate)
+      if (typeof certificate === 'string') {
+        certificate = Array(certificate)
+      }
+      certificate.forEach((val, index) => {
         fileList.push({
           uid: index,
           name: 'xxx.png',
@@ -186,7 +190,7 @@ class CompanyDetail extends React.Component {
             rules: [{required: true, message: 'Please input your note!'}],
             initialValue: this.props.companyDetail.full_name
           })(
-            <Input placeholder="请填写公司全称..." disabled={!this.state.editable}/>
+            <Input placeholder="请填写公司全称（合同名称）" disabled={!this.state.editable}/>
           )}
         </FormItem>
         <FormItem
@@ -197,7 +201,7 @@ class CompanyDetail extends React.Component {
             rules: [{required: true, message: 'Please input your note!'}],
             initialValue: this.props.companyDetail.corporation
           })(
-            <Input placeholder="请填写法定代表人..." disabled={!this.state.editable}/>
+            <Input placeholder="请填写法定代表人姓名" disabled={!this.state.editable}/>
           )}
         </FormItem>
         <FormItem
@@ -208,7 +212,7 @@ class CompanyDetail extends React.Component {
             rules: [{required: true, message: 'Please input your note!'}],
             initialValue: this.props.companyDetail.addr
           })(
-            <Input placeholder="请填写办公地址..." disabled={!this.state.editable}/>
+            <Input placeholder="请填写详细办公地址" disabled={!this.state.editable}/>
           )}
         </FormItem>
         <FormItem
@@ -219,7 +223,7 @@ class CompanyDetail extends React.Component {
             rules: [{required: true, message: 'Please input your note!'}],
             initialValue: this.props.companyDetail.fixed_telephone
           })(
-            <Input placeholder="请填写公司固话..." disabled={!this.state.editable}/>
+            <Input placeholder="请填写公司固话" disabled={!this.state.editable}/>
           )}
         </FormItem>
         <div className={styles.title}>3.联系方式</div>
@@ -231,7 +235,7 @@ class CompanyDetail extends React.Component {
             rules: [{required: true, message: 'Please input your note!'}],
             initialValue: this.props.companyDetail.contact
           })(
-            <Input placeholder="请填写联系人..." disabled={!this.state.editable}/>
+            <Input placeholder="请填写联系人姓名" disabled={!this.state.editable}/>
           )}
         </FormItem>
         <FormItem
@@ -242,7 +246,7 @@ class CompanyDetail extends React.Component {
             rules: [{required: true, message: 'Please input your note!'}],
             initialValue: this.props.companyDetail.contact_mobile
           })(
-            <Input placeholder="请填写手机号..." disabled={!this.state.editable}/>
+            <Input placeholder="请填写手机号" disabled={!this.state.editable}/>
           )}
         </FormItem>
         <div className={styles.title}>4.公司类型</div>
@@ -253,7 +257,7 @@ class CompanyDetail extends React.Component {
           {getFieldDecorator('company_type', {
             initialValue: this.props.companyDetail.company_type
           })(
-            <Select placeholder="请选择公司类型..." style={{width: 150}} disabled={!this.state.editable}>
+            <Select placeholder="请选择公司类型" style={{width: 150}} disabled={!this.state.editable}>
               <Option value="0">没有类型</Option>
               <Option value="1">贸易商</Option>
               <Option value="2">运贸商</Option>

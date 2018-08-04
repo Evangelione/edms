@@ -13,12 +13,13 @@ export function getDeliverList({page, deliver_status, find_str}) {
   })
 }
 
-export function getDeliverFee({page, deliver_status, find_str}) {
+export function getDeliverFee({page, find_str, stime, etime}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
-  formData.append('deliver_status', deliver_status)
   formData.append('find_str', find_str)
+  formData.append('stime', stime)
+  formData.append('stime', etime)
   return request(`${IP}/home/logistics/deliver-fee`, {
     method: 'POST',
     body: formData

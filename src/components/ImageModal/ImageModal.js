@@ -27,13 +27,14 @@ class ImageModal extends Component {
   render() {
     const {children, imgUrl, title} = this.props;
     return (
-      <div style={{cursor: 'pointer', color: '#3477ED'}} onClick={this.showModelHandler}>
+      <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block'}} onClick={this.showModelHandler}>
         {children}
         <Modal
           title={title}
           visible={this.state.visible}
           footer={null}
           onCancel={this.hideModelHandler}
+          width={1200}
         >
           <img src={imgUrl} alt="" width='100%' height='100%'/>
         </Modal>

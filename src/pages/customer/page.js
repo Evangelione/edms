@@ -67,8 +67,7 @@ class Client extends React.Component {
         <div className={'searchBox'}>
           {this.state.paneKey === '2' ?
             <span>
-              <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}
-                           defaultValue={moment().subtract(1, 'months')}/>
+              <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
             </span>
             : ''
           }

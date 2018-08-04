@@ -2,7 +2,7 @@ import React from 'react'
 import {Table, Button, Pagination} from 'antd'
 import {connect} from 'dva'
 import ContractModal from '../components/ContractModal'
-import {PAGE_SIZE} from "../../../constants";
+import {PAGE_SIZE} from "../../../constants"
 
 class SalesContract extends React.Component {
   constructor(props) {
@@ -26,6 +26,16 @@ class SalesContract extends React.Component {
       }
     })
   }
+
+  // setClassName = (record, index) => {
+  //   console.log(record)
+  //   console.log(index)
+  //   if (index % 2 === 0) {
+  //     return classNames('table-zebra', 'table-borderNone')
+  //   } else {
+  //     return 'table-borderNone'
+  //   }
+  // }
 
   render() {
     const {contractList, contractPage, contractTotal, loading} = this.props
@@ -115,6 +125,7 @@ class SalesContract extends React.Component {
           dataSource={contractList}
           rowKey={record => record.code}
           pagination={false}
+          // rowClassName={this.setClassName}
           loading={loading}
         ></Table>
         <Pagination

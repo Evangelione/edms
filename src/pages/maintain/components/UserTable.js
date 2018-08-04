@@ -55,12 +55,13 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     key: 'customer_name',
     align: 'center',
     fixed: 'left',
+    width: 200
   }, {
     title: '客户类型',
     dataIndex: 'customer_type',
     key: 'customer_type',
     align: 'center',
-    fixed: 'left',
+    width: 100,
     render: (text, record, index) => {
       if (text === '1') {
         return '终端用户'
@@ -75,49 +76,59 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'customer_contact',
     key: 'customer_contact',
     align: 'center',
+    width: 130,
   }, {
     title: '联系电话',
     dataIndex: 'customer_mobile',
     key: 'customer_mobile',
     align: 'center',
+    width: 145
   }, {
     title: '站点简称',
     dataIndex: 'site_name',
     key: 'site_name',
     align: 'center',
+    width: 300
   }, {
     title: '站点全称',
     dataIndex: 'full_site_name',
     key: 'full_site_name',
     align: 'center',
+    width: 400
   }, {
     title: '收货联系人1',
     dataIndex: 'delivery_contact1',
     key: 'delivery_contact1',
     align: 'center',
+    width: 130
   }, {
     title: '联系电话',
     dataIndex: 'delivery_mobile1',
     key: 'delivery_mobile1',
     align: 'center',
+    width: 155
   }, {
     title: '收货联系人2',
     dataIndex: 'delivery_contact2',
     key: 'delivery_contact2',
     align: 'center',
+    width: 130
   }, {
     title: '联系电话',
     dataIndex: 'delivery_mobile2',
     key: 'delivery_mobile2',
     align: 'center',
+    width: 155
   }, {
     title: '收货地址',
     dataIndex: 'detailed_address',
     key: 'detailed_address',
     align: 'center',
+    width: 300,
     render: (text, record, index) => {
+      const adress = record.delivery_province.name + (record.delivery_city !== 'undefined' ? record.delivery_city.name : '') + (record.delivery_area !== 'undefined' ? record.delivery_area.name : '') + record.detailed_address
       return (
-        <span>{record.delivery_province.name + (record.delivery_city !== 'undefined' ? record.delivery_city.name : '') + (record.delivery_area !== 'undefined' ? record.delivery_area.name : '') + record.detailed_address}</span>
+        <div className='txt-overflow' title={adress}>{adress}</div>
       )
     }
   }, {
@@ -125,6 +136,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'site_type',
     key: 'site_type',
     align: 'center',
+    width: 110,
     render: (text, record, index) => {
       if (text === '1') {
         return '加气站'
@@ -139,6 +151,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'user_type',
     key: 'user_type',
     align: 'center',
+    width: 200,
     render: (text, record, index) => {
       if (record.site_type === '1') {
         if (text === '1') {
@@ -219,7 +232,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-        scroll={{x: 1900}}
+        scroll={{x: 2800}}
       ></Table>
       <Pagination
         className="ant-table-pagination"

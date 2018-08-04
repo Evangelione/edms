@@ -67,8 +67,7 @@ class Supplier extends React.Component {
         <div className={'searchBox'}>
           {this.state.paneKey === '2' ?
             <span>
-              <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}
-                           defaultValue={moment().subtract(1, 'months')}/>
+              <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
             </span>
             : ''}
           <Search style={{width: 200, marginLeft: 10}} placeholder="输入关键字进行查询"

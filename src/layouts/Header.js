@@ -5,12 +5,12 @@ import styles from './index.css'
 const {Header} = Layout
 
 function MyHeader({dispatch, location, collapsed}) {
-  function toggle() {
-    dispatch({
-      type: 'collapsed/change',
-      payload: {collapsed: !collapsed}
-    })
-  }
+  // function toggle() {
+  //   dispatch({
+  //     type: 'collapsed/change',
+  //     payload: {collapsed: !collapsed}
+  //   })
+  // }
 
   function logout() {
     if (location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) {
@@ -22,11 +22,11 @@ function MyHeader({dispatch, location, collapsed}) {
 
   return (
     <Header className={styles.header}>
-      <Icon
-        className={styles.trigger}
-        type={collapsed ? 'menu-unfold' : 'menu-fold'}
-        onClick={toggle}
-      />
+      {/*<Icon*/}
+        {/*className={styles.trigger}*/}
+        {/*type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
+        {/*onClick={toggle}*/}
+      {/*/>*/}
       <Menu
         selectedKeys={[location.pathname]}
         mode="horizontal"
