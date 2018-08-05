@@ -114,10 +114,15 @@ export default connect(mapStateToProps)(({detailForm}) => {
         <Col span={6} className={styles.ColStyle}>
           <Col span={8} offset={3}>气质报告：</Col>
           <Col span={13}>
-            <div onClick={openReport.bind(null, detailForm.temperament_report)}
-                 style={{color: '#3477ED', cursor: 'pointer'}}>
-              <Icon type="file-text"/> 查看气质报告
-            </div>
+            {detailForm.temperament_report ?
+              <div onClick={openReport.bind(null, detailForm.temperament_report)}
+                   style={{color: '#3477ED', cursor: 'pointer'}}>
+                <Icon type="file-text"/> 查看气质报告
+              </div> :
+              <div>
+                暂无气质报告
+              </div>
+            }
           </Col>
         </Col>
       </Row>
@@ -135,27 +140,27 @@ export default connect(mapStateToProps)(({detailForm}) => {
         <Col span={24} className={styles.ColStyle}>
           <Col span={2} offset={1}>装货地址：</Col>
           <Col style={{marginLeft: '-18px'}}
-            span={13}>{detailForm.cargo_province + (detailForm.cargo_city ? detailForm.cargo_city : '') + (detailForm.cargo_area ? detailForm.cargo_area : '') + detailForm.detaileds_address}</Col>
+               span={13}>{detailForm.cargo_province + (detailForm.cargo_city ? detailForm.cargo_city : '') + (detailForm.cargo_area ? detailForm.cargo_area : '') + detailForm.detaileds_address}</Col>
         </Col>
       </Row>
-      <div className={'itemTitle'}>5.费用信息</div>
-      <Divider></Divider>
-      <Row style={{marginTop: 35}}>
-        <Col span={6} className={styles.ColStyle}>
-          <Col span={8} offset={3}>结算运费：</Col>
-          <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>
-        </Col>
-        <Col span={5} className={styles.ColStyle}>
-          <Col span={8} offset={3}>结算货款：</Col>
-          <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).mobile}</Col>
-        </Col>
-      </Row>
-      <Row style={{marginTop: 35}}>
-        <Col span={6} className={styles.ColStyle}>
-          <Col span={8} offset={3}>结算金额：</Col>
-          <Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>
-        </Col>
-      </Row>
+      {/*<div className={'itemTitle'}>5.费用信息</div>*/}
+      {/*<Divider></Divider>*/}
+      {/*<Row style={{marginTop: 35}}>*/}
+        {/*<Col span={6} className={styles.ColStyle}>*/}
+          {/*<Col span={8} offset={3}>结算运费：</Col>*/}
+          {/*<Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>*/}
+        {/*</Col>*/}
+        {/*<Col span={5} className={styles.ColStyle}>*/}
+          {/*<Col span={8} offset={3}>结算货款：</Col>*/}
+          {/*<Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).mobile}</Col>*/}
+        {/*</Col>*/}
+      {/*</Row>*/}
+      {/*<Row style={{marginTop: 35}}>*/}
+        {/*<Col span={6} className={styles.ColStyle}>*/}
+          {/*<Col span={8} offset={3}>结算金额：</Col>*/}
+          {/*<Col span={13}>{JSON.parse(sessionStorage.getItem('userData')).name}</Col>*/}
+        {/*</Col>*/}
+      {/*</Row>*/}
     </Card>
   )
 })
