@@ -102,7 +102,10 @@ class SalesDetail extends React.Component {
       title: '采购额（元）',
       dataIndex: 'purchase_money',
       key: 'purchase_money',
-      align: 'center'
+      align: 'center',
+      render: (text, record, index) => {
+        return (text - 0).toFixed(2)
+      }
     }]
     return (
       <div>
