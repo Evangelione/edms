@@ -1,10 +1,10 @@
 import React from 'react'
 import {Table, Button, Pagination} from 'antd'
 import {connect} from 'dva'
-import ExportModal from '../../../components/ExportModal/ExportModal'
+// import ExportModal from '../../../components/ExportModal/ExportModal'
 import RegisterModal from '../components/RegisterModal'
 import {routerRedux} from "dva/router";
-import {PAGE_SIZE} from "../../../constants";
+import {IP, PAGE_SIZE} from "../../../constants";
 
 class SupplierTable extends React.Component {
   constructor(props) {
@@ -38,6 +38,10 @@ class SupplierTable extends React.Component {
     })
   }
 
+  exportExcel = (str) => {
+    window.location.href = `${IP}/home/account/excel-supp-balance-list?find_str=${str}`
+  }
+
   render() {
     const {supplierList, supplierPage, supplierTotal, loading} = this.props
     const columns = [{
@@ -64,7 +68,8 @@ class SupplierTable extends React.Component {
       render: (text, record, index) => {
         return (
           <RegisterModal title='采购预付款登记' id={record.id} name={record.supp_name}>
-            <Button type='primary' icon='plus' size='small' style={{height: 28, padding: '0px 14px 0 10px'}}>采购预付款登记</Button>
+            <Button type='primary' icon='plus' size='small'
+                    style={{height: 28, padding: '0px 14px 0 10px'}}>采购预付款登记</Button>
           </RegisterModal>
         )
       }
@@ -72,9 +77,10 @@ class SupplierTable extends React.Component {
     return (
       <div>
         <div className={'toolBar'}>
-          <ExportModal title='批量导出' type='accountSupplier' str={this.props.find_str}>
-            <Button className={'blueBorder'} icon='export'>批量导出</Button>
-          </ExportModal>
+          {/*<ExportModal title='批量导出' type='accountSupplier' str={this.props.find_str}>*/}
+          <Button className={'blueBorder'} icon='export'
+                  onClick={this.exportExcel.bind(null, this.props.find_str)}>批量导出</Button>
+          {/*</ExportModal>*/}
         </div>
         <Table
           columns={columns}

@@ -374,83 +374,86 @@ class IndexPage extends React.Component {
         <Menu.Item key="5">近36个月</Menu.Item>
       </Menu>
     )
-    const chartOption = {
-      title: {
-        text: '销售与采购费用趋势图',
-        textStyle: {
-          color: '#545F76',
-          fontFamily: 'PingFangHK-Regular'
-        },
-      },
-      color: ['#4A90E2', '#FF9A74'],
-      tooltip: {
-        trigger: 'axis'
-      },
-      legend: {
-        data: ['采购费用', '销售金额'],
-        top: 5,
-        right: 200
-      },
-      grid: {
-        top: '15%',
-        left: '1%',
-        right: '6%',
-        bottom: '3%',
-        containLabel: true
-      },
-      toolbox: {
-        feature: {
-          saveAsImage: {}
-        },
-        right: 18
-      },
-      xAxis: {
-        type: 'category',
-        data: trend.date,
-        axisLine: {
-          lineStyle: {
-            color: '#DEDEDE'
-          }
-        },
-        axisLabel: {
-          color: '#7C8B99',
-          margin: 20
-        }
-      },
-      yAxis: {
-        type: 'value',
-        name: '单位（元/吨）',
-        nameTextStyle: {
-          color: '#7C8B99',
-          fontSize: '14px',
-          padding: [0, 0, 10, 0]
-        },
-        axisLine: {
-          show: false
-        },
-        axisTick: {
-          show: false
-        },
-        axisLabel: {
-          color: '#7C8B99'
-        }
-      },
-      series: [
-        {
-          name: '采购费用',
-          type: 'line',
-          smooth: true,
-          data: trend.saler_price
-        },
-        {
-          name: '销售金额',
-          type: 'line',
-          smooth: true,
-          data: trend.purchase_price
-        }
-      ]
+    {
+      Object.keys(trend).length ?
+        this.initChart({
+          title: {
+            text: '销售与采购费用趋势图',
+            textStyle: {
+              color: '#545F76',
+              fontFamily: 'PingFangHK-Regular'
+            },
+          },
+          color: ['#4A90E2', '#FF9A74'],
+          tooltip: {
+            trigger: 'axis'
+          },
+          legend: {
+            data: ['采购费用', '销售金额'],
+            top: 5,
+            right: 200
+          },
+          grid: {
+            top: '15%',
+            left: '1%',
+            right: '6%',
+            bottom: '3%',
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            },
+            right: 18
+          },
+          xAxis: {
+            type: 'category',
+            data: trend.date,
+            axisLine: {
+              lineStyle: {
+                color: '#DEDEDE'
+              }
+            },
+            axisLabel: {
+              color: '#7C8B99',
+              margin: 20
+            }
+          },
+          yAxis: {
+            type: 'value',
+            name: '单位（元/吨）',
+            nameTextStyle: {
+              color: '#7C8B99',
+              fontSize: '14px',
+              padding: [0, 0, 10, 0]
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              color: '#7C8B99'
+            }
+          },
+          series: [
+            {
+              name: '采购费用',
+              type: 'line',
+              smooth: true,
+              data: trend.purchase_price
+            },
+            {
+              name: '销售金额',
+              type: 'line',
+              smooth: true,
+              data: trend.saler_price
+            }
+          ]
+        }) : ''
     }
-    this.initChart(chartOption)
+
     // this.initBmp()
     return (
       <div>
