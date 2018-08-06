@@ -378,7 +378,7 @@ class IndexPage extends React.Component {
       Object.keys(trend).length ?
         this.initChart({
           title: {
-            text: '销售与采购费用趋势图',
+            text: '价格趋势图',
             textStyle: {
               color: '#545F76',
               fontFamily: 'PingFangHK-Regular'
@@ -389,7 +389,7 @@ class IndexPage extends React.Component {
             trigger: 'axis'
           },
           legend: {
-            data: ['采购费用', '销售金额'],
+            data: ['采购', '销售'],
             top: 5,
             right: 200
           },
@@ -439,13 +439,13 @@ class IndexPage extends React.Component {
           },
           series: [
             {
-              name: '采购费用',
+              name: '采购',
               type: 'line',
               smooth: true,
               data: trend.purchase_price
             },
             {
-              name: '销售金额',
+              name: '销售',
               type: 'line',
               smooth: true,
               data: trend.saler_price

@@ -105,6 +105,22 @@ class RegisterModal extends React.Component {
             id,
           }
         }).then(() => {
+          this.props.type === 'client' ?
+            this.props.dispatch({
+              type: 'balance/clientFetch',
+              payload: {
+                page: 1,
+                find_str: this.props.find_str
+              }
+            })
+            :
+            this.props.dispatch({
+              type: 'balance/supplierFetch',
+              payload: {
+                page: 1,
+                find_str: this.props.find_str
+              }
+            })
           this.setState({
             uploading: false,
             visible: false
@@ -206,6 +222,7 @@ class RegisterModal extends React.Component {
                 </DateRangePicker>
               )}
             </FormItem>
+            <div style={{position: 'absolute', top: '228px', left: '319px', color: 'red'}}>付款时间</div>
             <FormItem
               {...formItemLayout}
               label={this.props.type === 'client' ? '收款金额' : '付款金额'}
@@ -264,4 +281,14 @@ class RegisterModal extends React.Component {
   }
 }
 
-export default connect()(Form.create()(RegisterModal))
+
+function mapStateToProps(state) {
+  const {find_str} = state.balance
+  return {
+    find_str,
+    loading: state.loading.models.balance
+  }
+}
+
+
+export default connect(mapStateToProps)(Form.create()(RegisterModal))
