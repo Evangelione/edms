@@ -102,6 +102,17 @@ class PoundModal extends React.Component {
   }
 
   beforeUpload = (file) => {
+    const isJPG = file.type === 'image/jpeg';
+    const isPNG = file.type === 'image/png';
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      return false
+    }
+    if (!isJPG && !isPNG) {
+      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      return false
+    }
     this.setState({
       file: {
         file,
@@ -127,7 +138,7 @@ class PoundModal extends React.Component {
     const uploadButton = (
       <div>
         <Icon type="plus"/>
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于2MB</div>
       </div>
     )
     return (

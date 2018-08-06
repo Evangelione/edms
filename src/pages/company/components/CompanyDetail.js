@@ -118,15 +118,17 @@ class CompanyDetail extends React.Component {
   handleChange = ({fileList}) => this.setState({fileList})
 
   beforeUpload = (file) => {
-    const isJPG = file.type === 'image/png';
-    if (!isJPG) {
-      message.error('You can only upload PNG file!');
-    }
+    const isJPG = file.type === 'image/jpeg';
+    const isPNG = file.type === 'image/png';
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      return false
     }
-    return isJPG && isLt2M
+    if (!isJPG && !isPNG) {
+      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      return false
+    }
   }
 
   customRequest = (file) => {
@@ -146,7 +148,7 @@ class CompanyDetail extends React.Component {
     const uploadButton = (
       <div>
         <Icon type="plus"/>
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于2MB</div>
       </div>
     )
     return (

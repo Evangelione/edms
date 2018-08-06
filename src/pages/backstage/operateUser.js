@@ -198,7 +198,7 @@ class OperateUser extends React.Component {
     const uploadButton = (
       <div>
         <Icon type="plus"/>
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于2MB</div>
       </div>
     )
     const title = this.props.location.query.type === 'edit' ? '编辑' : '新增'
@@ -299,70 +299,70 @@ class OperateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'} style={{display: 'none'}}>3.管理员角色</div>
-              <Divider style={{display: 'none'}}></Divider>
-              <Row style={{marginTop: 35}} style={{display: 'none'}}>
-                <Col span={12} offset={1}>
-                  <FormItem
-                    label=""
-                    {...formItemLayout2}
-                  >
-                    {getFieldDecorator('role', {
-                      initialValue: '2',
-                      valuePropName: 'checked',
-                    })(
-                      <RadioGroup value={this.state.value}
-                                  onChange={this.radioChange}>
-                        <Radio value={'1'}>超级管理员</Radio>
-                        <Radio value={'2'} style={{marginLeft: 110}}>普通管理员</Radio>
-                      </RadioGroup>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <div className={'itemTitle'} style={{display: 'none'}}>4.角色权限</div>
-              <Divider style={{display: 'none'}}></Divider>
-              <Row style={{marginTop: 35}} style={{display: 'none'}}>
-                <Col span={5}>
-                  <FormItem
-                    label="管理员设置"
-                    {...formItemLayout2}
-                  >
-                    {getFieldDecorator('gly', {
-                      valuePropName: 'checked',
-                      initialValue: false,
-                    })(
-                      <Switch onChange={this.checkChange.bind(null, 'gly')}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={5}>
-                  <FormItem
-                    label="用户权限设置"
-                    {...formItemLayout2}
-                  >
-                    {getFieldDecorator('yhqx', {
-                      valuePropName: 'checked',
-                      initialValue: true,
-                    })(
-                      <Switch onChange={this.checkChange.bind(null, 'yhqx')}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={5}>
-                  <FormItem
-                    label="数据维护"
-                    {...formItemLayout2}
-                  >
-                    {getFieldDecorator('sjwh', {
-                      valuePropName: 'checked',
-                      initialValue: true,
-                    })(
-                      <Switch onChange={this.checkChange.bind(null, 'sjwh')}/>,
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
+              {/*<div className={'itemTitle'} style={{display: 'none'}}>3.管理员角色</div>*/}
+              {/*<Divider style={{display: 'none'}}></Divider>*/}
+              {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
+                {/*<Col span={12} offset={1}>*/}
+                  {/*<FormItem*/}
+                    {/*label=""*/}
+                    {/*{...formItemLayout2}*/}
+                  {/*>*/}
+                    {/*{getFieldDecorator('role', {*/}
+                      {/*initialValue: '2',*/}
+                      {/*valuePropName: 'checked',*/}
+                    {/*})(*/}
+                      {/*<RadioGroup value={this.state.value}*/}
+                                  {/*onChange={this.radioChange}>*/}
+                        {/*<Radio value={'1'}>超级管理员</Radio>*/}
+                        {/*<Radio value={'2'} style={{marginLeft: 110}}>普通管理员</Radio>*/}
+                      {/*</RadioGroup>*/}
+                    {/*)}*/}
+                  {/*</FormItem>*/}
+                {/*</Col>*/}
+              {/*</Row>*/}
+              {/*<div className={'itemTitle'} style={{display: 'none'}}>4.角色权限</div>*/}
+              {/*<Divider style={{display: 'none'}}></Divider>*/}
+              {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
+                {/*<Col span={5}>*/}
+                  {/*<FormItem*/}
+                    {/*label="管理员设置"*/}
+                    {/*{...formItemLayout2}*/}
+                  {/*>*/}
+                    {/*{getFieldDecorator('gly', {*/}
+                      {/*valuePropName: 'checked',*/}
+                      {/*initialValue: false,*/}
+                    {/*})(*/}
+                      {/*<Switch onChange={this.checkChange.bind(null, 'gly')}/>,*/}
+                    {/*)}*/}
+                  {/*</FormItem>*/}
+                {/*</Col>*/}
+                {/*<Col span={5}>*/}
+                  {/*<FormItem*/}
+                    {/*label="用户权限设置"*/}
+                    {/*{...formItemLayout2}*/}
+                  {/*>*/}
+                    {/*{getFieldDecorator('yhqx', {*/}
+                      {/*valuePropName: 'checked',*/}
+                      {/*initialValue: true,*/}
+                    {/*})(*/}
+                      {/*<Switch onChange={this.checkChange.bind(null, 'yhqx')}/>,*/}
+                    {/*)}*/}
+                  {/*</FormItem>*/}
+                {/*</Col>*/}
+                {/*<Col span={5}>*/}
+                  {/*<FormItem*/}
+                    {/*label="数据维护"*/}
+                    {/*{...formItemLayout2}*/}
+                  {/*>*/}
+                    {/*{getFieldDecorator('sjwh', {*/}
+                      {/*valuePropName: 'checked',*/}
+                      {/*initialValue: true,*/}
+                    {/*})(*/}
+                      {/*<Switch onChange={this.checkChange.bind(null, 'sjwh')}/>,*/}
+                    {/*)}*/}
+                  {/*</FormItem>*/}
+                {/*</Col>*/}
+              {/*</Row>*/}
               <Row style={{width: 500, margin: '42px 0 20px 85px'}}>
                 <Col span={5} offset={2}>
                   <Button className='grayButton' style={{width: 100}} onClick={this.cacelForm}>取消</Button>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Cascader } from 'antd'
 import { connect } from 'dva'
-import { routerRedux } from "dva/router"
 
 class Cascade extends React.Component {
 
