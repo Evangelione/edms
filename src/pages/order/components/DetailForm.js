@@ -133,7 +133,7 @@ class DetailForm extends React.Component {
           recv_contact: form.recv_contact,
           recv_phone: form.recv_phone,
           recv_time: moment(form.order_date),
-          delivery: form.delivery_province + form.delivery_city + form.delivery_area,
+          delivery: form.delivery_province + form.delivery_city + (form.delivery_area ? form.delivery_area : ''),
           adress: form.detaileds_address,
           supp_id: form.supp_id,
           supp_id2: form.supp_contact,
