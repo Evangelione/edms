@@ -32,7 +32,7 @@ export default {
           type: 'save',
           payload: {
             detailForm: data.data.order,
-            step: data.data.order.order_status
+            step: data.data.order.deliver_status
           }
         })
       }

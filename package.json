@@ -12,6 +12,7 @@
     "echarts": "^4.1.0",
     "echarts-for-react": "^2.0.13",
     "react-bmap": "^1.0.74",
+    "react-bootstrap-date-picker": "^5.1.0",
     "react-countup": "^3.0.3",
     "umi": "^1.0.0",
     "umi-plugin-dva": "^0.7.1"
