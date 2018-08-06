@@ -6,6 +6,7 @@ import withRouter from 'umi/withRouter'
 import moment from 'moment'
 
 import locale from 'antd/lib/date-picker/locale/zh_CN'
+// import {routerRedux} from "dva/router"
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -54,6 +55,13 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
     return current && current > moment().endOf('day');
   }
 
+
+  // function goCustomerList () {
+  //   this.props.dispatch(routerRedux.push({
+  //     pathname: '/account/balance',
+  //   }))
+  // }
+
   return (
     <div>
       <div className={'searchBox'}>
@@ -69,6 +77,9 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
           </TabPane>
         </Tabs>
       </Card>
+      {/*<div style={{textAlign: 'center'}}>*/}
+        {/*<Button size='large' type='primary' onClick={this.goCustomerList} style={{marginTop: 30}}>返回我的订单</Button>*/}
+      {/*</div>*/}
     </div>
   )
 })))

@@ -511,7 +511,7 @@ class IndexPage extends React.Component {
               <div className={styles.dashTitle}>{this.state.topTip}销售额 (元)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.saler_money - 0)} duration={3}/>
-                <div className={styles.wan}>万</div>
+                {/*<div className={styles.wan}>万</div>*/}
               </div>
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
@@ -530,7 +530,7 @@ class IndexPage extends React.Component {
               <div className={styles.dashTitle}>{this.state.topTip}采购额 (元)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.purchase_money - 0)} duration={3}/>
-                <div className={styles.wan}>万</div>
+                {/*<div className={styles.wan}>万</div>*/}
               </div>
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
@@ -549,7 +549,7 @@ class IndexPage extends React.Component {
               <div className={styles.dashTitle}>{this.state.topTip}盈亏</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.profit_and_loss - 0)} duration={3}/>
-                <div className={styles.wan}>万</div>
+                {/*<div className={styles.wan}>万</div>*/}
               </div>
             </div>
           </Col>
