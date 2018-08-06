@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import {connect} from 'dva'
 import withRouter from 'umi/withRouter'
-import {Modal, Card, Row, Col, Button, Icon, Input, Form, Divider} from 'antd'
+import {Modal, Card, Row, Col, Button, Icon, Input, Form, Divider, InputNumber} from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 
 const FormItem = Form.Item
@@ -98,12 +98,12 @@ class ResultModal extends Component {
     const {getFieldDecorator} = this.props.form
     const formItemLayout = {
       labelCol: {
-        xs: {span: 10},
-        sm: {span: 10},
+        xs: {span: 11},
+        sm: {span: 11},
       },
       wrapperCol: {
-        xs: {span: 14},
-        sm: {span: 14},
+        xs: {span: 12},
+        sm: {span: 12},
       },
       style: {margin: '0 0 15px 0'}
     }
@@ -126,7 +126,11 @@ class ResultModal extends Component {
             <Row>
               <Col span={12}>
                 <div>
-                  <div style={{display: 'inline-block', margin: '20px 10px 30px 10px'}}>装车吨位：{this.props.detailForm.load_num}吨</div>
+                  <div style={{
+                    display: 'inline-block',
+                    margin: '20px 10px 30px 10px'
+                  }}>装车吨位：{this.props.detailForm.load_num}吨
+                  </div>
                   <ImageModal style={{display: 'inline-block'}} imgUrl={this.props.detailForm.load_url}>
                     <Icon type="folder"/> 查看装车磅票
                   </ImageModal>
@@ -134,7 +138,11 @@ class ResultModal extends Component {
               </Col>
               <Col span={12}>
                 <div>
-                  <div style={{display: 'inline-block', margin: '20px 10px 30px 10px'}}>卸车吨位：{this.props.detailForm.unload_num}吨</div>
+                  <div style={{
+                    display: 'inline-block',
+                    margin: '20px 10px 30px 10px'
+                  }}>卸车吨位：{this.props.detailForm.unload_num}吨
+                  </div>
                   <ImageModal style={{display: 'inline-block'}} imgUrl={this.props.detailForm.unload_url}>
                     <Icon type="folder"/> 查看卸车磅票
                   </ImageModal>
@@ -158,7 +166,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.purchase_price
                     })(
-                      <Input onChange={this.caigouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.caigouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -171,7 +179,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.load_num
                     })(
-                      <Input onChange={this.caigouCalculation}/>
+                      <InputNumber min={0} step={0.001} onChange={this.caigouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -192,7 +200,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.saler_price
                     })(
-                      <Input onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -205,7 +213,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.load_num
                     })(
-                      <Input onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.001} onChange={this.xiaoshouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -218,7 +226,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.deliver_price
                     })(
-                      <Input onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -231,7 +239,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.distance
                     })(
-                      <Input onChange={this.xiaoshouCalculation} style={{marginLeft: 8}}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation} style={{marginLeft: 8}}/>
                     )}
                   </FormItem>
                 </Col>
@@ -244,7 +252,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: 0
                     })(
-                      <Input onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -265,7 +273,8 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: 0
                     })(
-                      <Input onChange={this.wuliuCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
+                                   style={{marginLeft: 8}}/>
                     )}
                   </FormItem>
                 </Col>
@@ -278,7 +287,8 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.distance
                     })(
-                      <Input onChange={this.wuliuCalculation} style={{marginLeft: 8}}/>
+                      <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
+                                   style={{marginLeft: 8}}/>
                     )}
                   </FormItem>
                 </Col>
@@ -291,7 +301,8 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: this.props.detailForm.load_num
                     })(
-                      <Input onChange={this.wuliuCalculation}/>
+                      <InputNumber style={{marginLeft: 8}} min={0} step={0.001}
+                                   onChange={this.wuliuCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -304,7 +315,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: 0
                     })(
-                      <Input onChange={this.wuliuCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}/>
                     )}
                   </FormItem>
                 </Col>

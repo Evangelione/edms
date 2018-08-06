@@ -35,7 +35,6 @@ class CompanyDetail extends React.Component {
         }
       })
       let fileList = []
-      debugger
       let certificate = JSON.parse(this.props.companyDetail.certificate)
       if (typeof certificate === 'string') {
         certificate = Array(certificate)

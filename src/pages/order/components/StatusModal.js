@@ -74,14 +74,20 @@ class StatusModal extends React.Component {
       if (this.props.isSuccess === 'success') {
         this.setState({
           status: 'success',
-          visible: true
+          // visible: true
         })
-        this.props.dispatch(routerRedux.push({
-          pathname: '/order/orderDetail',
-          query: {
+        this.props.dispatch({
+          type: 'orderDetail/orderInfo',
+          payload: {
             id: this.props.location.query.id
           }
-        }))
+        })
+        // this.props.dispatch(routerRedux.push({
+        //   pathname: '/order/orderDetail',
+        //   query: {
+        //     id: this.props.location.query.id
+        //   }
+        // }))
       } else if (this.props.isSuccess === 'error') {
         this.setState({
           status: 'error',

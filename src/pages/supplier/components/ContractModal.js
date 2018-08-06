@@ -1,18 +1,30 @@
 import React from 'react'
-import {Modal, Form, Select, DatePicker, Input, Row, Col, Button} from 'antd'
+import {Modal, Form, Select, Input, Row, Col, Button} from 'antd'
 import {connect} from 'dva'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
+import moment from 'moment'
+import DateRangePicker from 'react-bootstrap-daterangepicker'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-daterangepicker/daterangepicker.css'
 
 const FormItem = Form.Item
 const Option = Select.Option
-const {RangePicker} = DatePicker
 
 class ContractModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       visible: false,
-      supplierOptions: []
+      supplierOptions: [],
+      stime: moment().subtract(29, 'days'),
+      etime: moment(),
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      },
     }
   }
 
@@ -65,8 +77,8 @@ class ContractModal extends React.Component {
           type: 'supplier/addSupplierContract',
           payload: {
             id: values.suppliers_id,
-            stime: values.sendData[0].format('YYYY-MM-DD hh:00:00'),
-            etime: values.sendData[1].format('YYYY-MM-DD hh:00:00'),
+            stime: this.state.stime.format('YYYY-MM-DD'),
+            etime: this.state.etime.format('YYYY-MM-DD'),
           }
         }).then(() => {
           this.setState({
@@ -81,6 +93,14 @@ class ContractModal extends React.Component {
     })
   }
 
+  handleApply = (event, picker) => {
+    this.setState({
+      stime: picker.startDate,
+      etime: picker.endDate,
+    })
+  }
+
+
   render() {
     const {getFieldDecorator} = this.props.form
     const {children, title} = this.props
@@ -93,6 +113,25 @@ class ContractModal extends React.Component {
         xs: {span: 12, offset: 1},
         sm: {span: 12, offset: 1},
       },
+    }
+    let start = this.state.stime.format('YYYY-MM-DD');
+    let end = this.state.etime.format('YYYY-MM-DD');
+    let label = start + ' - ' + end;
+    if (start === end) {
+      label = start;
+    }
+    let locale = {
+      "format": 'YYYY-MM-DD',
+      "separator": " - ",
+      "applyLabel": "确定",
+      "cancelLabel": "取消",
+      "fromLabel": "起始时间",
+      "toLabel": "结束时间'",
+      "customRangeLabel": "自定义",
+      "weekLabel": "W",
+      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      "firstDay": 1
     }
     return (
       <div onClick={this.showModal}>
@@ -200,9 +239,18 @@ class ContractModal extends React.Component {
               label="合同有效期"
             >
               {getFieldDecorator('sendData', {
+                initialValue: label,
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
-                <RangePicker locale={locale}></RangePicker>
+                <DateRangePicker
+                  containerStyles={{width: 182}}
+                  startDate={this.state.stime}
+                  endDate={this.state.etime}
+                  locale={locale}
+                  drops={'up'}
+                  onApply={this.handleApply}>
+                  <Input type="text" value={label} readOnly/>
+                </DateRangePicker>
               )}
             </FormItem>
           </Form>

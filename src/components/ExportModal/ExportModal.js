@@ -1,17 +1,34 @@
 import React from 'react'
-import {Modal, DatePicker, Button, Row, Col, message} from 'antd'
+import {Modal, Button, Row, Col, message, Input} from 'antd'
 import moment from 'moment'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
 import {IP} from "../../constants"
-
-const {RangePicker} = DatePicker
+import DateRangePicker from 'react-bootstrap-daterangepicker'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-daterangepicker/daterangepicker.css'
 
 class ExportModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      visible: false
+      visible: false,
+      stime: moment().subtract(29, 'days'),
+      etime: moment(),
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      },
     }
+  }
+
+  handleApply = (event, picker) => {
+    this.setState({
+      stime: picker.startDate,
+      etime: picker.endDate,
+    })
   }
 
   showModal = () => {
@@ -30,13 +47,6 @@ class ExportModal extends React.Component {
     e.stopPropagation()
     this.setState({
       visible: false,
-    })
-  }
-
-  rangeChange = (date, dateString) => {
-    this.setState({
-      stime: dateString[0],
-      etime: dateString[1],
     })
   }
 
@@ -74,6 +84,25 @@ class ExportModal extends React.Component {
 
   render() {
     const {children, title} = this.props
+    let start = this.state.stime.format('YYYY-MM-DD');
+    let end = this.state.etime.format('YYYY-MM-DD');
+    let label = start + ' - ' + end;
+    if (start === end) {
+      label = start;
+    }
+    let locale = {
+      "format": 'YYYY-MM-DD',
+      "separator": " - ",
+      "applyLabel": "确定",
+      "cancelLabel": "取消",
+      "fromLabel": "起始时间",
+      "toLabel": "结束时间'",
+      "customRangeLabel": "自定义",
+      "weekLabel": "W",
+      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      "firstDay": 1
+    }
     return (
       <div onClick={this.showModal}>
         {children}
@@ -87,8 +116,15 @@ class ExportModal extends React.Component {
         >
           <Row type='flex' justify='center' style={{margin: '80px 0'}}>
             <Col>
-              <RangePicker locale={locale} onChange={this.rangeChange} format={'YYYY-MM-DD'}
-                           disabledDate={this.disabledDate}/>
+              <DateRangePicker
+                containerStyles={{width: 182}}
+                startDate={this.state.stime}
+                endDate={this.state.etime}
+                maxDate={moment()}
+                locale={locale}
+                onApply={this.handleApply}>
+                <Input type="text" value={label} readOnly/>
+              </DateRangePicker>
             </Col>
           </Row>
           <Row type='flex' justify='space-around' style={{margin: '20px 10px 10px 10px'}}>

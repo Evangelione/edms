@@ -1,7 +1,10 @@
 import React from 'react'
 import {Modal, DatePicker, Button, Row, Col, Form, Input, Select, Upload, Icon, message} from 'antd'
 import {connect} from 'dva'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
+import moment from 'moment'
+import DateRangePicker from 'react-bootstrap-daterangepicker'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-daterangepicker/daterangepicker.css'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -19,7 +22,22 @@ class RegisterModal extends React.Component {
         status: 'done',
         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       }],
+      etime: moment(),
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      },
     }
+  }
+
+  handleApply = (event, picker) => {
+    this.setState({
+      etime: picker.endDate,
+    })
   }
 
   showModal = () => this.setState({visible: true})
@@ -82,7 +100,7 @@ class RegisterModal extends React.Component {
           type: this.props.type === 'client' ? 'balance/clientRegistration' : 'balance/supplierRegistration',
           payload: {
             file: this.state.file,
-            time: values.send_time.format('YYYY-MM-DD hh:00:00'),
+            time: values.send_time,
             sum: values.record_sum,
             id,
           }
@@ -112,6 +130,20 @@ class RegisterModal extends React.Component {
         xs: {span: 12},
         sm: {span: 12},
       },
+    }
+    let time = this.state.etime.format('YYYY-MM-DD HH:mm:ss');
+    let locale = {
+      "format": 'YYYY-MM-DD',
+      "separator": " - ",
+      "applyLabel": "确定",
+      "cancelLabel": "取消",
+      "fromLabel": "起始时间",
+      "toLabel": "结束时间'",
+      "customRangeLabel": "自定义",
+      "weekLabel": "W",
+      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      "firstDay": 1
     }
     const uploadButton = (
       <div>
@@ -155,22 +187,33 @@ class RegisterModal extends React.Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={this.props.type ==='client' ? '收款登记' : '付款登记'}
+              label={this.props.type === 'client' ? '收款登记' : '付款登记'}
             >
               {getFieldDecorator('send_time', {
+                initialValue: time,
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
-                <DatePicker locale={locale} format={'YYYY-MM-DD hh:00:00'} style={{width: '100%'}}></DatePicker>
+                <DateRangePicker
+                  containerStyles={{width: 182}}
+                  startDate={this.state.etime}
+                  singleDatePicker={true}
+                  timePicker={true}
+                  timePicker24Hour={true}
+                  timePickerSeconds={true}
+                  locale={locale}
+                  onApply={this.handleApply}>
+                  <Input type="text" value={time} readOnly/>
+                </DateRangePicker>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={this.props.type ==='client' ? '收款金额' : '付款金额'}
+              label={this.props.type === 'client' ? '收款金额' : '付款金额'}
             >
               {getFieldDecorator('record_sum', {
                 rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
               })(
-                <Input placeholder={this.props.type ==='client' ? '请输入收款金额...' : '请输入付款金额...'}/>
+                <Input placeholder={this.props.type === 'client' ? '请输入收款金额...' : '请输入付款金额...'}/>
               )}
             </FormItem>
             <FormItem
@@ -194,9 +237,11 @@ class RegisterModal extends React.Component {
                     customRequest={this.cancelRequest}
                   >
                     {this.state.imageUrl ?
-                      <img src={this.state.imageUrl} alt="avatar"  style={{width: '250px', height: '200px'}}/> : uploadButton}
+                      <img src={this.state.imageUrl} alt="avatar"
+                           style={{width: '250px', height: '200px'}}/> : uploadButton}
                   </Upload>
-                  <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel} style={{width: '250px', height: '200px'}}>
+                  <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}
+                         style={{width: '250px', height: '200px'}}>
                     <img alt="example" style={{width: '250px', height: '200px'}} src={this.state.previewImage}/>
                   </Modal>
                 </div>

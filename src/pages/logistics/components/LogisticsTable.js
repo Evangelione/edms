@@ -1,13 +1,16 @@
 import React from 'react'
-import {Table, Button, Modal, Row, Col, Form, Input, Pagination, DatePicker, AutoComplete} from 'antd'
+import {Table, Button, Modal, Row, Col, Form, Input, Pagination, AutoComplete} from 'antd'
 import {connect} from 'dva'
 import {routerRedux} from 'dva/router'
 import styles from '../logistics.css'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import PoundModal from './PoundModal'
 import {PAGE_SIZE} from "../../../constants"
-import locale from 'antd/lib/date-picker/locale/zh_CN'
-import * as dateUtils from "../../../utils/getTime";
+import * as dateUtils from "../../../utils/getTime"
+import moment from 'moment'
+import DateRangePicker from 'react-bootstrap-daterangepicker'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-daterangepicker/daterangepicker.css'
 
 
 const FormItem = Form.Item
@@ -23,7 +26,22 @@ class Logistics extends React.Component {
       schedulingBtn: false,
       id: '',
       uploading: false,
+      etime: moment(),
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      },
     }
+  }
+
+  handleApply = (event, picker) => {
+    this.setState({
+      etime: picker.endDate,
+    })
   }
 
   logisticsDetail = (id) => {
@@ -95,7 +113,6 @@ class Logistics extends React.Component {
         delete values.zhuanghuolianxidianhua
         delete values.zhuanghuoshuliang
         delete values.zhuanghuoxiangxidizhi
-        values.expect_time = values.expect_time.format('YYYY-MM-DD hh:mm:ss')
         values.id = this.state.id
         this.props.dispatch({
           type: 'logisticsDetail/doDispatch',
@@ -327,7 +344,7 @@ class Logistics extends React.Component {
                         loading={this.state.schedulingBtn}>调度</Button>
                 :
                 text === '2' || text === '3' || text === '4' ?
-                  <PromptModal state={'cancelLogistics'} cancelID={record.id}>
+                  <PromptModal state={'cancelLogistics'} cancelID={record.id} txt={record}>
                     <Button type='primary' style={{background: '#EA7878', borderColor: '#EA7878'}}>取消运单</Button>
                   </PromptModal>
                   :
@@ -532,6 +549,20 @@ class Logistics extends React.Component {
         }
       }
     ]
+    let time = this.state.etime.format('YYYY-MM-DD');
+    let locale = {
+      "format": 'YYYY-MM-DD',
+      "separator": " - ",
+      "applyLabel": "确定",
+      "cancelLabel": "取消",
+      "fromLabel": "起始时间",
+      "toLabel": "结束时间'",
+      "customRangeLabel": "自定义",
+      "weekLabel": "W",
+      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      "firstDay": 1
+    }
     return (
       <div>
         {tableKey === '1' ?
@@ -560,7 +591,7 @@ class Logistics extends React.Component {
               rowKey={record => record.deliver_code}
               pagination={false}
               loading={loading}
-              scroll={{x:2100}}
+              scroll={{x: 2100}}
             />
             <Pagination
               className="ant-table-pagination"
@@ -691,7 +722,7 @@ class Logistics extends React.Component {
                       required: true,
                       message: '请填写正确联系电话！',
                       max: 11,
-                      pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$'
+                      pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7,9]))\\d{8}$'
                     }],
                     validateTrigger: 'onBlur',
                   })(
@@ -759,10 +790,19 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('expect_time', {
+                    initialValue: time,
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <DatePicker placeholder='请选择装货时间...' showTime format={'YYYY-MM-DD hh:mm:ss'}
-                                locale={locale}></DatePicker>
+                    <DateRangePicker
+                      containerStyles={{width: 182}}
+                      startDate={this.state.etime}
+                      singleDatePicker={true}
+                      timePicker={true}
+                      timePicker24Hour={true}
+                      locale={locale}
+                      onApply={this.handleApply}>
+                      <Input type="text" value={time} readOnly/>
+                    </DateRangePicker>
                   )}
                 </FormItem>
               </Col>

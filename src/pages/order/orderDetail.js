@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Steps, Divider, Button} from 'antd'
+import {Card, Steps, Divider, Button, notification} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import styles from './order.css'
 import DetailForm from './components/DetailForm'
@@ -18,13 +18,26 @@ class orderDetail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: ['待支付', '待发货', '待收货', '待结算', '已结算']
+      step: ['待支付', '待发货', '待收货', '待结算', '已结算'],
+      flag: true
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
+    }
+    if(this.props.detailForm.order_status === 1) {
+      if(!this.state.flag) return false
+      this.setState({
+        flag: false
+      })
+      const args = {
+        message: '温馨提示',
+        description: '已支付，请前往 我的物流-运单管理 进行调度操作',
+        duration: 0,
+      };
+      notification.open(args)
     }
   }
 
@@ -73,7 +86,6 @@ class orderDetail extends React.Component {
     return (
       <div>
         <PageTitle>订单详情</PageTitle>
-        <Button className='blueBorder' style={{position: 'absolute', top: 84, right: 30, zIndex: 999}} onClick={this.goOrderList}>返回我的订单</Button>
         <Card style={{borderColor: '#CFCFCF', marginBottom: 10}} title={`订单编号：${detailForm.order_code}`}
               extra={<div>创建时间：{detailForm.order_date}</div>}>
           <Steps progressDot current={detailForm.order_status} style={{margin: '70px 0'}}>
@@ -178,6 +190,9 @@ class orderDetail extends React.Component {
               <InfoWindow position={{lng: 116.402544, lat: 39.928216}} text="内容" title="标题"/>
             </Map>
           </Card> : ''}
+        <div style={{textAlign: 'center'}}>
+          <Button size='large' type='primary' onClick={this.goOrderList} style={{marginTop: 30}}>返回我的订单</Button>
+        </div>
       </div>
     )
   }

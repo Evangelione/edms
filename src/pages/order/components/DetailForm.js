@@ -33,8 +33,6 @@ class DetailForm extends React.Component {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values)
-        debugger
         delete values.cust_id2
         delete values.cust_id3
         delete values.delivery
