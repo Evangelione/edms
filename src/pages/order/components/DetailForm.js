@@ -144,7 +144,7 @@ class DetailForm extends React.Component {
           goods_source: form.origin_gas_source,
           goods_contact: form.cargo_contact,
           goods_mobile: form.cargo_mobile,
-          goods_delivery: form.cargo_province + form.cargo_city + form.cargo_area,
+          goods_delivery: form.cargo_province + form.cargo_city + (form.cargo_area ? form.cargo_area : ''),
           goods_adress: form.detailed_address,
         })
         let yunju = this.props.form.getFieldValue('distance')
