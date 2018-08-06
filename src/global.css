@@ -7,6 +7,18 @@ html, body, :global(#root) {
   font-family: PingFangHK-Regular;
 }
 
+a {
+  color: #007bff !important;
+}
+
+a:hover {
+  color: #40a9ff !important;
+}
+
+.ant-pagination-item-active a {
+  color: #fff !important;
+}
+
 .pageContent {
   border-radius: 4px;
 }

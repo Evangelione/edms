@@ -800,6 +800,7 @@ class Logistics extends React.Component {
                       timePicker={true}
                       timePicker24Hour={true}
                       locale={locale}
+                      drops={'up'}
                       onApply={this.handleApply}>
                       <Input type="text" value={time} readOnly/>
                     </DateRangePicker>
