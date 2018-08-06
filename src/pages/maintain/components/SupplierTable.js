@@ -176,6 +176,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       title: '操作',
       align: 'center',
       key: 'createdAt',
+      width: 168,
       render: (text, record, index) => {
         return (
           <div className={'operating'}>
