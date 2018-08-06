@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal, Switch, Radio} from 'antd'
+import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal, Radio} from 'antd'
 import {connect} from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
@@ -7,7 +7,6 @@ import {IP} from '../../constants'
 import {routerRedux} from "dva/router";
 
 const FormItem = Form.Item
-const RadioGroup = Radio.Group
 
 class OperateUser extends React.Component {
   constructor(props) {
@@ -190,10 +189,6 @@ class OperateUser extends React.Component {
     const formItemLayout = {
       labelCol: {span: 2},
       wrapperCol: {span: 5},
-    }
-    const formItemLayout2 = {
-      labelCol: {span: 12},
-      wrapperCol: {span: 12},
     }
     const uploadButton = (
       <div>
