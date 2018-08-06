@@ -61,7 +61,7 @@ class ResultModal extends Component {
       const cg_final_num = this.props.form.getFieldValue('cg_final_num')
       let result = isNaN((purchase_price - 0) * (cg_final_num - 0)) ? 0 : (purchase_price - 0) * (cg_final_num - 0)
       this.setState({
-        caigou: result
+        caigou: result.toFixed(2)
       })
     }, 100)
   }
@@ -75,7 +75,7 @@ class ResultModal extends Component {
       const extra_fee = this.props.form.getFieldValue('extra_fee')
       let result = isNaN((saler_price - 0) * (xs_final_num - 0) + (deliver_price - 0) * (distance - 0) * (xs_final_num - 0) + (extra_fee - 0)) ? 0 : (saler_price - 0) * (xs_final_num - 0) + (deliver_price - 0) * (distance - 0) * (xs_final_num - 0) + (extra_fee - 0)
       this.setState({
-        xiaoshou: result
+        xiaoshou: result.toFixed(2)
       })
     }, 100)
   }
@@ -88,7 +88,7 @@ class ResultModal extends Component {
       const wl_extra_fee = this.props.form.getFieldValue('wl_extra_fee')
       let result = isNaN((wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)
       this.setState({
-        wuliu: result
+        wuliu: result.toFixed(2)
       })
     }, 100)
   }
