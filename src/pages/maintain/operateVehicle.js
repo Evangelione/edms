@@ -194,7 +194,7 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('supercargo', {
                       initialValue: this.props.editForm.supercargo ? this.props.editForm.supercargo : '',
-                      rules: [{required: true, message: '请填写押运员！'}],
+                      rules: [{required: false, message: '请填写押运员！'}],
                     })(
                       <Input placeholder="请填写押运员"/>
                     )}
@@ -208,7 +208,7 @@ class operateUser extends React.Component {
                     {getFieldDecorator('supercargo_mobile', {
                       initialValue: this.props.editForm.supercargo_mobile ? this.props.editForm.supercargo_mobile : '',
                       rules: [{
-                        required: true,
+                        required: false,
                         message: '请填写正确联系电话！',
                         max: 11,
                         pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7,9]))\\d{8}$'
