@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal, Radio} from 'antd'
+import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal} from 'antd'
 import {connect} from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
