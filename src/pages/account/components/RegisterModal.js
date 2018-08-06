@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, DatePicker, Button, Row, Col, Form, Input, Select, Upload, Icon, message} from 'antd'
+import {Modal, Button, Row, Col, Form, Input, Select, Upload, Icon, message} from 'antd'
 import {connect} from 'dva'
 import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'

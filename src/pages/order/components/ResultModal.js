@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import {connect} from 'dva'
 import withRouter from 'umi/withRouter'
-import {Modal, Card, Row, Col, Button, Icon, Input, Form, Divider, InputNumber} from 'antd'
+import {Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber} from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 
 const FormItem = Form.Item

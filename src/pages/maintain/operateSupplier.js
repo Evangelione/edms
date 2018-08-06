@@ -295,7 +295,7 @@ class operateUser extends React.Component {
                       wrapperCol={{span: 18}}
                     >
                       {getFieldDecorator('delivery', {
-                        initialValue: this.props.editForm ? [[this.props.editForm.cargo_province.code, this.props.editForm.cargo_city.code, this.props.editForm.cargo_area.code]] : undefined,
+                        initialValue: this.props.editForm ? [[this.props.editForm.cargo_province.name, this.props.editForm.cargo_city.name, this.props.editForm.cargo_area.name]] : undefined,
                         rules: [{required: true, message: '请填写正确装货地址！'}],
                       })(
                         <Cascader options={this.props.CascaderOptions}
