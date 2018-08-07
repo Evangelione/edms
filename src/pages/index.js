@@ -339,11 +339,11 @@ class IndexPage extends React.Component {
     const customerDivs = customerPer.map((val, index) => {
       return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.customer_name}</div>
-        <div key={index + '3'} style={{width: '80%', display: 'inline-block'}}>
+        <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
           <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
                     strokeWidth={6}/>
         </div>
-        <div key={index + '5'} style={{width: '20%', display: 'inline-block', textAlign: 'center'}}>
+        <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
           <div key={index + '6'}
                style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.sale_num} 吨
           </div>
@@ -354,11 +354,11 @@ class IndexPage extends React.Component {
     const supplierDivs = supplierPer.map((val, index) => {
       return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.supp_name}</div>
-        <div key={index + '3'} style={{width: '80%', display: 'inline-block'}}>
+        <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
           <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
                     strokeWidth={6}/>
         </div>
-        <div key={index + '5'} style={{width: '20%', display: 'inline-block', textAlign: 'center'}}>
+        <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
           <div key={index + '6'}
                style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.load_num} 吨
           </div>
