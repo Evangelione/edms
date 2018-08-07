@@ -71,7 +71,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                   <div className={'toolBar'}>
                     <Button type='primary' icon="plus" onClick={doOrder}
                             style={{boxShadow: '0px 1px 10px #1890ff'}}>我要下单</Button>
-                    <Button className={'blueBorder'} icon="select">批量导入</Button>
+                    {/*<Button className={'blueBorder'} icon="select">批量导入</Button>*/}
                   </div>
                   <div className={'changeList'}>
                     <div onClick={changeClass.bind(null, 'quanbu', '')}
