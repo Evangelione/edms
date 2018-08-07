@@ -203,26 +203,27 @@ class RegisterModal extends React.Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={this.props.type === 'client' ? '收款登记' : '付款登记'}
+              label={this.props.type === 'client' ? '收款时间' : '付款时间'}
             >
               {getFieldDecorator('send_time', {
                 initialValue: time,
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
                 <DateRangePicker
-                  containerStyles={{width: 182}}
+                  containerStyles={{width: '100%'}}
                   startDate={this.state.etime}
                   singleDatePicker={true}
                   timePicker={true}
                   timePicker24Hour={true}
                   timePickerSeconds={true}
+                  maxDate={moment()}
                   locale={locale}
                   onApply={this.handleApply}>
                   <Input type="text" value={time} readOnly/>
                 </DateRangePicker>
               )}
             </FormItem>
-            <div style={{position: 'absolute', top: '228px', left: '319px', color: 'red'}}>付款时间</div>
+            {/*<div style={{position: 'absolute', top: '228px', left: '319px', color: 'red'}}>付款时间</div>*/}
             <FormItem
               {...formItemLayout}
               label={this.props.type === 'client' ? '收款金额' : '付款金额'}

@@ -85,28 +85,28 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                         <span
                           className={currentTab === 'daizhifu' ? 'daizhifuBlue ' : 'daizhifuGray'}></span>
                       <span>待支付</span>
-                      <span>({statusNum.dzf})</span>
+                      <span style={{color: 'red'}}>({statusNum.dzf})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daifahuo', '2')}
                          className={currentTab === 'daifahuo' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daifahuo' ? 'daifahuoBlue ' : 'daifahuoGray'}></span>
                       <span>待发货</span>
-                      <span>({statusNum.dfh})</span>
+                      <span style={{color: 'red'}}>({statusNum.dfh})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daishouhuo', '3')}
                          className={currentTab === 'daishouhuo' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daishouhuo' ? 'daishouhuoBlue ' : 'daishouhuoGray'}></span>
                       <span>待收货</span>
-                      <span>({statusNum.dsh})</span>
+                      <span style={{color: 'red'}}>({statusNum.dsh})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'daijiesuan', '4')}
                          className={currentTab === 'daijiesuan' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'daijiesuan' ? 'daijiesuanBlue ' : 'daijiesuanGray'}></span>
                       <span>待结算</span>
-                      <span>({statusNum.djs})</span>
+                      <span style={{color: 'red'}}>({statusNum.djs})</span>
                     </div>
                     <div onClick={changeClass.bind(null, 'yijiesuan', '5')}
                          className={currentTab === 'yijiesuan' ? 'blueBG ' : 'grayBG'}>

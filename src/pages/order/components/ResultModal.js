@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import {connect} from 'dva'
 import withRouter from 'umi/withRouter'
-import {Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber} from 'antd'
+import {Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber, notification} from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 
 const FormItem = Form.Item
@@ -50,6 +50,12 @@ class ResultModal extends Component {
         this.props.dispatch({
           type: 'orderDetail/doResult',
           payload: values
+        }).then(() => {
+          notification.success({
+            message: '温馨提示',
+            description: '订单已完成，请前往 销售明细、采购明细，查看、导出结算报表',
+            duration: 0,
+          })
         })
       }
     })

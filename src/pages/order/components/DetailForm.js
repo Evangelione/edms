@@ -50,7 +50,7 @@ class DetailForm extends React.Component {
         delete values.supp_id2
         delete values.supp_id3
         delete values.xiaoshouyuan
-        values.recv_time = values.recv_time.format('YYYY-MM-DD hh:mm:ss')
+        values.recv_time = values.recv_time.format('YYYY-MM-DD HH:mm:ss')
         this.props.dispatch({
           type: 'order/addOrder',
           payload: {
@@ -517,7 +517,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('recv_time', {
                   rules: [{required: true, message: '请选择交货时间！'}],
                 })(
-                  <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD hh:mm:ss'} disabled={!editable} showTime
+                  <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:ss'} disabled={!editable} showTime
                               locale={locale}></DatePicker>
                 )}
               </FormItem>
@@ -756,7 +756,7 @@ class DetailForm extends React.Component {
           {/*</Row>*/}
         </Form>
         {defaultSubmit ?
-          <div>
+          <div style={{fontSize: 16}}>
             <Divider></Divider>
             <div className={styles.resultBox}>
               <div style={{margin: '5px 0'}}>
@@ -770,7 +770,7 @@ class DetailForm extends React.Component {
                 <span style={{
                   fontSize: 18,
                   fontWeight: 600,
-                  color: '#3477ED'
+                  color: 'red'
                 }}>合计金额：￥{isNaN(this.state.heji) ? '填写错误' : this.state.heji}</span>
               </div>
               <Button style={{margin: '10px 10px'}}>取消</Button>

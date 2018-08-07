@@ -549,7 +549,7 @@ class Logistics extends React.Component {
         }
       }
     ]
-    let time = this.state.etime.format('YYYY-MM-DD');
+    let time = this.state.etime.format('YYYY-MM-DD HH:mm:00');
     let locale = {
       "format": 'YYYY-MM-DD',
       "separator": " - ",

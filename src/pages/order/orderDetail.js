@@ -10,7 +10,9 @@ import ResultModal from './components/ResultModal'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import StatusModal from './components/StatusModal'
 import withRouter from 'umi/withRouter'
-import {routerRedux} from "dva/router";
+import {routerRedux} from "dva/router"
+import CountUp from 'react-countup'
+
 
 const Step = Steps.Step
 
@@ -27,8 +29,8 @@ class orderDetail extends React.Component {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
     }
-    if(this.props.detailForm.order_status === 1) {
-      if(!this.state.flag) return false
+    if (this.props.detailForm.order_status === 1) {
+      if (!this.state.flag) return false
       this.setState({
         flag: false
       })
@@ -37,7 +39,7 @@ class orderDetail extends React.Component {
         description: '已支付，请前往 我的物流-运单管理 进行调度操作',
         duration: 0,
       };
-      notification.open(args)
+      notification.info(args)
     }
   }
 
@@ -98,20 +100,21 @@ class orderDetail extends React.Component {
           {detailForm.order_status < 4 ?
             <div>
               <Divider></Divider>
-              <div style={{lineHeight: '35px', margin: '20px 0', float: 'left'}}>
+              <div style={{lineHeight: '35px', margin: '20px 0', float: 'left', fontSize: 16}}>
                 <div style={{
                   fontWeight: 600,
                   fontSize: 18,
                   marginBottom: 20
                 }}>订单状态：{this.state.step[detailForm.order_status]}</div>
-                <div>
-                  预计运费：￥{yunfei}
+                <div style={{color: '#A1A9B3'}}>
+                  预计运费：￥<CountUp start={0} end={yunfei} duration={2}/>
                 </div>
-                <div>
-                  预计货款：￥{huofei}
+                <div style={{color: '#A1A9B3'}}>
+                  预计货款：￥<CountUp start={0} end={huofei} duration={2}/>
                 </div>
-                <div>
-                  <span style={{fontSize: 18, fontWeight: 600, color: '#3477ED'}}>合计金额：￥{heji}</span>（多含7.5%预付款）
+                <div style={{color: '#A1A9B3'}}>
+                  <span style={{fontSize: 18, fontWeight: 600, color: 'red'}}>合计金额：￥<CountUp start={0} end={heji}
+                                                                                             duration={2}/></span>（多含7.5%预付款）
                 </div>
               </div>
               <div className={styles.resultBox} style={{marginTop: 120}}>
@@ -148,23 +151,23 @@ class orderDetail extends React.Component {
               {detailForm.order_status === 4 ?
                 <div>
                   <Divider></Divider>
-                  <div style={{lineHeight: '35px', margin: '20px 0', float: 'left'}}>
+                  <div style={{lineHeight: '35px', margin: '20px 0', float: 'left', fontSize: 16}}>
                     <div style={{
                       fontWeight: 600,
                       fontSize: 18,
                       marginBottom: 20
                     }}>订单状态：{this.state.step[detailForm.order_status]}</div>
-                    <div>
+                    <div style={{color: '#A1A9B3'}}>
                       结算运费：￥{detailForm.jiesuan.deliver_fee}
                     </div>
-                    <div>
+                    <div style={{color: '#A1A9B3'}}>
                       结算货款：￥{detailForm.jiesuan.goods_total}
                     </div>
-                    <div>
+                    <div style={{color: '#A1A9B3'}}>
                       <span style={{
                         fontSize: 18,
                         fontWeight: 600,
-                        color: '#3477ED'
+                        color: 'red'
                       }}>结算金额：￥{detailForm.jiesuan.final_money}</span>
                     </div>
                   </div>

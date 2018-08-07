@@ -99,7 +99,7 @@ export default {
       const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
       if (data.code === -1) return false
       if (data.code === 1) {
-        message.success(data.msg)
+        // message.success(data.msg)
         yield put({
           type: 'logistics/getDeliverList',
           payload: {

@@ -1,5 +1,5 @@
 import * as orderService from '../services/order'
-import {message} from 'antd'
+import {message, notification} from 'antd'
 import {routerRedux} from "dva/router";
 
 export default {
@@ -93,12 +93,16 @@ export default {
       const {data} = yield call(orderService.modifyOrder, result)
       if (data.code === -1) return false
       if (data.code === 1) {
-        message.success(data.msg)
         yield put({
           type: 'save',
           payload: {
             editable: false
           }
+        })
+        notification.success({
+          message: '温馨提示',
+          description: '订单已修改，请确认支付',
+          duration: 0,
         })
       } else {
         message.error(data.msg)
@@ -141,7 +145,7 @@ export default {
       const {data} = yield call(orderService.doResult, form)
       if (data.code === -1) return false
       if (data.code === 1) {
-        message.success(data.msg)
+        // message.success(data.msg)
         yield put(routerRedux.push({
           pathname: '/order',
         }))

@@ -24,56 +24,56 @@ class LogisticsDetail extends React.Component {
       this.setState({
         flag: false
       })
-      const args0 = {
+      const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 进行调度操作',
         duration: 0,
       };
-      notification.open(args0)
+      notification.info(args)
     } else if (this.props.step === 1) {
       if (!this.state.flag) return false
       this.setState({
         flag: false
       })
-      const args0 = {
+      const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 进行接单操作',
         duration: 0,
       };
-      notification.open(args0)
+      notification.info(args)
     } else if (this.props.step === 2) {
       if (!this.state.flag) return false
       this.setState({
         flag: false
       })
-      const args0 = {
+      const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 上传装车磅单',
         duration: 0,
       };
-      notification.open(args0)
+      notification.info(args)
     } else if (this.props.step === 3) {
       if (!this.state.flag) return false
       this.setState({
         flag: false
       })
-      const args0 = {
+      const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 上传卸车磅单',
         duration: 0,
       };
-      notification.open(args0)
+      notification.info(args)
     } else if (this.props.step === 4) {
       if (!this.state.flag) return false
       this.setState({
         flag: false
       })
-      const args0 = {
+      const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 进行确认磅单操作',
         duration: 0,
       };
-      notification.open(args0)
+      notification.info(args)
     }
   }
 
