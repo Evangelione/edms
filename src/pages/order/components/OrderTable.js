@@ -4,7 +4,7 @@ import {routerRedux} from 'dva/router'
 import {PAGE_SIZE} from "../../../constants"
 import * as dateUtils from '../../../utils/getTime'
 
-function OrderTable({dispatch, list, total, page, loading}) {
+function OrderTable({dispatch, list, total, page, loading, order_status}) {
 
   function orderDetail(record) {
     dispatch(routerRedux.push({
@@ -18,7 +18,10 @@ function OrderTable({dispatch, list, total, page, loading}) {
   function pageChangeHandler(page) {
     dispatch(routerRedux.push({
       pathname: '/order',
-      query: {page}
+      query: {
+        page,
+        order_status
+      }
     }))
     // 2种跳转方式
     // router.push({
@@ -260,11 +263,12 @@ function OrderTable({dispatch, list, total, page, loading}) {
 }
 
 function mapStateToProps(state) {
-  const {list, total, page} = state.order
+  const {list, total, page, order_status} = state.order
   return {
     list,
     page,
     total,
+    order_status,
     loading: state.loading.models.order
   }
 }

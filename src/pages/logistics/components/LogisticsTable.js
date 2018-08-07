@@ -132,7 +132,10 @@ class Logistics extends React.Component {
   pageChangeHandler = (page) => {
     this.props.dispatch(routerRedux.push({
       pathname: '/logistics',
-      query: {page}
+      query: {
+        page,
+        deliver_status: this.props.deliver_status
+      }
     }))
   }
 
@@ -928,7 +931,7 @@ class Logistics extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {list, page, total, list2, page2, total2} = state.logistics
+  const {list, page, total, list2, page2, total2, deliver_status} = state.logistics
   const {detailForm, companyOption, carOption} = state.logisticsDetail
   return {
     list,
@@ -939,6 +942,7 @@ function mapStateToProps(state) {
     total2,
     detailForm,
     companyOption,
+    deliver_status,
     carOption,
     loading: state.loading.models.logisticsDetail
   }
