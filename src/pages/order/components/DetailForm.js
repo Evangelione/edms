@@ -5,6 +5,7 @@ import {connect} from 'dva'
 import withRouter from 'umi/withRouter'
 import styles from '../order.css'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
+import {routerRedux} from 'dva/router'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -229,6 +230,12 @@ class DetailForm extends React.Component {
 
   openPDF = () => {
     window.open(this.state.report)
+  }
+
+  goOrderList = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/order',
+    }))
   }
 
   calculation = () => {
@@ -773,7 +780,7 @@ class DetailForm extends React.Component {
                   color: 'red'
                 }}>合计金额：￥{isNaN(this.state.heji) ? '填写错误' : this.state.heji}</span>
               </div>
-              <Button style={{margin: '10px 10px'}}>取消</Button>
+              <Button style={{margin: '10px 10px'}} onClick={this.goOrderList}>取消</Button>
               <Button type='primary' onClick={this.submit} loading={loading} style={{margin: '10px 0'}}>提交订单</Button>
             </div>
           </div>
