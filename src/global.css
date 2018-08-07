@@ -577,3 +577,7 @@ avatar-uploader > .ant-upload {
 .table-borderNone > td {
   border: none;
 }
+
+.ant-calendar-footer-btn > .ant-calendar-ok-btn {
+  color: #fff !important;
+}
