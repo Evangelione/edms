@@ -273,7 +273,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('account', {
                       initialValue: this.props.editForm.account ? this.props.editForm.account : '',
-                      rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: '^[A-Za-z0-9]{1,11}$'}],
+                      rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: '^[A-Za-z0-9]{1,30}$'}],
                       validateTrigger: 'onBlur',
                     })(
                       <Input placeholder="只支持英文/数字"/>
