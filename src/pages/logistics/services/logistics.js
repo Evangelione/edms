@@ -19,7 +19,7 @@ export function getDeliverFee({page, find_str, stime, etime}) {
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
   formData.append('stime', stime)
-  formData.append('stime', etime)
+  formData.append('etime', etime)
   return request(`${IP}/home/logistics/deliver-fee`, {
     method: 'POST',
     body: formData
