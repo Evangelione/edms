@@ -6,7 +6,15 @@ import SupplierTable from './components/SupplierTable'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
 
-export default connect()(({dispatch}) => {
+function mapStateToProps(state) {
+  const {accountKey} = state.balance
+  return {
+    accountKey,
+    loading: state.loading.models.balance
+  }
+}
+
+export default connect(mapStateToProps)(({dispatch, accountKey}) => {
 
   function iptSearch(value) {
     dispatch({
@@ -19,6 +27,15 @@ export default connect()(({dispatch}) => {
     })
   }
 
+  function tabChange(val) {
+    dispatch({
+      type: 'balance/save',
+      payload: {
+        accountKey: val
+      }
+    })
+  }
+
   return (
     <div>
       <div className={'searchBox'}>
@@ -26,7 +43,7 @@ export default connect()(({dispatch}) => {
                 onSearch={iptSearch}/>
       </div>
       <Card>
-        <Tabs>
+        <Tabs onChange={tabChange} activeKey={accountKey}>
           <TabPane tab="客户余额" key='1'>
             <ClientTable></ClientTable>
           </TabPane>

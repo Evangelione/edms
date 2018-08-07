@@ -548,7 +548,7 @@ class Logistics extends React.Component {
         width: 160,
         align: 'center',
         render: (text, record, index) => {
-          return (record.wl_distance - 0) * (record.wl_deliver_price - 0) * (record.wl_final_num - 0) + (record.wl_extra_fee - 0)
+          return ((record.wl_distance - 0) * (record.wl_deliver_price - 0) * (record.wl_final_num - 0) + (record.wl_extra_fee - 0)).toFixed(2)
         }
       }
     ]

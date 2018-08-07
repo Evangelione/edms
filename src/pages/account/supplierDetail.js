@@ -1,4 +1,4 @@
-import {Card, Tabs, DatePicker} from 'antd'
+import {Card, Tabs, DatePicker, Button} from 'antd'
 import SuppReceiptTable from './components/SuppReceiptTable'
 import SuppBillTable from './components/SuppBillTable'
 import withRouter from "umi/withRouter"
@@ -6,7 +6,7 @@ import {connect} from "dva/index"
 import moment from 'moment'
 
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-// import {routerRedux} from "dva/router"
+import {routerRedux} from "dva/router"
 
 
 const TabPane = Tabs.TabPane
@@ -55,11 +55,11 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
     })
   }
 
-  // function goSupplierList () {
-  //   this.props.dispatch(routerRedux.push({
-  //     pathname: '/account/balance',
-  //   }))
-  // }
+  function goSupplierList() {
+    dispatch(routerRedux.push({
+      pathname: '/account/balance',
+    }))
+  }
 
   return (
     <div>
@@ -76,9 +76,9 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
           </TabPane>
         </Tabs>
       </Card>
-      {/*<div style={{textAlign: 'center'}}>*/}
-      {/*<Button size='large' type='primary' onClick={this.goCustomerList} style={{marginTop: 30}}>返回我的订单</Button>*/}
-      {/*</div>*/}
+      <div style={{textAlign: 'center'}}>
+        <Button size='large' type='primary' onClick={goSupplierList} style={{marginTop: 30}}>返回供应商余额</Button>
+      </div>
     </div>
   )
 })))

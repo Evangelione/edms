@@ -26,7 +26,8 @@ export default {
     stime: '',
     etime: '',
     currentTab: '1',
-    currentTab2: '1'
+    currentTab2: '1',
+    accountKey: '1'
   },
   subscriptions: {
     setup({dispatch, history}) {
