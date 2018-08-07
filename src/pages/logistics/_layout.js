@@ -117,33 +117,33 @@ class Order extends React.Component {
                       <span
                         className={currentTab === 'daidiaodu' ? 'daidiaoduBlue ' : 'daidiaoduGray'}></span>
                       <span>待调度</span>
-                      <span>({statusNum.ddd})</span>
+                      <span style={{color: 'red'}}>({statusNum.ddd})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'daijiedan', '2')}
                          className={currentTab === 'daijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'daijiedan' ? 'daijiedanBlue ' : 'daijiedanGray'}></span>
                       <span>待接单</span>
-                      <span>({statusNum.djd})</span>
+                      <span style={{color: 'red'}}>({statusNum.djd})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yijiedan', '3')}
                          className={currentTab === 'yijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'yijiedan' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
                       <span>已接单</span>
-                      <span>({statusNum.yjd})</span>
+                      <span style={{color: 'red'}}>({statusNum.yjd})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yunshuzhong', '4')}
                          className={currentTab === 'yunshuzhong' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'yunshuzhong' ? 'yunshuzhongBlue ' : 'yunshuzhongGray'}></span>
                       <span>运输中</span>
-                      <span>({statusNum.ysz})</span>
+                      <span style={{color: 'red'}}>({statusNum.ysz})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yixieche', '5')}
                          className={currentTab === 'yixieche' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'yixieche' ? 'yixiecheBlue ' : 'yixiecheGray'}></span>
                       <span>已卸车</span>
-                      <span>({statusNum.yxc})</span>
+                      <span style={{color: 'red'}}>({statusNum.yxc})</span>
                     </div>
                     <div onClick={this.changeClass.bind(null, 'yiwancheng', '6')}
                          className={currentTab === 'yiwancheng' ? 'blueBG ' : 'grayBG'}>
