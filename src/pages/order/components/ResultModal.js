@@ -157,7 +157,7 @@ class ResultModal extends Component {
             </Row>
             <Form layout='inline'>
               <div className={'itemTitle'}>
-                2.确认采购费用
+                2.确认采购费用（与供应商结算）
                 <div style={{float: 'right', fontSize: 16}}>采购费用：<span
                   style={{color: 'red'}}>{this.state.caigou}元</span></div>
               </div>
@@ -191,7 +191,7 @@ class ResultModal extends Component {
                 </Col>
               </Row>
               <div className={'itemTitle'}>
-                3.确认销售金额
+                3.确认销售金额（与客户结算）
                 <div style={{float: 'right', fontSize: 16}}>销售金额：<span
                   style={{color: 'red'}}>{this.state.xiaoshou}元</span></div>
               </div>
@@ -264,7 +264,7 @@ class ResultModal extends Component {
                 </Col>
               </Row>
               <div className={'itemTitle'}>
-                4.确认物流费用
+                4.确认物流费用（与物流公司结算）
                 <div style={{float: 'right', fontSize: 16}}>物流费用：<span style={{color: 'red'}}>{this.state.wuliu}元</span>
                 </div>
               </div>
