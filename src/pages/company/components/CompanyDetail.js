@@ -1,8 +1,8 @@
 import React from 'react'
-import {Row, Col, Form, Upload, Input, Select, Button, Icon, Modal, message} from 'antd'
 import {connect} from 'dva'
+import {Row, Col, Form, Upload, Input, Select, Button, Icon, Modal, message} from 'antd'
 import styles from '../company.css'
-import {IP} from "../../../constants";
+import {IP} from '../../../constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -14,12 +14,7 @@ class CompanyDetail extends React.Component {
       editable: false,
       previewVisible: false,
       previewImage: '',
-      fileList: [{
-        uid: -1,
-        name: 'xxx.png',
-        status: 'done',
-        url: '',
-      }],
+      fileList: [],
       submitLoading: false
     }
   }
@@ -44,7 +39,7 @@ class CompanyDetail extends React.Component {
           uid: index,
           name: 'xxx.png',
           status: 'done',
-          url: val,
+          url: val
         })
       })
       this.setState({
@@ -96,7 +91,7 @@ class CompanyDetail extends React.Component {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
-    });
+    })
   }
 
   handleRemove = (val) => {
@@ -119,13 +114,13 @@ class CompanyDetail extends React.Component {
   beforeUpload = (file) => {
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
       return false
     }
     if (!isJPG && !isPNG) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
       return false
     }
   }
@@ -160,7 +155,7 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('certificate', {
             initialValue: ["http://lch-img.oss-cn-beijing.aliyuncs.com/lch-bill20180801094752u0.png"],
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: 'Please input your note!'}]
           })(
             <div>
               <div className="clearfix">

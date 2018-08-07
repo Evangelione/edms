@@ -1,18 +1,13 @@
 import React from 'react'
-import { Card, Button, Input, Form, Row, Col, Divider } from 'antd'
 import { connect } from 'dva'
+import { Card, Button, Input, Form, Row, Col, Divider } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
-import { routerRedux } from "dva/router";
+import { routerRedux } from 'dva/router'
 
 const FormItem = Form.Item
 
 class operateUser extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
   componentDidMount() {
     if (this.props.location.query.type === 'edit') {
       if (!Object.keys(this.props.editForm).length) {
@@ -62,7 +57,7 @@ class operateUser extends React.Component {
           <PageTitle>{title}物流</PageTitle>
           <Card>
             <Form>
-              <div className={'itemTitle'}>1.物流公司信息</div>
+              <div className='itemTitle'>1.物流公司信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -110,7 +105,7 @@ class operateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>2.车辆信息</div>
+              <div className='itemTitle'>2.车辆信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -153,7 +148,7 @@ class operateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>3.司机信息</div>
+              <div className='itemTitle'>3.司机信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>

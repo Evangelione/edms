@@ -1,9 +1,9 @@
 import React from 'react'
+import {connect} from 'dva'
 import {Modal, Row, Col, Button, Input, Card, Upload, Icon, message} from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
-import {connect} from 'dva'
-import {IP} from "../../../constants"
+import {IP} from '../../../constants'
 
 class PoundModal extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class PoundModal extends React.Component {
     })
   }
 
-  showModalHandler = (e) => {
+  showModalHandler = () => {
     this.setState({
       visible: true,
     })
@@ -61,7 +61,7 @@ class PoundModal extends React.Component {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
-    });
+    })
   }
 
   handleChange = ({fileList}) => this.setState({fileList})
@@ -102,15 +102,15 @@ class PoundModal extends React.Component {
   }
 
   beforeUpload = (file) => {
-    const isJPG = file.type === 'image/jpeg';
-    const isPNG = file.type === 'image/png';
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isJPG = file.type === 'image/jpeg'
+    const isPNG = file.type === 'image/png'
+    const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
       return false
     }
     if (!isJPG && !isPNG) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
       return false
     }
     this.setState({
@@ -120,14 +120,6 @@ class PoundModal extends React.Component {
         action: `${IP}/home/logistics/load-bill`
       }
     })
-    // const isJPG = file.type === 'image/jpeg';
-    // if (!isJPG) {
-    //   message.error('You can only upload JPG file!');
-    // }
-    // const isLt2M = file.size / 1024 / 1024 < 2;
-    // if (!isLt2M) {
-    //   message.error('Image must smaller than 2MB!');
-    // }
     return false
   }
 
@@ -179,7 +171,7 @@ class PoundModal extends React.Component {
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                     :
-                    <Input addonAfter={'吨'} defaultValue={this.state.load_num} type='number'
+                    <Input addonAfter='吨' defaultValue={this.state.load_num} type='number'
                            onChange={this.loadChange}/>
                   }
                 </Col>
@@ -197,7 +189,7 @@ class PoundModal extends React.Component {
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.unload_num} 吨</div>
                     :
-                    <Input addonAfter={'吨'} defaultValue={this.state.unload_num} type='number'
+                    <Input addonAfter='吨' defaultValue={this.state.unload_num} type='number'
                            onChange={this.unloadChange}/>
                   }
                 </Col>
@@ -218,7 +210,7 @@ class PoundModal extends React.Component {
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                       :
-                      <Input addonAfter={'吨'} type='number' onChange={this.loadChange} defaultValue='0'/>
+                      <Input addonAfter='吨' type='number' onChange={this.loadChange} defaultValue='0'/>
                     }
                   </Col>
                 </Row>
@@ -247,7 +239,7 @@ class PoundModal extends React.Component {
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.unload_num} 吨</div>
                       :
-                      <Input addonAfter={'吨'} type='number' onChange={this.unloadChange} defaultValue='0'/>
+                      <Input addonAfter='吨' type='number' onChange={this.unloadChange} defaultValue='0'/>
                     }
                   </Col>
                 </Row>

@@ -1,6 +1,6 @@
 import React from 'react'
-import {Modal, Form, Select, Input, Row, Col, Button} from 'antd'
 import {connect} from 'dva'
+import {Modal, Form, Select, Input, Row, Col, Button} from 'antd'
 import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -17,14 +17,6 @@ class ContractModal extends React.Component {
       customerOptions: [],
       stime: moment().subtract(29, 'days'),
       etime: moment(),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-      },
     }
   }
 
@@ -113,11 +105,11 @@ class ContractModal extends React.Component {
         sm: {span: 12, offset: 1},
       },
     }
-    let start = this.state.stime.format('YYYY-MM-DD');
-    let end = this.state.etime.format('YYYY-MM-DD');
-    let label = start + ' - ' + end;
+    let start = this.state.stime.format('YYYY-MM-DD')
+    let end = this.state.etime.format('YYYY-MM-DD')
+    let label = start + ' - ' + end
     if (start === end) {
-      label = start;
+      label = start
     }
     let locale = {
       "format": 'YYYY-MM-DD',
@@ -187,7 +179,7 @@ class ContractModal extends React.Component {
               {...formItemLayout}
               label="乙方"
             >
-              {getFieldDecorator('g13s', {
+              {getFieldDecorator('yifang', {
                 initialValue: this.props.company.full_name
               })(
                 <Input placeholder='请输入乙方名称' disabled/>
@@ -198,7 +190,7 @@ class ContractModal extends React.Component {
               {...formItemLayout}
               label="乙方类型"
             >
-              {getFieldDecorator('qd5', {
+              {getFieldDecorator('yifangleixing', {
                 initialValue: this.props.company.company_type
               })(
                 <Select placeholder="请选择乙方类型" disabled>
@@ -215,7 +207,7 @@ class ContractModal extends React.Component {
               {...formItemLayout}
               label="联系人"
             >
-              {getFieldDecorator('da51ta', {
+              {getFieldDecorator('lianxiren', {
                 initialValue: this.props.company.contact
               })(
                 <Input placeholder='请输入联系人' disabled/>
@@ -226,7 +218,7 @@ class ContractModal extends React.Component {
               {...formItemLayout}
               label="联系电话"
             >
-              {getFieldDecorator('j4e', {
+              {getFieldDecorator('lianxidianhua', {
                 initialValue: this.props.company.contact_mobile
               })(
                 <Input placeholder='请输入联系电话' disabled/>

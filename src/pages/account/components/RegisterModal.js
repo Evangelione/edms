@@ -1,6 +1,6 @@
 import React from 'react'
-import {Modal, Button, Row, Col, Form, Input, Select, Upload, Icon, message} from 'antd'
 import {connect} from 'dva'
+import {Modal, Button, Row, Col, Form, Input, Select, Upload, Icon, message} from 'antd'
 import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -16,51 +16,33 @@ class RegisterModal extends React.Component {
       visible: false,
       previewVisible: false,
       previewImage: '',
-      fileList: [{
-        uid: -1,
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      }],
-      etime: moment(),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-      },
+      etime: moment()
     }
   }
 
-  handleApply = (event, picker) => {
-    this.setState({
-      etime: picker.endDate,
-    })
-  }
+  handleApply = (event, picker) => this.setState({etime: picker.endDate})
 
   showModal = () => this.setState({visible: true})
 
   handleCancel = (e) => {
     e.stopPropagation()
     this.setState({
-      visible: false,
+      visible: false
     })
   }
 
   handleImgCancel = () => this.setState({previewVisible: false})
 
   beforeUpload = (file) => {
-    const isJPG = file.type === 'image/jpeg';
-    const isPNG = file.type === 'image/png';
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isJPG = file.type === 'image/jpeg'
+    const isPNG = file.type === 'image/png'
+    const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
       return false
     }
     if (!isJPG && !isPNG) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!');
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
       return false
     }
     this.setState({
@@ -72,9 +54,9 @@ class RegisterModal extends React.Component {
   }
 
   getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
   }
 
   fileChange = (info) => {
@@ -94,7 +76,7 @@ class RegisterModal extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({
-          uploading: true,
+          uploading: true
         })
         this.props.dispatch({
           type: this.props.type === 'client' ? 'balance/clientRegistration' : 'balance/supplierRegistration',
@@ -102,7 +84,7 @@ class RegisterModal extends React.Component {
             file: this.state.file,
             time: values.send_time,
             sum: values.record_sum,
-            id,
+            id
           }
         }).then(() => {
           this.props.type === 'client' ?
@@ -147,7 +129,7 @@ class RegisterModal extends React.Component {
         sm: {span: 12},
       },
     }
-    let time = this.state.etime.format('YYYY-MM-DD HH:mm:ss');
+    let time = this.state.etime.format('YYYY-MM-DD HH:mm:ss')
     let locale = {
       "format": 'YYYY-MM-DD',
       "separator": " - ",
@@ -166,9 +148,8 @@ class RegisterModal extends React.Component {
         <Icon type={this.state.loading ? 'loading' : 'plus'}/>
         <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于2MB</div>
       </div>
-    );
+    )
     return (
-
       <div onClick={this.showModal}>
         {children}
         <Modal
@@ -186,7 +167,7 @@ class RegisterModal extends React.Component {
               {getFieldDecorator('name', {
                 initialValue: this.props.name,
               })(
-                <Input placeholder='请输入公司名称...' disabled/>
+                <Input placeholder='请输入公司名称' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -194,10 +175,10 @@ class RegisterModal extends React.Component {
               label="付款渠道"
             >
               {getFieldDecorator('qd', {
-                initialValue: ['jack']
+                initialValue: ['default']
               })(
-                <Select placeholder='请选择付款渠道...'>
-                  <Option value="jack">网银转账</Option>
+                <Select placeholder='请选择付款渠道'>
+                  <Option value="default">网银转账</Option>
                 </Select>
               )}
             </FormItem>
@@ -207,7 +188,7 @@ class RegisterModal extends React.Component {
             >
               {getFieldDecorator('send_time', {
                 initialValue: time,
-                rules: [{required: true, message: '此项为必选项！'}],
+                rules: [{required: true, message: '此项为必选项！'}]
               })(
                 <DateRangePicker
                   containerStyles={{width: '100%'}}
@@ -223,7 +204,6 @@ class RegisterModal extends React.Component {
                 </DateRangePicker>
               )}
             </FormItem>
-            {/*<div style={{position: 'absolute', top: '228px', left: '319px', color: 'red'}}>付款时间</div>*/}
             <FormItem
               {...formItemLayout}
               label={this.props.type === 'client' ? '收款金额' : '付款金额'}
@@ -231,7 +211,7 @@ class RegisterModal extends React.Component {
               {getFieldDecorator('record_sum', {
                 rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
               })(
-                <Input placeholder={this.props.type === 'client' ? '请输入收款金额...' : '请输入付款金额...'}/>
+                <Input placeholder={this.props.type === 'client' ? '请输入收款金额' : '请输入付款金额'}/>
               )}
             </FormItem>
             <FormItem
@@ -277,11 +257,9 @@ class RegisterModal extends React.Component {
           </Row>
         </Modal>
       </div>
-
     )
   }
 }
-
 
 function mapStateToProps(state) {
   const {find_str} = state.balance
@@ -290,6 +268,5 @@ function mapStateToProps(state) {
     loading: state.loading.models.balance
   }
 }
-
 
 export default connect(mapStateToProps)(Form.create()(RegisterModal))

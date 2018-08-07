@@ -1,7 +1,7 @@
-import {Table, Button, Pagination, Upload, message} from 'antd'
-import {routerRedux} from "dva/router";
 import {connect} from 'dva'
-import {IP, PAGE_SIZE} from "../../../constants"
+import {Table, Button, Pagination, Upload, message} from 'antd'
+import {routerRedux} from 'dva/router'
+import {IP, PAGE_SIZE} from '../../../constants'
 
 function mapStateToProps(state) {
   const {supplierlist, supplierpage, suppliertotal} = state.maintain
@@ -64,11 +64,11 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
   function beforeUpload(file) {
     const isPDF = file.type === 'application/pdf'
     if (!isPDF) {
-      message.error('You can only upload JPG file!');
+      message.error('You can only upload JPG file!')
     }
     const isLt20M = file.size / 1024 / 1024 < 20;
     if (!isLt20M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('Image must smaller than 2MB!')
     }
     return isPDF && isLt20M;
   }
@@ -153,7 +153,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       align: 'center',
       render: (text, record, index) => {
         return (
-          <div className={'operating'}>
+          <div className='operating'>
             {record.temperament_report ?
               <Button className={'blueBorder'} size={'small'} onClick={openPDF.bind(null, text)}>查看</Button>
               :
@@ -165,7 +165,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
                 beforeUpload={beforeUpload}
                 showUploadList={false}
               >
-                <Button size={'small'} type='primary'>上传</Button>
+                <Button size='small' type='primary'>上传</Button>
               </Upload>
             }
           </div>
@@ -179,10 +179,10 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       width: 168,
       render: (text, record, index) => {
         return (
-          <div className={'operating'}>
+          <div className='operating'>
             <Button className={'blueBorder'} onClick={editUser.bind(null, 'edit', record)}
                     size={'small'}>编辑</Button>
-            <Button type='primary' size={'small'} onClick={deleteOne.bind(null, record.id)}
+            <Button type='primary' size='small' onClick={deleteOne.bind(null, record.id)}
                     style={{background: '#EA7878', borderColor: '#EA7878', marginLeft: 10}}>删除</Button>
           </div>
         )
@@ -191,7 +191,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
   ]
   return (
     <div>
-      <div className={'toolBar'}>
+      <div className='toolBar'>
         <Button type='primary' icon="plus"
                 onClick={editUser.bind(null, 'insert', '')}>新增供应商</Button>
         <Upload
@@ -201,7 +201,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
           customRequest={customRequest}
           style={{marginLeft: 10}}
         >
-          <Button className={'blueBorder'} icon="plus">批量导入</Button>
+          <Button className='blueBorder' icon="plus">批量导入</Button>
         </Upload>
       </div>
       <Table
@@ -212,7 +212,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
         loading={loading}
       ></Table>
       <Pagination
-        className="ant-table-pagination"
+        className='ant-table-pagination'
         current={supplierpage}
         total={suppliertotal}
         pageSize={PAGE_SIZE}

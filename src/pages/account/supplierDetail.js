@@ -1,13 +1,11 @@
+import {connect} from 'dva/index'
 import {Card, Tabs, DatePicker, Button} from 'antd'
 import SuppReceiptTable from './components/SuppReceiptTable'
 import SuppBillTable from './components/SuppBillTable'
-import withRouter from "umi/withRouter"
-import {connect} from "dva/index"
+import withRouter from 'umi/withRouter'
 import moment from 'moment'
-
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-import {routerRedux} from "dva/router"
-
+import {routerRedux} from 'dva/router'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -21,6 +19,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(withRouter((({dispatch, location, currentTab2}) => {
+
   function rangeChange(date, dateString) {
     dispatch({
       type: 'balance/supplierDetailFetch',
@@ -63,7 +62,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
 
   return (
     <div>
-      <div className={'searchBox'}>
+      <div className='searchBox'>
         <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}/>
       </div>
       <Card>

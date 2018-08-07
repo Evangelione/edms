@@ -18,11 +18,7 @@ export default {
   },
   subscriptions: {
     setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
-        // if (pathname === '/account/balance/') {
-        // clientDetail
-        // }
-      })
+      return history.listen(({pathname, query}) => {})
     }
   },
   effects: {
@@ -35,7 +31,7 @@ export default {
             contractList: data.data.list,
             contractPage: parseInt(page, 10),
             contractTotal: parseInt(data.data.count, 10),
-            find_str,
+            find_str
           }
         })
       }

@@ -13,11 +13,7 @@ export default {
   },
   subscriptions: {
     setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
-        // if (pathname === '/company') {
-        //   dispatch({type: 'fetchCompanyList', payload: query})
-        // }
-      })
+      return history.listen(({pathname, query}) => {})
     }
   },
   effects: {

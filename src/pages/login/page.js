@@ -1,5 +1,5 @@
-import {Card, Form, Icon, Input, Button} from 'antd'
 import {connect} from 'dva'
+import {Card, Form, Icon, Input, Button} from 'antd'
 import styles from './login.css'
 
 const FormItem = Form.Item
@@ -28,7 +28,7 @@ export default connect(mapStateToProps)(Form.create()(({dispatch, loading, form}
   return (
     <Card className={styles.card} bodyStyle={{padding: 0}}>
       <div className={styles.title}>蓝采和平台登录界面</div>
-      <Form onSubmit={handleSubmit} className={styles["login-form"]} id='special'>
+      <Form onSubmit={handleSubmit} className={styles['login-form']} id='special'>
         <FormItem>
           {form.getFieldDecorator('account', {
             rules: [{
@@ -53,7 +53,7 @@ export default connect(mapStateToProps)(Form.create()(({dispatch, loading, form}
                    placeholder="Password" className={styles['login-form-input']}/>
           )}
         </FormItem>
-        <Button type="primary" htmlType="submit" className={styles["login-form-button"]} loading={loading}>
+        <Button type="primary" htmlType="submit" className={styles['login-form-button']} loading={loading}>
           登录
         </Button>
       </Form>

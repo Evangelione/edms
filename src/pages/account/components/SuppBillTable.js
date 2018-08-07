@@ -3,14 +3,10 @@ import {connect} from 'dva'
 import {Table, Button, Pagination} from 'antd'
 import ExportModal from '../../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
-import {PAGE_SIZE} from "../../../constants"
-import * as dateUtils from "../../../utils/getTime";
+import {PAGE_SIZE} from '../../../constants'
+import * as dateUtils from '../../../utils/getTime'
 
 class BillTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
 
   componentDidMount() {
     this.props.dispatch({
@@ -35,7 +31,6 @@ class BillTable extends React.Component {
       }
     })
   }
-
 
   render() {
     const {supplierReceiptList, supplierReceiptPage, supplierReceiptTotal, loading} = this.props
@@ -90,7 +85,7 @@ class BillTable extends React.Component {
       <div>
         <div className='toolBar'>
           <ExportModal title='批量导出' type='supplierBill' id={this.props.location.query.id}>
-            <Button className={'blueBorder'} icon='export'>批量导出</Button>
+            <Button className='blueBorder' icon='export'>批量导出</Button>
           </ExportModal>
         </div>
         <Table
@@ -101,7 +96,7 @@ class BillTable extends React.Component {
           loading={loading}
         ></Table>
         <Pagination
-          className="ant-table-pagination"
+          className='ant-table-pagination'
           current={supplierReceiptPage}
           total={supplierReceiptTotal}
           pageSize={PAGE_SIZE}

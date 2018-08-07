@@ -1,6 +1,6 @@
 import React from 'react'
-import {Card, Tabs, Input} from 'antd'
 import {connect} from 'dva'
+import {Card, Tabs, Input} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import CompanyDetail from './components/CompanyDetail'
 import SalesPerformance from './components/SalesPerformance'

@@ -1,12 +1,12 @@
 import React from 'react'
-import {Table, Button, Modal, Row, Col, Form, Input, Pagination, AutoComplete} from 'antd'
 import {connect} from 'dva'
+import {Table, Button, Modal, Row, Col, Form, Input, Pagination, AutoComplete} from 'antd'
 import {routerRedux} from 'dva/router'
 import styles from '../logistics.css'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import PoundModal from './PoundModal'
-import {PAGE_SIZE} from "../../../constants"
-import * as dateUtils from "../../../utils/getTime"
+import {PAGE_SIZE} from '../../../constants'
+import * as dateUtils from '../../../utils/getTime'
 import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -27,14 +27,6 @@ class Logistics extends React.Component {
       id: '',
       uploading: false,
       etime: moment(),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-      },
     }
   }
 
@@ -89,7 +81,7 @@ class Logistics extends React.Component {
     })
   }
 
-  handleCancel = (e) => {
+  handleCancel = () => {
     this.setState({
       visible: false,
     });
@@ -121,7 +113,7 @@ class Logistics extends React.Component {
           }
         }).then(() => {
           this.setState({
-            visible: false,
+            visible: false
           })
         })
       }
@@ -217,9 +209,6 @@ class Logistics extends React.Component {
       }
     })
     this.props.form.resetFields('chetoupaizhao')
-    // this.props.form.setFieldsValue({
-    //   recv_phone: option.key
-    // })
   }
 
   renderOption = (item) => {
@@ -341,24 +330,24 @@ class Logistics extends React.Component {
         fixed: 'right',
         render: (text, record, index) => {
           return (
-            <div className={'operating'}>
+            <div className='operating'>
               {text === '1' ?
                 <Button style={{width: 88}} type='primary' onClick={this.scheduling.bind(null, record.id)}
                         loading={this.state.schedulingBtn}>调度</Button>
                 :
                 text === '2' || text === '3' || text === '4' ?
-                  <PromptModal state={'cancelLogistics'} cancelID={record.id} txt={record}>
+                  <PromptModal state='cancelLogistics' cancelID={record.id} txt={record}>
                     <Button type='primary' style={{background: '#EA7878', borderColor: '#EA7878'}}>取消运单</Button>
                   </PromptModal>
                   :
                   text === '6' ?
-                    <PoundModal title={'查看磅单'} type={'look'} hidden='all' load_num={record.load_num}
+                    <PoundModal title='查看磅单' type='look' hidden='all' load_num={record.load_num}
                                 load_url={record.load_url}
                                 unload_num={record.unload_num} unload_url={record.unload_url}>
                       <Button>查看磅单</Button>
                     </PoundModal>
                     :
-                    <PoundModal title={'确认磅单'} hidden='all' load_num={record.load_num} load_url={record.load_url}
+                    <PoundModal title='确认磅单' hidden='all' load_num={record.load_num} load_url={record.load_url}
                                 unload_num={record.unload_num} unload_url={record.unload_url} id={record.id}>
                       <Button type='primary' style={{background: '#59C694', borderColor: '#59C694'}}>确认磅单</Button>
                     </PoundModal>
@@ -375,7 +364,7 @@ class Logistics extends React.Component {
         fixed: 'right',
         render: (text, record, index) => {
           return (
-            <div className={'operating'}>
+            <div className='operating'>
               {text === '2' ?
                 <div>
                   <Button className='blueBorder' onClick={this.acceptOrder.bind(null, record.id)}
@@ -385,12 +374,12 @@ class Logistics extends React.Component {
                           loading={this.state.refuseBtn}>拒绝</Button>
                 </div> :
                 text === '3' ?
-                  <PoundModal title={'上传装车磅单'} load_num={record.load_num} load_url={record.load_url}
+                  <PoundModal title='上传装车磅单' load_num={record.load_num} load_url={record.load_url}
                               hidden={'load'} id={record.id}>
                     <Button>上传装车磅单</Button>
                   </PoundModal> :
                   text === '4' ?
-                    <PoundModal title={'上传卸车磅单'} unload_num={record.unload_num}
+                    <PoundModal title='上传卸车磅单' unload_num={record.unload_num}
                                 unload_url={record.unload_url} hidden={'unload'} id={record.id}>
                       <Button>上传卸车磅单</Button>
                     </PoundModal> : '--'
@@ -406,7 +395,7 @@ class Logistics extends React.Component {
         fixed: 'right',
         render: (text, record, index) => {
           return (
-            <div className={'operating'}>
+            <div className='operating'>
               <Button onClick={this.logisticsDetail.bind(null, record.id)}>查看详情</Button>
             </div>
           )
@@ -552,7 +541,7 @@ class Logistics extends React.Component {
         }
       }
     ]
-    let time = this.state.etime.format('YYYY-MM-DD HH:mm:00');
+    let time = this.state.etime.format('YYYY-MM-DD HH:mm:00')
     let locale = {
       "format": 'YYYY-MM-DD',
       "separator": " - ",
@@ -654,7 +643,7 @@ class Logistics extends React.Component {
                   })(
                     <AutoComplete
                       dataSource={carHeadOptions}
-                      placeholder="请选车头牌照..."
+                      placeholder="请选车头牌照"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                     />
                   )}
@@ -672,7 +661,7 @@ class Logistics extends React.Component {
                     <AutoComplete
                       onChange={this.bodyChange}
                       dataSource={carBodyOptions}
-                      placeholder="请选车挂牌照..."
+                      placeholder="请选车挂牌照"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                     />
                   )}
@@ -708,7 +697,7 @@ class Logistics extends React.Component {
                     <AutoComplete
                       onChange={this.driverChange}
                       dataSource={driverOptions}
-                      placeholder="请选择司机..."
+                      placeholder="请选择司机"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                     />
                   )}
@@ -729,7 +718,7 @@ class Logistics extends React.Component {
                     }],
                     validateTrigger: 'onBlur',
                   })(
-                    <Input placeholder="填写司机电话..."/>
+                    <Input placeholder="填写司机电话"/>
                   )}
                 </FormItem>
               </Col>
@@ -755,7 +744,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('supercargo_mobile')(
-                    <Input placeholder="选择押运员后显示..." disabled/>
+                    <Input placeholder="选择押运员后显示" disabled/>
                   )}
                 </FormItem>
               </Col>

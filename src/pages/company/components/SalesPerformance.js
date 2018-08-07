@@ -1,7 +1,7 @@
 import React from 'react'
-import {Table, Pagination} from 'antd'
 import {connect} from 'dva'
-import {PAGE_SIZE} from "../../../constants"
+import {Table, Pagination} from 'antd'
+import {PAGE_SIZE} from '../../../constants'
 
 class SalesPerformance extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class SalesPerformance extends React.Component {
       type: 'company/fetchCompanyList',
       payload: {
         page,
-        find_str: this.props.find_str,
+        find_str: this.props.find_str
       }
     })
   }
@@ -52,7 +52,7 @@ class SalesPerformance extends React.Component {
       key: 'all_sale_money',
       align: 'center',
       render: (text, record, index) => {
-        return `￥${text}`
+        return `￥${(text - 0).toFixed(2)}`
       }
     }]
     return (
@@ -65,7 +65,7 @@ class SalesPerformance extends React.Component {
           loading={loading}
         ></Table>
         <Pagination
-          className="ant-table-pagination"
+          className='ant-table-pagination'
           current={page}
           total={total}
           pageSize={PAGE_SIZE}

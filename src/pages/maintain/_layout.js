@@ -1,5 +1,5 @@
-import { Card, Tabs, Input } from 'antd'
 import { connect } from 'dva'
+import { Card, Tabs, Input } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import UserTable from './components/UserTable'
 import SupplierTable from './components/SupplierTable'
@@ -55,7 +55,7 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
       {location.pathname === '/maintain' ?
         <div>
           <PageTitle>数据维护</PageTitle>
-          <div className={'searchBox'}>
+          <div className='searchBox'>
             <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={iptSearch}/>
           </div>

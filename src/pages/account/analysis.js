@@ -1,15 +1,15 @@
-import {Card, Tabs, Button, DatePicker, Table, Input, Pagination} from 'antd'
 import {connect} from 'dva'
+import {Card, Tabs, Button, DatePicker, Table, Input, Pagination} from 'antd'
 import ExportModal from '../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
-import {PAGE_SIZE} from "../../constants"
-import {routerRedux} from "dva/router"
 import moment from 'moment'
+import locale from 'antd/lib/date-picker/locale/zh_CN'
+import {PAGE_SIZE} from '../../constants'
+import {routerRedux} from 'dva/router'
 
 const TabPane = Tabs.TabPane
-const {RangePicker} = DatePicker
 const Search = Input.Search
+const {RangePicker} = DatePicker
 
 function mapStateToProps(state) {
   const {list, page, total, stime, etime, find_str} = state.analysis
@@ -25,6 +25,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(withRouter((({dispatch, list, page, total, find_str, stime, etime, loading}) => {
+
   function pageChangeHandler(page) {
     dispatch(routerRedux.push({
       pathname: '/account/analysis',
@@ -115,17 +116,17 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
   }]
   return (
     <div>
-      <div className={'searchBox'}>
+      <div className='searchBox'>
         <RangePicker locale={locale} onChange={rangeChange} disabledDate={disabledDate}/>
-        <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
+        <Search style={{width: 260, marginLeft: 10}} placeholder='输入关键字进行查询'
                 onSearch={iptSearch}/>
       </div>
       <Card>
-        <Tabs onChange={this.callback}>
+        <Tabs>
           <TabPane tab="数据分析" key='1'>
             <div className='toolBar'>
               <ExportModal title='批量导出' type='accountAnalysis'>
-                <Button className={'blueBorder'} icon='export'>批量导出</Button>
+                <Button className='blueBorder' icon='export'>批量导出</Button>
               </ExportModal>
             </div>
             <Table
@@ -136,7 +137,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, list, page, tota
               loading={loading}
             ></Table>
             <Pagination
-              className="ant-table-pagination"
+              className='ant-table-pagination'
               current={page}
               total={total}
               pageSize={PAGE_SIZE}

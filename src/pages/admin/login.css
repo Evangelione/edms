@@ -45,8 +45,8 @@
   border-radius: 12px;
 }
 
-.login-form-input > input::-webkit-input-placeholder{
-  color:#898F97;
+.login-form-input > input::-webkit-input-placeholder {
+  color: #898F97;
 }
 
 .ant-form-explain, .ant-form-extra {

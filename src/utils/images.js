@@ -14,10 +14,9 @@ import daishenhe from '../assets/image/daishenhe.png'
 import success from '../assets/image/tanchuang_zhengque_icon.png'
 import error from '../assets/image/tanchuang_cuowu_icon.png'
 import cancel from '../assets/image/tanchuang_tishi_icon.png'
-
+import yingkui from '../assets/image/yingkui.png'
 
 import dingdanzhuangtai from '../assets/image/dingdanzhaungtai_icon.png'
-
 
 export default {
   lchlogo,
@@ -36,5 +35,6 @@ export default {
   dingdanzhuangtai,
   success,
   error,
-  cancel
+  cancel,
+  yingkui
 }

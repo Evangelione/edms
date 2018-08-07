@@ -1,6 +1,6 @@
 import React from 'react'
-import {Card, Tabs, Button, Input, DatePicker} from 'antd'
 import {connect} from 'dva'
+import {Card, Tabs, Button, Input, DatePicker} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import LogisticsDetail from './logisticsDetail'
 import LogisticsTable from './components/LogisticsTable'
@@ -17,10 +17,9 @@ class Order extends React.Component {
     super(props)
     this.state = {
       tableKey: '1',
-      currentTab: 'quanbu',
+      currentTab: 'quanbu'
     }
   }
-
 
   changeClass = (type, state) => {
     if (this.props.loading) return false
@@ -43,11 +42,7 @@ class Order extends React.Component {
     return current && current > moment().endOf('day');
   }
 
-  callback = (key) => {
-    this.setState({
-      tableKey: key
-    })
-  }
+  callback = (key) => this.setState({tableKey: key})
 
   iptSearch = (value) => {
     if (this.state.tableKey === '1') {
@@ -91,7 +86,7 @@ class Order extends React.Component {
           :
           <div>
             <PageTitle>我的物流</PageTitle>
-            <div className={'searchBox'}>
+            <div className='searchBox'>
               {this.state.tableKey === '2' ?
                 <span>
                     <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
@@ -105,7 +100,7 @@ class Order extends React.Component {
             <Card>
               <Tabs onChange={this.callback}>
                 <TabPane tab="我的物流" key='1'>
-                  <div className={'changeList'}>
+                  <div className='changeList'>
                     <div onClick={this.changeClass.bind(null, 'quanbu', '')}
                          className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
                       <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
@@ -156,9 +151,9 @@ class Order extends React.Component {
                 </TabPane>
                 <TabPane tab="运费明细" key='2'>
                   <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
-                  <div className={'toolBar'}>
+                  <div className='toolBar'>
                     <ExportModal title='批量导出' type='logistics'>
-                      <Button className={'blueBorder'} icon="export">批量导出</Button>
+                      <Button className='blueBorder' icon="export">批量导出</Button>
                     </ExportModal>
                   </div>
                 </TabPane>

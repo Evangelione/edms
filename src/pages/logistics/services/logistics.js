@@ -1,5 +1,5 @@
 import request from '../../../utils/request'
-import {IP, PAGE_SIZE} from "../../../constants";
+import {IP, PAGE_SIZE} from '../../../constants'
 
 export function getDeliverList({page, deliver_status, find_str}) {
   let formData = new FormData()

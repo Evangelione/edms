@@ -1,11 +1,11 @@
-import {Card, Tabs, Button, Input, Table, Pagination} from 'antd'
 import {connect} from 'dva'
+import {Card, Tabs, Button, Input, Table, Pagination} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import OperateUser from './operateUser'
 import {routerRedux} from 'dva/router'
-import {PAGE_SIZE} from "../../constants";
-import * as dateUtils from "../../utils/getTime";
+import {PAGE_SIZE} from '../../constants'
+import * as dateUtils from '../../utils/getTime'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -38,7 +38,10 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
   function pageChangeHandler(page) {
     dispatch(routerRedux.push({
       pathname: '/backstage',
-      query: {page}
+      query: {
+        page,
+        find_str
+      }
     }))
   }
 
@@ -113,9 +116,9 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     key: 'createdAt',
     render: (text, record, index) => {
       return (
-        <div className={'operating'}>
-          <Button className={'blueBorder'} onClick={editUser.bind(null, 'edit', record)}
-                  size={'small'}>编辑</Button>
+        <div className='operating'>
+          <Button className='blueBorder' onClick={editUser.bind(null, 'edit', record)}
+                  size='small'>编辑</Button>
         </div>
       )
     }
@@ -129,16 +132,16 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           {record.forbidden === '1' ?
             <div>
               {record.role === '1' ?
-                <Button type='primary' size={'small'} disabled>禁用</Button>
+                <Button type='primary' size='small' disabled>禁用</Button>
                 :
                 <PromptModal state='disableAccount' id={record.id} type='禁用'>
                   <Button style={{background: '#EA7878', borderColor: '#EA7878'}} type='primary'
-                          size={'small'}>禁用</Button>
+                          size='small'>禁用</Button>
                 </PromptModal>}
             </div>
             :
             <PromptModal state='disableAccount' id={record.id} type='启用'>
-              <Button style={{background: '#59C694', borderColor: '#59C694'}} type='primary' size={'small'}>启用</Button>
+              <Button style={{background: '#59C694', borderColor: '#59C694'}} type='primary' size='small'>启用</Button>
             </PromptModal>
           }
         </div>
@@ -150,7 +153,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       {location.pathname === '/backstage' ?
         <div>
           <PageTitle>管理员设置</PageTitle>
-          <div className={'searchBox'}>
+          <div className='searchBox'>
             <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={iptSearch}
             />
@@ -158,8 +161,8 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           <Card>
             <Tabs>
               <TabPane tab="管理员设置" key='1'>
-                <div className={'toolBar'}>
-                  <Button className={'blueBorder'} icon="plus"
+                <div className='toolBar'>
+                  <Button className='blueBorder' icon="plus"
                           onClick={editUser.bind(null, 'insert')}>新增管理员</Button>
                 </div>
                 <Table
@@ -170,7 +173,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                   loading={loading}
                 ></Table>
                 <Pagination
-                  className="ant-table-pagination"
+                  className='ant-table-pagination'
                   total={total}
                   current={page}
                   pageSize={PAGE_SIZE}

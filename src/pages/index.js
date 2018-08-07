@@ -13,7 +13,8 @@ import 'echarts/lib/chart/effectScatter'
 import 'echarts/map/js/china' // 引入中国地图
 // import ReactEcharts from 'echarts-for-react'
 import CountUp from 'react-countup'
-import {routerRedux} from "dva/router";
+import {routerRedux} from 'dva/router'
+import * as images from '../utils/images'
 
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
@@ -371,7 +372,7 @@ class IndexPage extends React.Component {
         <Menu.Item key="2">近30天</Menu.Item>
         <Menu.Item key="3">近3个月</Menu.Item>
         <Menu.Item key="4">近6个月</Menu.Item>
-        <Menu.Item key="5">近36个月</Menu.Item>
+        <Menu.Item key="5">近12个月</Menu.Item>
       </Menu>
     )
     if (Object.keys(trend).length) {
@@ -543,7 +544,9 @@ class IndexPage extends React.Component {
           </Col>
           <Col className={styles.topBox}>
             <div>
-              <div className={styles["dashImg-yingkui"]}></div>
+              <div className={styles["dashImg-yingkui"]}>
+                <img src={images.default.yingkui} alt="" width='62' height='62'/>
+              </div>
               <div className={styles.dashTitle}>{this.state.topTip}盈亏</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.profit_and_loss - 0)} duration={3}/>
@@ -642,10 +645,8 @@ class IndexPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {options} = state.echart
   const {count, customerPer, supplierPer, logistics, trend, countLoading, customerLoading, supplierLoading} = state.home
   return {
-    options,
     count,
     customerPer,
     supplierPer,

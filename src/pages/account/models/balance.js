@@ -31,11 +31,7 @@ export default {
   },
   subscriptions: {
     setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
-        if (pathname === '/account/balance/') {
-          // clientDetail
-        }
-      })
+      return history.listen(({pathname, query}) => {})
     }
   },
   effects: {

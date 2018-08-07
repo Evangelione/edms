@@ -1,8 +1,8 @@
 import React from 'react'
+import {connect} from 'dva'
 import {Card, Tabs, DatePicker, Input} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import moment from 'moment'
-import {connect} from 'dva'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import SalesContract from './components/SalesContract'
 import SalesDetail from './components/SalesDetail'
@@ -38,7 +38,7 @@ class Client extends React.Component {
   }
 
   disabledDate = (current) => {
-    return current && current > moment().endOf('day');
+    return current && current > moment().endOf('day')
   }
 
   iptSearch = (value) => {
@@ -64,7 +64,7 @@ class Client extends React.Component {
     return (
       <div>
         <PageTitle>我的客户</PageTitle>
-        <div className={'searchBox'}>
+        <div className='searchBox'>
           {this.state.paneKey === '2' ?
             <span>
               <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>

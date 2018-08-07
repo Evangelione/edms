@@ -1,7 +1,7 @@
+import {connect} from 'dva'
 import {Table, Button, Pagination, Upload} from 'antd'
 import {routerRedux} from "dva/router";
-import {connect} from 'dva'
-import {IP, PAGE_SIZE} from "../../../constants"
+import {IP, PAGE_SIZE} from '../../../constants'
 
 
 function mapStateToProps(state) {
@@ -120,10 +120,10 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
       key: 'createdAt',
       render: (text, record, index) => {
         return (
-          <div className={'operating'}>
-            <Button className={'blueBorder'} onClick={editUser.bind(null, 'edit', record)}
-                    size={'small'}>编辑</Button>
-            <Button type='primary' size={'small'} onClick={deleteOne.bind(null, record.id)}
+          <div className='operating'>
+            <Button className='blueBorder' onClick={editUser.bind(null, 'edit', record)}
+                    size='small'>编辑</Button>
+            <Button type='primary' size='small' onClick={deleteOne.bind(null, record.id)}
                     style={{background: '#EA7878', borderColor: '#EA7878', marginLeft: 10}}>删除</Button>
           </div>
         )
@@ -132,7 +132,7 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
   ]
   return (
     <div>
-      <div className={'toolBar'}>
+      <div className='toolBar'>
         <Button type='primary' icon="plus"
                 onClick={editUser.bind(null, 'insert')}>新增车辆</Button>
         <Upload
@@ -142,7 +142,7 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
           customRequest={customRequest}
           style={{marginLeft: 10}}
         >
-          <Button className={'blueBorder'} icon="plus">批量导入</Button>
+          <Button className='blueBorder' icon="plus">批量导入</Button>
         </Upload>
       </div>
       <Table
@@ -153,7 +153,7 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
         loading={loading}
       ></Table>
       <Pagination
-        className="ant-table-pagination"
+        className='ant-table-pagination'
         current={carpage}
         total={cartotal}
         pageSize={PAGE_SIZE}

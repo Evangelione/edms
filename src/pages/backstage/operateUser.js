@@ -1,10 +1,10 @@
 import React from 'react'
-import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal} from 'antd'
 import {connect} from 'dva'
+import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
 import {IP} from '../../constants'
-import {routerRedux} from "dva/router";
+import {routerRedux} from 'dva/router'
 
 const FormItem = Form.Item
 
@@ -53,7 +53,7 @@ class OperateUser extends React.Component {
   handlePreview = (file) => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
+      previewVisible: true
     });
   }
 
@@ -76,7 +76,7 @@ class OperateUser extends React.Component {
         delete values.sjwh
         values.auth = auth.toString()
         values.role = this.state.value
-        if(values.pwd === undefined) values.pwd = ''
+        if (values.pwd === undefined) values.pwd = ''
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'backstage/insertAdmin',
@@ -100,81 +100,81 @@ class OperateUser extends React.Component {
     }))
   }
 
-  radioChange = (e) => {
-    this.setState({
-      value: e.target.value,
-    }, () => {
-      if (e.target.value === '1') {
-        this.props.form.setFieldsValue({
-          gly: true,
-          yhqx: true,
-          sjwh: true
-        })
-        this.setState({
-          gly: true,
-          yhqx: true,
-          sjwh: true
-        })
-      } else if (e.target.value === '2') {
-        this.props.form.setFieldsValue({
-          gly: false,
-          yhqx: false,
-          sjwh: false
-        })
-        this.setState({
-          gly: false,
-          yhqx: false,
-          sjwh: false
-        })
-      }
-    })
-  }
+  // radioChange = (e) => {
+  //   this.setState({
+  //     value: e.target.value,
+  //   }, () => {
+  //     if (e.target.value === '1') {
+  //       this.props.form.setFieldsValue({
+  //         gly: true,
+  //         yhqx: true,
+  //         sjwh: true
+  //       })
+  //       this.setState({
+  //         gly: true,
+  //         yhqx: true,
+  //         sjwh: true
+  //       })
+  //     } else if (e.target.value === '2') {
+  //       this.props.form.setFieldsValue({
+  //         gly: false,
+  //         yhqx: false,
+  //         sjwh: false
+  //       })
+  //       this.setState({
+  //         gly: false,
+  //         yhqx: false,
+  //         sjwh: false
+  //       })
+  //     }
+  //   })
+  // }
 
-  checkChange = (item, checked) => {
-    if (item === 'gly') {
-      this.setState({
-        gly: checked
-      }, () => {
-        if (this.state.gly && this.state.yhqx && this.state.sjwh) {
-          this.setState({
-            value: '1',
-          });
-        } else {
-          this.setState({
-            value: '2',
-          });
-        }
-      })
-    } else if (item === 'yhqx') {
-      this.setState({
-        yhqx: checked
-      }, () => {
-        if (this.state.gly && this.state.yhqx && this.state.sjwh) {
-          this.setState({
-            value: '1',
-          });
-        } else {
-          this.setState({
-            value: '2',
-          });
-        }
-      })
-    } else if (item === 'sjwh') {
-      this.setState({
-        sjwh: checked
-      }, () => {
-        if (this.state.gly && this.state.yhqx && this.state.sjwh) {
-          this.setState({
-            value: '1',
-          });
-        } else {
-          this.setState({
-            value: '2',
-          });
-        }
-      })
-    }
-  }
+  // checkChange = (item, checked) => {
+  //   if (item === 'gly') {
+  //     this.setState({
+  //       gly: checked
+  //     }, () => {
+  //       if (this.state.gly && this.state.yhqx && this.state.sjwh) {
+  //         this.setState({
+  //           value: '1',
+  //         });
+  //       } else {
+  //         this.setState({
+  //           value: '2',
+  //         });
+  //       }
+  //     })
+  //   } else if (item === 'yhqx') {
+  //     this.setState({
+  //       yhqx: checked
+  //     }, () => {
+  //       if (this.state.gly && this.state.yhqx && this.state.sjwh) {
+  //         this.setState({
+  //           value: '1',
+  //         });
+  //       } else {
+  //         this.setState({
+  //           value: '2',
+  //         });
+  //       }
+  //     })
+  //   } else if (item === 'sjwh') {
+  //     this.setState({
+  //       sjwh: checked
+  //     }, () => {
+  //       if (this.state.gly && this.state.yhqx && this.state.sjwh) {
+  //         this.setState({
+  //           value: '1',
+  //         });
+  //       } else {
+  //         this.setState({
+  //           value: '2',
+  //         });
+  //       }
+  //     })
+  //   }
+  // }
 
   customRequest = (file) => {
     this.props.dispatch({
@@ -188,7 +188,7 @@ class OperateUser extends React.Component {
     const {previewVisible, previewImage, fileList} = this.state
     const formItemLayout = {
       labelCol: {span: 2},
-      wrapperCol: {span: 5},
+      wrapperCol: {span: 5}
     }
     const uploadButton = (
       <div>
@@ -203,7 +203,7 @@ class OperateUser extends React.Component {
           <PageTitle>{title}管理员</PageTitle>
           <Card>
             <Form>
-              <div className={'itemTitle'}>1.管理员信息</div>
+              <div className='itemTitle'>1.管理员信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -263,7 +263,7 @@ class OperateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>2.账号密码</div>
+              <div className='itemTitle'>2.账号密码</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -297,66 +297,66 @@ class OperateUser extends React.Component {
               {/*<div className={'itemTitle'} style={{display: 'none'}}>3.管理员角色</div>*/}
               {/*<Divider style={{display: 'none'}}></Divider>*/}
               {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
-                {/*<Col span={12} offset={1}>*/}
-                  {/*<FormItem*/}
-                    {/*label=""*/}
-                    {/*{...formItemLayout2}*/}
-                  {/*>*/}
-                    {/*{getFieldDecorator('role', {*/}
-                      {/*initialValue: '2',*/}
-                      {/*valuePropName: 'checked',*/}
-                    {/*})(*/}
-                      {/*<RadioGroup value={this.state.value}*/}
-                                  {/*onChange={this.radioChange}>*/}
-                        {/*<Radio value={'1'}>超级管理员</Radio>*/}
-                        {/*<Radio value={'2'} style={{marginLeft: 110}}>普通管理员</Radio>*/}
-                      {/*</RadioGroup>*/}
-                    {/*)}*/}
-                  {/*</FormItem>*/}
-                {/*</Col>*/}
+              {/*<Col span={12} offset={1}>*/}
+              {/*<FormItem*/}
+              {/*label=""*/}
+              {/*{...formItemLayout2}*/}
+              {/*>*/}
+              {/*{getFieldDecorator('role', {*/}
+              {/*initialValue: '2',*/}
+              {/*valuePropName: 'checked',*/}
+              {/*})(*/}
+              {/*<RadioGroup value={this.state.value}*/}
+              {/*onChange={this.radioChange}>*/}
+              {/*<Radio value={'1'}>超级管理员</Radio>*/}
+              {/*<Radio value={'2'} style={{marginLeft: 110}}>普通管理员</Radio>*/}
+              {/*</RadioGroup>*/}
+              {/*)}*/}
+              {/*</FormItem>*/}
+              {/*</Col>*/}
               {/*</Row>*/}
               {/*<div className={'itemTitle'} style={{display: 'none'}}>4.角色权限</div>*/}
               {/*<Divider style={{display: 'none'}}></Divider>*/}
               {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
-                {/*<Col span={5}>*/}
-                  {/*<FormItem*/}
-                    {/*label="管理员设置"*/}
-                    {/*{...formItemLayout2}*/}
-                  {/*>*/}
-                    {/*{getFieldDecorator('gly', {*/}
-                      {/*valuePropName: 'checked',*/}
-                      {/*initialValue: false,*/}
-                    {/*})(*/}
-                      {/*<Switch onChange={this.checkChange.bind(null, 'gly')}/>,*/}
-                    {/*)}*/}
-                  {/*</FormItem>*/}
-                {/*</Col>*/}
-                {/*<Col span={5}>*/}
-                  {/*<FormItem*/}
-                    {/*label="用户权限设置"*/}
-                    {/*{...formItemLayout2}*/}
-                  {/*>*/}
-                    {/*{getFieldDecorator('yhqx', {*/}
-                      {/*valuePropName: 'checked',*/}
-                      {/*initialValue: true,*/}
-                    {/*})(*/}
-                      {/*<Switch onChange={this.checkChange.bind(null, 'yhqx')}/>,*/}
-                    {/*)}*/}
-                  {/*</FormItem>*/}
-                {/*</Col>*/}
-                {/*<Col span={5}>*/}
-                  {/*<FormItem*/}
-                    {/*label="数据维护"*/}
-                    {/*{...formItemLayout2}*/}
-                  {/*>*/}
-                    {/*{getFieldDecorator('sjwh', {*/}
-                      {/*valuePropName: 'checked',*/}
-                      {/*initialValue: true,*/}
-                    {/*})(*/}
-                      {/*<Switch onChange={this.checkChange.bind(null, 'sjwh')}/>,*/}
-                    {/*)}*/}
-                  {/*</FormItem>*/}
-                {/*</Col>*/}
+              {/*<Col span={5}>*/}
+              {/*<FormItem*/}
+              {/*label="管理员设置"*/}
+              {/*{...formItemLayout2}*/}
+              {/*>*/}
+              {/*{getFieldDecorator('gly', {*/}
+              {/*valuePropName: 'checked',*/}
+              {/*initialValue: false,*/}
+              {/*})(*/}
+              {/*<Switch onChange={this.checkChange.bind(null, 'gly')}/>,*/}
+              {/*)}*/}
+              {/*</FormItem>*/}
+              {/*</Col>*/}
+              {/*<Col span={5}>*/}
+              {/*<FormItem*/}
+              {/*label="用户权限设置"*/}
+              {/*{...formItemLayout2}*/}
+              {/*>*/}
+              {/*{getFieldDecorator('yhqx', {*/}
+              {/*valuePropName: 'checked',*/}
+              {/*initialValue: true,*/}
+              {/*})(*/}
+              {/*<Switch onChange={this.checkChange.bind(null, 'yhqx')}/>,*/}
+              {/*)}*/}
+              {/*</FormItem>*/}
+              {/*</Col>*/}
+              {/*<Col span={5}>*/}
+              {/*<FormItem*/}
+              {/*label="数据维护"*/}
+              {/*{...formItemLayout2}*/}
+              {/*>*/}
+              {/*{getFieldDecorator('sjwh', {*/}
+              {/*valuePropName: 'checked',*/}
+              {/*initialValue: true,*/}
+              {/*})(*/}
+              {/*<Switch onChange={this.checkChange.bind(null, 'sjwh')}/>,*/}
+              {/*)}*/}
+              {/*</FormItem>*/}
+              {/*</Col>*/}
               {/*</Row>*/}
               <Row style={{width: 500, margin: '42px 0 20px 85px'}}>
                 <Col span={5} offset={2}>

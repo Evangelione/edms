@@ -1,5 +1,5 @@
-import {Card, Divider, Row, Col, Icon} from 'antd'
 import {connect} from 'dva'
+import {Card, Divider, Row, Col, Icon} from 'antd'
 import styles from '../logistics.css'
 
 function mapStateToProps(state) {
@@ -17,7 +17,7 @@ export default connect(mapStateToProps)(({detailForm}) => {
 
   return (
     <Card style={{borderColor: '#CFCFCF'}}>
-      <div className={'itemTitle'}>1.客户信息</div>
+      <div className='itemTitle'>1.客户信息</div>
       <Divider></Divider>
       <Row style={{marginTop: 35}}>
         <Col span={6} className={styles.ColStyle}>
@@ -47,7 +47,7 @@ export default connect(mapStateToProps)(({detailForm}) => {
           <Col span={13}>{detailForm.saler_num}</Col>
         </Col>
       </Row>
-      <div className={'itemTitle'}>2.收货信息</div>
+      <div className='itemTitle'>2.收货信息</div>
       <Divider></Divider>
       <Row style={{marginTop: 35}}>
         <Col span={6} className={styles.ColStyle}>
@@ -84,7 +84,7 @@ export default connect(mapStateToProps)(({detailForm}) => {
             span={13}>{detailForm.delivery_province + (detailForm.delivery_city ? detailForm.delivery_city : '') + (detailForm.delivery_area ? detailForm.delivery_area : '') + detailForm.detailed_address}</Col>
         </Col>
       </Row>
-      <div className={'itemTitle'}>3.供应商信息</div>
+      <div className='itemTitle'>3.供应商信息</div>
       <Divider></Divider>
       <Row style={{marginTop: 35}}>
         <Col span={6} className={styles.ColStyle}>
@@ -100,7 +100,7 @@ export default connect(mapStateToProps)(({detailForm}) => {
           <Col span={13}>{detailForm.supp_mobile}</Col>
         </Col>
       </Row>
-      <div className={'itemTitle'}>4.气源信息</div>
+      <div className='itemTitle'>4.气源信息</div>
       <Divider></Divider>
       <Row style={{marginTop: 35}}>
         <Col span={6} className={styles.ColStyle}>

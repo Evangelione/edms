@@ -1,12 +1,12 @@
 import React from 'react'
+import {connect} from 'dva'
 import {Card, Steps, Button, notification} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import styles from './logistics.css'
 import LogisticsForm from './components/LogisticsForm'
 import TimeLine from '../../components/TimeLine/TimeLine'
 import {Map, Marker, NavigationControl, InfoWindow} from 'react-bmap'
-import {connect} from 'dva'
-import {routerRedux} from "dva/router";
+import {routerRedux} from 'dva/router'
 
 const Step = Steps.Step
 

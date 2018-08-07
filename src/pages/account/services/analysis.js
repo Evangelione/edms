@@ -1,5 +1,5 @@
 import request from '../../../utils/request'
-import {IP, PAGE_SIZE} from "../../../constants";
+import {IP, PAGE_SIZE} from '../../../constants'
 
 export function getAnalysisData({page, find_str, stime, etime}) {
   let formData = new FormData()

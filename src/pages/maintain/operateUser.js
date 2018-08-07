@@ -1,9 +1,9 @@
 import React from 'react'
-import {Card, Button, Input, Form, Row, Col, Divider, Select, Cascader} from 'antd'
 import {connect} from 'dva'
+import {Card, Button, Input, Form, Row, Col, Divider, Select, Cascader} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
-import {routerRedux} from "dva/router";
+import {routerRedux} from 'dva/router'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -134,9 +134,6 @@ class operateUser extends React.Component {
   // })
 
   render() {
-    setTimeout(() => {
-      console.log(this.props.editForm)
-    }, 2000)
     const typeList1 = this.state.userType1.map((type, index) => <Option key={type} value={index + 1}>{type}</Option>)
     const typeList2 = this.state.userType2.map((type, index) => <Option key={type} value={index + 1}>{type}</Option>)
     const {getFieldDecorator} = this.props.form
@@ -151,7 +148,7 @@ class operateUser extends React.Component {
           <PageTitle>{title}用户</PageTitle>
           <Card>
             <Form>
-              <div className={'itemTitle'}>1.客户信息</div>
+              <div className='itemTitle'>1.客户信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -216,7 +213,7 @@ class operateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>2.站点信息</div>
+              <div className='itemTitle'>2.站点信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -278,7 +275,7 @@ class operateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>3.收货信息</div>
+              <div className='itemTitle'>3.收货信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>

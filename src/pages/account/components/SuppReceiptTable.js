@@ -3,15 +3,11 @@ import {connect} from 'dva'
 import {Table, Button, Pagination} from 'antd'
 import ExportModal from '../../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
-import {PAGE_SIZE} from "../../../constants"
+import {PAGE_SIZE} from '../../../constants'
 import ImageModal from '../../../components/ImageModal/ImageModal'
-import * as dateUtils from "../../../utils/getTime";
+import * as dateUtils from '../../../utils/getTime'
 
 class ReceiptTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
 
   componentDidMount() {
     this.props.dispatch({
@@ -108,7 +104,7 @@ class ReceiptTable extends React.Component {
       render: (text, record, index) => {
         return(
           <ImageModal title='付款凭证' imgUrl={record.send_cert}>
-            <Button className={'blueBorder'}>点击查看</Button>
+            <Button className='blueBorder'>点击查看</Button>
           </ImageModal>
         )
       }
@@ -117,7 +113,7 @@ class ReceiptTable extends React.Component {
       <div>
         <div className='toolBar'>
           <ExportModal title='批量导出' type='supplierRecipt' id={this.props.location.query.id}>
-            <Button className={'blueBorder'} icon='export'>批量导出</Button>
+            <Button className='blueBorder' icon='export'>批量导出</Button>
           </ExportModal>
         </div>
         <Table
@@ -128,7 +124,7 @@ class ReceiptTable extends React.Component {
           loading={loading}
         ></Table>
         <Pagination
-          className="ant-table-pagination"
+          className='ant-table-pagination'
           current={supplierDetailPage}
           total={supplierDetailTotal}
           pageSize={PAGE_SIZE}

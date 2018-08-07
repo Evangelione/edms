@@ -1,16 +1,11 @@
 import React from 'react'
-import {Table, Button, Pagination} from 'antd'
 import {connect} from 'dva'
-import {routerRedux} from 'dva/router'
-// import ExportModal from '../../../components/ExportModal/ExportModal'
+import {Table, Button, Pagination} from 'antd'
 import RegisterModal from '../components/RegisterModal'
-import {IP, PAGE_SIZE} from "../../../constants";
+import {IP, PAGE_SIZE} from '../../../constants'
+import {routerRedux} from 'dva/router'
 
 class ClientTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
 
   componentDidMount() {
     this.props.dispatch({
@@ -59,7 +54,7 @@ class ClientTable extends React.Component {
       key: 'detail',
       align: 'center',
       render: (text, record, index) => {
-        return <Button className={'blueBorder'} size='small' onClick={this.goDetail.bind(null, record.id)}>查看详情</Button>
+        return <Button className='blueBorder' size='small' onClick={this.goDetail.bind(null, record.id)}>查看详情</Button>
       }
     }, {
       title: '收款登记',
@@ -76,11 +71,9 @@ class ClientTable extends React.Component {
     }]
     return (
       <div>
-        <div className={'toolBar'}>
-          {/*<ExportModal title='批量导出' type='accountClient' str={}>*/}
-          <Button className={'blueBorder'} icon='export'
+        <div className='toolBar'>
+          <Button className='blueBorder' icon='export'
                   onClick={this.exportExcel.bind(null, this.props.find_str)}>批量导出</Button>
-          {/*</ExportModal>*/}
         </div>
         <Table
           columns={columns}
@@ -90,7 +83,7 @@ class ClientTable extends React.Component {
           loading={loading}
         ></Table>
         <Pagination
-          className="ant-table-pagination"
+          className='ant-table-pagination'
           current={clientPage}
           total={clientTotal}
           pageSize={PAGE_SIZE}

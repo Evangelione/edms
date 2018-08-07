@@ -1,7 +1,7 @@
-import {Table, Button, Pagination, Upload} from 'antd'
-import {routerRedux} from "dva/router";
 import {connect} from 'dva'
-import {IP, PAGE_SIZE} from "../../../constants"
+import {Table, Button, Pagination, Upload} from 'antd'
+import {routerRedux} from 'dva/router'
+import {IP, PAGE_SIZE} from '../../../constants'
 
 function mapStateToProps(state) {
   const {customerlist, customerpage, customertotal} = state.maintain
@@ -202,10 +202,10 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     fixed: 'right',
     render: (text, record, index) => {
       return (
-        <div className={'operating'}>
-          <Button className={'blueBorder'} onClick={editUser.bind(null, 'edit', record)}
-                  size={'small'}>编辑</Button>
-          <Button type='primary' size={'small'} onClick={deleteOne.bind(null, record.id)}
+        <div className='operating'>
+          <Button className='blueBorder' onClick={editUser.bind(null, 'edit', record)}
+                  size='small'>编辑</Button>
+          <Button type='primary' size='small' onClick={deleteOne.bind(null, record.id)}
                   style={{background: '#EA7878', borderColor: '#EA7878', marginLeft: 10}}>删除</Button>
         </div>
       )
@@ -213,7 +213,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
   }]
   return (
     <div>
-      <div className={'toolBar'}>
+      <div className='toolBar'>
         <Button type='primary' icon="plus"
                 onClick={editUser.bind(null, 'insert', '')}>新增用户</Button>
         <Upload
@@ -223,7 +223,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
           customRequest={customRequest}
           style={{marginLeft: 10}}
         >
-          <Button className={'blueBorder'} icon="plus">批量导入</Button>
+          <Button className='blueBorder' icon="plus">批量导入</Button>
         </Upload>
       </div>
       <Table
@@ -235,7 +235,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         scroll={{x: 2800}}
       ></Table>
       <Pagination
-        className="ant-table-pagination"
+        className='ant-table-pagination'
         current={customerpage}
         total={customertotal}
         pageSize={PAGE_SIZE}

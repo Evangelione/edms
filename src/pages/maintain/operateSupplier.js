@@ -1,10 +1,10 @@
 import React from 'react'
-import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Cascader, Select, message} from 'antd'
 import {connect} from 'dva'
+import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Cascader, Select, message} from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
-import {IP} from "../../constants"
-import {routerRedux} from "dva/router";
+import {IP} from '../../constants'
+import {routerRedux} from 'dva/router'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -100,13 +100,13 @@ class operateUser extends React.Component {
   beforeUpload = (file) => {
     const isPDF = file.type === 'application/pdf'
     if (!isPDF) {
-      message.error('You can only upload JPG file!');
+      message.error('You can only upload JPG file!')
     }
     const isLt20M = file.size / 1024 / 1024 < 20;
     if (!isLt20M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('Image must smaller than 2MB!')
     }
-    return isPDF && isLt20M;
+    return isPDF && isLt20M
   }
 
   render() {
@@ -122,7 +122,7 @@ class operateUser extends React.Component {
           <PageTitle>{title}供应商</PageTitle>
           <Card>
             <Form>
-              <div className={'itemTitle'}>1.供应商信息</div>
+              <div className='itemTitle'>1.供应商信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -189,7 +189,7 @@ class operateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>2.气源信息</div>
+              <div className='itemTitle'>2.气源信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -252,7 +252,7 @@ class operateUser extends React.Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>3.装货信息</div>
+              <div className='itemTitle'>3.装货信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -343,8 +343,7 @@ function mapStateToProps(state) {
     imgUrl,
     editForm,
     CascaderOptions,
-    loading: state.loading.models.order
   }
 }
 
-export default Form.create()(connect(mapStateToProps)(withRouter(operateUser)))
+export default connect(mapStateToProps)(withRouter(Form.create()(operateUser)))

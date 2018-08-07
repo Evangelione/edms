@@ -3,14 +3,10 @@ import {connect} from 'dva'
 import {Table, Button, Pagination} from 'antd'
 import ExportModal from '../../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
-import {PAGE_SIZE} from "../../../constants"
-import * as dateUtils from "../../../utils/getTime";
+import {PAGE_SIZE} from '../../../constants'
+import * as dateUtils from '../../../utils/getTime'
 
 class BillTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
 
   componentDidMount() {
     this.props.dispatch({
