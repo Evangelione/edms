@@ -55,7 +55,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     key: 'customer_name',
     align: 'center',
     fixed: 'left',
-    width: 200
+    width: 220
   }, {
     title: '客户类型',
     dataIndex: 'customer_type',
@@ -232,7 +232,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-        scroll={{x: 2800}}
+        scroll={{x: 3000}}
       ></Table>
       <Pagination
         className='ant-table-pagination'
