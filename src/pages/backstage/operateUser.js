@@ -74,7 +74,7 @@ class OperateUser extends React.Component {
         delete values.gly
         delete values.yhqx
         delete values.sjwh
-        values.auth = auth.toString()
+        values.auth = 6
         values.role = this.state.value
         if (values.pwd === undefined) values.pwd = ''
         if (this.props.location.query.type === 'insert') {
