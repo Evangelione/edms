@@ -31,12 +31,12 @@ class SalesContract extends React.Component {
       key: 'code',
       align: 'center'
     }, {
-      title: '甲方名称',
+      title: '买方名称',
       dataIndex: 'customer_name',
       key: 'customer_name',
       align: 'center'
     }, {
-      title: '甲方类型',
+      title: '买方类型',
       dataIndex: 'customer_type',
       key: 'customer_type',
       align: 'center',
@@ -58,12 +58,12 @@ class SalesContract extends React.Component {
       key: 'customer_mobile',
       align: 'center'
     }, {
-      title: '乙方名称',
+      title: '卖方名称',
       dataIndex: 'full_name',
       key: 'full_name',
       align: 'center'
     }, {
-      title: '乙方类型',
+      title: '卖方类型',
       dataIndex: 'company_type',
       key: 'company_type',
       align: 'center',

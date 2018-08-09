@@ -74,8 +74,23 @@ export default {
         message.error(data.msg)
       }
     },
-    * uploadPound({payload: {file, id, load_type, num}}, {call, put}) {
-      const {data} = yield call(logisticsService.uploadPound, {file, id, load_type, num})
+    * uploadPound({payload: {file, id, load_type, num, load_time}}, {call, put}) {
+      const {data} = yield call(logisticsService.uploadPound, {file, id, load_type, num, load_time})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({
+          type: 'logistics/getDeliverList',
+          payload: {
+            page: 1
+          }
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * uploadUnPound({payload: {file, id, load_type, num, unload_time}}, {call, put}) {
+      const {data} = yield call(logisticsService.uploadUnPound, {file, id, load_type, num, unload_time})
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)

@@ -348,7 +348,8 @@ class Logistics extends React.Component {
                     </PoundModal>
                     :
                     <PoundModal title='确认磅单' hidden='all' load_num={record.load_num} load_url={record.load_url}
-                                unload_num={record.unload_num} unload_url={record.unload_url} id={record.id}>
+                                unload_num={record.unload_num} unload_url={record.unload_url} id={record.id}
+                                load_time={record.load_time} unload_time={record.unload_time}>
                       <Button type='primary' style={{background: '#59C694', borderColor: '#59C694'}}>确认磅单</Button>
                     </PoundModal>
               }

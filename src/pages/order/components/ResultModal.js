@@ -154,6 +154,20 @@ class ResultModal extends Component {
                   </ImageModal>
                 </div>
               </Col>
+              <Col span={12}>
+                <div style={{
+                  display: 'inline-block',
+                  margin: '0px 10px 30px 10px'
+                }}>装车时间：{this.props.detailForm.load_time}
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{
+                  display: 'inline-block',
+                  margin: '0px 10px 30px 10px'
+                }}>卸车时间：{this.props.detailForm.unload_time}
+                </div>
+              </Col>
             </Row>
             <Form layout='inline'>
               <div className={'itemTitle'}>

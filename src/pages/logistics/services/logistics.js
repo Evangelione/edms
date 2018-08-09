@@ -89,11 +89,26 @@ export function doDispatch({form}) {
   })
 }
 
-export function uploadPound({file, id, load_type, num}) {
+export function uploadPound({file, id, load_type, num, load_time}) {
   let formData = new FormData()
   formData.append(file.filename, file.file)
   formData.append('id', id)
   formData.append('load_type', load_type)
+  formData.append('load_time', load_time)
+  formData.append('num', num)
+  return request(file.action, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+
+export function uploadUnPound({file, id, load_type, num, unload_time}) {
+  let formData = new FormData()
+  formData.append(file.filename, file.file)
+  formData.append('id', id)
+  formData.append('load_type', load_type)
+  formData.append('unload_time', unload_time)
   formData.append('num', num)
   return request(file.action, {
     method: 'POST',

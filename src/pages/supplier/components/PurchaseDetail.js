@@ -53,9 +53,9 @@ class SalesDetail extends React.Component {
       key: 'supp_name',
       align: 'center'
     }, {
-      title: '卸车时间',
-      dataIndex: 'unload_time',
-      key: 'unload_time',
+      title: '装车时间',
+      dataIndex: 'load_time',
+      key: 'load_time',
       align: 'center',
       width: 120,
       render: (text, record, index) => {
@@ -82,11 +82,6 @@ class SalesDetail extends React.Component {
       title: '装车吨位',
       dataIndex: 'load_num',
       key: 'load_num',
-      align: 'center'
-    }, {
-      title: '卸车吨位',
-      dataIndex: 'unload_num',
-      key: 'unload_num',
       align: 'center'
     }, {
       title: '结算吨位',

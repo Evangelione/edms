@@ -4,6 +4,10 @@ import {Modal, Row, Col, Button, Input, Card, Upload, Icon, message} from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import {IP} from '../../../constants'
+import moment from 'moment'
+import DateRangePicker from 'react-bootstrap-daterangepicker'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-daterangepicker/daterangepicker.css'
 
 class PoundModal extends React.Component {
   constructor(props) {
@@ -14,14 +18,24 @@ class PoundModal extends React.Component {
       previewImage: '',
       fileList: [],
       file: null,
-      uploading: false
+      uploading: false,
+      time: moment()
     }
+  }
+
+  handleApply = (event, picker) => {
+    debugger
+    this.setState({
+      time: picker.startDate,
+    })
   }
 
   UNSAFE_componentWillMount() {
     this.setState({
       load_num: this.props.load_num,
-      unload_num: this.props.unload_num
+      unload_num: this.props.unload_num,
+      load_time: this.props.load_time,
+      unload_time: this.props.unload_time
     })
   }
 
@@ -84,21 +98,43 @@ class PoundModal extends React.Component {
     })
     let num = ''
     type === 'load' ? num = this.state.load_num : num = this.state.unload_num
-    this.props.dispatch({
-      type: 'logisticsDetail/uploadPound',
-      payload: {
-        file: this.state.file,
-        id,
-        num: num,
-        load_type: type
-      }
-    }).then(() => {
-      this.setState({
-        uploading: false,
-        visible: false,
-        fileList: []
+    if (type === 'load') {
+      this.props.dispatch({
+        type: 'logisticsDetail/uploadPound',
+        payload: {
+          file: this.state.file,
+          id,
+          num: num,
+          load_type: type,
+          load_time: this.state.time.format('YYYY-MM-DD HH:mm:00')
+        }
+      }).then(() => {
+        this.setState({
+          uploading: false,
+          visible: false,
+          fileList: [],
+          file: null
+        })
       })
-    })
+    } else {
+      this.props.dispatch({
+        type: 'logisticsDetail/uploadUnPound',
+        payload: {
+          file: this.state.file,
+          id,
+          num: num,
+          load_type: type,
+          unload_time: this.state.time.format('YYYY-MM-DD HH:mm:00')
+        }
+      }).then(() => {
+        this.setState({
+          uploading: false,
+          visible: false,
+          fileList: [],
+          file: null
+        })
+      })
+    }
   }
 
   beforeUpload = (file) => {
@@ -127,12 +163,26 @@ class PoundModal extends React.Component {
   render() {
     const {hidden, id} = this.props
     const {fileList} = this.state
+    let time = this.state.time.format('YYYY-MM-DD HH:mm:00')
     const uploadButton = (
       <div>
         <Icon type="plus"/>
         <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于2MB</div>
       </div>
     )
+    let locale = {
+      "format": 'YYYY-MM-DD',
+      "separator": " - ",
+      "applyLabel": "确定",
+      "cancelLabel": "取消",
+      "fromLabel": "起始时间",
+      "toLabel": "结束时间'",
+      "customRangeLabel": "自定义",
+      "weekLabel": "W",
+      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      "firstDay": 1
+    }
     return (
       <div onClick={this.showModalHandler}>
         {this.props.children}
@@ -167,13 +217,19 @@ class PoundModal extends React.Component {
                 <Col span={4}>
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车磅单：</div>
                 </Col>
-                <Col span={8}>
+                <Col span={7}>
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                     :
                     <Input addonAfter='吨' defaultValue={this.state.load_num} type='number'
                            onChange={this.loadChange}/>
                   }
+                </Col>
+                <Col span={4} offset={1}>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车时间：</div>
+                </Col>
+                <Col span={8}>
+                  <div style={{lineHeight: '28px'}}>{this.state.load_time}</div>
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2', marginBottom: 10}}>
@@ -185,13 +241,19 @@ class PoundModal extends React.Component {
                 <Col span={4}>
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车磅单：</div>
                 </Col>
-                <Col span={8}>
+                <Col span={7}>
                   {this.props.type === 'look' ?
-                    <div style={{lineHeight: '28px'}}>{this.state.unload_num} 吨</div>
+                    <div style={{lineHeight: '28px'}}>{this.state.unload_num}</div>
                     :
                     <Input addonAfter='吨' defaultValue={this.state.unload_num} type='number'
                            onChange={this.unloadChange}/>
                   }
+                </Col>
+                <Col span={4} offset={1}>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
+                </Col>
+                <Col span={8}>
+                  <div style={{lineHeight: '28px'}}>{this.state.unload_time}</div>
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2'}}>
@@ -206,12 +268,27 @@ class PoundModal extends React.Component {
                   <Col span={4}>
                     <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车磅单：</div>
                   </Col>
-                  <Col span={8}>
+                  <Col span={7}>
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                       :
                       <Input addonAfter='吨' type='number' onChange={this.loadChange} defaultValue='0'/>
                     }
+                  </Col>
+                  <Col span={4} offset={1}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车时间：</div>
+                  </Col>
+                  <Col span={7}>
+                    <DateRangePicker
+                      containerStyles={{width: '100%'}}
+                      startDate={this.state.time}
+                      singleDatePicker={true}
+                      timePicker={true}
+                      timePicker24Hour={true}
+                      locale={locale}
+                      onApply={this.handleApply}>
+                      <Input type="text" value={time} readOnly/>
+                    </DateRangePicker>
                   </Col>
                 </Row>
                 <Card style={{borderColor: '#D2D2D2', marginBottom: 10}}>
@@ -241,6 +318,21 @@ class PoundModal extends React.Component {
                       :
                       <Input addonAfter='吨' type='number' onChange={this.unloadChange} defaultValue='0'/>
                     }
+                  </Col>
+                  <Col span={4} offset={1}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
+                  </Col>
+                  <Col span={7}>
+                    <DateRangePicker
+                      containerStyles={{width: '100%'}}
+                      startDate={this.state.time}
+                      singleDatePicker={true}
+                      timePicker={true}
+                      timePicker24Hour={true}
+                      locale={locale}
+                      onApply={this.handleApply}>
+                      <Input type="text" value={time} readOnly/>
+                    </DateRangePicker>
                   </Col>
                 </Row>
                 <Card style={{borderColor: '#D2D2D2'}}>

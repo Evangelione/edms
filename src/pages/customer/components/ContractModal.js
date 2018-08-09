@@ -137,12 +137,12 @@ class ContractModal extends React.Component {
             <FormItem
               style={{marginBottom: 15}}
               {...formItemLayout}
-              label="甲方"
+              label="买方"
             >
               {getFieldDecorator('customer_id', {
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
-                <Select placeholder='请选择甲方名称' onChange={this.customerChange}>
+                <Select placeholder='请选择买方名称' onChange={this.customerChange}>
                   {this.state.customerOptions}
                 </Select>
               )}
@@ -150,10 +150,10 @@ class ContractModal extends React.Component {
             <FormItem
               style={{marginBottom: 15}}
               {...formItemLayout}
-              label="甲方类型"
+              label="买方类型"
             >
               {getFieldDecorator('customer_type')(
-                <Input placeholder='请输入甲方类型' disabled/>
+                <Input placeholder='请输入买方类型' disabled/>
               )}
             </FormItem>
             <FormItem
@@ -177,23 +177,23 @@ class ContractModal extends React.Component {
             <FormItem
               style={{marginBottom: 15, marginTop: 30}}
               {...formItemLayout}
-              label="乙方"
+              label="卖方"
             >
               {getFieldDecorator('yifang', {
                 initialValue: this.props.company.full_name
               })(
-                <Input placeholder='请输入乙方名称' disabled/>
+                <Input placeholder='请输入卖方名称' disabled/>
               )}
             </FormItem>
             <FormItem
               style={{marginBottom: 15}}
               {...formItemLayout}
-              label="乙方类型"
+              label="卖方类型"
             >
               {getFieldDecorator('yifangleixing', {
                 initialValue: this.props.company.company_type
               })(
-                <Select placeholder="请选择乙方类型" disabled>
+                <Select placeholder="请选择卖方类型" disabled>
                   <Option value="1">贸易商</Option>
                   <Option value="2">运贸商</Option>
                   <Option value="3">液厂</Option>
