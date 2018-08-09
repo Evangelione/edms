@@ -26,9 +26,9 @@ class IndexPage extends React.Component {
       status: '1',
       currentSelect: '近7日',
       topTip: '今日',
-      currentCount: '1',
-      currentCustomer: '1',
-      currentSupplier: '1'
+      currentCount: '4',
+      currentCustomer: '4',
+      currentSupplier: '4'
     }
   }
 
@@ -603,7 +603,7 @@ class IndexPage extends React.Component {
           }}>
             <div style={{margin: '0 20px'}}>我的客户 (销量占比)</div>
             <div style={{position: 'absolute', top: 15, right: 20}}>
-              <RadioGroup onChange={this.customerRadioChange} defaultValue="1">
+              <RadioGroup onChange={this.customerRadioChange} value={this.state.currentCustomer}>
                 <RadioButton className={styles.btnBefore} value="1"
                              style={{color: '#ACB4BF', border: 'none'}}>今日</RadioButton>
                 <RadioButton className={styles.btnBefore} value="2"

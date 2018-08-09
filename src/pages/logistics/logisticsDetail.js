@@ -27,7 +27,7 @@ class LogisticsDetail extends React.Component {
       const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 进行调度操作',
-        duration: 0,
+        duration: 6,
       };
       notification.info(args)
     } else if (this.props.step === 1) {
@@ -38,7 +38,7 @@ class LogisticsDetail extends React.Component {
       const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 进行接单操作',
-        duration: 0,
+        duration: 6,
       };
       notification.info(args)
     } else if (this.props.step === 2) {
@@ -49,7 +49,7 @@ class LogisticsDetail extends React.Component {
       const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 上传装车磅单',
-        duration: 0,
+        duration: 6,
       };
       notification.info(args)
     } else if (this.props.step === 3) {
@@ -60,7 +60,7 @@ class LogisticsDetail extends React.Component {
       const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 上传卸车磅单',
-        duration: 0,
+        duration: 6,
       };
       notification.info(args)
     } else if (this.props.step === 4) {
@@ -71,7 +71,7 @@ class LogisticsDetail extends React.Component {
       const args = {
         message: '温馨提示',
         description: '请返回 我的物流-订单管理 进行确认磅单操作',
-        duration: 0,
+        duration: 6,
       };
       notification.info(args)
     }

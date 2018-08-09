@@ -17,7 +17,7 @@ class Analysis extends React.Component {
     const args = {
       message: '温馨提示',
       description: '数据分析是加强版的进销差统计，导出的excel文件中数据字段更全更详细',
-      duration: 0,
+      duration: 6,
     };
     notification.info(args)
   }

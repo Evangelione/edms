@@ -12,7 +12,7 @@ class ResultModal extends Component {
     this.state = {
       titleText: ['确认采购费用', '确认销售金额', '确认客户运费', '确认物流公司运费', '确认结算'],
       visible: false,
-      title: '确认采购费用',
+      title: '结算',
       step: 0,
       resultForm: {},
       resultNum: '',
@@ -53,8 +53,8 @@ class ResultModal extends Component {
         }).then(() => {
           notification.success({
             message: '温馨提示',
-            description: '订单已完成，请前往 销售明细、采购明细，查看、导出结算报表',
-            duration: 0,
+            description: '请前往 我的客户-销售明细，我的供应商-采购明细，我的账务-数据分析 对账',
+            duration: 12,
           })
         })
       }
@@ -258,7 +258,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: 0
                     })(
-                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
+                      <InputNumber step={0.01} onChange={this.xiaoshouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -321,7 +321,7 @@ class ResultModal extends Component {
                       ...config,
                       initialValue: 0
                     })(
-                      <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}/>
+                      <InputNumber step={0.01} onChange={this.wuliuCalculation}/>
                     )}
                   </FormItem>
                 </Col>

@@ -102,7 +102,7 @@ export default {
         notification.success({
           message: '温馨提示',
           description: '订单已修改，请确认支付',
-          duration: 0,
+          duration: 6,
         })
       } else {
         message.error(data.msg)

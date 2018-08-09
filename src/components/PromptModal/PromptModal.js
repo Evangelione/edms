@@ -132,7 +132,7 @@ class PromptModal extends React.Component {
       notification.success({
         message: '温馨提示',
         description: '调度已完成，请前往 我的订单 确认结算',
-        duration: 0,
+        duration: 6,
       })
     })
   }

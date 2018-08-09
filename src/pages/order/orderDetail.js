@@ -21,16 +21,20 @@ class orderDetail extends React.Component {
     super(props)
     this.state = {
       step: ['待支付', '待发货', '待收货', '待结算', '已结算'],
+      flag: true
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevProps.detailForm.order_status === this.props.detailForm.order_status) return false
     if (this.props.detailForm.order_status === 1) {
+      if (!this.state.flag) return false
+      this.setState({
+        flag: false
+      })
       const args = {
         message: '温馨提示',
         description: '已支付，请前往 我的物流-运单管理 进行调度操作',
-        duration: 0,
+        duration: 6,
       };
       notification.info(args)
     }

@@ -705,14 +705,14 @@ class DetailForm extends React.Component {
             <Col span={24}>
               <Col span={7}>
                 <FormItem
-                  label="收货地址"
+                  label="装货地址"
                   labelCol={{span: 6}}
                   wrapperCol={{span: 18}}
                 >
                   {getFieldDecorator('goods_delivery', {
-                    rules: [{required: true, message: '请选择收货地址！'}],
+                    rules: [{required: true, message: '请选择装货地址！'}],
                   })(
-                    <Input placeholder="请选择收货地址" style={{marginLeft: 16}} disabled/>
+                    <Input placeholder="请选择装货地址" style={{marginLeft: 16}} disabled/>
                   )}
                 </FormItem>
               </Col>
@@ -723,9 +723,9 @@ class DetailForm extends React.Component {
                   wrapperCol={{span: 12}}
                 >
                   {getFieldDecorator('goods_adress', {
-                    rules: [{required: true, message: '请填写正确详细收货地址！'}],
+                    rules: [{required: true, message: '请填写正确详细装货地址！'}],
                   })(
-                    <Input placeholder="请填写详细收货地址" style={{marginLeft: 26}} disabled/>
+                    <Input placeholder="请填写详细装货地址" style={{marginLeft: 26}} disabled/>
                   )}
                 </FormItem>
               </Col>
