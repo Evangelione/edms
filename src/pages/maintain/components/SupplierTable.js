@@ -2,6 +2,7 @@ import {connect} from 'dva'
 import {Table, Button, Pagination, Upload, message} from 'antd'
 import {routerRedux} from 'dva/router'
 import {IP, PAGE_SIZE} from '../../../constants'
+import PromptModal from '../../../components/PromptModal/PromptModal'
 
 function mapStateToProps(state) {
   const {supplierlist, supplierpage, suppliertotal} = state.maintain
@@ -40,13 +41,6 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
     dispatch({
       type: 'maintain/uploadSingle',
       payload: {id, file}
-    })
-  }
-
-  function deleteOne(id) {
-    dispatch({
-      type: 'maintain/deleteSupplier',
-      payload: {id}
     })
   }
 
@@ -176,14 +170,23 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       title: '操作',
       align: 'center',
       key: 'createdAt',
-      width: 168,
+      width: 180,
       render: (text, record, index) => {
         return (
           <div className='operating'>
             <Button className={'blueBorder'} onClick={editUser.bind(null, 'edit', record)}
                     size={'small'}>编辑</Button>
-            <Button type='primary' size='small' onClick={deleteOne.bind(null, record.id)}
-                    style={{background: '#EA7878', borderColor: '#EA7878', marginLeft: 10}}>删除</Button>
+            <PromptModal state='deleteOne' delType='supplier' delID={record.id}>
+              <Button type='primary' size='small'
+                      style={{
+                        background: '#EA7878',
+                        borderColor: '#EA7878',
+                        marginLeft: 10,
+                        height: 28,
+                        padding: '0 15px'
+                      }}>删除</Button>
+            </PromptModal>
+
           </div>
         )
       }

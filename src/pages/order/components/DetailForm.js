@@ -9,7 +9,7 @@ import {routerRedux} from 'dva/router'
 
 const FormItem = Form.Item
 const Option = Select.Option
-const Option2 = AutoComplete.Option;
+const Option2 = AutoComplete.Option
 
 class DetailForm extends React.Component {
   constructor(props) {

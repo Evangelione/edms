@@ -1,8 +1,8 @@
 import {connect} from 'dva'
 import {Table, Button, Pagination, Upload} from 'antd'
-import {routerRedux} from "dva/router";
+import {routerRedux} from 'dva/router'
 import {IP, PAGE_SIZE} from '../../../constants'
-
+import PromptModal from '../../../components/PromptModal/PromptModal'
 
 function mapStateToProps(state) {
   const {carlist, carpage, cartotal} = state.maintain
@@ -13,7 +13,6 @@ function mapStateToProps(state) {
     loading: state.loading.models.maintain
   }
 }
-
 
 export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, cartotal}) => {
   function editUser(type, record) {
@@ -30,19 +29,10 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
     }))
   }
 
-
   function pageChangeHandler(page) {
     dispatch({
       type: 'maintain/fetchCar',
       payload: {page}
-    })
-  }
-
-
-  function deleteOne(id) {
-    dispatch({
-      type: 'maintain/deleteCar',
-      payload: {id}
     })
   }
 
@@ -123,8 +113,16 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
           <div className='operating'>
             <Button className='blueBorder' onClick={editUser.bind(null, 'edit', record)}
                     size='small'>编辑</Button>
-            <Button type='primary' size='small' onClick={deleteOne.bind(null, record.id)}
-                    style={{background: '#EA7878', borderColor: '#EA7878', marginLeft: 10}}>删除</Button>
+            <PromptModal state='deleteOne' delType='vehicle' delID={record.id}>
+              <Button type='primary' size='small'
+                      style={{
+                        background: '#EA7878',
+                        borderColor: '#EA7878',
+                        marginLeft: 10,
+                        height: 28,
+                        padding: '0 15px'
+                      }}>删除</Button>
+            </PromptModal>
           </div>
         )
       }

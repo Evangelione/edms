@@ -132,16 +132,18 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           {record.forbidden === '1' ?
             <div>
               {record.role === '1' ?
-                <Button type='primary' size='small' disabled>禁用</Button>
+                <Button type='primary' size='small' disabled style={{height: 28, padding: '0 15px'}}>禁用</Button>
                 :
                 <PromptModal state='disableAccount' id={record.id} type='禁用'>
-                  <Button style={{background: '#EA7878', borderColor: '#EA7878'}} type='primary'
+                  <Button style={{background: '#EA7878', borderColor: '#EA7878', height: 28, padding: '0 15px'}}
+                          type='primary'
                           size='small'>禁用</Button>
                 </PromptModal>}
             </div>
             :
             <PromptModal state='disableAccount' id={record.id} type='启用'>
-              <Button style={{background: '#59C694', borderColor: '#59C694'}} type='primary' size='small'>启用</Button>
+              <Button style={{background: '#59C694', borderColor: '#59C694', height: 28, padding: '0 15px'}}
+                      type='primary' size='small'>启用</Button>
             </PromptModal>
           }
         </div>

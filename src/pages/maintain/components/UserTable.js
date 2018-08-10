@@ -2,6 +2,7 @@ import {connect} from 'dva'
 import {Table, Button, Pagination, Upload} from 'antd'
 import {routerRedux} from 'dva/router'
 import {IP, PAGE_SIZE} from '../../../constants'
+import PromptModal from '../../../components/PromptModal/PromptModal'
 
 function mapStateToProps(state) {
   const {customerlist, customerpage, customertotal} = state.maintain
@@ -35,13 +36,6 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     })
   }
 
-  function deleteOne(id) {
-    dispatch({
-      type: 'maintain/deleteCustomer',
-      payload: {id}
-    })
-  }
-
   function customRequest(file) {
     dispatch({
       type: 'maintain/userImport',
@@ -55,7 +49,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     key: 'customer_name',
     align: 'center',
     fixed: 'left',
-    width: 220
+    width: 240
   }, {
     title: '客户类型',
     dataIndex: 'customer_type',
@@ -205,8 +199,17 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         <div className='operating'>
           <Button className='blueBorder' onClick={editUser.bind(null, 'edit', record)}
                   size='small'>编辑</Button>
-          <Button type='primary' size='small' onClick={deleteOne.bind(null, record.id)}
-                  style={{background: '#EA7878', borderColor: '#EA7878', marginLeft: 10}}>删除</Button>
+          <PromptModal state='deleteOne' delType='user' delID={record.id}>
+            <Button type='primary' size='small'
+                    style={{
+                      background: '#EA7878',
+                      borderColor: '#EA7878',
+                      marginLeft: 10,
+                      height: 28,
+                      padding: '0 15px'
+                    }}>删除</Button>
+          </PromptModal>
+
         </div>
       )
     }
@@ -232,7 +235,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-        scroll={{x: 3000}}
+        scroll={{x: 3150}}
       ></Table>
       <Pagination
         className='ant-table-pagination'

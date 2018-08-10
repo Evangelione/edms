@@ -60,6 +60,13 @@ class PromptModal extends React.Component {
           text: `确定${this.props.type}当前账号吗？`,
           okHandler: this.disableAccount
         },
+        deleteOne: {
+          icon: 'error',
+          okText: '确定',
+          cancelText: '取消',
+          text: `如此数据有误，您可以编辑修改，但删除此数据后需要重新录入，确定删除吗？`,
+          okHandler: this.deleteOne
+        },
       }
     }
   }
@@ -193,6 +200,26 @@ class PromptModal extends React.Component {
         visible: false
       })
   };
+
+  deleteOne = (e) => {
+    if (e) e.stopPropagation();
+    if (this.props.delType === 'user') {
+      this.props.dispatch({
+        type: 'maintain/deleteCustomer',
+        payload: {id: this.props.delID}
+      })
+    } else if (this.props.delType === 'supplier') {
+      this.props.dispatch({
+        type: 'maintain/deleteSupplier',
+        payload: {id: this.props.delID}
+      })
+    } else if (this.props.delType === 'vehicle') {
+      this.props.dispatch({
+        type: 'maintain/deleteCar',
+        payload: {id: this.props.delID}
+      })
+    }
+  }
 
   render() {
     const {children, state} = this.props
