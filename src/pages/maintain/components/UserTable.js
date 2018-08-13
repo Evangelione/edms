@@ -108,7 +108,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     align: 'center',
     width: 130,
     render: (text, record, index) => {
-      if (text === '') {
+      if (text === '' || text === null) {
         return '--'
       }
     }
@@ -119,7 +119,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     align: 'center',
     width: 155,
     render: (text, record, index) => {
-      if (text === '') {
+      if (text === '' || text === null) {
         return '--'
       }
     }
