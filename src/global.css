@@ -581,3 +581,11 @@ avatar-uploader > .ant-upload {
 .ant-calendar-footer-btn > .ant-calendar-ok-btn {
   color: #fff !important;
 }
+
+#leftColor .ant-progress-bg {
+  background: #4A90E2
+}
+
+#rightColor .ant-progress-bg {
+  background: #FF9A74
+}

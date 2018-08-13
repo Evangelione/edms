@@ -133,13 +133,18 @@ class IndexPage extends React.Component {
 
   initChart = (chartOption) => {
     if (!Object.keys(this.props.trend).length || !Object.keys(this.refs).length) return false
-    let myChart = echarts.init(this.refs.echart) //初始化echarts
-    //设置options
-    myChart.setOption(chartOption)
-    window.onresize = function () {
+    if (this.state.flag) {
+      this.setState({
+        flag: false
+      })
+      let myChart = echarts.init(this.refs.echart) //初始化echarts
+      //设置options
+      myChart.setOption(chartOption)
+      window.onresize = function () {
+        myChart.resize()
+      }
       myChart.resize()
     }
-    myChart.resize()
   }
 
   initBmp = () => {
@@ -341,14 +346,15 @@ class IndexPage extends React.Component {
       return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.customer_name}</div>
         <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
-          <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
-                    strokeWidth={6}/>
+          <Progress key={index + '4'} percent={val.percent - 0} showInfo={false} id='leftColor' strokeWidth={6}/>
         </div>
         <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
-          <div key={index + '6'}
-               style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.sale_num} 吨
+          <div style={{display: 'flex', marginLeft: 15}}>
+            <div key={index + '6'}
+                 style={{flex: 1, color: '#A1A9B3', fontSize: 14}}>{val.sale_num} 吨
+            </div>
+            <div key={index + '7'} style={{flex: 1, color: '#545F76', fontSize: 14}}>{val.percent}%</div>
           </div>
-          <div key={index + '7'} style={{display: 'inline-block', color: '#545F76', fontSize: 14}}>{val.percent}%</div>
         </div>
       </div>
     })
@@ -356,14 +362,15 @@ class IndexPage extends React.Component {
       return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.supp_name}</div>
         <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
-          <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#FF9A74'
-                    strokeWidth={6}/>
+          <Progress key={index + '4'} percent={val.percent - 0} showInfo={false} id='rightColor' strokeWidth={6}/>
         </div>
         <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
-          <div key={index + '6'}
-               style={{display: 'inline-block', color: '#A1A9B3', fontSize: 14, marginRight: 26}}>{val.load_num} 吨
+          <div style={{display: 'flex', marginLeft: 15}}>
+            <div key={index + '6'}
+                 style={{flex: 1, color: '#A1A9B3', fontSize: 14}}>{val.load_num} 吨
+            </div>
+            <div key={index + '7'} style={{flex: 1, color: '#545F76', fontSize: 14}}>{val.percent}%</div>
           </div>
-          <div key={index + '7'} style={{display: 'inline-block', color: '#545F76', fontSize: 14}}>{val.percent}%</div>
         </div>
       </div>
     })
@@ -377,87 +384,82 @@ class IndexPage extends React.Component {
       </Menu>
     )
     if (Object.keys(trend).length) {
-      if (this.state.flag) {
-        this.setState({
-          flag: false
-        })
-        this.initChart({
-          title: {
-            text: '价格趋势图',
-            textStyle: {
-              color: '#545F76',
-              fontFamily: 'PingFangHK-Regular'
-            },
+      this.initChart({
+        title: {
+          text: '价格趋势图',
+          textStyle: {
+            color: '#545F76',
+            fontFamily: 'PingFangHK-Regular'
           },
-          color: ['#4A90E2', '#FF9A74'],
-          tooltip: {
-            trigger: 'axis'
+        },
+        color: ['#4A90E2', '#FF9A74'],
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['采购', '销售'],
+          top: 5,
+          right: 200
+        },
+        grid: {
+          top: '15%',
+          left: '1%',
+          right: '6%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
           },
-          legend: {
-            data: ['采购', '销售'],
-            top: 5,
-            right: 200
-          },
-          grid: {
-            top: '15%',
-            left: '1%',
-            right: '6%',
-            bottom: '3%',
-            containLabel: true
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            },
-            right: 18
-          },
-          xAxis: {
-            type: 'category',
-            data: trend.date,
-            axisLine: {
-              lineStyle: {
-                color: '#DEDEDE'
-              }
-            },
-            axisLabel: {
-              color: '#7C8B99',
-              margin: 20
+          right: 18
+        },
+        xAxis: {
+          type: 'category',
+          data: trend.date,
+          axisLine: {
+            lineStyle: {
+              color: '#DEDEDE'
             }
           },
-          yAxis: {
-            type: 'value',
-            name: '单位（元/吨）',
-            nameTextStyle: {
-              color: '#7C8B99',
-              fontSize: '14px',
-              padding: [0, 0, 10, 0]
-            },
-            axisLine: {
-              show: false
-            },
-            axisTick: {
-              show: false
-            },
-            axisLabel: {
-              color: '#7C8B99'
-            }
+          axisLabel: {
+            color: '#7C8B99',
+            margin: 20
+          }
+        },
+        yAxis: {
+          type: 'value',
+          name: '单位（元/吨）',
+          nameTextStyle: {
+            color: '#7C8B99',
+            fontSize: '14px',
+            padding: [0, 0, 10, 0]
           },
-          series: [
-            {
-              name: '采购',
-              type: 'line',
-              smooth: true,
-              data: trend.purchase_price
-            },
-            {
-              name: '销售',
-              type: 'line',
-              smooth: true,
-              data: trend.saler_price
-            }
-          ]
-        })
-      }
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: '#7C8B99'
+          }
+        },
+        series: [
+          {
+            name: '采购',
+            type: 'line',
+            smooth: true,
+            data: trend.purchase_price
+          },
+          {
+            name: '销售',
+            type: 'line',
+            smooth: true,
+            data: trend.saler_price
+          }
+        ]
+      })
     }
     // this.initBmp()
     return (

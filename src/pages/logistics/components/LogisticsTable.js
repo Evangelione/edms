@@ -566,7 +566,7 @@ class Logistics extends React.Component {
               rowKey={record => record.id}
               pagination={false}
               loading={loading}
-              scroll={{x: 1900}}
+              scroll={{x: 2100}}
             />
             <Pagination
               className="ant-table-pagination"
