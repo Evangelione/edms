@@ -23,7 +23,7 @@ class IndexPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: '1',
+      status: '4',
       currentSelect: '近7日',
       topTip: '今日',
       currentCount: '4',
