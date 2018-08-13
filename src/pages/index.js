@@ -28,7 +28,8 @@ class IndexPage extends React.Component {
       topTip: '今日',
       currentCount: '4',
       currentCustomer: '4',
-      currentSupplier: '4'
+      currentSupplier: '4',
+      flag: true
     }
   }
 
@@ -376,82 +377,87 @@ class IndexPage extends React.Component {
       </Menu>
     )
     if (Object.keys(trend).length) {
-      this.initChart({
-        title: {
-          text: '价格趋势图',
-          textStyle: {
-            color: '#545F76',
-            fontFamily: 'PingFangHK-Regular'
+      if (this.state.flag) {
+        this.setState({
+          flag: false
+        })
+        this.initChart({
+          title: {
+            text: '价格趋势图',
+            textStyle: {
+              color: '#545F76',
+              fontFamily: 'PingFangHK-Regular'
+            },
           },
-        },
-        color: ['#4A90E2', '#FF9A74'],
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: ['采购', '销售'],
-          top: 5,
-          right: 200
-        },
-        grid: {
-          top: '15%',
-          left: '1%',
-          right: '6%',
-          bottom: '3%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
+          color: ['#4A90E2', '#FF9A74'],
+          tooltip: {
+            trigger: 'axis'
           },
-          right: 18
-        },
-        xAxis: {
-          type: 'category',
-          data: trend.date,
-          axisLine: {
-            lineStyle: {
-              color: '#DEDEDE'
+          legend: {
+            data: ['采购', '销售'],
+            top: 5,
+            right: 200
+          },
+          grid: {
+            top: '15%',
+            left: '1%',
+            right: '6%',
+            bottom: '3%',
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            },
+            right: 18
+          },
+          xAxis: {
+            type: 'category',
+            data: trend.date,
+            axisLine: {
+              lineStyle: {
+                color: '#DEDEDE'
+              }
+            },
+            axisLabel: {
+              color: '#7C8B99',
+              margin: 20
             }
           },
-          axisLabel: {
-            color: '#7C8B99',
-            margin: 20
-          }
-        },
-        yAxis: {
-          type: 'value',
-          name: '单位（元/吨）',
-          nameTextStyle: {
-            color: '#7C8B99',
-            fontSize: '14px',
-            padding: [0, 0, 10, 0]
+          yAxis: {
+            type: 'value',
+            name: '单位（元/吨）',
+            nameTextStyle: {
+              color: '#7C8B99',
+              fontSize: '14px',
+              padding: [0, 0, 10, 0]
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              color: '#7C8B99'
+            }
           },
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          axisLabel: {
-            color: '#7C8B99'
-          }
-        },
-        series: [
-          {
-            name: '采购',
-            type: 'line',
-            smooth: true,
-            data: trend.purchase_price
-          },
-          {
-            name: '销售',
-            type: 'line',
-            smooth: true,
-            data: trend.saler_price
-          }
-        ]
-      })
+          series: [
+            {
+              name: '采购',
+              type: 'line',
+              smooth: true,
+              data: trend.purchase_price
+            },
+            {
+              name: '销售',
+              type: 'line',
+              smooth: true,
+              data: trend.saler_price
+            }
+          ]
+        })
+      }
     }
     // this.initBmp()
     return (
