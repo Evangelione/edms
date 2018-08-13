@@ -355,7 +355,7 @@ class IndexPage extends React.Component {
       return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.supp_name}</div>
         <div key={index + '3'} style={{width: '75%', display: 'inline-block'}}>
-          <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#569EF2'
+          <Progress key={index + '4'} percent={val.percent - 0} status="active" showInfo={false} strokecolor='#FF9A74'
                     strokeWidth={6}/>
         </div>
         <div key={index + '5'} style={{width: '25%', display: 'inline-block', textAlign: 'center'}}>
