@@ -106,13 +106,23 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'delivery_contact2',
     key: 'delivery_contact2',
     align: 'center',
-    width: 130
+    width: 130,
+    render: (text, record, index) => {
+      if (text === '') {
+        return '--'
+      }
+    }
   }, {
     title: '联系电话',
     dataIndex: 'delivery_mobile2',
     key: 'delivery_mobile2',
     align: 'center',
-    width: 155
+    width: 155,
+    render: (text, record, index) => {
+      if (text === '') {
+        return '--'
+      }
+    }
   }, {
     title: '收货地址',
     dataIndex: 'detailed_address',
