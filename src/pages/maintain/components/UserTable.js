@@ -120,7 +120,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     align: 'center',
     width: 300,
     render: (text, record, index) => {
-      const adress = record.delivery_province.name + (record.delivery_city !== 'undefined' ? record.delivery_city.name : '') + (record.delivery_area !== 'undefined' ? record.delivery_area.name : '') + record.detailed_address
+      const adress = record.delivery_province.name + (record.delivery_city.name !== 'undefined' ? record.delivery_city.name : '') + (record.delivery_area.name !== 'undefined' ? record.delivery_area.name : '') + record.detailed_address
       return (
         <div className='txt-overflow' title={adress}>{adress}</div>
       )

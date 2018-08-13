@@ -124,7 +124,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       align: 'center',
       render: (text, record, index) => {
         return (
-          <span>{record.cargo_province.name + (record.cargo_city !== 'undefined' ? record.cargo_city.name : '') + (record.cargo_area !== 'undefined' ? record.cargo_area.name : '') + record.detailed_address}</span>
+          <span>{record.cargo_province.name + (record.cargo_city.name !== 'undefined' ? record.cargo_city.name : '') + (record.cargo_area.name !== 'undefined' ? record.cargo_area.name : '') + record.detailed_address}</span>
         )
       }
     },
