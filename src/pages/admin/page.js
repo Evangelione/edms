@@ -1,6 +1,7 @@
-import {connect} from 'dva'
-import {Card, Form, Icon, Input, Button} from 'antd'
+import { connect } from 'dva'
+import { Card, Form, Icon, Input, Button } from 'antd'
 import styles from './login.css'
+import setting from '../../constants'
 
 const FormItem = Form.Item
 
@@ -27,7 +28,7 @@ export default connect(mapStateToProps)(Form.create()(({dispatch, loading, form}
 
   return (
     <Card className={styles.card} bodyStyle={{padding: 0}}>
-      <div className={styles.title}>蓝采和后台登录界面</div>
+      <div className={styles.title}>{setting.name}后台登录界面</div>
       <Form onSubmit={handleSubmit} className={styles['login-form']} id='special'>
         <FormItem>
           {form.getFieldDecorator('account', {
