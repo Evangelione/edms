@@ -4,7 +4,7 @@ import { Layout, Menu, Icon } from 'antd'
 import Link from 'umi/link'
 import styles from './index.css'
 import { withRouter } from 'react-router'
-import userSetting from '../constants'
+import { LOGO } from '../constants'
 
 const {Sider} = Layout;
 const SubMenu = Menu.SubMenu
@@ -74,7 +74,7 @@ class MySider extends React.Component {
   }
 
   render() {
-    console.log(userSetting.logo)
+    const logo = window.location.hostname.match(/[A-Za-z]+/g)[0]
     const {collapsed} = this.props
     return (
       <Sider trigger={null}
@@ -82,7 +82,7 @@ class MySider extends React.Component {
              collapsed={collapsed}>
         {(this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) ?
           <div>
-            <div className={styles.logo} style={{backgroundImage: `url(${userSetting.logo})`}}/>
+            <div className={styles.logo} style={{backgroundImage: `url(${LOGO[logo].logo})`}}/>
             <Menu theme="dark"
                   defaultSelectedKeys={this.state.currentKey}
                   mode="inline"
@@ -102,7 +102,7 @@ class MySider extends React.Component {
           </div>
           :
           <div>
-            <div className={styles.logo} style={{backgroundImage: `url(${userSetting.logo})`}}/>
+            <div className={styles.logo} style={{backgroundImage: `url(${LOGO[logo].logo})`}}/>
             <Menu theme="dark"
                   defaultSelectedKeys={this.state.currentKey}
                   mode="inline"
