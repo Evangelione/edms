@@ -1,7 +1,7 @@
-import {Component} from 'react'
-import {connect} from 'dva'
+import { Component } from 'react'
+import { connect } from 'dva'
 import withRouter from 'umi/withRouter'
-import {Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber, notification} from 'antd'
+import { Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber, notification } from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 
 const FormItem = Form.Item
@@ -166,6 +166,16 @@ class ResultModal extends Component {
                   display: 'inline-block',
                   margin: '0px 10px 30px 10px'
                 }}>卸车时间：{this.props.detailForm.unload_time}
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{
+                  display: 'inline-block',
+                  margin: '0px 10px 30px 10px'
+                }}>磅差：<span style={{
+                  color: '#FF4241',
+                  fontWeight: 600
+                }}>{((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)}</span> 吨
                 </div>
               </Col>
             </Row>

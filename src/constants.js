@@ -14,7 +14,7 @@ export const LOGO = {
     logo: require('./assets/image/logo_xny.png')
   },
   sh: {
-    name: '蓝采和',
+    name: '实华',
     logo: require('./assets/image/Group.png')
   },
   chenchen: {
