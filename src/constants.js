@@ -13,8 +13,12 @@ export const LOGO = {
     name: '鑫能源',
     logo: require('./assets/image/logo_xny.png')
   },
+  sh: {
+    name: '蓝采和',
+    logo: require('./assets/image/Group.png')
+  },
   chenchen: {
-    name: '鑫能源',
-    logo: require('./assets/image/logo_xny.png')
+    name: '蓝采和',
+    logo: require('./assets/image/Group.png')
   }
 }
