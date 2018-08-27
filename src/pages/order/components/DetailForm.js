@@ -304,7 +304,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('cust_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择客户名称" style={{width: 180}} disabled={!editable}
+                  <Select placeholder="请选择客户名称" style={{width: 210}} disabled={!editable}
                           onChange={this.customerChange}>
                     {customOptions}
                   </Select>
@@ -436,7 +436,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('site_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择站点简称" style={{width: 150}} disabled={!editable} onChange={this.siteChange}>
+                  <Select placeholder="请选择站点简称" style={{width: 210}} disabled={!editable} onChange={this.siteChange}>
                     {siteOptions}
                   </Select>
                 )}
@@ -570,7 +570,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('supp_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选择供应商名称" style={{width: 150}} disabled={!editable}
+                  <Select placeholder="请选择供应商名称" style={{width: 210}} disabled={!editable}
                           onChange={this.suppChange}>
                     {supplierOptions}
                   </Select>
@@ -640,7 +640,7 @@ class DetailForm extends React.Component {
                 {getFieldDecorator('goods_id', {
                   rules: [{required: true, message: '此项为必选项！'}],
                 })(
-                  <Select placeholder="请选气源名称" style={{width: 150}} disabled={!editable} onChange={this.goodsChange}>
+                  <Select placeholder="请选气源名称" style={{width: 210}} disabled={!editable} onChange={this.goodsChange}>
                     {goodsOptions}
                   </Select>
                 )}
