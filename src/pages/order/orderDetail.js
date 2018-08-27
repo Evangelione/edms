@@ -1,16 +1,16 @@
 import React from 'react'
-import {Card, Steps, Divider, Button, notification} from 'antd'
+import { Card, Steps, Divider, Button, notification } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import styles from './order.css'
 import DetailForm from './components/DetailForm'
 import TimeLine from '../../components/TimeLine/TimeLine'
-import {Map, Marker, NavigationControl, InfoWindow} from 'react-bmap'
-import {connect} from 'dva'
+import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmap'
+import { connect } from 'dva'
 import ResultModal from './components/ResultModal'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import StatusModal from './components/StatusModal'
 import withRouter from 'umi/withRouter'
-import {routerRedux} from "dva/router"
+import { routerRedux } from "dva/router"
 import CountUp from 'react-countup'
 
 
@@ -25,16 +25,40 @@ class orderDetail extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log('销毁')
+    this.props.dispatch({
+      type: 'orderDetail/save',
+      payload: {
+        detailForm: {}
+      }
+    })
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.detailForm.order_status === 1) {
       if (!this.state.flag) return false
+      if ((sessionStorage.getItem('loginAuth') & 2) === 0) return false
       this.setState({
         flag: false
       })
+      const key = `open${Date.now()}`;
+      const btn = (
+        <Button type="primary" onClick={() => {
+          notification.close(key)
+          this.props.dispatch(routerRedux.push({
+            pathname: '/logistics',
+          }))
+        }}>
+          去调度
+        </Button>
+      );
       const args = {
         message: '温馨提示',
         description: '已支付，请前往 我的物流-运单管理 进行调度操作',
-        duration: 6,
+        key,
+        btn,
+        duration: 0,
       };
       notification.info(args)
     }
