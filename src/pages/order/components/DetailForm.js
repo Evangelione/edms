@@ -297,7 +297,7 @@ class DetailForm extends React.Component {
           <Row style={{marginTop: 35}}>
             <Col span={6}>
               <FormItem
-                label="客户名称"
+                label="客户名称aaaaaaaaaaaaaaaa"
                 labelCol={{span: 7}}
                 wrapperCol={{span: 13, offset: 1}}
               >
