@@ -1,5 +1,5 @@
 import * as supplierServices from '../services/supplier'
-import {message} from 'antd'
+import { message } from 'antd'
 
 export default {
   namespace: 'supplier',
@@ -14,7 +14,10 @@ export default {
     stime: '',
     etime: '',
     company: {},
-    supplierOption: []
+    supplierOption: [],
+    balanceList: [],
+    balancePage: 1,
+    balanceTotal: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -86,7 +89,21 @@ export default {
           }
         })
       }
-    }
+    },
+    * balanceFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
+      const {data} = yield call(supplierServices.getBalanceData, {page, find_str, stime, etime})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            balanceList: data.data.list,
+            balancePage: parseInt(page, 10),
+            balanceTotal: parseInt(data.data.count, 10),
+            find_str
+          }
+        })
+      }
+    },
   },
   reducers: {
     save(state, action) {

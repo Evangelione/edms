@@ -1,12 +1,15 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Tabs, Button, Input, DatePicker} from 'antd'
+import { connect } from 'dva'
+import { Card, Tabs, Button, Input, DatePicker } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import LogisticsDetail from './logisticsDetail'
+import LogisticsBalance from './logisticsBalance'
+import LogisticsHistory from './logisticsHistory'
 import LogisticsTable from './components/LogisticsTable'
 import ExportModal from '../../components/ExportModal/ExportModal'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
+import BalanceOfAccount from './components/BalanceOfAccount'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -75,6 +78,16 @@ class Order extends React.Component {
         find_str: this.props.find_str
       }
     })
+
+    this.props.dispatch({
+      type: 'logistics/balanceFetch',
+      payload: {
+        page: 1,
+        stime: dateString[0],
+        etime: dateString[1],
+        find_str: this.props.find_str
+      }
+    })
   }
 
   render() {
@@ -82,88 +95,97 @@ class Order extends React.Component {
     return (
       <div>
         {this.props.location.pathname === '/logistics/logisticsDetail' ?
-          <LogisticsDetail></LogisticsDetail>
+          <LogisticsDetail/>
           :
-          <div>
-            <PageTitle>我的物流</PageTitle>
-            <div className='searchBox'>
-              {this.state.tableKey === '2' ?
-                <span>
+          this.props.location.pathname === '/logistics/logisticsHistory' ?
+            <LogisticsHistory/>
+            :
+            this.props.location.pathname === '/logistics/logisticsBalance' ?
+              <LogisticsBalance/>
+              :
+              <div>
+                <PageTitle>我的物流</PageTitle>
+                <div className='searchBox'>
+                  {this.state.tableKey === '1' ? '' :
+                    <span>
                     <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
                   </span>
-                : ''
-              }
-              <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
-                      onSearch={this.iptSearch}
-              />
-            </div>
-            <Card>
-              <Tabs onChange={this.callback}>
-                <TabPane tab="我的物流" key='1'>
-                  <div className='changeList'>
-                    <div onClick={this.changeClass.bind(null, 'quanbu', '')}
-                         className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
-                      <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
-                      <span>全部</span>
-                      <span></span>
-                    </div>
-                    <div onClick={this.changeClass.bind(null, 'daidiaodu', '1')}
-                         className={currentTab === 'daidiaodu' ? 'blueBG ' : 'grayBG'}>
+
+                  }
+                  <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
+                          onSearch={this.iptSearch}
+                  />
+                </div>
+                <Card>
+                  <Tabs onChange={this.callback}>
+                    <TabPane tab="我的物流" key='1'>
+                      <div className='changeList'>
+                        <div onClick={this.changeClass.bind(null, 'quanbu', '')}
+                             className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
+                          <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
+                          <span>全部</span>
+                          <span></span>
+                        </div>
+                        <div onClick={this.changeClass.bind(null, 'daidiaodu', '1')}
+                             className={currentTab === 'daidiaodu' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'daidiaodu' ? 'daidiaoduBlue ' : 'daidiaoduGray'}></span>
-                      <span>待调度</span>
-                      <span style={{color: 'red'}}>({statusNum.ddd})</span>
-                    </div>
-                    <div onClick={this.changeClass.bind(null, 'daijiedan', '2')}
-                         className={currentTab === 'daijiedan' ? 'blueBG ' : 'grayBG'}>
+                          <span>待调度</span>
+                          <span style={{color: 'red'}}>({statusNum.ddd})</span>
+                        </div>
+                        <div onClick={this.changeClass.bind(null, 'daijiedan', '2')}
+                             className={currentTab === 'daijiedan' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'daijiedan' ? 'daijiedanBlue ' : 'daijiedanGray'}></span>
-                      <span>待接单</span>
-                      <span style={{color: 'red'}}>({statusNum.djd})</span>
-                    </div>
-                    <div onClick={this.changeClass.bind(null, 'yijiedan', '3')}
-                         className={currentTab === 'yijiedan' ? 'blueBG ' : 'grayBG'}>
-                      <span className={currentTab === 'yijiedan' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
-                      <span>已接单</span>
-                      <span style={{color: 'red'}}>({statusNum.yjd})</span>
-                    </div>
-                    <div onClick={this.changeClass.bind(null, 'yunshuzhong', '4')}
-                         className={currentTab === 'yunshuzhong' ? 'blueBG ' : 'grayBG'}>
+                          <span>待接单</span>
+                          <span style={{color: 'red'}}>({statusNum.djd})</span>
+                        </div>
+                        <div onClick={this.changeClass.bind(null, 'yijiedan', '3')}
+                             className={currentTab === 'yijiedan' ? 'blueBG ' : 'grayBG'}>
+                          <span className={currentTab === 'yijiedan' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
+                          <span>已接单</span>
+                          <span style={{color: 'red'}}>({statusNum.yjd})</span>
+                        </div>
+                        <div onClick={this.changeClass.bind(null, 'yunshuzhong', '4')}
+                             className={currentTab === 'yunshuzhong' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'yunshuzhong' ? 'yunshuzhongBlue ' : 'yunshuzhongGray'}></span>
-                      <span>运输中</span>
-                      <span style={{color: 'red'}}>({statusNum.ysz})</span>
-                    </div>
-                    <div onClick={this.changeClass.bind(null, 'yixieche', '5')}
-                         className={currentTab === 'yixieche' ? 'blueBG ' : 'grayBG'}>
-                      <span className={currentTab === 'yixieche' ? 'yixiecheBlue ' : 'yixiecheGray'}></span>
-                      <span>已卸车</span>
-                      <span style={{color: 'red'}}>({statusNum.yxc})</span>
-                    </div>
-                    <div onClick={this.changeClass.bind(null, 'yiwancheng', '6')}
-                         className={currentTab === 'yiwancheng' ? 'blueBG ' : 'grayBG'}>
+                          <span>运输中</span>
+                          <span style={{color: 'red'}}>({statusNum.ysz})</span>
+                        </div>
+                        <div onClick={this.changeClass.bind(null, 'yixieche', '5')}
+                             className={currentTab === 'yixieche' ? 'blueBG ' : 'grayBG'}>
+                          <span className={currentTab === 'yixieche' ? 'yixiecheBlue ' : 'yixiecheGray'}></span>
+                          <span>已卸车</span>
+                          <span style={{color: 'red'}}>({statusNum.yxc})</span>
+                        </div>
+                        <div onClick={this.changeClass.bind(null, 'yiwancheng', '6')}
+                             className={currentTab === 'yiwancheng' ? 'blueBG ' : 'grayBG'}>
                       <span
                         className={currentTab === 'yiwancheng' ? 'yiwanchengBlue ' : 'yiwanchengGray'}></span>
-                      <span>已完成</span>
-                      <span></span>
-                    </div>
-                  </div>
-                </TabPane>
-                <TabPane tab="运费明细" key='2'>
-                  <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
-                  <div className='toolBar'>
-                    <ExportModal title='批量导出' type='logistics'>
-                      <Button className='blueBorder' icon="export">批量导出</Button>
-                    </ExportModal>
-                  </div>
-                </TabPane>
-              </Tabs>
-            </Card>
-            {this.state.tableKey === '1' ?
-              <Card style={{marginTop: 5}}>
-                <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
-              </Card> : ''}
-          </div>
+                          <span>已完成</span>
+                          <span></span>
+                        </div>
+                      </div>
+                    </TabPane>
+                    <TabPane tab="运费明细" key='2'>
+                      <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
+                      <div className='toolBar'>
+                        <ExportModal title='批量导出' type='logistics'>
+                          <Button className='blueBorder' icon="export">批量导出</Button>
+                        </ExportModal>
+                      </div>
+                    </TabPane>
+                    <TabPane tab='客户对账' key='3'>
+                      <BalanceOfAccount/>
+                    </TabPane>
+                  </Tabs>
+                </Card>
+                {this.state.tableKey === '1' ?
+                  <Card style={{marginTop: 5}}>
+                    <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
+                  </Card> : ''}
+              </div>
         }
       </div>
     )

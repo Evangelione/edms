@@ -304,6 +304,11 @@ a:hover {
   vertical-align: middle;
 }
 
+/*表格th宽度*/
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  padding: 16px 10px;
+}
+
 .quanbuGray {
   width: 26px;
   height: 28px;

@@ -125,7 +125,7 @@ class Analysis extends React.Component {
             <TabPane tab="数据分析" key='1'>
               <div className='toolBar'>
                 <ExportModal title='批量导出' type='accountAnalysis'>
-                  <Button className='blueBorder' icon='export'>批量导出</Button>
+                  <Button type='primary' icon='export' style={{height: 28}}>批量导出</Button>
                 </ExportModal>
               </div>
               <Table

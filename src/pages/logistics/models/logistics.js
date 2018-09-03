@@ -1,5 +1,5 @@
 import * as logisticsService from '../services/logistics'
-import {message} from 'antd'
+import { message } from 'antd'
 
 export default {
   namespace: 'logistics',
@@ -15,7 +15,16 @@ export default {
     currentTab: 'quanbu',
     stime: '',
     etime: '',
-    statusNum: {}
+    statusNum: {},
+    balanceList: [],
+    balancePage: 1,
+    balanceTotal: 0,
+    balanceDetailList: [],
+    balanceDetailPage: 1,
+    balanceDetailTotal: 0,
+    balanceHistoryList: [],
+    balanceHistoryPage: 1,
+    balanceHistoryTotal: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -101,6 +110,66 @@ export default {
             page: 1
           }
         })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * balanceFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
+      const {data} = yield call(logisticsService.getBalanceData, {page, find_str, stime, etime})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            balanceList: data.data.list,
+            balancePage: parseInt(page, 10),
+            balanceTotal: parseInt(data.data.count, 10),
+            find_str
+          }
+        })
+      }
+    },
+    * balanceDetailFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
+      const {data} = yield call(logisticsService.getBalanceDetailData, {page, find_str, stime, etime})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            balanceDetailList: data.data.list,
+            balanceDetailPage: parseInt(page, 10),
+            balanceDetailTotal: parseInt(data.data.count, 10),
+            find_str
+          }
+        })
+      }
+    },
+    * balanceHistoryFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
+      const {data} = yield call(logisticsService.getBalanceHistoryData, {page, find_str, stime, etime})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            balanceHistoryList: data.data.list,
+            balanceHistoryPage: parseInt(page, 10),
+            balanceHistoryTotal: parseInt(data.data.count, 10),
+            find_str
+          }
+        })
+      }
+    },
+    * confirmAccount({payload: {id}}, {call, put}) {
+      const {data} = yield call(logisticsService.confirmAccount, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteAccount({payload: {id}}, {call, put}) {
+      const {data} = yield call(logisticsService.deleteAccount, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
       } else {
         message.error(data.msg)
       }

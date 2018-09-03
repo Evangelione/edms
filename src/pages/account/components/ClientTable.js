@@ -1,9 +1,10 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Table, Button, Pagination} from 'antd'
+import { connect } from 'dva'
+import { Table, Button, Pagination } from 'antd'
 import RegisterModal from '../components/RegisterModal'
-import {IP, PAGE_SIZE} from '../../../constants'
-import {routerRedux} from 'dva/router'
+import CreditModal from '../components/CreditModal'
+import { IP, PAGE_SIZE } from '../../../constants'
+import { routerRedux } from 'dva/router'
 
 class ClientTable extends React.Component {
 
@@ -45,17 +46,31 @@ class ClientTable extends React.Component {
       key: 'customer_name',
       align: 'center'
     }, {
-      title: '账户余额',
+      title: '账户余额(元)',
       dataIndex: 'balance',
       key: 'balance',
       align: 'center'
     }, {
-      title: '账单及明细',
-      key: 'detail',
+      title: '信用总额度(元)',
+      dataIndex: 'credit',
+      key: 'credit',
+      align: 'center'
+    }, {
+      title: '可用额度(元)',
+      dataIndex: 'diy',
+      key: 'diy',
       align: 'center',
       render: (text, record, index) => {
-        return <Button className='blueBorder' size='small' onClick={this.goDetail.bind(null, record.id)}>查看详情</Button>
+        let num = (record.credit - 0) - (record.credit_used - 0)
+        return (
+          <div>{num.toFixed(2)}</div>
+        )
       }
+    }, {
+      title: '已用额度(元)',
+      dataIndex: 'credit_used',
+      key: 'credit_used',
+      align: 'center'
     }, {
       title: '收款登记',
       key: 'confirm',
@@ -68,11 +83,31 @@ class ClientTable extends React.Component {
           </RegisterModal>
         )
       }
+    }, {
+      title: '设置信用额度',
+      dataIndex: 'balance',
+      key: 'szbl',
+      align: 'center',
+      render: (text, record, index) => {
+        return (
+          <CreditModal title='设置信用额度' id={record.id} name={record.customer_name} credit={record.credit}
+                       credit_notice={record.credit_notice} phones={record.phones}>
+            <Button type='primary' style={{width: 104, height: 28, padding: '0px 14px 0 10px'}}>设置</Button>
+          </CreditModal>
+        )
+      }
+    }, {
+      title: '账单及明细',
+      key: 'detail',
+      align: 'center',
+      render: (text, record, index) => {
+        return <Button className='blueBorder' size='small' onClick={this.goDetail.bind(null, record.id)}>查看详情</Button>
+      }
     }]
     return (
       <div>
         <div className='toolBar'>
-          <Button className='blueBorder' icon='export'
+          <Button type='primary' icon='export' style={{height: 28}}
                   onClick={this.exportExcel.bind(null, this.props.find_str)}>批量导出</Button>
         </div>
         <Table

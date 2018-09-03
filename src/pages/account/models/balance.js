@@ -1,5 +1,5 @@
 import * as balanceServices from '../services/balance'
-import {message} from 'antd'
+import { message } from 'antd'
 
 export default {
   namespace: 'balance',
@@ -31,7 +31,8 @@ export default {
   },
   subscriptions: {
     setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {})
+      return history.listen(({pathname, query}) => {
+      })
     }
   },
   effects: {
@@ -141,6 +142,13 @@ export default {
         message.error(data.msg)
       }
     },
+    * setCredit({payload: {id, credit, notice, phones}}, {call, put}) {
+      const {data} = yield call(balanceServices.setCredit, {id, credit, notice, phones})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      }
+    }
   },
   reducers: {
     save(state, action) {

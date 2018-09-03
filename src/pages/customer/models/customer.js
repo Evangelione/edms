@@ -1,5 +1,5 @@
 import * as customerServices from '../services/customer'
-import {message} from 'antd'
+import { message } from 'antd'
 
 export default {
   namespace: 'customer',
@@ -14,11 +14,15 @@ export default {
     stime: '',
     etime: '',
     customOption: [],
-    company: {}
+    company: {},
+    balanceList: [],
+    balancePage: 1,
+    balanceTotal: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {})
+      return history.listen(({pathname, query}) => {
+      })
     }
   },
   effects: {
@@ -82,7 +86,21 @@ export default {
           }
         })
       }
-    }
+    },
+    * balanceFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
+      const {data} = yield call(customerServices.getBalanceData, {page, find_str, stime, etime})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            balanceList: data.data.list,
+            balancePage: parseInt(page, 10),
+            balanceTotal: parseInt(data.data.count, 10),
+            find_str
+          }
+        })
+      }
+    },
   },
   reducers: {
     save(state, action) {

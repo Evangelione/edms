@@ -1,11 +1,12 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Tabs, DatePicker, Input} from 'antd'
+import { connect } from 'dva'
+import { Card, Tabs, DatePicker, Input } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import SalesContract from './components/SalesContract'
 import SalesDetail from './components/SalesDetail'
+import BalanceOfAccount from './components/BalanceOfAccount'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -26,6 +27,15 @@ class Client extends React.Component {
   }
 
   rangeChange = (date, dateString) => {
+    this.props.dispatch({
+      type: 'customer/salesDetailFetch',
+      payload: {
+        page: 1,
+        stime: dateString[0],
+        etime: dateString[1],
+        find_str: this.props.find_str
+      }
+    })
     this.props.dispatch({
       type: 'customer/salesDetailFetch',
       payload: {
@@ -65,11 +75,10 @@ class Client extends React.Component {
       <div>
         <PageTitle>我的客户</PageTitle>
         <div className='searchBox'>
-          {this.state.paneKey === '2' ?
+          {this.state.paneKey === '1' ? '' :
             <span>
               <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
             </span>
-            : ''
           }
           <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                   onSearch={this.iptSearch}/>
@@ -77,10 +86,13 @@ class Client extends React.Component {
         <Card>
           <Tabs onChange={this.callback}>
             <TabPane tab="销售合同" key='1'>
-              <SalesContract></SalesContract>
+              <SalesContract/>
             </TabPane>
             <TabPane tab="销售明细" key='2'>
-              <SalesDetail></SalesDetail>
+              <SalesDetail/>
+            </TabPane>
+            <TabPane tab="客户对账" key='3'>
+              <BalanceOfAccount/>
             </TabPane>
           </Tabs>
         </Card>

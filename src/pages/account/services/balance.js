@@ -102,3 +102,15 @@ export function supplierRegistration({id, time, sum, file}) {
     body: formData
   })
 }
+
+export function setCredit({id, credit, notice, phones}) {
+  let formData = new FormData()
+  formData.append('cust_id', id)
+  formData.append('credit', credit)
+  formData.append('credit_notice', notice)
+  formData.append('phones', phones)
+  return request(`${IP}/home/account/set-credit`, {
+    method: 'POST',
+    body: formData
+  })
+}

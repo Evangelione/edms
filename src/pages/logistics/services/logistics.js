@@ -1,5 +1,5 @@
 import request from '../../../utils/request'
-import {IP, PAGE_SIZE} from '../../../constants'
+import { IP, PAGE_SIZE } from '../../../constants'
 
 export function getDeliverList({page, deliver_status, find_str}) {
   let formData = new FormData()
@@ -122,6 +122,63 @@ export function confirmBill({id, load_num, unload_num}) {
   formData.append('load_num', load_num)
   formData.append('unload_num', unload_num)
   return request(`${IP}/home/logistics/confirm-bill`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function getBalanceData({page, find_str, stime, etime}) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_SIZE)
+  formData.append('find_str', find_str)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
+  return request(`${IP}/home/logistics/deliver-account`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function getBalanceDetailData({page, find_str, stime, etime}) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_SIZE)
+  formData.append('find_str', find_str)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
+  return request(`${IP}/home/logistics/deliver-account-log`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function getBalanceHistoryData({page, find_str, stime, etime}) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_SIZE)
+  formData.append('find_str', find_str)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
+  return request(`${IP}/home/logistics/deliver-account-log`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function confirmAccount({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/confirm-deliver-account`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function deleteAccount({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/delete-deliver-account`, {
     method: 'POST',
     body: formData
   })

@@ -1,5 +1,5 @@
 import request from '../../../utils/request'
-import {IP, PAGE_SIZE} from "../../../constants";
+import { IP, PAGE_SIZE } from "../../../constants";
 
 export function purchaseContractFetch({page, find_str}) {
   let formData = new FormData()
@@ -45,5 +45,18 @@ export function addSupplierContract({id, stime, etime}) {
 export function fetchCompany() {
   return request(`${IP}/home/company/company-info`, {
     method: 'POST'
+  })
+}
+
+export function getBalanceData({page, find_str, stime, etime}) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_SIZE)
+  formData.append('find_str', find_str)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
+  return request(`${IP}/home/logistics/deliver-account`, {
+    method: 'POST',
+    body: formData
   })
 }
