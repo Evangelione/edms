@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Table, Button, Pagination } from 'antd'
 import { IP, PAGE_SIZE } from '../../../constants'
 import { routerRedux } from 'dva/router'
+import ExportModal from './ExportModal'
 
 class BalanceOfAccount extends PureComponent {
   UNSAFE_componentWillMount() {
@@ -20,10 +21,6 @@ class BalanceOfAccount extends PureComponent {
         find_str: this.props.find_str
       }
     })
-  }
-
-  exportExcel = (str) => {
-    window.location.href = `${IP}/home/logistics/excel-deliver-account?find_str=${str}&stime=${this.props.stime}&etime=${this.props.etime}`
   }
 
   balanceHistory = () => {
@@ -113,8 +110,9 @@ class BalanceOfAccount extends PureComponent {
     return (
       <div>
         <div className='toolBar'>
-          <Button type='primary' icon='export' style={{height: 28}}
-                  onClick={this.exportExcel.bind(null, this.props.find_str)}>批量导出</Button>
+          <ExportModal str={this.props.find_str}>
+            <Button type='primary' icon='export' style={{height: 28}}>批量导出</Button>
+          </ExportModal>
           <Button className='blueBorder' style={{width: 110}}
                   onClick={this.balanceHistory.bind(null, this.props.find_str)}>对账历史</Button>
         </div>

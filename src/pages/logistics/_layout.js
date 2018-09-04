@@ -45,7 +45,9 @@ class Order extends React.Component {
     return current && current > moment().endOf('day');
   }
 
-  callback = (key) => this.setState({tableKey: key})
+  callback = (key) => {
+    this.setState({tableKey: key})
+  }
 
   iptSearch = (value) => {
     if (this.state.tableKey === '1') {
@@ -73,8 +75,8 @@ class Order extends React.Component {
       type: 'logistics/getDeliverFee',
       payload: {
         page: 1,
-        stime: dateString[0],
-        etime: dateString[1],
+        stime: dates[0],
+        etime: dates[1],
         find_str: this.props.find_str
       }
     })
@@ -83,8 +85,8 @@ class Order extends React.Component {
       type: 'logistics/balanceFetch',
       payload: {
         page: 1,
-        stime: dateString[0],
-        etime: dateString[1],
+        stime: dates[0],
+        etime: dates[1],
         find_str: this.props.find_str
       }
     })
@@ -117,7 +119,7 @@ class Order extends React.Component {
                   />
                 </div>
                 <Card>
-                  <Tabs onChange={this.callback}>
+                  <Tabs onChange={this.callback} activeKey={this.state.tableKey}>
                     <TabPane tab="我的物流" key='1'>
                       <div className='changeList'>
                         <div onClick={this.changeClass.bind(null, 'quanbu', '')}
@@ -176,7 +178,7 @@ class Order extends React.Component {
                         </ExportModal>
                       </div>
                     </TabPane>
-                    <TabPane tab='客户对账' key='3'>
+                    <TabPane tab='物流对账' key='3'>
                       <BalanceOfAccount/>
                     </TabPane>
                   </Tabs>

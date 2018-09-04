@@ -4,7 +4,9 @@ import { Card, Tabs, Button, Input, DatePicker, Table, Pagination } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
-import { PAGE_SIZE } from "../../constants";
+import { PAGE_SIZE } from "../../constants"
+import { routerRedux } from "dva/router"
+import withRouter from 'umi/withRouter'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -14,8 +16,13 @@ class logisticsBalance extends React.Component {
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
-      type: 'logistics/balanceDetailFetch',
-      payload: {page: 1, find_str: '', stime: '', etime: ''}
+      type: 'logistics/balanceFetch',
+      payload: {
+        page: 1,
+        find_str: this.props.location.query.company,
+        stime: this.props.stime,
+        etime: this.props.etime
+      }
     })
   }
 
@@ -25,7 +32,7 @@ class logisticsBalance extends React.Component {
 
   iptSearch = (value) => {
     this.props.dispatch({
-      type: 'logistics/balanceDetailFetch',
+      type: 'logistics/balanceFetch',
       payload: {
         find_str: value,
         stime: this.props.stime,
@@ -36,18 +43,24 @@ class logisticsBalance extends React.Component {
 
   rangeChange = (dates, dateString) => {
     this.props.dispatch({
-      type: 'logistics/balanceDetailFetch',
+      type: 'logistics/balanceFetch',
       payload: {
         page: 1,
-        stime: dateString[0],
-        etime: dateString[1],
+        stime: dates[0],
+        etime: dates[1],
         find_str: this.props.find_str
       }
     })
   }
 
+  goBack = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/logistics/logisticsHistory',
+    }))
+  }
+
   render() {
-    const {balanceDetailList, balanceDetailPage, balanceDetailTotal, loading} = this.props
+    const {balanceList, balancePage, balanceTotal, loading} = this.props
     const columns = [{
       title: '订单编号',
       dataIndex: 'deliver_code',
@@ -127,7 +140,7 @@ class logisticsBalance extends React.Component {
     return (
       <div>
         <PageTitle>
-          <Button type='primary'>返回上一级</Button>
+          <Button type='primary' onClick={this.goBack}>返回上一级</Button>
         </PageTitle>
         <div className='searchBox'>
           <span>
@@ -142,15 +155,15 @@ class logisticsBalance extends React.Component {
             <TabPane tab="运单明细" key='1'>
               <Table
                 columns={columns}
-                dataSource={balanceDetailList}
+                dataSource={balanceList}
                 rowKey={record => record.deliver_code}
                 pagination={false}
                 loading={loading}
               ></Table>
               <Pagination
                 className='ant-table-pagination'
-                current={balanceDetailPage}
-                total={balanceDetailTotal}
+                current={balancePage}
+                total={balanceTotal}
                 pageSize={PAGE_SIZE}
                 onChange={this.pageChangeHandler}
               />
@@ -163,17 +176,17 @@ class logisticsBalance extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {columns, balanceDetailList, balanceDetailPage, balanceDetailTotal, find_str, stime, etime} = state.logistics
+  const {columns, balanceList, balancePage, balanceTotal, find_str, stime, etime} = state.logistics
   return {
     find_str,
     stime,
     etime,
     columns,
-    balanceDetailList,
-    balanceDetailPage,
-    balanceDetailTotal,
+    balanceList,
+    balancePage,
+    balanceTotal,
     loading: state.loading.models.logistics
   }
 }
 
-export default connect(mapStateToProps)(logisticsBalance)
+export default connect(mapStateToProps)(withRouter(logisticsBalance))

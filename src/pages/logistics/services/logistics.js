@@ -18,8 +18,8 @@ export function getDeliverFee({page, find_str, stime, etime}) {
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  formData.append('stime', stime)
-  formData.append('etime', etime)
+  formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+  formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
   return request(`${IP}/home/logistics/deliver-fee`, {
     method: 'POST',
     body: formData
@@ -132,34 +132,23 @@ export function getBalanceData({page, find_str, stime, etime}) {
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  formData.append('stime', stime)
-  formData.append('etime', etime)
+  formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+  formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
   return request(`${IP}/home/logistics/deliver-account`, {
     method: 'POST',
     body: formData
   })
 }
 
-export function getBalanceDetailData({page, find_str, stime, etime}) {
-  let formData = new FormData()
-  formData.append('page', page)
-  formData.append('limit', PAGE_SIZE)
-  formData.append('find_str', find_str)
-  formData.append('stime', stime)
-  formData.append('etime', etime)
-  return request(`${IP}/home/logistics/deliver-account-log`, {
-    method: 'POST',
-    body: formData
-  })
-}
 
 export function getBalanceHistoryData({page, find_str, stime, etime}) {
   let formData = new FormData()
   formData.append('page', page)
+  debugger
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  formData.append('stime', stime)
-  formData.append('etime', etime)
+  formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+  formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
   return request(`${IP}/home/logistics/deliver-account-log`, {
     method: 'POST',
     body: formData
@@ -179,6 +168,23 @@ export function deleteAccount({id}) {
   let formData = new FormData()
   formData.append('id', id)
   return request(`${IP}/home/logistics/delete-deliver-account`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function getLogisticsCompany() {
+  return request(`${IP}/home/select/logistics-company`, {
+    method: 'POST'
+  })
+}
+
+export function accountNum({find_str, stime, etime}) {
+  let formData = new FormData()
+  formData.append('find_str', find_str)
+  formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+  formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
+  return request(`${IP}/home/logistics/deliver-account-num`, {
     method: 'POST',
     body: formData
   })

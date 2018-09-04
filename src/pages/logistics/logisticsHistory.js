@@ -4,7 +4,9 @@ import { Card, Tabs, Button, Input, DatePicker, Table, Pagination } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
-import { PAGE_SIZE } from "../../constants";
+import { PAGE_SIZE } from "../../constants"
+import { routerRedux } from "dva/router"
+import BalanceOfAccountModal from '../../components/BalanceOfAccountModal/BalanceOfAccountModal'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -39,53 +41,27 @@ class logisticsHistory extends React.Component {
       type: 'logistics/balanceHistoryFetch',
       payload: {
         page: 1,
-        stime: dateString[0],
-        etime: dateString[1],
+        stime: dates[0],
+        etime: dates[1],
         find_str: this.props.find_str
       }
     })
   }
 
-  confirmBtn = (id) => {
-    this.props.dispatch({
-      type: 'logistics/confirmAccount',
-      payload: {
-        id
+
+  goBalance = (company) => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/logistics/logisticsBalance',
+      query: {
+        company
       }
-    }).then(() => {
-      this.props.dispatch({
-        type: 'logistics/balanceHistoryFetch',
-        payload: {
-          page: 1,
-          find_str: this.props.find_str,
-          stime: this.props.stime,
-          etime: this.props.etime
-        }
-      })
-    })
+    }))
   }
 
-  deleteBtn = (id) => {
-    this.props.dispatch({
-      type: 'logistics/deleteAccount',
-      payload: {
-        id
-      }
-    }).then(() => {
-      this.props.dispatch({
-        type: 'logistics/balanceHistoryFetch',
-        payload: {
-          page: 1,
-          find_str: this.props.find_str,
-          stime: this.props.stime,
-          etime: this.props.etime
-        }
-      })
-    })
-  }
-
-  goDetail = (id) => {
-
+  goBack = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/logistics'
+    }))
   }
 
   render() {
@@ -142,18 +118,27 @@ class logisticsHistory extends React.Component {
             {
               record.account_status === '0' ?
                 <div>
-                  <Button type='primary' style={{marginRight: 10, height: 28}}
-                          onClick={this.confirmBtn.bind(null, record.id)}>确认对账</Button>
-                  <Button type='primary'
-                          style={{marginRight: 10, height: 28, backgroundColor: '#EA7878', border: 'none'}}
-                          onClick={this.deleteBtn.bind(null, record.id)}>删除</Button>
-                  <Button style={{height: 28}} onClick={this.goDetail.bind(null, record.id)}>查看明细</Button>
+                  <BalanceOfAccountModal url='logistics/confirmAccount' id={record.id} find_str={this.props.find_str}
+                                         stime={this.props.stime} etime={this.props.etime} state='confirm'>
+                    <Button type='primary' style={{marginRight: 10, height: 28}}>确认对账</Button>
+                  </BalanceOfAccountModal>
+                  <BalanceOfAccountModal url='logistics/deleteAccount' id={record.id} find_str={this.props.find_str}
+                                         stime={this.props.stime} etime={this.props.etime} state='delete'>
+                    <Button type='primary'
+                            style={{
+                              marginRight: 10,
+                              height: 28,
+                              backgroundColor: '#EA7878',
+                              border: 'none'
+                            }}>删除</Button>
+                  </BalanceOfAccountModal>
+                  <Button style={{height: 28}} onClick={this.goBalance.bind(null, record.logistics_company)}>查看明细</Button>
                 </div>
                 :
                 <div>
                   <Button className='grayButton' style={{marginRight: 10, height: 28, width: 'auto'}}>确认对账</Button>
                   <Button className='grayButton' style={{marginRight: 10, height: 28, width: 'auto'}}>删除</Button>
-                  <Button style={{height: 28}}>查看明细</Button>
+                  <Button style={{height: 28}} onClick={this.goBalance.bind(null, record.logistics_company)}>查看明细</Button>
                 </div>
             }
           </div>
@@ -163,7 +148,7 @@ class logisticsHistory extends React.Component {
     return (
       <div>
         <PageTitle>
-          <Button type='primary'>返回上一级</Button>
+          <Button type='primary' onClick={this.goBack}>返回上一级</Button>
         </PageTitle>
         <div className='searchBox'>
           <span>

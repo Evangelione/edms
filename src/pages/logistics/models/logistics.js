@@ -25,6 +25,8 @@ export default {
     balanceHistoryList: [],
     balanceHistoryPage: 1,
     balanceHistoryTotal: 0,
+    companyOption: [],
+    companyDetail: {}
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -128,20 +130,6 @@ export default {
         })
       }
     },
-    * balanceDetailFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
-      const {data} = yield call(logisticsService.getBalanceDetailData, {page, find_str, stime, etime})
-      if (data.code === 1) {
-        yield put({
-          type: 'save',
-          payload: {
-            balanceDetailList: data.data.list,
-            balanceDetailPage: parseInt(page, 10),
-            balanceDetailTotal: parseInt(data.data.count, 10),
-            find_str
-          }
-        })
-      }
-    },
     * balanceHistoryFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
       const {data} = yield call(logisticsService.getBalanceHistoryData, {page, find_str, stime, etime})
       if (data.code === 1) {
@@ -172,6 +160,30 @@ export default {
         message.success(data.msg)
       } else {
         message.error(data.msg)
+      }
+    },
+    * getLogisticsCompany({payload}, {call, put}) {
+      const {data} = yield call(logisticsService.getLogisticsCompany)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            companyOption: data.data.list
+          }
+        })
+      }
+    },
+    * accountNum({payload: {find_str = '', stime, etime}}, {call, put}) {
+      const {data} = yield call(logisticsService.accountNum, {find_str, stime, etime})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            companyDetail: data.data.list
+          }
+        })
       }
     },
   },
