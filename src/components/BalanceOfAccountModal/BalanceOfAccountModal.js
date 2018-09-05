@@ -1,7 +1,6 @@
 import React from 'react'
-import { Modal, Button, Row, Col, notification } from 'antd'
+import { Modal, Button, Row, Col } from 'antd'
 import { connect } from 'dva'
-import { routerRedux } from 'dva/router'
 import images from '../../utils/images'
 
 class BalanceOfAccountModal extends React.Component {
@@ -52,12 +51,10 @@ class BalanceOfAccountModal extends React.Component {
       }
     }).then(() => {
       this.props.dispatch({
-        type: 'logistics/balanceHistoryFetch',
+        type: this.props.refAction,
         payload: {
           page: 1,
           find_str: this.props.find_str,
-          stime: this.props.stime,
-          etime: this.props.etime
         }
       })
       this.setState({

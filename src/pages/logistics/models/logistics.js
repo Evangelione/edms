@@ -19,9 +19,9 @@ export default {
     balanceList: [],
     balancePage: 1,
     balanceTotal: 0,
-    balanceDetailList: [],
-    balanceDetailPage: 1,
-    balanceDetailTotal: 0,
+    balanceDetailedList: [],
+    balanceDetailedPage: 1,
+    balanceDetailedTotal: 0,
     balanceHistoryList: [],
     balanceHistoryPage: 1,
     balanceHistoryTotal: 0,
@@ -116,8 +116,8 @@ export default {
         message.error(data.msg)
       }
     },
-    * balanceFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
-      const {data} = yield call(logisticsService.getBalanceData, {page, find_str, stime, etime})
+    * balanceFetch({payload: {page = 1, find_str = '', stime, etime, conversion}}, {call, put}) {
+      const {data} = yield call(logisticsService.getBalanceData, {page, find_str, stime, etime, conversion})
       if (data.code === 1) {
         yield put({
           type: 'save',
@@ -125,6 +125,20 @@ export default {
             balanceList: data.data.list,
             balancePage: parseInt(page, 10),
             balanceTotal: parseInt(data.data.count, 10),
+            find_str
+          }
+        })
+      }
+    },
+    * balanceDetailedFetch({payload: {page = 1, find_str = '', stime, etime, conversion, id}}, {call, put}) {
+      const {data} = yield call(logisticsService.balanceDetailedFetch, {page, find_str, stime, etime, conversion, id})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            balanceDetailedList: data.data.list,
+            balanceDetailedPage: parseInt(page, 10),
+            balanceDetailedTotal: parseInt(data.data.count, 10),
             find_str
           }
         })

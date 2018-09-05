@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { Table, Button, Pagination } from 'antd'
-import { IP, PAGE_SIZE } from '../../../constants'
+import { PAGE_SIZE } from '../../../constants'
 import { routerRedux } from 'dva/router'
 import ExportModal from './ExportModal'
 

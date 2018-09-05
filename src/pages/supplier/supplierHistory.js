@@ -9,11 +9,11 @@ import BalanceOfAccountModal from '../../components/BalanceOfAccountModal/Balanc
 
 const TabPane = Tabs.TabPane
 
-class logisticsHistory extends React.Component {
+class supplierHistory extends React.Component {
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
-      type: 'logistics/balanceHistoryFetch',
+      type: 'supplier/balanceHistoryFetch',
       payload: {page: 1, find_str: '', stime: '', etime: ''}
     })
   }
@@ -24,7 +24,7 @@ class logisticsHistory extends React.Component {
 
   iptSearch = (value) => {
     this.props.dispatch({
-      type: 'logistics/balanceHistoryFetch',
+      type: 'supplier/balanceHistoryFetch',
       payload: {
         find_str: value,
         stime: this.props.stime,
@@ -35,7 +35,7 @@ class logisticsHistory extends React.Component {
 
   rangeChange = (dates, dateString) => {
     this.props.dispatch({
-      type: 'logistics/balanceHistoryFetch',
+      type: 'supplier/balanceHistoryFetch',
       payload: {
         page: 1,
         stime: dates[0],
@@ -48,7 +48,7 @@ class logisticsHistory extends React.Component {
 
   goBalance = (company, stime, etime, id) => {
     this.props.dispatch(routerRedux.push({
-      pathname: '/logistics/logisticsBalance',
+      pathname: '/supplier/supplierBalance',
       query: {
         company,
         stime,
@@ -60,13 +60,13 @@ class logisticsHistory extends React.Component {
 
   goBack = () => {
     this.props.dispatch(routerRedux.push({
-      pathname: '/logistics'
+      pathname: '/supplier'
     }))
   }
 
   pageChangeHandler = (page) => {
     this.props.dispatch({
-      type: 'logistics/balanceHistoryFetch',
+      type: 'supplier/balanceHistoryFetch',
       payload: {
         page
       }
@@ -81,9 +81,9 @@ class logisticsHistory extends React.Component {
       key: 'log_time',
       align: 'center'
     }, {
-      title: '物流公司',
-      dataIndex: 'logistics_company',
-      key: 'logistics_company',
+      title: '供应商名称',
+      dataIndex: 'supp_name',
+      key: 'supp_name',
       align: 'center'
     }, {
       title: '对账总额(元)',
@@ -103,8 +103,8 @@ class logisticsHistory extends React.Component {
       }
     }, {
       title: '订单数量',
-      dataIndex: 'deliver_count',
-      key: 'deliver_count',
+      dataIndex: 'purchase_count',
+      key: 'purchase_count',
       align: 'center'
     }, {
       title: '对账状态',
@@ -127,11 +127,11 @@ class logisticsHistory extends React.Component {
             {
               record.account_status === '0' ?
                 <div>
-                  <BalanceOfAccountModal url='logistics/confirmAccount' refAction='logistics/balanceHistoryFetch'
+                  <BalanceOfAccountModal url='supplier/confirmAccount' refAction='supplier/balanceHistoryFetch'
                                          id={record.id} find_str={this.props.find_str} state='confirm'>
                     <Button type='primary' style={{marginRight: 10, height: 28}}>确认对账</Button>
                   </BalanceOfAccountModal>
-                  <BalanceOfAccountModal url='logistics/deleteAccount' refAction='logistics/balanceHistoryFetch'
+                  <BalanceOfAccountModal url='supplier/deleteAccount' refAction='supplier/balanceHistoryFetch'
                                          id={record.id} find_str={this.props.find_str} state='delete'>
                     <Button type='primary'
                             style={{
@@ -142,14 +142,14 @@ class logisticsHistory extends React.Component {
                             }}>删除</Button>
                   </BalanceOfAccountModal>
                   <Button style={{height: 28}}
-                          onClick={this.goBalance.bind(null, record.logistics_company, record.account_cycle_start, record.account_cycle_end, record.id)}>查看明细</Button>
+                          onClick={this.goBalance.bind(null, record.supp_name, record.account_cycle_start, record.account_cycle_end, record.id)}>查看明细</Button>
                 </div>
                 :
                 <div>
                   <Button className='grayButton' style={{marginRight: 10, height: 28, width: 'auto'}}>确认对账</Button>
                   <Button className='grayButton' style={{marginRight: 10, height: 28, width: 'auto'}}>删除</Button>
                   <Button style={{height: 28}}
-                          onClick={this.goBalance.bind(null, record.logistics_company, record.account_cycle_start, record.account_cycle_end, record.id)}>查看明细</Button>
+                          onClick={this.goBalance.bind(null, record.supp_name, record.account_cycle_start, record.account_cycle_end, record.id)}>查看明细</Button>
                 </div>
             }
           </div>
@@ -195,17 +195,16 @@ class logisticsHistory extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {columns, balanceHistoryList, balanceHistoryPage, balanceHistoryTotal, find_str, stime, etime} = state.logistics
+  const {balanceHistoryList, balanceHistoryPage, balanceHistoryTotal, find_str, stime, etime} = state.supplier
   return {
     find_str,
     stime,
     etime,
-    columns,
     balanceHistoryList,
     balanceHistoryPage,
     balanceHistoryTotal,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.supplier
   }
 }
 
-export default connect(mapStateToProps)(logisticsHistory)
+export default connect(mapStateToProps)(supplierHistory)

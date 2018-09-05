@@ -45,7 +45,6 @@ class operateUser extends React.Component {
   saveForm = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        debugger
         let delivery_province = values.delivery[0]
         let delivery_city = values.delivery[1]
         let delivery_area = values.delivery[2]

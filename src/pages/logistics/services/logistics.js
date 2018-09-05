@@ -127,14 +127,38 @@ export function confirmBill({id, load_num, unload_num}) {
   })
 }
 
-export function getBalanceData({page, find_str, stime, etime}) {
+export function getBalanceData({page, find_str, stime, etime, conversion}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
-  formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
+  if (conversion) {
+    formData.append('stime', stime)
+    formData.append('etime', etime)
+  } else {
+    formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+    formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
+  }
   return request(`${IP}/home/logistics/deliver-account`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function balanceDetailedFetch({page, find_str, stime, etime, conversion, id}) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_SIZE)
+  formData.append('find_str', find_str)
+  formData.append('id', id)
+  if (conversion) {
+    formData.append('stime', stime)
+    formData.append('etime', etime)
+  } else {
+    formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+    formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
+  }
+  return request(`${IP}/home/logistics/deliver-account-detailed`, {
     method: 'POST',
     body: formData
   })
@@ -144,11 +168,10 @@ export function getBalanceData({page, find_str, stime, etime}) {
 export function getBalanceHistoryData({page, find_str, stime, etime}) {
   let formData = new FormData()
   formData.append('page', page)
-  debugger
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
-  formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
+  // formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
+  // formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
   return request(`${IP}/home/logistics/deliver-account-log`, {
     method: 'POST',
     body: formData

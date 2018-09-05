@@ -12,11 +12,11 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 const {RangePicker} = DatePicker;
 
-class logisticsBalance extends React.Component {
+class customerBalance extends React.Component {
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
-      type: 'logistics/balanceDetailedFetch',
+      type: 'customer/balanceDetailedFetch',
       payload: {
         page: 1,
         find_str: this.props.find_str,
@@ -34,7 +34,7 @@ class logisticsBalance extends React.Component {
 
   iptSearch = (value) => {
     this.props.dispatch({
-      type: 'logistics/balanceDetailedFetch',
+      type: 'customer/balanceDetailedFetch',
       payload: {
         find_str: value,
         stime: this.props.stime,
@@ -46,7 +46,7 @@ class logisticsBalance extends React.Component {
 
   rangeChange = (dates, dateString) => {
     this.props.dispatch({
-      type: 'logistics/balanceDetailedFetch',
+      type: 'customer/balanceDetailedFetch',
       payload: {
         page: 1,
         stime: dates[0],
@@ -59,13 +59,13 @@ class logisticsBalance extends React.Component {
 
   goBack = () => {
     this.props.dispatch(routerRedux.push({
-      pathname: '/logistics/logisticsHistory',
+      pathname: '/customer/customerHistory',
     }))
   }
 
   pageChangeHandler = (page) => {
     this.props.dispatch({
-      type: 'logistics/balanceDetailedFetch',
+      type: 'customer/balanceDetailedFetch',
       payload: {
         id: this.props.location.query.id,
         stime: this.props.stime,
@@ -80,8 +80,8 @@ class logisticsBalance extends React.Component {
     const {balanceDetailedList, balanceDetailedPage, balanceDetailedTotal, loading} = this.props
     const columns = [{
       title: '订单编号',
-      dataIndex: 'deliver_code',
-      key: 'deliver_code',
+      dataIndex: 'order_code',
+      key: 'order_code',
       align: 'center'
     }, {
       title: '装车日期',
@@ -89,30 +89,20 @@ class logisticsBalance extends React.Component {
       key: 'load_time',
       align: 'center'
     }, {
+      title: '客户名称',
+      dataIndex: 'customer_name',
+      key: 'customer_name',
+      align: 'center',
+    }, {
       title: '站点简称',
       dataIndex: 'site_name',
       key: 'site_name',
       align: 'center',
     }, {
-      title: '气源产地',
-      dataIndex: 'balance',
-      key: 'cargo',
-      align: 'center',
-      render: (text, record, index) => {
-        return <div>
-          {record.cargo_province + record.cargo_city + record.cargo_area}
-        </div>
-      }
-    }, {
       title: '车牌照',
       dataIndex: 'car_head',
       key: 'car_head',
       align: 'center'
-    }, {
-      title: '物流公司',
-      dataIndex: 'logistics_company',
-      key: 'logistics_company',
-      align: 'center',
     }, {
       title: '装车量(吨)',
       dataIndex: 'load_num',
@@ -125,34 +115,29 @@ class logisticsBalance extends React.Component {
       align: 'center',
     }, {
       title: '结算量(吨)',
-      dataIndex: 'wl_final_num',
-      key: 'wl_final_num',
+      dataIndex: 'final_num',
+      key: 'final_num',
       align: 'center',
     }, {
-      title: '公里数',
-      dataIndex: 'wl_distance',
-      key: 'wl_distance',
+      title: '销售单价(元)',
+      dataIndex: 'saler_price',
+      key: 'saler_price',
       align: 'center',
     }, {
-      title: '吨公里(元)',
-      dataIndex: 'wl_deliver_price',
-      key: 'wl_deliver_price',
+      title: '销售额(元)',
+      dataIndex: 'sale_money',
+      key: 'sale_money',
       align: 'center',
     }, {
-      title: '额外费用(元)',
-      dataIndex: 'wl_extra_fee',
-      key: 'wl_extra_fee',
+      title: '客户余额(元)',
+      dataIndex: 'balance',
+      key: 'balance',
       align: 'center',
     }, {
-      title: '运费总计(元)',
-      key: 'zj',
+      title: '信用余额(元)',
+      dataIndex: 'credit_balance',
+      key: 'credit_balance',
       align: 'center',
-      render: (text, record, index) => {
-        let num = (record.wl_final_num - 0) * (record.wl_distance - 0) * (record.wl_deliver_price - 0) + (record.wl_extra_fee - 0)
-        return <div>
-          {num.toFixed(2)}
-        </div>
-      }
     }]
     return (
       <div>
@@ -173,7 +158,7 @@ class logisticsBalance extends React.Component {
               <Table
                 columns={columns}
                 dataSource={balanceDetailedList}
-                rowKey={record => record.deliver_code}
+                rowKey={record => record.order_code}
                 pagination={false}
                 loading={loading}
               ></Table>
@@ -193,7 +178,7 @@ class logisticsBalance extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {columns, balanceDetailedList, balanceDetailedPage, balanceDetailedTotal, find_str, stime, etime} = state.logistics
+  const {columns, balanceDetailedList, balanceDetailedPage, balanceDetailedTotal, find_str, stime, etime} = state.customer
   return {
     find_str,
     stime,
@@ -202,8 +187,8 @@ function mapStateToProps(state) {
     balanceDetailedList,
     balanceDetailedPage,
     balanceDetailedTotal,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.customer
   }
 }
 
-export default connect(mapStateToProps)(withRouter(logisticsBalance))
+export default connect(mapStateToProps)(withRouter(customerBalance))

@@ -15,13 +15,14 @@ class ExportModal extends PureComponent {
       startValue: null,
       endValue: null,
       endOpen: false,
-      modalLoading: false
+      modalLoading: false,
+      companyName: ''
     }
   }
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
-      type: 'logistics/getLogisticsCompany'
+      type: 'supplier/getSupplierCompany'
     })
   }
 
@@ -77,7 +78,7 @@ class ExportModal extends PureComponent {
         modalLoading: true
       })
       this.props.dispatch({
-        type: 'logistics/accountNum',
+        type: 'supplier/accountNum',
         payload: {
           find_str: this.props.form.getFieldValue('company'),
           stime: this.props.form.getFieldValue('stime'),
@@ -116,7 +117,7 @@ class ExportModal extends PureComponent {
     if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime') && this.props.form.getFieldValue('company')) {
       let stime = this.props.form.getFieldValue('stime').format('YYYY-MM-DD')
       let etime = this.props.form.getFieldValue('etime').format('YYYY-MM-DD')
-      window.location.href = `${IP}/home/logistics/excel-deliver-account?find_str=${this.props.form.getFieldValue('company')}&stime=${stime}&etime=${etime}`
+      window.location.href = `${IP}/home/supplier/excel-supplier-account?id=${this.props.form.getFieldValue('company')}&start_date=${stime}&end_date=${etime}`
       this.setState({
         visible: false,
         visible2: false,
@@ -124,6 +125,12 @@ class ExportModal extends PureComponent {
     } else {
       message.error('请填写完整信息')
     }
+  }
+
+  companyChange = (val, item) => {
+    this.setState({
+      companyName: item.props.children
+    })
   }
 
   render() {
@@ -141,8 +148,8 @@ class ExportModal extends PureComponent {
       },
     }
     const companyOptions = companyOption.map((option, index) =>
-      <Option key={option.logistic_company} value={option.logistic_company}>
-        {option.logistic_company}
+      <Option key={option.id} value={option.id}>
+        {option.supp_name}
       </Option>)
     return (
       <div onClick={this.showModal} style={{display: 'inline-block'}}>
@@ -230,7 +237,7 @@ class ExportModal extends PureComponent {
           <div style={{backgroundColor: '#F7F8FA', padding: '20px 40px', marginTop: 15}}>
             <div style={{margin: '5px 0'}}>
               <span>物流公司：</span>
-              <span>{this.props.form.getFieldValue('company')}</span>
+              <span>{this.state.companyName}</span>
             </div>
             <div style={{margin: '5px 0'}}>
               <span>运单周期：</span>
@@ -238,7 +245,7 @@ class ExportModal extends PureComponent {
             </div>
             <div style={{margin: '5px 0'}}>
               <span>运单数量：</span>
-              <span>{companyDetail.deliver_count}</span>
+              <span>{companyDetail.purchase_count}</span>
             </div>
             <div style={{margin: '5px 0'}}>
               <span>运单总额：</span>
@@ -261,13 +268,13 @@ class ExportModal extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {stime, etime, companyOption, companyDetail} = state.logistics
+  const {stime, etime, companyOption, companyDetail} = state.supplier
   return {
     stime,
     etime,
     companyOption,
     companyDetail,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.supplier
   }
 }
 

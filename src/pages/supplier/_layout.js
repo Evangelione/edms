@@ -5,6 +5,8 @@ import locale from 'antd/lib/date-picker/locale/zh_CN'
 import PurchaseContract from './components/PurchaseContract'
 import PurchaseDetail from './components/PurchaseDetail'
 import BalanceOfAccount from './components/BalanceOfAccount'
+import SupplierHistory from './supplierHistory'
+import SupplierBalance from './supplierBalance'
 import { connect } from 'dva'
 import moment from 'moment'
 
@@ -31,17 +33,17 @@ class Supplier extends React.Component {
       type: 'supplier/purchaseDetailFetch',
       payload: {
         page: 1,
-        stime: dateString[0],
-        etime: dateString[1],
+        stime: date[0],
+        etime: date[1],
         find_str: this.props.find_str
       }
     })
     this.props.dispatch({
-      type: 'supplier/purchaseDetailFetch',
+      type: 'supplier/balanceFetch',
       payload: {
         page: 1,
-        stime: dateString[0],
-        etime: dateString[1],
+        stime: date[0],
+        etime: date[1],
         find_str: this.props.find_str
       }
     })
@@ -73,28 +75,37 @@ class Supplier extends React.Component {
   render() {
     return (
       <div>
-        <PageTitle>我的供应商</PageTitle>
-        <div className={'searchBox'}>
-          {this.state.paneKey === '1' ? '' :
-            <span>
+        {this.props.location.pathname === '/supplier/supplierHistory' ?
+          <SupplierHistory/>
+          :
+          this.props.location.pathname === '/supplier/supplierBalance' ?
+            <SupplierBalance/>
+            :
+            <div>
+              <PageTitle>我的供应商</PageTitle>
+              <div className={'searchBox'}>
+                {this.state.paneKey === '1' ? '' :
+                  <span>
               <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
             </span>}
-          <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
-                  onSearch={this.iptSearch}/>
-        </div>
-        <Card>
-          <Tabs onChange={this.callback}>
-            <TabPane tab="采购合同" key='1'>
-              <PurchaseContract/>
-            </TabPane>
-            <TabPane tab="采购明细" key='2'>
-              <PurchaseDetail/>
-            </TabPane>
-            <TabPane tab='客户对账' key='3'>
-              <BalanceOfAccount/>
-            </TabPane>
-          </Tabs>
-        </Card>
+                <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
+                        onSearch={this.iptSearch}/>
+              </div>
+              <Card>
+                <Tabs onChange={this.callback}>
+                  <TabPane tab="采购合同" key='1'>
+                    <PurchaseContract/>
+                  </TabPane>
+                  <TabPane tab="采购明细" key='2'>
+                    <PurchaseDetail/>
+                  </TabPane>
+                  <TabPane tab='采购对账' key='3'>
+                    <BalanceOfAccount/>
+                  </TabPane>
+                </Tabs>
+              </Card>
+            </div>
+        }
       </div>
     )
   }

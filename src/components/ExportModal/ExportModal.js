@@ -59,7 +59,6 @@ class ExportModal extends React.Component {
       message.error('请选择要导出时间段！')
       return false
     }
-    debugger
     let startTime = this.state.stime.format('YYYY-MM-DD')
     let endTime = this.state.etime.format('YYYY-MM-DD')
     if (this.props.type === 'accountClient') {

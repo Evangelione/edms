@@ -24,7 +24,6 @@ class PoundModal extends React.Component {
   }
 
   handleApply = (event, picker) => {
-    debugger
     this.setState({
       time: picker.startDate,
     })
