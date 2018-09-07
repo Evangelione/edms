@@ -7,6 +7,9 @@ import VehicleTable from './components/VehicleTable'
 import OperateUser from './operateUser'
 import OperateSupplier from './operateSupplier'
 import OperateVehicle from './operateVehicle'
+import UserChecking from './UserChecking'
+import SupplierChecking from './SupplierChecking'
+import VehicleChecking from './VehicleChecking'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -75,11 +78,17 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
         </div>
         :
         location.pathname === '/maintain/operateUser' ?
-          <OperateUser></OperateUser> :
+          <OperateUser/> :
           location.pathname === '/maintain/operateSupplier' ?
-            <OperateSupplier></OperateSupplier> :
+            <OperateSupplier/> :
             location.pathname === '/maintain/operateVehicle' ?
-              <OperateVehicle></OperateVehicle> : ''
+              <OperateVehicle/> :
+              location.pathname === '/maintain/UserChecking' ?
+                <UserChecking/> :
+                location.pathname === '/maintain/SupplierChecking' ?
+                  <SupplierChecking/> :
+                  location.pathname === '/maintain/VehicleChecking' ?
+                    <VehicleChecking/> : ''
       }
     </div>
   )

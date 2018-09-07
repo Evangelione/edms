@@ -185,3 +185,14 @@ export function vehicleImport({file}) {
     body: formData
   })
 }
+
+export function batchCustomer({form}) {
+  let formData = new FormData()
+  formData.append('json_list', JSON.stringify(form))
+  return request(`${IP}/admin/customer/batch-add-customer`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+

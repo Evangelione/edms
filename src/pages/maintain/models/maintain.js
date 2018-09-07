@@ -1,6 +1,6 @@
 import * as maintainService from '../services/maintain'
-import {message} from 'antd'
-import {routerRedux} from "dva/router"
+import { message } from 'antd'
+import { routerRedux } from "dva/router"
 
 export default {
   namespace: 'maintain',
@@ -18,7 +18,10 @@ export default {
     imgUrl: '',
     find_str: '',
     currentTab: '1',
-    CascaderOptions: []
+    CascaderOptions: [],
+    userChecking: {},
+    supplierChecking: {},
+    vehicleChecking: {}
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -231,14 +234,19 @@ export default {
       const {data} = yield call(maintainService.userImport, {file})
       if (data.code === -2) return false
       if (data.code === 1) {
-        message.success(data.msg)
+        message.warning('请修改数据后重新导入')
         const page = yield select(state => state.maintain.customerpage)
         const find_str = yield select(state => state.maintain.find_str)
         yield put({type: 'fetchCustomer', payload: {page, find_str}})
         file.onProgress({percent: 100})
         file.onSuccess()
-      } else {
-        message.error(data.msg)
+        yield put({
+          type: 'save', payload: {
+            userChecking: data
+          }
+        })
+      } else if (data.code === 2) {
+        message.error('全部导入成功')
       }
 
     },
@@ -246,28 +254,52 @@ export default {
       const {data} = yield call(maintainService.suppImport, {file})
       if (data.code === -2) return false
       if (data.code === 1) {
-        message.success(data.msg)
+        message.warning('请修改数据后重新导入')
         const page = yield select(state => state.maintain.customerpage)
         const find_str = yield select(state => state.maintain.find_str)
         yield put({type: 'fetchSupplier', payload: {page, find_str}})
         file.onProgress({percent: 100})
         file.onSuccess()
-      } else {
-        message.error(data.msg)
+        yield put({
+          type: 'save', payload: {
+            supplierChecking: data
+          }
+        })
+      } else if (data.code === 2) {
+        message.error('全部导入成功')
       }
     },
     * vehicleImport({payload: file}, {call, put, select}) {
       const {data} = yield call(maintainService.vehicleImport, {file})
       if (data.code === -2) return false
       if (data.code === 1) {
-        message.success(data.msg)
+        message.warning('请修改数据后重新导入')
         const page = yield select(state => state.maintain.customerpage)
         const find_str = yield select(state => state.maintain.find_str)
         yield put({type: 'fetchCar', payload: {page, find_str}})
         file.onProgress({percent: 100})
         file.onSuccess()
-      } else {
-        message.error(data.msg)
+        yield put({
+          type: 'save', payload: {
+            vehicleChecking: data
+          }
+        })
+      } else if (data.code === 2) {
+        message.success('全部导入成功')
+      }
+    },
+    * batchCustomer({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.batchCustomer, {form})
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.warning('请修改数据后重新导入')
+        yield put({
+          type: 'save', payload: {
+            userChecking: data
+          }
+        })
+      } else if (data.code === 2) {
+        message.success('全部导入成功')
       }
     },
   },

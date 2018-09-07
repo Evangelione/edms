@@ -132,7 +132,7 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
     <div>
       <div className='toolBar'>
         <Button type='primary' icon="plus"
-                onClick={editUser.bind(null, 'insert')}>新增车辆</Button>
+                onClick={editUser.bind(null, 'insert')}>新增物流</Button>
         <Upload
           name='CarForm[excel]'
           showUploadList={false}
