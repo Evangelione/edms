@@ -195,4 +195,20 @@ export function batchCustomer({form}) {
   })
 }
 
+export function batchSupplier({form}) {
+  let formData = new FormData()
+  formData.append('json_list', JSON.stringify(form))
+  return request(`${IP}/admin/supplier/batch-add-supplier`, {
+    method: 'POST',
+    body: formData
+  })
+}
 
+export function batchVehicle({form}) {
+  let formData = new FormData()
+  formData.append('json_list', JSON.stringify(form))
+  return request(`${IP}/admin/car/batch-add-car`, {
+    method: 'POST',
+    body: formData
+  })
+}

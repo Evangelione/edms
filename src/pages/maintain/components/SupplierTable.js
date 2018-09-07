@@ -48,6 +48,10 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
     dispatch({
       type: 'maintain/suppImport',
       payload: file
+    }).then(() => {
+      dispatch(routerRedux.push({
+        pathname: '/maintain/SupplierChecking',
+      }))
     })
   }
 

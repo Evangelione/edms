@@ -65,13 +65,13 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
           <Card>
             <Tabs activeKey={currentTab} onChange={callback}>
               <TabPane tab="我的客户" key="1">
-                <UserTable></UserTable>
+                <UserTable/>
               </TabPane>
               <TabPane tab="我的供应商" key="2">
-                <SupplierTable></SupplierTable>
+                <SupplierTable/>
               </TabPane>
               <TabPane tab="我的物流" key="3">
-                <VehicleTable></VehicleTable>
+                <VehicleTable/>
               </TabPane>
             </Tabs>
           </Card>

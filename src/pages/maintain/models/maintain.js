@@ -292,7 +292,11 @@ export default {
       const {data} = yield call(maintainService.batchCustomer, {form})
       if (data.code === -2) return false
       if (data.code === 1) {
-        message.warning('请修改数据后重新导入')
+        if (data.num.err_num === 0) {
+          message.success('全部导入成功')
+        } else {
+          message.warning('请修改数据后重新导入')
+        }
         yield put({
           type: 'save', payload: {
             userChecking: data
@@ -300,6 +304,57 @@ export default {
         })
       } else if (data.code === 2) {
         message.success('全部导入成功')
+        yield put({
+          type: 'save', payload: {
+            userChecking: data
+          }
+        })
+      }
+    },
+    * batchSupplier({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.batchSupplier, {form})
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        if (data.num.err_num === 0) {
+          message.success('全部导入成功')
+        } else {
+          message.warning('请修改数据后重新导入')
+        }
+        yield put({
+          type: 'save', payload: {
+            supplierChecking: data
+          }
+        })
+      } else if (data.code === 2) {
+        message.success('全部导入成功')
+        yield put({
+          type: 'save', payload: {
+            supplierChecking: data
+          }
+        })
+      }
+    },
+    * batchVehicle({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.batchVehicle, {form})
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        if (data.num.err_num === 0) {
+          message.success('全部导入成功')
+        } else {
+          message.warning('请修改数据后重新导入')
+        }
+        yield put({
+          type: 'save', payload: {
+            vehicleChecking: data
+          }
+        })
+      } else if (data.code === 2) {
+        message.success('全部导入成功')
+        yield put({
+          type: 'save', payload: {
+            vehicleChecking: data
+          }
+        })
       }
     },
   },

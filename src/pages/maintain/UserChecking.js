@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Table, Input, Form, Button, Select, Cascader, Row, Col } from 'antd'
+import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
-import PromptModal from '../../components/PromptModal/PromptModal'
-import { routerRedux } from "dva/router";
+import { routerRedux } from "dva/router"
+import { IP } from "../../constants"
 
 const Option = Select.Option
 const FormItem = Form.Item;
@@ -202,12 +202,6 @@ class EditableTable extends React.Component {
     }
   }
 
-  componentWillUpdate () {
-    this.setState({
-      dataSource: [...this.props.userChecking.data.err_arr]
-    })
-  }
-
   UNSAFE_componentWillMount() {
     if (this.props.userChecking.data === undefined) {
       this.props.dispatch(routerRedux.push({
@@ -231,6 +225,7 @@ class EditableTable extends React.Component {
       row.delivery_province = row.address[0] ? row.address[0] : ''
       row.delivery_city = row.address[1] ? row.address[1] : ''
       row.delivery_area = row.address[2] ? row.address[2] : ''
+      delete row.address
     }
     const newData = [...this.state.dataSource];
     const index = newData.findIndex(item => row.key === item.key);
@@ -248,6 +243,10 @@ class EditableTable extends React.Component {
       payload: {
         form: this.state.dataSource
       }
+    }).then(() => {
+      this.setState({
+        dataSource: [...this.props.userChecking.data.err_arr]
+      })
     })
   }
 
@@ -255,6 +254,15 @@ class EditableTable extends React.Component {
     this.props.dispatch(routerRedux.push({
       pathname: '/maintain',
     }))
+  }
+
+  handleDelete = (key) => {
+    const dataSource = [...this.state.dataSource];
+    this.setState({dataSource: dataSource.filter(item => item.key !== key)});
+  }
+
+  export = () => {
+    window.location.href = `${IP}/admin/customer/batch-down-customer?json_list=${JSON.stringify(this.state.dataSource)}`
   }
 
   render() {
@@ -272,6 +280,12 @@ class EditableTable extends React.Component {
       align: 'center',
       fixed: 'left',
       width: 200,
+      render: (text, record, index) => {
+        if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -291,7 +305,7 @@ class EditableTable extends React.Component {
         } else if (text === '2') {
           return '贸易商'
         } else if (text === '0') {
-          return '--'
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}></div>
         }
       },
       onCell: record => ({
@@ -307,6 +321,12 @@ class EditableTable extends React.Component {
       key: 'customer_contact',
       align: 'center',
       width: 100,
+      render: (text, record, index) => {
+        if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -320,6 +340,12 @@ class EditableTable extends React.Component {
       key: 'customer_mobile',
       align: 'center',
       width: 150,
+      render: (text, record, index) => {
+        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -333,6 +359,12 @@ class EditableTable extends React.Component {
       key: 'site_name',
       align: 'center',
       width: 240,
+      render: (text, record, index) => {
+        if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -346,6 +378,12 @@ class EditableTable extends React.Component {
       key: 'full_site_name',
       align: 'center',
       width: 250,
+      render: (text, record, index) => {
+        if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -359,6 +397,12 @@ class EditableTable extends React.Component {
       key: 'delivery_contact1',
       align: 'center',
       width: 120,
+      render: (text, record, index) => {
+        if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -372,6 +416,12 @@ class EditableTable extends React.Component {
       key: 'delivery_mobile1',
       align: 'center',
       width: 150,
+      render: (text, record, index) => {
+        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
+        return text
+      },
       onCell: record => ({
         record,
         editable: true,
@@ -407,6 +457,8 @@ class EditableTable extends React.Component {
       render: (text, record, index) => {
         if (text === '' || text === null) {
           return '--'
+        } else if (!text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
       },
@@ -424,6 +476,9 @@ class EditableTable extends React.Component {
       align: 'center',
       width: 200,
       render: (text, record, index) => {
+        if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
         const adress = record.delivery_province + (record.delivery_city !== 'undefined' ? record.delivery_city : '') + (record.delivery_area !== 'undefined' ? record.delivery_area : '')
         return (
           <div className='txt-overflow' title={adress}>{adress}</div>
@@ -445,6 +500,9 @@ class EditableTable extends React.Component {
       align: 'center',
       render: (text, record, index) => {
         const adress = record.detailed_address
+        if (adress === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        }
         return (
           <div className='txt-overflow' title={adress}>{adress}</div>
         )
@@ -468,7 +526,7 @@ class EditableTable extends React.Component {
         } else if (text === '2') {
           return '气化站'
         } else if (text === '0') {
-          return '--'
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
       },
       onCell: record => ({
@@ -501,7 +559,7 @@ class EditableTable extends React.Component {
           } else if (text === '7') {
             return '其他'
           } else if (text === '0') {
-            return '--'
+            return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
           }
         } else if (record.site_type === '2') {
           if (text === '1') {
@@ -521,10 +579,10 @@ class EditableTable extends React.Component {
           } else if (text === '8') {
             return '分布式项目'
           } else if (text === '0') {
-            return '--'
+            return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
           }
         } else {
-          return '--'
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
       },
       onCell: record => ({
@@ -539,23 +597,25 @@ class EditableTable extends React.Component {
       align: 'center',
       key: 'createdAt',
       fixed: 'right',
-      render: (text, record, index) => {
+      render: (text, record) => {
         return (
-          <div className='operating'>
-            <PromptModal state='deleteOne' delType='user' delID={record.id}>
-              <Button type='primary' size='small'
-                      style={{
-                        background: '#EA7878',
-                        borderColor: '#EA7878',
-                        marginLeft: 10,
-                        height: 28,
-                        padding: '0 15px'
-                      }}>删除</Button>
-            </PromptModal>
-
-          </div>
-        )
-      }
+          this.state.dataSource.length >= 1
+            ? (
+              <div className='operating'>
+                <Popconfirm title="确定删除？" cancelText='取消' okText='确定' onConfirm={() => this.handleDelete(record.key)}>
+                  <Button type='primary' size='small'
+                          style={{
+                            background: '#EA7878',
+                            borderColor: '#EA7878',
+                            marginLeft: 10,
+                            height: 28,
+                            padding: '0 15px'
+                          }}>删除</Button>
+                </Popconfirm>
+              </div>
+            ) : null
+        );
+      },
     }]
 
     return (
@@ -563,9 +623,14 @@ class EditableTable extends React.Component {
         <PageTitle>问题数据处理</PageTitle>
         <div style={{backgroundColor: '#fff'}}>
           <Row type='flex' align='middle' style={{height: 60, padding: 20}}>
-            <Col>本次导入结果： 共导入 <span
-              style={{color: '#22DD48'}}>{this.props.userChecking.num.success_num}</span> 条数据； <span
-              style={{color: '#EE113D'}}>{this.props.userChecking.num.err_num}</span> 条数据有误，请修改后上传</Col>
+            <Col span={12}>本次导入结果： 共导入 <span
+              style={{color: '#22DD48'}}>{this.props.userChecking.num ? this.props.userChecking.num.success_num : ''}</span> 条数据； <span
+              style={{color: '#EE113D'}}>{this.props.userChecking.num ? this.props.userChecking.num.err_num : ''}</span> 条数据有误，请修改后上传</Col>
+            <Col span={12}>
+              <div style={{float: 'right'}}>
+                <Button type='primary' style={{width: 120}} onClick={this.export}>导出错误数据</Button>
+              </div>
+            </Col>
           </Row>
           <Table
             components={components}
@@ -581,9 +646,9 @@ class EditableTable extends React.Component {
           />
           <Row type="flex" justify="space-around" align="middle" style={{height: 80}}>
             <Col>
-              {this.props.userChecking.num.err_num === 0 ?
+              {this.props.userChecking.num ? this.props.userChecking.num.err_num === 0 ?
                 <Button type='primary' onClick={this.goback}>返回数据维护列表</Button> :
-                <Button type='primary' onClick={this.recommit}>重新导入</Button>
+                <Button type='primary' onClick={this.recommit}>重新导入</Button> : ''
               }
             </Col>
           </Row>

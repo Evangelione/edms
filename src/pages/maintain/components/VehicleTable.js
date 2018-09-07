@@ -40,6 +40,10 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
     dispatch({
       type: 'maintain/vehicleImport',
       payload: file
+    }).then(() => {
+      dispatch(routerRedux.push({
+        pathname: '/maintain/VehicleChecking',
+      }))
     })
   }
 
