@@ -1,11 +1,13 @@
-import {Card, Tabs, Button, Input} from 'antd'
+import { Card, Tabs, Button, Input, Row, Col } from 'antd'
 // import styles from './order.css'
-import {connect} from 'dva'
+import { connect } from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import DoOrder from './doOrder'
 import OrderDetail from './orderDetail'
-import OrderTable from './components/OrderTable'
-import {routerRedux} from "dva/router"
+// import OrderTable from './components/OrderTable'
+import OrderTableV2 from './components/OrderTableV2'
+import OrderDetailV2 from './components/OrderDetailV2'
+import { routerRedux } from "dva/router"
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -119,9 +121,14 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                 </TabPane>
               </Tabs>
             </Card>
-            <Card style={{marginTop: 5}}>
-              <OrderTable></OrderTable>
-            </Card>
+            <Row gutter={10} style={{marginTop: 10}}>
+              <Col span={10}>
+                <OrderTableV2/>
+              </Col>
+              <Col span={14}>
+                <OrderDetailV2/>
+              </Col>
+            </Row>
           </div>
       }
     </div>

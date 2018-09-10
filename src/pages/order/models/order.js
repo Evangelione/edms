@@ -1,6 +1,6 @@
 import * as orderService from '../services/order'
-import {message} from 'antd'
-import {routerRedux} from "dva/router"
+import { message } from 'antd'
+import { routerRedux } from "dva/router"
 
 export default {
   namespace: 'order',
@@ -14,7 +14,8 @@ export default {
     siteOption: [],
     supplierOption: [],
     goodsOption: [],
-    statusNum: {}
+    statusNum: {},
+    currentOrder: {}
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -40,7 +41,14 @@ export default {
             page: parseInt(page, 10),
             order_status,
             find_str,
-            statusNum: data.data.status_num
+            statusNum: data.data.status_num,
+            currentOrder: data.data.list[0]
+          }
+        })
+        yield put({
+          type: 'orderDetail/orderInfo',
+          payload: {
+            id: data.data.list[0].id
           }
         })
       }
