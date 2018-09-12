@@ -86,7 +86,11 @@ class PromptModal extends React.Component {
   errorHandler = () => {
     this.props.dispatch(routerRedux.push({
       pathname: '/order',
-    }))
+    })).then(() => {
+      this.setState({
+        visible: false
+      })
+    })
   }
 
   orderCancelHandler = () => {
@@ -95,6 +99,10 @@ class PromptModal extends React.Component {
       payload: {
         id: this.props.cancelId
       }
+    }).then(() => {
+      this.setState({
+        visible: false
+      })
     })
   }
 

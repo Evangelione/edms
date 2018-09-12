@@ -1,11 +1,13 @@
-import {Card, Tabs, Button, Input} from 'antd'
+import { Card, Tabs, Button, Input, Row, Col } from 'antd'
 // import styles from './order.css'
-import {connect} from 'dva'
+import { connect } from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import DoOrder from './doOrder'
 import OrderDetail from './orderDetail'
-import OrderTable from './components/OrderTable'
-import {routerRedux} from "dva/router"
+// import OrderTable from './components/OrderTable'
+import OrderTableV2 from './components/OrderTableV2'
+import OrderDetailV2 from './components/OrderDetailV2'
+import OrderModal from "./components/OrderModal"
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -32,12 +34,6 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
       type: 'order/fetch',
       payload: {find_str: find_str, order_status: state}
     })
-  }
-
-  function doOrder() {
-    dispatch(routerRedux.push({
-      pathname: '/order/doOrder',
-    }))
   }
 
   function iptSearch(value) {
@@ -69,8 +65,10 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
               <Tabs>
                 <TabPane tab="我的订单" key="1">
                   <div className={'toolBar'}>
-                    <Button type='primary' icon="plus" onClick={doOrder}
-                            style={{boxShadow: '0px 1px 10px #1890ff'}}>我要下单</Button>
+                    <OrderModal>
+                      <Button type='primary' icon="plus"
+                              style={{boxShadow: '0px 1px 10px #1890ff'}}>我要下单</Button>
+                    </OrderModal>
                     {/*<Button className={'blueBorder'} icon="select">批量导入</Button>*/}
                   </div>
                   <div className={'changeList'}>
@@ -119,9 +117,14 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                 </TabPane>
               </Tabs>
             </Card>
-            <Card style={{marginTop: 5}}>
-              <OrderTable></OrderTable>
-            </Card>
+            <Row gutter={10} style={{marginTop: 10}}>
+              <Col span={10}>
+                <OrderTableV2/>
+              </Col>
+              <Col span={14}>
+                <OrderDetailV2/>
+              </Col>
+            </Row>
           </div>
       }
     </div>

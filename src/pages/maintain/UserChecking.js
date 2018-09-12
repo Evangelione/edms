@@ -597,6 +597,7 @@ class EditableTable extends React.Component {
       align: 'center',
       key: 'createdAt',
       fixed: 'right',
+      width: 150,
       render: (text, record) => {
         return (
           this.state.dataSource.length >= 1

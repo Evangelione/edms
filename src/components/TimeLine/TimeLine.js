@@ -9,8 +9,8 @@ export default ({pending, detail}) => {
   const time = /(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?/g
   return (
     <Timeline className={styles.aim} pending={pending} reverse={true}
-              style={{marginLeft: 140, marginTop: 24, color: '#A1A9B3'}}>
-      {(detail.deliver_status - 0) >= 0 ?
+              style={{marginLeft: 140, marginTop: 40, color: '#A1A9B3'}}>
+      {(detail.deliver_status - 0) >= 1?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.TopText}>{detail.create_time.match(time)}</div>
@@ -21,7 +21,7 @@ export default ({pending, detail}) => {
           </div>
         </Timeline.Item> : ''
       }
-      {(detail.deliver_status - 0) >= 1 ?
+      {(detail.deliver_status - 0) >= 2 ?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.TopText}>{detail.dispatch_time.match(time)}</div>
@@ -36,7 +36,7 @@ export default ({pending, detail}) => {
           </div>
         </Timeline.Item> : ''
       }
-      {(detail.deliver_status - 0) >= 2 ?
+      {(detail.deliver_status - 0) >= 3 ?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.TopText}>{detail.take_time.match(time)}</div>
@@ -51,7 +51,7 @@ export default ({pending, detail}) => {
           </div>
         </Timeline.Item> : ''
       }
-      {(detail.deliver_status - 0) >= 3 ?
+      {(detail.deliver_status - 0) >= 4 ?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.TopText}>{detail.load_time.match(time)}</div>
@@ -71,7 +71,7 @@ export default ({pending, detail}) => {
         </Timeline.Item>
         : ''
       }
-      {(detail.deliver_status - 0) >= 3 ?
+      {(detail.deliver_status - 0) >= 4 ?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.TopText}>--</div>
@@ -81,7 +81,7 @@ export default ({pending, detail}) => {
           </div>
         </Timeline.Item> : ''
       }
-      {(detail.deliver_status - 0) >= 4 ?
+      {(detail.deliver_status - 0) >= 5 ?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.TopText}>{detail.unload_time.match(time)}</div>
@@ -100,7 +100,7 @@ export default ({pending, detail}) => {
           </div>
         </Timeline.Item> : ''
       }
-      {(detail.deliver_status - 0) >= 5 ?
+      {(detail.deliver_status - 0) >= 6 ?
         <Timeline.Item>
           <div className={styles.leftPosition}>
             <div className={styles.topText}>{detail.finish_time.match(time)}</div>
