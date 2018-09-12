@@ -1,5 +1,5 @@
 import request from '../../../utils/request'
-import {IP} from "../../../constants"
+import { IP } from "../../../constants"
 
 export function getOrderList({page, order_status, find_str}) {
   let formData = new FormData()
@@ -64,7 +64,7 @@ export function orderInfo({id}) {
 }
 
 
-export function modifyOrder(form) {
+export function modifyOrder({form}) {
   let formData = new FormData()
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key]);

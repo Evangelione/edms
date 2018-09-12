@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker } from 'antd'
 import { connect } from 'dva'
+import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 
 const FormItem = Form.Item
@@ -18,8 +19,6 @@ class OrderModal extends PureComponent {
       title: '成本信息',
       visible: false,
       step: 1,
-      suppData: {},
-      saleData: {},
       report: null,
       dataSource: [],
       purchaseCost: 0,
@@ -44,9 +43,91 @@ class OrderModal extends PureComponent {
 
   showModal = (e) => {
     e.stopPropagation()
+    if (this.state.visible === true) return
+    this.props.form.resetFields()
     this.setState({
       visible: true
     })
+    if (this.props.currentOrder) {
+      const form = this.props.currentOrder
+      this.setState({
+        report: form.temperament_report,
+        dataSource: form.shouhuo.map(this.renderOption)
+      })
+      let text = form.user_type
+      let result_type = ''
+      if (form.site_type === '1') {
+        if (text === '1') {
+          result_type = 'LNG加气站'
+        } else if (text === '2') {
+          result_type = 'L-CNG加气站'
+        } else if (text === '3') {
+          result_type = 'LNG L-CNG合建站'
+        } else if (text === '4') {
+          result_type = 'LNG CNG合建站'
+        } else if (text === '5') {
+          result_type = 'LNG 汽柴油合建站'
+        } else if (text === '6') {
+          result_type = 'LNG泵船'
+        } else if (text === '7') {
+          result_type = '其他'
+        } else if (text === '0') {
+          result_type = '--'
+        }
+      } else if (form.site_type === '2') {
+        if (text === '1') {
+          result_type = '电厂'
+        } else if (text === '2') {
+          result_type = '城市居民'
+        } else if (text === '3') {
+          result_type = '城市商服'
+        } else if (text === '4') {
+          result_type = '城市供暖'
+        } else if (text === '5') {
+          result_type = '工业燃料'
+        } else if (text === '6') {
+          result_type = '工业原料'
+        } else if (text === '7') {
+          result_type = '其他'
+        } else if (text === '8') {
+          result_type = '分布式项目'
+        } else if (text === '0') {
+          result_type = '--'
+        }
+      }
+      this.props.form.setFieldsValue({
+        cust_id: form.cust_id,
+        cust_id2: form.customer_contact,
+        cust_id3: form.customer_mobile,
+        saler_price: form.saler_price,
+        saler_num: form.saler_num,
+        deliver_type: form.deliver_type,
+        distance: form.distance,
+        deliver_price: form.deliver_price,
+        site_id: form.site_id,
+        site_id2: form.site_type,
+        site_id3: result_type,
+        recv_contact: form.recv_contact,
+        recv_phone: form.recv_phone,
+        recv_time: moment(form.order_date),
+        delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
+        supp_id: form.supp_id,
+        supp_id2: form.supp_contact,
+        supp_id3: form.supp_mobile,
+        purchase_price: form.purchase_price,
+        shuliang: form.saler_num,
+        goods_id: form.goods_id,
+        goods_source: form.origin_gas_source,
+        goods_contact: form.cargo_contact,
+        goods_mobile: form.cargo_mobile,
+        goods_delivery: form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address,
+      })
+      // let yunju = this.props.form.getFieldValue('distance')
+      // let yunfeidanjia = this.props.form.getFieldValue('deliver_price')
+      // let shuliang = this.props.form.getFieldValue('saler_num')
+      // let xiaoshoujiage = this.props.form.getFieldValue('saler_price')
+      // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
+    }
   }
 
   handleOk = (e) => {
@@ -72,7 +153,6 @@ class OrderModal extends PureComponent {
       if (!err) {
         this.setState({
           step: 2,
-          suppData: {...values},
           required: true
         }, () => {
           this.props.form.setFieldsValue({
@@ -88,7 +168,6 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       this.setState({
         step: 1,
-        saleData: {...values}
       })
     })
   }
@@ -220,28 +299,40 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       debugger
       if (!err) {
-        this.setState({
-          saleData: {...values}
-        })
-        delete values.cust_id2
-        delete values.cust_id3
-        delete values.delivery
-        delete values.site_id2
-        delete values.site_id3
+        // delete values.cust_id2
+        // delete values.cust_id3
+        // delete values.delivery
+        // delete values.site_id2
+        // delete values.site_id3
         values.recv_time = values.recv_time.format('YYYY-MM-DD HH:mm:ss')
         values.pay_type = '1'
         console.log(values)
-        this.props.dispatch({
-          type: 'order/addOrder',
-          payload: {
-            values
-          }
-        }).then(() => {
-          this.setState({
-            step: 1,
-            visible: false
+        if (this.props.modify) {
+          values.id = this.props.currentOrder.order_id
+          this.props.dispatch({
+            type: 'orderDetail/modifySave',
+            payload: {
+              form: values
+            }
+          }).then(() => {
+            this.setState({
+              step: 1,
+              visible: false
+            })
           })
-        })
+        } else {
+          this.props.dispatch({
+            type: 'order/addOrder',
+            payload: {
+              values
+            }
+          }).then(() => {
+            this.setState({
+              step: 1,
+              visible: false
+            })
+          })
+        }
       }
     })
   }
@@ -287,7 +378,7 @@ class OrderModal extends PureComponent {
                      value={option.id}>{option.name_gas_source}</Option>
     })
     return (
-      <div onClick={this.showModal} style={{display:'inline-block'}}>
+      <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
         <Modal
           className='orderModal'
@@ -295,7 +386,6 @@ class OrderModal extends PureComponent {
           visible={this.state.visible}
           onCancel={this.handleCancel}
           footer={null}
-          destroyOnClose={true}
           maskClosable={false}
           width={1100}
         >

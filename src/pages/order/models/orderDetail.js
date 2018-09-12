@@ -1,6 +1,6 @@
 import * as orderService from '../services/order'
-import {message, notification} from 'antd'
-import {routerRedux} from "dva/router";
+import { message, notification } from 'antd'
+import { routerRedux } from "dva/router";
 
 export default {
   namespace: 'orderDetail',
@@ -146,6 +146,18 @@ export default {
       if (data.code === -1) return false
       if (data.code === 1) {
         // message.success(data.msg)
+        yield put(routerRedux.push({
+          pathname: '/order',
+        }))
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * modifySave({payload: {form}}, {call, put}) {
+      const {data} = yield call(orderService.modifyOrder, {form})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
         yield put(routerRedux.push({
           pathname: '/order',
         }))

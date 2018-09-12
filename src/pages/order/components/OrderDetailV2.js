@@ -103,7 +103,7 @@ class OrderDetailV2 extends PureComponent {
                 <div style={{float: 'right', marginTop: '-32px', marginRight: 20}}>
                   {/*<Button type='primary' style={{marginRight: 10}}>立即支付</Button>*/}
                   <StatusModal id={currentOrder.order_id}/>
-                  <OrderModal modify={true}>
+                  <OrderModal modify={true} currentOrder={currentOrder}>
                     <Button className='blueBorder' style={{height: 32, marginRight: 10}}>修改订单</Button>
                   </OrderModal>
                   <PromptModal state={'cancelOrder'} cancelId={currentOrder.order_id}>
