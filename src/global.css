@@ -616,3 +616,47 @@ avatar-uploader > .ant-upload {
   padding: 0;
   margin-top: -20px;
 }
+
+.orderModal .ant-modal-header {
+  background-color: #fff;
+  padding: 15px 24px;
+}
+
+.orderModal .ant-modal-close {
+  color: #D0D0D0;
+}
+
+.orderModal .ant-modal-title {
+  color: #545F76;
+  font-weight: 600;
+  padding-top: 6px;
+}
+
+.orderModal .ant-modal-close-x {
+  font-size: 20px;
+  line-height: 60px;
+}
+
+form .has-feedback > .ant-select .ant-select-arrow, form .has-feedback > .ant-select .ant-select-selection__clear, form .has-feedback :not(.ant-input-group-addon) > .ant-select .ant-select-arrow, form .has-feedback :not(.ant-input-group-addon) > .ant-select .ant-select-selection__clear {
+  right: 6px;
+}
+
+.has-success.has-feedback .ant-form-item-children:after, .has-warning.has-feedback .ant-form-item-children:after, .has-error.has-feedback .ant-form-item-children:after, .is-validating.has-feedback .ant-form-item-children:after {
+  right: -32px;
+}
+
+.ant-form-inline .has-feedback {
+  width: 100%;
+}
+
+form .has-feedback > .ant-select .ant-select-selection-selected-value, form .has-feedback :not(.ant-input-group-addon) > .ant-select .ant-select-selection-selected-value {
+  padding-right: 4px;
+}
+
+.stepShow {
+  display: block;
+}
+
+.stepHidden {
+  display: none;
+}

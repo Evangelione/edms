@@ -1,7 +1,7 @@
 import React from 'react'
-import {Modal, Button, Row, Col} from 'antd'
-import {connect} from 'dva'
-import {routerRedux} from 'dva/router'
+import { Modal, Button, Row, Col } from 'antd'
+import { connect } from 'dva'
+import { routerRedux } from 'dva/router'
 import images from '../../../utils/images'
 import withRouter from 'umi/withRouter'
 
@@ -48,6 +48,9 @@ class StatusModal extends React.Component {
     this.props.dispatch(routerRedux.push({
       pathname: '/order',
     }))
+    this.setState({
+      visible: false
+    })
   }
 
   showModelHandler = (e) => {
@@ -68,7 +71,7 @@ class StatusModal extends React.Component {
     this.props.dispatch({
       type: 'orderDetail/doPay',
       payload: {
-        id: this.props.location.query.id
+        id: this.props.id
       }
     }).then(() => {
       if (this.props.isSuccess === 'success') {
@@ -79,7 +82,7 @@ class StatusModal extends React.Component {
         this.props.dispatch({
           type: 'orderDetail/orderInfo',
           payload: {
-            id: this.props.location.query.id
+            id: this.props.id
           }
         })
         // this.props.dispatch(routerRedux.push({
@@ -101,8 +104,8 @@ class StatusModal extends React.Component {
     const state = this.state.status
     const modalState = this.state.modalState[state]
     return (
-      <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block'}}>
-        <Button type='primary' onClick={this.doPay} loading={this.props.loading}>立即支付</Button>
+      <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block', marginRight: 10}}>
+        <Button type='primary' onClick={this.doPay}>立即支付</Button>
         <Modal
           title='提示'
           visible={this.state.visible}

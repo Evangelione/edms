@@ -9,7 +9,23 @@ class OrderTableV2 extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      currentIndex: null
+      currentIndex: null,
+      tabColor: {
+        '待确认': '#666',
+        '待支付': '#FF4241',
+        '待发货': '#f2b21a',
+        '待收货': '#F17C40',
+        '待结算': '#54A8FD',
+        '已结算': '#00B763',
+      },
+      tabColorOpacity: {
+        '待确认': 'rgb(102,102,102,0.1)',
+        '待支付': 'rgb(255,66,65,0.1)',
+        '待发货': 'rgb(242,178,26,0.1)',
+        '待收货': 'rgb(241,124,64,0.1)',
+        '待结算': 'rgb(84,168,253,0.1)',
+        '已结算': 'rgb(0,183,99,0.1)',
+      }
     }
   }
 
@@ -56,13 +72,13 @@ class OrderTableV2 extends PureComponent {
                     <span style={{
                       float: 'right',
                       fontSize: 12,
-                      color: '#FF4241',
-                      background: 'rgba(255, 66, 65, .1)',
+                      color: this.state.tabColor[item.status_name],
+                      background: this.state.tabColorOpacity[item.status_name],
                       padding: '0px 10px',
                       fontWeight: 400
                     }}><span
                       style={{
-                        backgroundColor: '#FF4241',
+                        backgroundColor: this.state.tabColor[item.status_name],
                         width: 6,
                         height: 6,
                         borderRadius: 3,
@@ -70,7 +86,7 @@ class OrderTableV2 extends PureComponent {
                         verticalAlign: 'middle',
                         marginTop: '-3px',
                         marginRight: 5
-                      }}/>待支付</span>
+                      }}/>{item.status_name}</span>
                   </div>
                 }
                 description={

@@ -1,0 +1,649 @@
+import React, { PureComponent } from 'react'
+import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker } from 'antd'
+import { connect } from 'dva'
+import locale from 'antd/lib/date-picker/locale/zh_CN'
+
+const FormItem = Form.Item
+const Option = Select.Option
+const Option2 = AutoComplete.Option
+const formItemLayout = {
+  labelCol: {span: 10},
+  wrapperCol: {span: 14},
+}
+
+class OrderModal extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      title: '成本信息',
+      visible: false,
+      step: 1,
+      suppData: {},
+      saleData: {},
+      report: null,
+      dataSource: [],
+      purchaseCost: 0,
+      logisticsCost: 0,
+      sales: 0,
+      diffInSales: 0,
+      total: 0,
+      required: false,
+      balance: 0,
+      credit: 0,
+      credit_used: 0,
+      yuePay: 0,
+      xinyongPay: 0
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    this.props.dispatch({
+      type: 'order/fetchSelect',
+    })
+  }
+
+  showModal = (e) => {
+    e.stopPropagation()
+    this.setState({
+      visible: true
+    })
+  }
+
+  handleOk = (e) => {
+    e.stopPropagation()
+    console.log(e);
+    this.setState({
+      visible: false,
+      step: 1,
+    });
+  }
+
+  handleCancel = (e) => {
+    e.stopPropagation()
+    console.log(e);
+    this.setState({
+      visible: false,
+      step: 1,
+    });
+  }
+
+  nextStep = () => {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.setState({
+          step: 2,
+          suppData: {...values},
+          required: true
+        }, () => {
+          this.props.form.setFieldsValue({
+            saler_num: values.shuliang - 0,
+          })
+        })
+      }
+    })
+
+  }
+
+  backStep = () => {
+    this.props.form.validateFields((err, values) => {
+      this.setState({
+        step: 1,
+        saleData: {...values}
+      })
+    })
+  }
+
+  openPDF = () => {
+    window.open(this.state.report)
+  }
+
+  suppChange = (value, item) => {
+    this.props.dispatch({
+      type: 'order/fetchGoods',
+      payload: {
+        supplier_id: value
+      }
+    })
+    this.props.form.setFieldsValue({
+      supp_id2: item.props.contact,
+      supp_id3: item.props.mobile,
+      purchase_price: undefined,
+      shuliang: undefined,
+      goods_id: undefined,
+      goods_source: undefined,
+      goods_contact: undefined,
+      goods_mobile: undefined,
+      goods_delivery: undefined,
+    })
+    this.setState({
+      purchaseCost: 0,
+      logisticsCost: 0,
+    })
+  }
+
+  goodsChange = (value, item) => {
+    this.props.form.setFieldsValue({
+      goods_source: item.props.source,
+      goods_contact: item.props.contact,
+      goods_mobile: item.props.mobile,
+      goods_delivery: item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address,
+    })
+    this.setState({
+      report: item.props.report
+    })
+  }
+
+  customerChange = (value, item) => {
+    this.props.dispatch({
+      type: 'order/fetchSite',
+      payload: {
+        customer_id: value
+      }
+    })
+    this.setState({
+      balance: item.props.balance,
+      credit: item.props.credit,
+      credit_used: item.props.credit_used
+    })
+    this.props.form.setFieldsValue({
+      cust_id2: item.props.contact,
+      cust_id3: item.props.mobile,
+      saler_price: undefined,
+      site_id: undefined,
+      site_id2: undefined,
+      site_id3: undefined,
+      delivery: undefined,
+      recv_contact: undefined,
+      recv_phone: undefined,
+      recv_time: undefined,
+      deliver_type: undefined
+    })
+  }
+
+  siteChange = (value, item) => {
+    this.props.form.setFieldsValue({
+      site_id2: item.props.sitetype,
+      site_id3: item.props.usertype,
+      delivery: item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address,
+      recv_contact: undefined,
+      recv_phone: undefined,
+      recv_time: undefined,
+      deliver_type: undefined
+    })
+    this.setState({
+      dataSource: item.props.shouhuo.map(this.renderOption)
+    })
+  }
+
+  calculation = () => {
+    setTimeout(() => {
+      let purchase_price = this.props.form.getFieldValue('purchase_price')
+      let shuliang = this.props.form.getFieldValue('shuliang')
+      let distance = this.props.form.getFieldValue('distance')
+      let deliver_price = this.props.form.getFieldValue('deliver_price')
+      let saler_price = this.props.form.getFieldValue('saler_price')
+      // this.setState({
+      //   yunfei: ((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0)).toFixed(2),
+      //   huofei: ((xiaoshoujiage - 0) * (shuliang - 0)).toFixed(2),
+      //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
+      // })
+      let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
+      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
+      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
+      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      this.setState({
+        purchaseCost: purcost.toFixed(2),
+        logisticsCost: logcost.toFixed(2),
+        sales: sales.toFixed(2),
+        diffInSales: diffSales.toFixed(2),
+        total: (total * 1.075).toFixed(2),
+        yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+        xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+      })
+      // if (this.props.location.pathname === '/order/doOrder') {
+      //   return false
+      // }
+      // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
+    }, 100)
+  }
+
+  renderOption = (item) => {
+    return (
+      <Option2 key={item.delivery_mobile} value={item.delivery_contact}>
+        {item.delivery_contact}
+      </Option2>
+    );
+  }
+
+  submit = () => {
+    this.props.form.validateFields((err, values) => {
+      debugger
+      if (!err) {
+        this.setState({
+          saleData: {...values}
+        })
+        delete values.cust_id2
+        delete values.cust_id3
+        delete values.delivery
+        delete values.site_id2
+        delete values.site_id3
+        values.recv_time = values.recv_time.format('YYYY-MM-DD HH:mm:ss')
+        values.pay_type = '1'
+        console.log(values)
+        this.props.dispatch({
+          type: 'order/addOrder',
+          payload: {
+            values
+          }
+        }).then(() => {
+          this.setState({
+            step: 1,
+            visible: false
+          })
+        })
+      }
+    })
+  }
+
+  autoSelect = (value, option) => {
+    this.props.form.setFieldsValue({
+      recv_phone: option.key
+    })
+  }
+
+  render() {
+    const {children, customOption, siteOption, supplierOption, goodsOption} = this.props
+    const {getFieldDecorator} = this.props.form
+    const customOptions = customOption.map(option => {
+      return <Option key={option.id} value={option.id} mobile={option.customer_mobile}
+                     contact={option.customer_contact} balance={option.balance} credit={option.credit}
+                     credit_used={option.credit_used}>{option.customer_name}</Option>
+    })
+    const siteOptions = siteOption.map(option => {
+      return <Option key={option.id}
+                     sitetype={option.site_type}
+                     usertype={option.user_type_name}
+                     province={option.delivery_province}
+                     city={option.delivery_city}
+                     area={option.delivery_area}
+                     address={option.detailed_address}
+                     shouhuo={option.shouhuo}
+                     value={option.id}>{option.site_name}</Option>
+    })
+    const supplierOptions = supplierOption.map(option => {
+      return <Option key={option.id} contact={option.supp_contact} mobile={option.supp_mobile}
+                     value={option.id}>{option.supp_name}</Option>
+    })
+    const goodsOptions = goodsOption.map(option => {
+      return <Option key={option.id} source={option.origin_gas_source}
+                     contact={option.cargo_contact}
+                     mobile={option.cargo_mobile}
+                     province={option.cargo_province}
+                     city={option.cargo_city}
+                     area={option.cargo_area}
+                     address={option.detailed_address}
+                     report={option.temperament_report}
+                     value={option.id}>{option.name_gas_source}</Option>
+    })
+    return (
+      <div onClick={this.showModal} style={{display:'inline-block'}}>
+        {children}
+        <Modal
+          className='orderModal'
+          title={this.state.title}
+          visible={this.state.visible}
+          onCancel={this.handleCancel}
+          footer={null}
+          destroyOnClose={true}
+          maskClosable={false}
+          width={1100}
+        >
+          <Form layout='inline' style={{padding: '0 25px'}}>
+            <div className={this.state.step === 1 ? 'stepShow' : 'stepHidden'}>
+              <Row>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>供应商信息</Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="供应商名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('supp_id', {
+                      rules: [{
+                        required: true,
+                        message: '此项为必选项！',
+                      }],
+                    })(
+                      <Select placeholder="请选择供应商名称" style={{width: 185}} onChange={this.suppChange}>
+                        {supplierOptions}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="供应商联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('supp_id2')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="联系电话" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('supp_id3')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="采购价" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('purchase_price', {
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                    })(
+                      <Input placeholder='请填写采购价' addonAfter='元 / 吨' onChange={this.calculation}/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={16}>
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="数量" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px'}}>
+                    {getFieldDecorator('shuliang', {
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                    })(
+                      <Input placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}/>
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Divider dashed={true}/>
+              <Row>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>气源信息</Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="气源名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('goods_id', {
+                      rules: [{required: true, message: '此项为必选项！'}]
+                    })(
+                      <Select placeholder="请选择气源名称" style={{width: 185}} onChange={this.goodsChange}>
+                        {goodsOptions}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="气源产地" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('goods_source')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="气质报告" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('qizhibaogao')(
+                      <div>
+                        {this.state.report ?
+                          <div style={{color: '#3477ED', cursor: 'pointer'}} onClick={this.openPDF}>
+                            <Icon type="file-text"/> 查看气质报告
+                          </div>
+                          :
+                          <div>暂无气质报告</div>
+                        }
+                      </div>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="装货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('goods_contact')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={16}>
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="联系电话" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px', marginBottom: 10}}>
+                    {getFieldDecorator('goods_mobile')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={16}>
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 12}} label="装货地址" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px', marginBottom: 10}}>
+                    {getFieldDecorator('goods_delivery')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Divider dashed={true}/>
+              <Row>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>物流信息</Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="运距" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('distance', {
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                    })(
+                      <Input placeholder="请填写运距" addonAfter='公里' onChange={this.calculation}/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={10}>
+                  <FormItem {...formItemLayout} label="运费单价" hasFeedback
+                            style={{display: 'block', marginLeft: '-55px'}}>
+                    {getFieldDecorator('deliver_price', {
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                    })(
+                      <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+            </div>
+            <div className={this.state.step === 2 ? 'stepShow' : 'stepHidden'}>
+              <Row>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>客户信息</Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="客户名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('cust_id', {
+                      rules: [{required: this.state.required, message: '此项为必选项！'}],
+                    })(
+                      <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}>
+                        {customOptions}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="客户联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('cust_id2')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="联系电话" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('cust_id3')(
+                      <Input placeholder="自动生成，非手填" disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="销售价" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('saler_price', {
+                      rules: [{
+                        required: this.state.required,
+                        message: '请填写数字！',
+                        pattern: '^[0-9.]*$',
+                        max: 10
+                      }],
+                    })(
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={16}>
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="数量" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px'}}>
+                    {getFieldDecorator('saler_num')(
+                      <Input placeholder="请填写数量" addonAfter='吨' disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Divider dashed={true}/>
+              <Row>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>站点信息</Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="站点简称" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('site_id', {
+                      rules: [{required: this.state.required, message: '此项为必选项！'}],
+                    })(
+                      <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}>
+                        {siteOptions}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="站点类型" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('site_id2')(
+                      <Select placeholder="自动生成，非手填" style={{width: 185}} disabled>
+                        <Option value="1">加气站</Option>
+                        <Option value="2">气化站</Option>
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="用户类型" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('site_id3')(
+                      <Select placeholder="自动生成，非手填" style={{width: 185}} disabled></Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="收货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('recv_contact', {
+                      rules: [
+                        {required: this.state.required, message: '请填写收货联系人'},
+                      ],
+                    })(
+                      <AutoComplete
+                        onSelect={this.autoSelect}
+                        dataSource={this.state.dataSource}
+                        placeholder="请填写收货联系人姓名"
+                        filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                      />
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="联系电话" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('recv_phone', {
+                      rules: [{
+                        required: this.state.required,
+                        message: '请填写正确联系电话！',
+                        max: 11,
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$'
+                      }],
+                      validateTrigger: 'onBlur',
+                    })(
+                      <Input placeholder="请填写联系电话"/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="交货时间" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('recv_time', {
+                      rules: [{required: this.state.required, message: '请选择交货时间！'}],
+                    })(
+                      <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:ss'} showTime
+                                  locale={locale}/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8}>
+                  <FormItem {...formItemLayout} label="配送方式" hasFeedback style={{display: 'block', marginBottom: 10}}>
+                    {getFieldDecorator('deliver_type', {
+                      rules: [{required: this.state.required, message: '此项为必选项！'}],
+                    })(
+                      <Select placeholder="请选择配送方式" style={{width: 150}}>
+                        <Option value="1">卖家配送</Option>
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={16}>
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="装货地址" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px'}}>
+                    {getFieldDecorator('delivery')(
+                      <Input placeholder="请选择收货地址" style={{marginLeft: 16}} disabled/>
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Divider dashed={true}/>
+              <div style={{textAlign: 'right'}}>
+                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 8}}>付款方式：预付款</div>
+                <div style={{color: '#545F76', fontSize: 20, marginBottom: 8, fontWeight: 600}}>合计金额：
+                  <span style={{color: '#FF4241'}}>￥{this.state.total}</span>&nbsp;&nbsp;
+                  <span style={{fontSize: 18}}>
+                    (多含7.5%预付款)
+                  </span>
+                </div>
+                <div style={{
+                  color: '#A1A9B3',
+                  fontSize: 18,
+                  marginBottom: 8
+                }}>(余额支付{this.state.yuePay}元，信用支付{this.state.xinyongPay}元)
+                </div>
+              </div>
+            </div>
+          </Form>
+          <div
+            style={{
+              height: 84,
+              backgroundColor: '#F4F6F8',
+              borderTop: '1px solid #CCCED2',
+              margin: '30px -23px -23px'
+            }}>
+            {this.state.step === 1 ?
+              <div>
+                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>采购成本：<span
+                  style={{color: '#FF4241'}}>{this.state.purchaseCost}元</span></div>
+                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>物流成本：<span
+                  style={{color: '#FF4241'}}>{this.state.logisticsCost}元</span></div>
+                <Button size='large' type='primary'
+                        style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}} onClick={this.nextStep}>下一步
+                  ></Button>
+              </div>
+              :
+              <div>
+                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>销售额：<span
+                  style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
+                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>进销差：<span
+                  style={{color: '#FF4241'}}>{this.state.diffInSales}元</span></div>
+                <Button size='large' type='primary'
+                        style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}} onClick={this.submit}>提交订单
+                  ></Button>
+                <Button size='large' style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}}
+                        onClick={this.backStep}>
+                  上一步
+                  >
+                </Button>
+              </div>}
+          </div>
+        </Modal>
+      </div>
+    )
+  }
+}
+
+function mapStateToProps(state) {
+  const {customOption, supplierOption, siteOption, goodsOption} = state.order
+  return {
+    customOption,
+    supplierOption,
+    siteOption,
+    goodsOption,
+    loading: state.loading.models.order
+  }
+}
+
+export default connect(mapStateToProps)(Form.create()(OrderModal))

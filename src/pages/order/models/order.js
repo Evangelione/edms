@@ -45,12 +45,6 @@ export default {
             currentOrder: data.data.list[0]
           }
         })
-        yield put({
-          type: 'orderDetail/orderInfo',
-          payload: {
-            id: data.data.list[0].id
-          }
-        })
       }
     },
     * fetchSelect({payload}, {call, put}) {
@@ -94,10 +88,7 @@ export default {
       if (data.code === 1) {
         message.success(data.msg)
         yield put(routerRedux.push({
-          pathname: '/order/orderDetail',
-          query: {
-            id: data.id
-          }
+          pathname: '/order',
         }))
       } else {
         message.error(data.msg)
