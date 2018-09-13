@@ -47,6 +47,15 @@ class Client extends React.Component {
         find_str: this.props.find_str
       }
     })
+    this.props.dispatch({
+      type: 'customer/balanceFetch',
+      payload: {
+        page: 1,
+        stime: date[0],
+        etime: date[1],
+        find_str: this.props.find_str
+      }
+    })
   }
 
   disabledDate = (current) => {
@@ -63,6 +72,15 @@ class Client extends React.Component {
     })
     this.props.dispatch({
       type: 'customer/salesDetailFetch',
+      payload: {
+        page: 1,
+        stime: this.props.stime,
+        etime: this.props.etime,
+        find_str: value
+      }
+    })
+    this.props.dispatch({
+      type: 'customer/balanceFetch',
       payload: {
         page: 1,
         stime: this.props.stime,

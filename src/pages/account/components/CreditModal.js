@@ -100,7 +100,7 @@ class CreditModal extends React.Component {
               {getFieldDecorator('credit', {
                 rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$'}],
               })(
-                <Input placeholder='请输入新的额度'/>
+                <Input placeholder='请输入新的额度' addonAfter='元'/>
               )}
             </FormItem>
             <FormItem

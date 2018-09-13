@@ -258,7 +258,7 @@ class CompanyDetail extends React.Component {
             initialValue: this.props.companyDetail.company_type
           })(
             <Select placeholder="请选择公司类型" style={{width: 150}} disabled={!this.state.editable}>
-              <Option value="0">没有类型</Option>
+              {/*<Option value="0">没有类型</Option>*/}
               <Option value="1">贸易商</Option>
               <Option value="2">运贸商</Option>
               <Option value="3">液厂</Option>
