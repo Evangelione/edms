@@ -18,6 +18,8 @@ class BalanceOfAccount extends PureComponent {
       type: 'customer/balanceFetch',
       payload: {
         page,
+        stime: this.props.stime,
+        etime: this.props.etime,
         find_str: this.props.find_str
       }
     })
@@ -121,12 +123,14 @@ class BalanceOfAccount extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {balanceList, balancePage, balanceTotal, find_str} = state.customer
+  const {balanceList, balancePage, balanceTotal, find_str, stime, etime} = state.customer
   return {
     balanceList,
     balancePage,
     balanceTotal,
     find_str,
+    stime,
+    etime,
     loading: state.loading.models.customer
   }
 }

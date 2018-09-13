@@ -211,7 +211,7 @@ class RegisterModal extends React.Component {
               {getFieldDecorator('record_sum', {
                 rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
               })(
-                <Input placeholder={this.props.type === 'client' ? '请输入收款金额' : '请输入付款金额'}/>
+                <Input placeholder={this.props.type === 'client' ? '请输入收款金额' : '请输入付款金额'} addonAfter='元'/>
               )}
             </FormItem>
             <FormItem

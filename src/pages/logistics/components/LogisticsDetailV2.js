@@ -247,7 +247,7 @@ class LogisticsDetailV2 extends PureComponent {
               <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>调度后订单才能继续往下进行哦~</div>
               <div style={{float: 'right', marginTop: '-60px', marginRight: 20}}>
                 <Button type='primary' style={{marginRight: 10}} loading={this.state.schedulingBtn}
-                        onClick={this.scheduling.bind(null, currentLogistics.id)}>马上去调度</Button>
+                        onClick={this.scheduling.bind(null, currentLogistics.id)}>调度</Button>
               </div>
             </div> : currentLogistics.deliver_status === '1' ?
               <div>

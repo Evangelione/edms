@@ -25,7 +25,7 @@ class IndexPage extends React.Component {
     this.state = {
       status: '4',
       currentSelect: '近7日',
-      topTip: '今日',
+      topTip: '全部',
       currentCount: '4',
       currentCustomer: '4',
       currentSupplier: '4',
@@ -479,7 +479,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-chudan"]}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}出单数</div>
+              <div className={styles.dashTitle}>{this.state.topTip}出单数 (元)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.order_num - 0)} duration={3}/>
               </div>
@@ -517,7 +517,7 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-xiaoshoue"]}></div>
               <div className={styles.dashTitle}>{this.state.topTip}销售额 (元)</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.saler_money - 0)} duration={3}/>
+                <CountUp start={0} end={(count.saler_money - 0)} duration={3}/>.00
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
               {this.state.status === '1' ?
@@ -536,7 +536,7 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-caigoue"]}></div>
               <div className={styles.dashTitle}>{this.state.topTip}采购额 (元)</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.purchase_money - 0)} duration={3}/>
+                <CountUp start={0} end={(count.purchase_money - 0)} duration={3}/>.00
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
               {this.state.status === '1' ?
@@ -555,9 +555,9 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-yingkui"]}>
                 <img src={images.default.yingkui} alt="" width='62' height='62'/>
               </div>
-              <div className={styles.dashTitle}>{this.state.topTip}盈亏</div>
+              <div className={styles.dashTitle}>{this.state.topTip}盈亏 (元)</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.profit_and_loss - 0)} duration={3}/>
+                <CountUp start={0} end={(count.profit_and_loss - 0)} duration={3}/>.00
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
             </div>

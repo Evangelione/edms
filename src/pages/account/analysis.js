@@ -1,12 +1,12 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Tabs, Button, DatePicker, Table, Input, Pagination, notification} from 'antd'
+import { connect } from 'dva'
+import { Card, Tabs, Button, DatePicker, Table, Input, Pagination, notification } from 'antd'
 import ExportModal from '../../components/ExportModal/ExportModal'
 import withRouter from 'umi/withRouter'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-import {PAGE_SIZE} from '../../constants'
-import {routerRedux} from 'dva/router'
+import { PAGE_SIZE } from '../../constants'
+import { routerRedux } from 'dva/router'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -22,7 +22,7 @@ class Analysis extends React.Component {
     notification.info(args)
   }
 
-  pageChangeHandler(page) {
+  pageChangeHandler = (page) => {
     this.props.dispatch(routerRedux.push({
       pathname: '/account/analysis',
       query: {

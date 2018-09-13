@@ -249,7 +249,7 @@ class ExportModal extends PureComponent {
             </div>
             <div style={{margin: '5px 0'}}>
               <span>运单总额：</span>
-              <span>{companyDetail.total_cost}</span>
+              <span>{companyDetail.total_cost} 元</span>
             </div>
           </div>
 

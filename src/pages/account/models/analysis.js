@@ -25,7 +25,7 @@ export default {
           payload: {
             list: data.data.list,
             page: parseInt(page, 10),
-            total: parseInt(data.data.count, 10),
+            total: 5,
             find_str,
             stime,
             etime
