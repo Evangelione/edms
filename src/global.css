@@ -653,6 +653,10 @@ form .has-feedback > .ant-select .ant-select-selection-selected-value, form .has
   padding-right: 4px;
 }
 
+form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picker-icon, form .has-feedback .ant-calendar-picker-clear, form .has-feedback .ant-time-picker-clear{
+  right: 8px;
+}
+
 .stepShow {
   display: block;
 }

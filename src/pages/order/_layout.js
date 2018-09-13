@@ -13,17 +13,18 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, order_status, statusNum} = state.order
+  const {currentTab, find_str, order_status, statusNum, currentOrder} = state.order
   return {
     currentTab,
     find_str,
     order_status,
     statusNum,
+    currentOrder,
     loading: state.loading.models.order
   }
 }
 
-export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, find_str, statusNum}) => {
+export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, find_str, statusNum, currentOrder}) => {
   function changeClass(type, state) {
     if (loading) return false
     dispatch({
@@ -122,7 +123,14 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                 <OrderTableV2/>
               </Col>
               <Col span={14}>
-                <OrderDetailV2/>
+                {currentOrder ?
+                  <OrderDetailV2/> :
+                  <div style={{
+                    backgroundColor: '#fff',
+                    border: '1px solid #e8e8e8',
+                    padding: 22,
+                    textAlign: 'center',
+                  }}>暂无订单</div>}
               </Col>
             </Row>
           </div>

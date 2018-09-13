@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Card, Tabs, Button, Input, DatePicker } from 'antd'
+import { Card, Tabs, Button, Input, DatePicker, Row, Col } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import LogisticsDetail from './logisticsDetail'
 import LogisticsBalance from './logisticsBalance'
@@ -10,6 +10,7 @@ import ExportModal from '../../components/ExportModal/ExportModal'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
 import BalanceOfAccount from './components/BalanceOfAccount'
+import LogisticsDetailV2 from './components/LogisticsDetailV2'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -183,10 +184,20 @@ class Order extends React.Component {
                     </TabPane>
                   </Tabs>
                 </Card>
+                {/*{this.state.tableKey === '1' ?*/}
+                {/*<Card style={{marginTop: 5}}>*/}
+                {/*<LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>*/}
+                {/*</Card> : ''}*/}
                 {this.state.tableKey === '1' ?
-                  <Card style={{marginTop: 5}}>
-                    <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
-                  </Card> : ''}
+                  <Row gutter={10} style={{marginTop: 10}}>
+                    <Col span={10}>
+                      <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
+                    </Col>
+                    <Col span={14}>
+                      <LogisticsDetailV2/>
+                    </Col>
+                  </Row> : ''}
+
               </div>
         }
       </div>
@@ -195,7 +206,7 @@ class Order extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, deliver_status, statusNum, stime, etime} = state.logistics
+  const {currentTab, find_str, deliver_status, statusNum, stime, etime, currentLogistics} = state.logistics
   return {
     currentTab,
     find_str,
@@ -203,6 +214,7 @@ function mapStateToProps(state) {
     statusNum,
     stime,
     etime,
+    currentLogistics,
     loading: state.loading.models.logistics
   }
 }

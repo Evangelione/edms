@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker } from 'antd'
 import { connect } from 'dva'
+import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 
 const FormItem = Form.Item
@@ -18,8 +19,6 @@ class OrderModal extends PureComponent {
       title: '成本信息',
       visible: false,
       step: 1,
-      suppData: {},
-      saleData: {},
       report: null,
       dataSource: [],
       purchaseCost: 0,
@@ -44,9 +43,109 @@ class OrderModal extends PureComponent {
 
   showModal = (e) => {
     e.stopPropagation()
+    if (this.state.visible === true) return
+    this.props.form.resetFields()
     this.setState({
       visible: true
     })
+    if (this.props.currentOrder) {
+      const form = this.props.currentOrder
+      this.setState({
+        report: form.temperament_report,
+        dataSource: form.shouhuo.map(this.renderOption)
+      })
+      let text = form.user_type
+      let result_type = ''
+      if (form.site_type === '1') {
+        if (text === '1') {
+          result_type = 'LNG加气站'
+        } else if (text === '2') {
+          result_type = 'L-CNG加气站'
+        } else if (text === '3') {
+          result_type = 'LNG L-CNG合建站'
+        } else if (text === '4') {
+          result_type = 'LNG CNG合建站'
+        } else if (text === '5') {
+          result_type = 'LNG 汽柴油合建站'
+        } else if (text === '6') {
+          result_type = 'LNG泵船'
+        } else if (text === '7') {
+          result_type = '其他'
+        } else if (text === '0') {
+          result_type = '--'
+        }
+      } else if (form.site_type === '2') {
+        if (text === '1') {
+          result_type = '电厂'
+        } else if (text === '2') {
+          result_type = '城市居民'
+        } else if (text === '3') {
+          result_type = '城市商服'
+        } else if (text === '4') {
+          result_type = '城市供暖'
+        } else if (text === '5') {
+          result_type = '工业燃料'
+        } else if (text === '6') {
+          result_type = '工业原料'
+        } else if (text === '7') {
+          result_type = '其他'
+        } else if (text === '8') {
+          result_type = '分布式项目'
+        } else if (text === '0') {
+          result_type = '--'
+        }
+      }
+      this.props.form.setFieldsValue({
+        cust_id: form.cust_id,
+        cust_id2: form.customer_contact,
+        cust_id3: form.customer_mobile,
+        saler_price: form.saler_price,
+        saler_num: form.saler_num,
+        deliver_type: form.deliver_type,
+        distance: form.distance,
+        deliver_price: form.deliver_price,
+        site_id: form.site_id,
+        site_id2: form.site_type,
+        site_id3: result_type,
+        recv_contact: form.recv_contact,
+        recv_phone: form.recv_phone,
+        recv_time: moment(form.order_date),
+        delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
+        supp_id: form.supp_id ? form.supp_id : undefined,
+        supp_id2: form.supp_contact,
+        supp_id3: form.supp_mobile,
+        purchase_price: form.purchase_price,
+        shuliang: form.saler_num,
+        goods_id: form.goods_id ? form.goods_id : undefined,
+        goods_source: form.origin_gas_source,
+        goods_contact: form.cargo_contact,
+        goods_mobile: form.cargo_mobile,
+        goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
+      })
+      let purchase_price = this.props.form.getFieldValue('purchase_price')
+      let shuliang = this.props.form.getFieldValue('shuliang')
+      let distance = this.props.form.getFieldValue('distance')
+      let deliver_price = this.props.form.getFieldValue('deliver_price')
+      let saler_price = this.props.form.getFieldValue('saler_price')
+      let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
+      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
+      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
+      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      this.setState({
+        purchaseCost: purcost.toFixed(2),
+        logisticsCost: logcost.toFixed(2),
+        sales: sales.toFixed(2),
+        diffInSales: diffSales.toFixed(2),
+        total: (total * 1.075).toFixed(2),
+        yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+        xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+      })
+      // if (this.props.location.pathname === '/order/doOrder') {
+      //   return false
+      // }
+      // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
+    }
   }
 
   handleOk = (e) => {
@@ -72,7 +171,6 @@ class OrderModal extends PureComponent {
       if (!err) {
         this.setState({
           step: 2,
-          suppData: {...values},
           required: true
         }, () => {
           this.props.form.setFieldsValue({
@@ -88,7 +186,6 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       this.setState({
         step: 1,
-        saleData: {...values}
       })
     })
   }
@@ -108,7 +205,7 @@ class OrderModal extends PureComponent {
       supp_id2: item.props.contact,
       supp_id3: item.props.mobile,
       purchase_price: undefined,
-      shuliang: undefined,
+      shuliang: this.props.confirm ? this.props.currentOrder.saler_num : undefined,
       goods_id: undefined,
       goods_source: undefined,
       goods_contact: undefined,
@@ -192,6 +289,7 @@ class OrderModal extends PureComponent {
       let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
       let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
       let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
       this.setState({
         purchaseCost: purcost.toFixed(2),
         logisticsCost: logcost.toFixed(2),
@@ -218,30 +316,54 @@ class OrderModal extends PureComponent {
 
   submit = () => {
     this.props.form.validateFields((err, values) => {
-      debugger
       if (!err) {
-        this.setState({
-          saleData: {...values}
-        })
-        delete values.cust_id2
-        delete values.cust_id3
-        delete values.delivery
-        delete values.site_id2
-        delete values.site_id3
+        // delete values.cust_id2
+        // delete values.cust_id3
+        // delete values.delivery
+        // delete values.site_id2
+        // delete values.site_id3
         values.recv_time = values.recv_time.format('YYYY-MM-DD HH:mm:ss')
         values.pay_type = '1'
         console.log(values)
-        this.props.dispatch({
-          type: 'order/addOrder',
-          payload: {
-            values
-          }
-        }).then(() => {
-          this.setState({
-            step: 1,
-            visible: false
+        if (this.props.modify) {
+          values.id = this.props.currentOrder.order_id
+          this.props.dispatch({
+            type: 'orderDetail/modifySave',
+            payload: {
+              form: values
+            }
+          }).then(() => {
+            this.setState({
+              step: 1,
+              visible: false
+            })
           })
-        })
+        } else if (this.props.confirm) {
+          values.id = this.props.currentOrder.order_id
+          this.props.dispatch({
+            type: 'orderDetail/confirmOrder',
+            payload: {
+              form: values
+            }
+          }).then(() => {
+            this.setState({
+              step: 1,
+              visible: false
+            })
+          })
+        } else {
+          this.props.dispatch({
+            type: 'order/addOrder',
+            payload: {
+              values
+            }
+          }).then(() => {
+            this.setState({
+              step: 1,
+              visible: false
+            })
+          })
+        }
       }
     })
   }
@@ -287,7 +409,7 @@ class OrderModal extends PureComponent {
                      value={option.id}>{option.name_gas_source}</Option>
     })
     return (
-      <div onClick={this.showModal} style={{display:'inline-block'}}>
+      <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
         <Modal
           className='orderModal'
@@ -295,7 +417,6 @@ class OrderModal extends PureComponent {
           visible={this.state.visible}
           onCancel={this.handleCancel}
           footer={null}
-          destroyOnClose={true}
           maskClosable={false}
           width={1100}
         >
@@ -570,19 +691,19 @@ class OrderModal extends PureComponent {
                   </FormItem>
                 </Col>
                 <Col span={16}>
-                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="装货地址" hasFeedback
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 18}} label="装货地址" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('delivery')(
-                      <Input placeholder="请选择收货地址" style={{marginLeft: 16}} disabled/>
+                      <Input placeholder="请选择收货地址" disabled/>
                     )}
                   </FormItem>
                 </Col>
               </Row>
               <Divider dashed={true}/>
               <div style={{textAlign: 'right'}}>
-                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 8}}>付款方式：预付款</div>
+                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 16}}>付款方式：预付款</div>
                 <div style={{color: '#545F76', fontSize: 20, marginBottom: 8, fontWeight: 600}}>合计金额：
-                  <span style={{color: '#FF4241'}}>￥{this.state.total}</span>&nbsp;&nbsp;
+                  <span style={{color: '#FF4241', fontSize: 22}}>￥{this.state.total}</span>&nbsp;&nbsp;
                   <span style={{fontSize: 18}}>
                     (多含7.5%预付款)
                   </span>
@@ -591,7 +712,7 @@ class OrderModal extends PureComponent {
                   color: '#A1A9B3',
                   fontSize: 18,
                   marginBottom: 8
-                }}>(余额支付{this.state.yuePay}元，信用支付{this.state.xinyongPay}元)
+                }}>余额支付{this.state.yuePay}元，信用支付{this.state.xinyongPay}元
                 </div>
               </div>
             </div>

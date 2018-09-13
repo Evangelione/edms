@@ -22,6 +22,15 @@ class ResultModal extends Component {
     }
   }
 
+  UNSAFE_componentWillMount() {
+    this.props.dispatch({
+      type: 'orderDetail/orderInfo',
+      payload: {
+        id: this.props.currentOrder.order_id
+      }
+    })
+  }
+
   componentDidMount() {
     this.caigouCalculation()
     this.xiaoshouCalculation()
@@ -46,11 +55,12 @@ class ResultModal extends Component {
   goResult = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.id = this.props.location.query.id
+        values.id = this.props.currentOrder.order_id
         this.props.dispatch({
           type: 'orderDetail/doResult',
           payload: values
         }).then(() => {
+          this.hideModelHandler()
           notification.success({
             message: '温馨提示',
             description: '请前往 我的客户-销售明细，我的供应商-采购明细，我的账务-数据分析 对账',
@@ -364,9 +374,11 @@ class ResultModal extends Component {
 }
 
 function mapStateToProps(state) {
+  const {currentOrder} = state.order
   const {detailForm} = state.orderDetail
   return {
     detailForm,
+    currentOrder,
     loading: state.loading.models.orderDetail
   }
 }
