@@ -1,66 +1,53 @@
-import React from 'react'
-import { connect } from 'dva'
-import { Table, Button, Modal, Row, Col, Form, Input, Pagination, AutoComplete, Card, List, Divider } from 'antd'
-import { routerRedux } from 'dva/router'
-import styles from '../logistics.css'
+import React, { PureComponent } from 'react'
+import { Card, Steps, Divider, Button, Row, Col, Collapse, Modal, Form, AutoComplete, Input } from 'antd'
+import TimeLine from '../../../components/TimeLine/TimeLine'
 import PromptModal from '../../../components/PromptModal/PromptModal'
-import PoundModal from './PoundModal'
-import { PAGE_SIZE } from '../../../constants'
-import * as dateUtils from '../../../utils/getTime'
+import { connect } from "dva/index"
+import { routerRedux } from 'dva/router'
+import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmap'
+import styles from '../logistics.css'
 import moment from 'moment'
+import PoundModal from './PoundModal'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
 
-
+const Step = Steps.Step
+const Panel = Collapse.Panel
 const FormItem = Form.Item
 const Option = AutoComplete.Option
 
-class Logistics extends React.Component {
+class LogisticsDetailV2 extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      visible: false,
-      acceptBtn: false,
-      refuseBtn: false,
+      expand: false,
+      activeKey: [],
       schedulingBtn: false,
-      id: '',
-      uploading: false,
+      visible: false,
       etime: moment(),
-      currentIndex: null,
-      tabColor: {
-        '待确认': '#666',
-        '待调度': '#FF4241',
-        '运输中': '#f2b21a',
-        '待接单': '#F17C40',
-        '已接单': '#54A8FD',
-        '已完成': '#00B763',
-        '已卸车': '#416AFF'
-      },
-      tabColorOpacity: {
-        '待确认': 'rgb(102,102,102,0.1)',
-        '待调度': 'rgb(255,66,65,0.1)',
-        '运输中': 'rgb(242,178,26,0.1)',
-        '待接单': 'rgb(241,124,64,0.1)',
-        '已接单': 'rgb(84,168,253,0.1)',
-        '已完成': 'rgb(0,183,99,0.1)',
-        '已卸车': 'rgb(65,106,255,0.1)',
-      }
+      acceptBtn: false,
+      refuseBtn: false
+      // yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+      // xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+
     }
   }
 
-  handleApply = (event, picker) => {
+  expand = () => {
     this.setState({
-      etime: picker.endDate,
+      expand: !this.state.expand,
+      activeKey: this.state.activeKey.length === 0 ? ['1'] : []
     })
   }
 
-  logisticsDetail = (id) => {
+  viewReport = () => {
+    window.open(this.props.currentLogistics.temperament_report)
+  }
+
+  goLogisticsList = () => {
     this.props.dispatch(routerRedux.push({
-      pathname: '/logistics/logisticsDetail',
-      query: {
-        id: id
-      }
+      pathname: '/logistics',
     }))
   }
 
@@ -100,10 +87,32 @@ class Logistics extends React.Component {
     })
   }
 
-  handleCancel = () => {
+  companyChange = (value, item) => {
+    this.props.dispatch({
+      type: 'logisticsDetail/getCarOption',
+      payload: {
+        logistic_company: value
+      }
+    })
+    this.props.form.resetFields('chetoupaizhao')
+  }
+
+  bodyChange = (value, item) => {
+    this.props.form.setFieldsValue({
+      edingzaizhong: item.props.load,
+    })
+  }
+
+  driverChange = (value, item) => {
+    this.props.form.setFieldsValue({
+      driver_mobile: item.props.phone,
+    })
+  }
+
+  handleApply = (event, picker) => {
     this.setState({
-      visible: false,
-    });
+      etime: picker.endDate,
+    })
   }
 
   submit = () => {
@@ -139,17 +148,6 @@ class Logistics extends React.Component {
     })
   }
 
-
-  pageChangeHandler = (page) => {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/logistics',
-      query: {
-        page,
-        deliver_status: this.props.deliver_status
-      }
-    }))
-  }
-
   acceptOrder = (id, e) => {
     e.stopPropagation()
     this.setState({
@@ -164,6 +162,9 @@ class Logistics extends React.Component {
       this.setState({
         acceptBtn: false
       })
+      this.props.dispatch(routerRedux.push({
+        pathname: '/logistics',
+      }))
     })
   }
 
@@ -184,75 +185,9 @@ class Logistics extends React.Component {
     })
   }
 
-  bodyChange = (value, item) => {
-    this.props.form.setFieldsValue({
-      edingzaizhong: item.props.load,
-    })
-  }
-
-  driverChange = (value, item) => {
-    this.props.form.setFieldsValue({
-      driver_mobile: item.props.phone,
-    })
-  }
-
-  supercargoChange = (value, item) => {
-    this.props.form.setFieldsValue({
-      supercargo_mobile: item.props.phone,
-    })
-  }
-
-  customRequest = (id, type, file) => {
-    this.setState({
-      uploading: true
-    })
-    this.props.dispatch({
-      type: 'logisticsDetail/uploadPound',
-      payload: {
-        file,
-        id,
-        load_type: type
-      }
-    }).then(() => {
-      this.setState({
-        uploading: false
-      })
-    })
-  }
-
-  companyChange = (value, item) => {
-    this.props.dispatch({
-      type: 'logisticsDetail/getCarOption',
-      payload: {
-        logistic_company: value
-      }
-    })
-    this.props.form.resetFields('chetoupaizhao')
-  }
-
-  renderOption = (item) => {
-    return (
-      <Option key={item.delivery_mobile}>
-        {item.delivery_contact}
-      </Option>
-    );
-  }
-
-  clickItme = (item, index) => {
-    this.setState({
-      currentIndex: index
-    })
-    this.props.dispatch({
-      type: 'logistics/save',
-      payload: {
-        currentLogistics: item
-      }
-    })
-  }
-
   render() {
-    const {tableKey, list, page, total, list2, page2, total2, companyOption, carOption, loading} = this.props
     const {getFieldDecorator} = this.props.form
+    const {currentLogistics, companyOption, carOption, loading} = this.props
     const companyOptions = companyOption.map((option, index) =>
       <Option key={option.logistic_company} value={option.logistic_company}>
         {option.logistic_company}
@@ -266,314 +201,6 @@ class Logistics extends React.Component {
     const driverOptions = carOption.driver.map((option, index) =>
       <Option key={index} value={option.driver} phone={option.driver_mobile}>{option.driver}</Option>
     )
-    // const columns = [
-    //   {
-    //     title: '运单编号',
-    //     dataIndex: 'deliver_code',
-    //     key: 'deliver_code',
-    //     align: 'center'
-    //   },
-    //   {
-    //     title: '气源名称',
-    //     dataIndex: 'name_gas_source',
-    //     key: 'name_gas_source',
-    //     align: 'center',
-    //     width: 120
-    //   },
-    //   {
-    //     title: '数量（吨）',
-    //     dataIndex: 'saler_num',
-    //     key: 'saler_num',
-    //     align: 'center',
-    //     width: 120
-    //   },
-    //   {
-    //     title: '装货地址',
-    //     key: 'detailed_address',
-    //     align: 'center',
-    //     width: 120,
-    //     render: (text, record, index) => {
-    //       return <div>{record.cargo_province + record.cargo_city ? record.cargo_city : '' + record.cargo_area ? record.cargo_area : '' + record.cargo_detailed_address}</div>
-    //     }
-    //   },
-    //   {
-    //     title: '装货联系人',
-    //     dataIndex: 'cargo_contact',
-    //     key: 'cargo_contact',
-    //     align: 'center'
-    //   },
-    //   {
-    //     title: '联系电话',
-    //     dataIndex: 'cargo_mobile',
-    //     key: 'cargo_mobile',
-    //     align: 'center'
-    //   },
-    //   {
-    //     title: '收货地址',
-    //     key: 'address',
-    //     align: 'center',
-    //     render: (text, record, index) => {
-    //       return <div
-    //         className='txt-overflow'>{record.delivery_province + (record.delivery_city ? record.delivery_city : '') + (record.delivery_area ? record.delivery_area : '') + record.detailed_address}</div>
-    //     }
-    //   },
-    //   {
-    //     title: '收货联系人',
-    //     dataIndex: 'recv_contact',
-    //     key: 'recv_contact',
-    //     align: 'center',
-    //   },
-    //   {
-    //     title: '联系电话',
-    //     dataIndex: 'recv_phone',
-    //     key: 'recv_phone',
-    //     align: 'center',
-    //   },
-    //   {
-    //     title: '交货时间',
-    //     dataIndex: 'recv_time',
-    //     key: 'recv_time',
-    //     align: 'center',
-    //     width: 120,
-    //     render: (text, record, index) => {
-    //       let time = dateUtils.getTime(text)
-    //       let date = dateUtils.getYear(text)
-    //       return (
-    //         <div>
-    //           <div>{date}</div>
-    //           <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-    //         </div>
-    //       )
-    //     }
-    //   },
-    //   {
-    //     title: '运单状态',
-    //     dataIndex: 'status_name',
-    //     key: 'status_name',
-    //     align: 'center',
-    //     width: 120
-    //   },
-    //   {
-    //     title: '运单操作',
-    //     align: 'center',
-    //     key: 'operation',
-    //     dataIndex: 'deliver_status',
-    //     fixed: 'right',
-    //     render: (text, record, index) => {
-    //       return (
-    //         <div className='operating'>
-    //           {text === '1' ?
-    //             <Button style={{width: 88}} type='primary' onClick={this.scheduling.bind(null, record.id)}
-    //                     loading={this.state.schedulingBtn}>调度</Button>
-    //             :
-    //             text === '2' || text === '3' || text === '4' ?
-    //               <PromptModal state='cancelLogistics' cancelID={record.id} txt={record}>
-    //                 <Button type='primary' style={{background: '#EA7878', borderColor: '#EA7878'}}>取消运单</Button>
-    //               </PromptModal>
-    //               :
-    //               text === '6' ?
-    //                 <PoundModal title='查看磅单' type='look' hidden='all' load_num={record.load_num}
-    //                             load_url={record.load_url}
-    //                             unload_num={record.unload_num} unload_url={record.unload_url}>
-    //                   <Button>查看磅单</Button>
-    //                 </PoundModal>
-    //                 :
-    //                 <PoundModal title='确认磅单' hidden='all' load_num={record.load_num} load_url={record.load_url}
-    //                             unload_num={record.unload_num} unload_url={record.unload_url} id={record.id}
-    //                             load_time={record.load_time} unload_time={record.unload_time}>
-    //                   <Button type='primary' style={{background: '#59C694', borderColor: '#59C694'}}>确认磅单</Button>
-    //                 </PoundModal>
-    //           }
-    //         </div>
-    //       )
-    //     }
-    //   },
-    //   {
-    //     title: '司机操作',
-    //     align: 'center',
-    //     key: 'deliver_status2',
-    //     dataIndex: 'deliver_status',
-    //     fixed: 'right',
-    //     render: (text, record, index) => {
-    //       return (
-    //         <div className='operating'>
-    //           {text === '2' ?
-    //             <div>
-    //               <Button className='blueBorder' onClick={this.acceptOrder.bind(null, record.id)}
-    //                       loading={this.state.acceptBtn}>接单</Button>
-    //               <Button onClick={this.refuseOrder.bind(null, record.id)}
-    //                       style={{marginLeft: 5, color: '#FF4241', borderColor: '#FF4241'}}
-    //                       loading={this.state.refuseBtn}>拒绝</Button>
-    //             </div> :
-    //             text === '3' ?
-    //               <PoundModal title='上传装车磅单' load_num={record.load_num} load_url={record.load_url}
-    //                           hidden={'load'} id={record.id}>
-    //                 <Button>上传装车磅单</Button>
-    //               </PoundModal> :
-    //               text === '4' ?
-    //                 <PoundModal title='上传卸车磅单' unload_num={record.unload_num}
-    //                             unload_url={record.unload_url} hidden={'unload'} id={record.id}>
-    //                   <Button>上传卸车磅单</Button>
-    //                 </PoundModal> : '--'
-    //           }
-    //         </div>
-    //       )
-    //     }
-    //   },
-    //   {
-    //     title: '运单详情',
-    //     align: 'center',
-    //     key: 'operation2',
-    //     fixed: 'right',
-    //     render: (text, record, index) => {
-    //       return (
-    //         <div className='operating'>
-    //           <Button onClick={this.logisticsDetail.bind(null, record.id)}>查看详情</Button>
-    //         </div>
-    //       )
-    //     }
-    //   }
-    // ]
-    const columns2 = [
-      {
-        title: '运单编号',
-        dataIndex: 'deliver_code',
-        key: 'deliver_code',
-        width: 140,
-        align: 'center',
-        fixed: 'left'
-      },
-      {
-        title: '物流公司',
-        dataIndex: 'logistics_company',
-        key: 'logistics_company',
-        width: 120,
-        align: 'center'
-      },
-      {
-        title: '车头牌照',
-        dataIndex: 'car_head',
-        key: 'car_head',
-        width: 100,
-        align: 'center',
-      },
-      {
-        title: '装货地址',
-        key: 'loadDetail',
-        width: 240,
-        align: 'center',
-        render: (text, record, index) => {
-          return record.cargo_province + (record.cargo_city ? record.cargo_city : '') + (record.cargo_area ? record.cargo_area : '') + record.detailed_address
-        }
-      },
-      {
-        title: '装车时间',
-        dataIndex: 'load_time',
-        key: 'load_time',
-        width: 120,
-        align: 'center',
-        render: (text, record, index) => {
-          let time = dateUtils.getTime(text)
-          let date = dateUtils.getYear(text)
-          return (
-            <div>
-              <div>{date}</div>
-              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-            </div>
-          )
-        }
-      },
-      {
-        title: '卸车时间',
-        dataIndex: 'unload_time',
-        key: 'unload_time',
-        width: 120,
-        align: 'center',
-        render: (text, record, index) => {
-          let time = dateUtils.getTime(text)
-          let date = dateUtils.getYear(text)
-          return (
-            <div>
-              <div>{date}</div>
-              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-            </div>
-          )
-        }
-      },
-      {
-        title: '供货商名称',
-        dataIndex: 'supp_name',
-        key: 'supp_name',
-        width: 120,
-        align: 'center'
-      },
-      {
-        title: '客户名称',
-        dataIndex: 'customer_name',
-        key: 'customer_name',
-        width: 120,
-        align: 'center',
-      },
-      {
-        title: '站点简称',
-        dataIndex: 'site_name',
-        key: 'site_name',
-        width: 120,
-        align: 'center',
-      },
-      {
-        title: '装车吨位',
-        dataIndex: 'load_num',
-        key: 'load_num',
-        width: 100,
-        align: 'center',
-      },
-      {
-        title: '卸车吨位',
-        dataIndex: 'unload_num',
-        key: 'unload_num',
-        width: 100,
-        align: 'center',
-      },
-      {
-        title: '结算吨位',
-        dataIndex: 'wl_final_num',
-        key: 'wl_final_num',
-        width: 100,
-        align: 'center',
-      },
-      {
-        title: '公里数',
-        dataIndex: 'wl_distance',
-        key: 'wl_distance',
-        width: 80,
-        align: 'center',
-      },
-      {
-        title: '吨公里（元）',
-        dataIndex: 'wl_deliver_price',
-        key: 'wl_deliver_price',
-        width: 140,
-        align: 'center',
-      },
-      {
-        title: '额外费用（元）',
-        dataIndex: 'wl_extra_fee',
-        key: 'wl_extra_fee',
-        width: 160,
-        align: 'center',
-      },
-      {
-        title: '运费总计（元）',
-        key: 'total',
-        width: 160,
-        align: 'center',
-        render: (text, record, index) => {
-          return ((record.wl_distance - 0) * (record.wl_deliver_price - 0) * (record.wl_final_num - 0) + (record.wl_extra_fee - 0)).toFixed(2)
-        }
-      }
-    ]
-    let time = this.state.etime.format('YYYY-MM-DD HH:mm:00')
     let locale = {
       "format": 'YYYY-MM-DD',
       "separator": " - ",
@@ -587,84 +214,218 @@ class Logistics extends React.Component {
       "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
       "firstDay": 1
     }
+    let time = this.state.etime.format('YYYY-MM-DD HH:mm:00')
     return (
-      <div>
-        {tableKey === '1' ?
-          <Card bodyStyle={{padding: 0}}>
-            <List
-              itemLayout="horizontal"
-              dataSource={list}
-              renderItem={(item, index) => (
-                <List.Item onClick={this.clickItme.bind(null, item, index)}
-                           style={{cursor: 'pointer', paddingTop: 16, paddingBottom: 16}}
-                           className={this.state.currentIndex === index ? 'CurrentBorder' : ''}>
-                  <List.Item.Meta
-                    title={
-                      <div style={{fontSize: 16, color: '#545F76', padding: '2px 25px', fontWeight: 600}}>
-                        <span style={{marginRight: 25}}>#998</span>
-                        <span style={{marginRight: 30}}>{item.name_gas_source}</span>
-                        <span style={{fontSize: 14}}>{item.saler_num}吨</span>
-                        <span style={{
-                          float: 'right',
-                          fontSize: 12,
-                          color: this.state.tabColor[item.status_name],
-                          background: this.state.tabColorOpacity[item.status_name],
-                          padding: '0px 10px',
-                          fontWeight: 400
-                        }}><span
+      <Card bodyStyle={{transition: 'all 0.5s'}}
+            style={{borderColor: '#e8e8e8', marginBottom: 10}}
+            title={<div><span style={{color: '#545F76', fontSize: 15}}>运单编号：{currentLogistics.deliver_code}</span><span
+              style={{fontSize: 15, paddingLeft: 50, color: '#aaa'}}>创建时间：{currentLogistics.create_time}</span>
+            </div>}
+            extra={<div>对应订单编号：{currentLogistics.order_code}</div>}
+      >
+        <Steps progressDot current={currentLogistics.deliver_status - 0} style={{margin: '70px 0'}}>
+          <Step title="待调度"/>
+          <Step title="待接单"/>
+          <Step title="已结单"/>
+          <Step title="运输中"/>
+          <Step title="已卸车"/>
+          <Step title="已完成"/>
+        </Steps>
+        <div style={{margin: '0 20px'}}>
+          <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
+        </div>
+        {/*订单状态*/}
+        <div style={{paddingLeft: 20, margin: '40px 0'}}>
+          <div style={{
+            color: '#545F76',
+            fontWeight: 600,
+            fontSize: 17,
+            marginBottom: 8
+          }}>运单状态：{currentLogistics.status_name}</div>
+          {currentLogistics.deliver_status === '0' ?
+            <div>
+              <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>调度后订单才能继续往下进行哦~</div>
+              <div style={{float: 'right', marginTop: '-60px', marginRight: 20}}>
+                <Button type='primary' style={{marginRight: 10}} loading={this.state.schedulingBtn}
+                        onClick={this.scheduling.bind(null, currentLogistics.id)}>马上去调度</Button>
+              </div>
+            </div> : currentLogistics.deliver_status === '1' ?
+              <div>
+                <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>司机没有及时接单的话，可以在这里操作帮他接单，保证订单能顺利进行~</div>
+                <div style={{float: 'right', marginTop: '-60px', marginRight: 20}}>
+                  <Button size='large' type='primary' onClick={this.acceptOrder.bind(null, currentLogistics.id)}
+                          loading={this.state.acceptBtn}>接单</Button>
+                  <Button size='large' onClick={this.refuseOrder.bind(null, currentLogistics.id)}
                           style={{
-                            backgroundColor: this.state.tabColor[item.status_name],
-                            width: 6,
-                            height: 6,
-                            borderRadius: 3,
-                            display: 'inline-block',
-                            verticalAlign: 'middle',
-                            marginTop: '-3px',
-                            marginRight: 5
-                          }}/>{item.status_name}</span>
+                            background: '#EA7878',
+                            borderColor: '#EA7878',
+                            marginLeft: 10,
+                            marginRight: 10,
+                            color: '#fff'
+                          }}
+                          loading={this.state.refuseBtn}>拒绝</Button>
+                  <PromptModal state='cancelLogistics' cancelID={currentLogistics.id} txt={currentLogistics}>
+                    <Button size='large'>取消运单</Button>
+                  </PromptModal>
+                </div>
+              </div> : currentLogistics.deliver_status === '2' ?
+                <div>
+                  <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>请及时上传装车磅单</div>
+                  <div style={{float: 'right', marginTop: '-63px', marginBottom: '40px', marginRight: 20}}>
+                    <PoundModal title='上传装车磅单' load_num={currentLogistics.load_num} load_url={currentLogistics.load_url}
+                                hidden={'load'} id={currentLogistics.id}>
+                      <Button>上传装车磅单</Button>
+                    </PoundModal>
+                  </div>
+                </div> : currentLogistics.deliver_status === '3' ?
+                  <div>
+                    <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>请及时上传卸车磅单</div>
+                    <div style={{float: 'right', marginTop: '-63px', marginBottom: '40px', marginRight: 20}}>
+                      <PoundModal title='上传卸车磅单' unload_num={currentLogistics.unload_num}
+                                  unload_url={currentLogistics.unload_url} hidden={'unload'} id={currentLogistics.id}>
+                        <Button>上传卸车磅单</Button>
+                      </PoundModal>
+                    </div>
+                  </div> : currentLogistics.deliver_status === '4' ?
+                    <div>
+                      <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>点击“确认磅单”，在弹窗上查看并确认磅单</div>
+                      <div style={{float: 'right', marginTop: '-63px', marginBottom: '40px', marginRight: 20}}>
+                        <PoundModal title='确认磅单' hidden='all' load_num={currentLogistics.load_num} load_url={currentLogistics.load_url}
+                                    unload_num={currentLogistics.unload_num} unload_url={currentLogistics.unload_url} id={currentLogistics.id}
+                                    load_time={currentLogistics.load_time} unload_time={currentLogistics.unload_time}>
+                          <Button type='primary' style={{background: '#59C694', borderColor: '#59C694'}}>确认磅单</Button>
+                        </PoundModal>
                       </div>
-                    }
-                    description={
+                    </div> : currentLogistics.deliver_status === '5' ?
                       <div>
-                        <span style={{float: 'right', marginRight: 25}}>{item.recv_time}</span>
-                        <span style={{
-                          float: 'right',
-                          marginRight: 40
-                        }}>{item.cargo_province + item.cargo_city}--{item.delivery_province + item.delivery_city}</span>
-                      </div>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-            <Divider/>
-            <Pagination
-              className="ant-table-pagination"
-              total={total}
-              current={page}
-              pageSize={PAGE_SIZE}
-              onChange={this.pageChangeHandler}
-            />
-          </Card>
-          :
-          <div>
-            <Table
-              columns={columns2}
-              dataSource={list2}
-              rowKey={record => record.deliver_code}
-              pagination={false}
-              loading={loading}
-              scroll={{x: 2100}}
-            />
-            <Pagination
-              className="ant-table-pagination"
-              total={total2}
-              current={page2}
-              pageSize={PAGE_SIZE}
-              onChange={this.pageChangeHandler}
-            />
+                        <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>恭喜您，本订单已完成！您可以继续操作其它订单！</div>
+                        <div style={{float: 'right', marginTop: '-63px', marginBottom: '40px', marginRight: 20}}>
+                          <PoundModal title='查看磅单' type='look' hidden='all' load_num={currentLogistics.load_num}
+                                      load_url={currentLogistics.load_url}
+                                      unload_num={currentLogistics.unload_num} unload_url={currentLogistics.unload_url}>
+                            <Button>查看磅单</Button>
+                          </PoundModal>
+                        </div>
+                      </div> : ''
+          }
+        </div>
+        <div style={{margin: '0 20px'}}>
+          <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
+        </div>
+        {/*装货信息*/}
+        <div>
+          <div style={{paddingLeft: 20, margin: '30px 0'}}>
+            <Row>
+              <Col span={12} style={{fontSize: 14}}>
+                <div style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>装货信息</div>
+                <div>
+                  <div style={{marginBottom: 4}}>{currentLogistics.cargo_contact}</div>
+                  <div style={{marginBottom: 6}}>{currentLogistics.cargo_mobile}</div>
+                  <div
+                    style={{marginBottom: 6}}>{currentLogistics.cargo_province + '/' + currentLogistics.cargo_city + '/' + (currentLogistics.cargo_area ? currentLogistics.cargo_area + '/' : '') + currentLogistics.detailed_address}</div>
+                  {currentLogistics.temperament_report ?
+                    <div style={{marginBottom: 6, color: '#3477ED', cursor: 'pointer'}}
+                         onClick={this.viewReport}>查看气质报告</div> :
+                    <div style={{marginBottom: 6}}>暂无气质报告</div>}
+                </div>
+              </Col>
+              <Col span={12} style={{fontSize: 14}}>
+                <div style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>收货信息</div>
+                <div style={{marginBottom: 4, fontWeight: 600}}>
+                  {currentLogistics.site_name}
+                  <span style={{
+                    background: 'rgba(28,134,246, 0.2)',
+                    color: '#1C86F6',
+                    padding: '0 5px',
+                    display: 'inline-block',
+                    height: 18,
+                    fontSize: 12,
+                    marginLeft: 10
+                  }}>{currentLogistics.site_type_name}</span>
+                </div>
+                <div style={{marginBottom: 4}}>{currentLogistics.recv_contact}</div>
+                <div style={{marginBottom: 6}}>{currentLogistics.recv_phone}</div>
+                <div
+                  style={{marginBottom: 6}}>{currentLogistics.delivery_province + '/' + currentLogistics.delivery_city + '/' + (currentLogistics.delivery_area ? currentLogistics.delivery_area + '/' : '') + currentLogistics.detaileds_address}</div>
+                <div style={{marginBottom: 6}}>交货时间: {currentLogistics.recv_time}</div>
+                <div style={{
+                  marginBottom: 6,
+                  marginTop: 12,
+                  color: '#A1A9B3'
+                }}>用户类型: {currentLogistics.user_type_name}</div>
+                <div style={{marginBottom: 6, color: '#A1A9B3'}}>配送方式: {currentLogistics.deliver_type_name}</div>
+              </Col>
+            </Row>
           </div>
-        }
+        </div>
+        <div style={{margin: '0 20px'}}>
+          <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
+        </div>
+        <Collapse style={{border: 0}} onChange={this.expand} activeKey={this.state.activeKey}>
+          <Panel style={{
+            background: '#fff',
+            borderRadius: 4,
+            marginBottom: 61,
+            border: 0,
+            overflow: 'hidden'
+          }} activeKey={[]} showArrow={false}
+                 header={this.state.expand ? <span style={{color: '#A1A9B3', paddingLeft: 10}}>物流信息：</span>
+                   :
+                   <span style={{color: '#A1A9B3', paddingLeft: 10}}>展开更多</span>} key="1">
+            {/*供应商信息*/}
+            <div style={{paddingLeft: 20, margin: '40px 0'}}>
+              <Row>
+                <Col span={12} style={{fontSize: 14}}>
+                  <div style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>供应商信息</div>
+                  <div style={{marginBottom: 4}}>{currentLogistics.supp_name}</div>
+                  <div style={{marginBottom: 4}}>{currentLogistics.supp_contact}</div>
+                  <div style={{marginBottom: 6}}>{currentLogistics.supp_mobile}</div>
+                  <div style={{fontWeight: 600}}>采购价：{currentLogistics.purchase_price}元/吨</div>
+                </Col>
+                <Col span={12} style={{fontSize: 14}}>
+                  <div style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>客户信息</div>
+                  <div style={{marginBottom: 4}}>{currentLogistics.customer_name}</div>
+                  <div style={{marginBottom: 4}}>{currentLogistics.customer_contact}</div>
+                  <div style={{marginBottom: 6}}>{currentLogistics.customer_mobile}</div>
+                  <div style={{fontWeight: 600}}>销售价：{currentLogistics.saler_price}元/吨</div>
+                </Col>
+              </Row>
+            </div>
+            <div style={{margin: '0 20px'}}>
+              <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
+            </div>
+            {/*物流信息*/}
+            <div style={{paddingLeft: 20, margin: '40px 0'}}>
+              <div style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>物流信息</div>
+              <div style={{marginBottom: 4, color: '#545F76'}}>运距: {currentLogistics.distance}公里</div>
+              <div style={{marginBottom: 4, color: '#545F76'}}>运费单价: {currentLogistics.deliver_price}元/吨/公里</div>
+              <div
+                style={{
+                  float: 'right',
+                  marginTop: '-88px',
+                  marginRight: 20,
+                  color: '#545F76'
+                }}>运单编号：{currentLogistics.deliver_code}
+              </div>
+            </div>
+            <div style={{margin: '0 20px'}}>
+              <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
+            </div>
+            {/*进度条*/}
+            <div>
+              <TimeLine detail={currentLogistics}/>
+              {currentLogistics.deliver_status !== '0' ?
+                <div style={{margin: '0 40px 30px'}}>
+                  <Map center={{lng: 116.402544, lat: 39.928216}} zoom="11">
+                    <Marker position={{lng: 116.402544, lat: 39.928216}}/>
+                    <NavigationControl/>
+                    <InfoWindow position={{lng: 116.402544, lat: 39.928216}} text="内容" title="标题"/>
+                  </Map>
+                </div> : ''}
+            </div>
+            <div style={{color: '#A1A9B3', paddingLeft: 25, cursor: 'pointer'}} onClick={this.expand}>收起</div>
+          </Panel>
+        </Collapse>
         <Modal
           width={740}
           title="调度"
@@ -985,28 +746,21 @@ class Logistics extends React.Component {
             </Row>
           </Form>
         </Modal>
-      </div>
+      </Card>
     )
   }
 }
 
 function mapStateToProps(state) {
-  const {list, page, total, list2, page2, total2, deliver_status, currentLogistics} = state.logistics
+  const {currentLogistics} = state.logistics
   const {detailForm, companyOption, carOption} = state.logisticsDetail
   return {
-    list,
-    page,
-    total,
-    list2,
-    page2,
-    total2,
+    currentLogistics,
     detailForm,
     companyOption,
-    deliver_status,
     carOption,
-    currentLogistics,
     loading: state.loading.models.logisticsDetail
   }
 }
 
-export default Form.create()(connect(mapStateToProps)(Logistics))
+export default Form.create()(connect(mapStateToProps)(LogisticsDetailV2))

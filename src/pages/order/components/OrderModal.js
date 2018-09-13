@@ -111,21 +111,39 @@ class OrderModal extends PureComponent {
         recv_phone: form.recv_phone,
         recv_time: moment(form.order_date),
         delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
-        supp_id: form.supp_id,
+        supp_id: form.supp_id ? form.supp_id : undefined,
         supp_id2: form.supp_contact,
         supp_id3: form.supp_mobile,
         purchase_price: form.purchase_price,
         shuliang: form.saler_num,
-        goods_id: form.goods_id,
+        goods_id: form.goods_id ? form.goods_id : undefined,
         goods_source: form.origin_gas_source,
         goods_contact: form.cargo_contact,
         goods_mobile: form.cargo_mobile,
-        goods_delivery: form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address,
+        goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
       })
-      // let yunju = this.props.form.getFieldValue('distance')
-      // let yunfeidanjia = this.props.form.getFieldValue('deliver_price')
-      // let shuliang = this.props.form.getFieldValue('saler_num')
-      // let xiaoshoujiage = this.props.form.getFieldValue('saler_price')
+      let purchase_price = this.props.form.getFieldValue('purchase_price')
+      let shuliang = this.props.form.getFieldValue('shuliang')
+      let distance = this.props.form.getFieldValue('distance')
+      let deliver_price = this.props.form.getFieldValue('deliver_price')
+      let saler_price = this.props.form.getFieldValue('saler_price')
+      let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
+      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
+      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
+      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      this.setState({
+        purchaseCost: purcost.toFixed(2),
+        logisticsCost: logcost.toFixed(2),
+        sales: sales.toFixed(2),
+        diffInSales: diffSales.toFixed(2),
+        total: (total * 1.075).toFixed(2),
+        yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+        xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+      })
+      // if (this.props.location.pathname === '/order/doOrder') {
+      //   return false
+      // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
     }
   }
@@ -187,7 +205,7 @@ class OrderModal extends PureComponent {
       supp_id2: item.props.contact,
       supp_id3: item.props.mobile,
       purchase_price: undefined,
-      shuliang: undefined,
+      shuliang: this.props.confirm ? this.props.currentOrder.saler_num : undefined,
       goods_id: undefined,
       goods_source: undefined,
       goods_contact: undefined,
@@ -271,6 +289,7 @@ class OrderModal extends PureComponent {
       let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
       let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
       let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
       this.setState({
         purchaseCost: purcost.toFixed(2),
         logisticsCost: logcost.toFixed(2),
@@ -297,7 +316,6 @@ class OrderModal extends PureComponent {
 
   submit = () => {
     this.props.form.validateFields((err, values) => {
-      debugger
       if (!err) {
         // delete values.cust_id2
         // delete values.cust_id3
@@ -311,6 +329,19 @@ class OrderModal extends PureComponent {
           values.id = this.props.currentOrder.order_id
           this.props.dispatch({
             type: 'orderDetail/modifySave',
+            payload: {
+              form: values
+            }
+          }).then(() => {
+            this.setState({
+              step: 1,
+              visible: false
+            })
+          })
+        } else if (this.props.confirm) {
+          values.id = this.props.currentOrder.order_id
+          this.props.dispatch({
+            type: 'orderDetail/confirmOrder',
             payload: {
               form: values
             }
@@ -660,19 +691,19 @@ class OrderModal extends PureComponent {
                   </FormItem>
                 </Col>
                 <Col span={16}>
-                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="装货地址" hasFeedback
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 18}} label="装货地址" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('delivery')(
-                      <Input placeholder="请选择收货地址" style={{marginLeft: 16}} disabled/>
+                      <Input placeholder="请选择收货地址" disabled/>
                     )}
                   </FormItem>
                 </Col>
               </Row>
               <Divider dashed={true}/>
               <div style={{textAlign: 'right'}}>
-                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 8}}>付款方式：预付款</div>
+                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 16}}>付款方式：预付款</div>
                 <div style={{color: '#545F76', fontSize: 20, marginBottom: 8, fontWeight: 600}}>合计金额：
-                  <span style={{color: '#FF4241'}}>￥{this.state.total}</span>&nbsp;&nbsp;
+                  <span style={{color: '#FF4241', fontSize: 22}}>￥{this.state.total}</span>&nbsp;&nbsp;
                   <span style={{fontSize: 18}}>
                     (多含7.5%预付款)
                   </span>
@@ -681,7 +712,7 @@ class OrderModal extends PureComponent {
                   color: '#A1A9B3',
                   fontSize: 18,
                   marginBottom: 8
-                }}>(余额支付{this.state.yuePay}元，信用支付{this.state.xinyongPay}元)
+                }}>余额支付{this.state.yuePay}元，信用支付{this.state.xinyongPay}元
                 </div>
               </div>
             </div>

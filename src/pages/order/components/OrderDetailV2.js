@@ -4,6 +4,7 @@ import TimeLine from '../../../components/TimeLine/TimeLine'
 import StatusModal from './StatusModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import OrderModal from './OrderModal'
+import ResultModal from '../components/ResultModal'
 import { connect } from "dva/index"
 import { routerRedux } from 'dva/router'
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmap'
@@ -71,18 +72,11 @@ class OrderDetailV2 extends PureComponent {
           }}>订单状态：{currentOrder.status_name}</div>
           {currentOrder.order_status === '0' ?
             <div>
-              <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>付款方式：--</div>
-              <div style={{color: '#545F76', fontWeight: 600, fontSize: 17, marginBottom: 8}}>
-                合计金额：
-                <span
-                  style={{color: '#FF4241'}}>￥0.00</span>
-                <span
-                  style={{color: '#A1A9B3', fontWeight: 400}}>&nbsp;&nbsp;(多含 7.5% 预付款)</span>
-              </div>
-              <div style={{color: '#A1A9B3', fontSize: 15}}>(余额支付 {yuePay.toFixed(2)} 元，信用支付 {xinyongPay.toFixed(2)} 元)
-              </div>
-              <div style={{float: 'right', marginTop: '-32px', marginRight: 20}}>
-                <Button type='primary' style={{marginRight: 10}}>确认订单</Button>
+              <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>确认小程序上的订单以进行下一步操作</div>
+              <div style={{float: 'right', marginTop: '-60px', marginRight: 20}}>
+                <OrderModal confirm={true} currentOrder={currentOrder}>
+                  <Button type='primary' style={{marginRight: 10}}>确认订单</Button>
+                </OrderModal>
                 <PromptModal state={'cancelOrder'} cancelId={currentOrder.order_id}>
                   <Button style={{height: 32, marginRight: 10}}>取消订单</Button>
                 </PromptModal>
@@ -93,12 +87,12 @@ class OrderDetailV2 extends PureComponent {
                 <div style={{color: '#545F76', fontWeight: 600, fontSize: 17, marginBottom: 8}}>
                   合计金额：
                   <span
-                    style={{color: '#FF4241'}}>￥{currentOrder.final_money}</span>
+                    style={{color: '#FF4241', fontSize: 22}}>￥{currentOrder.final_money}</span>
                   <span
                     style={{color: '#A1A9B3', fontWeight: 400}}>&nbsp;&nbsp;(多含7.5%预付款)</span>
                 </div>
                 <div
-                  style={{color: '#A1A9B3', fontSize: 15}}>(余额支付 {yuePay.toFixed(2)} 元，信用支付 {xinyongPay.toFixed(2)} 元)
+                  style={{color: '#A1A9B3', fontSize: 15}}>余额支付 {yuePay.toFixed(2)} 元，信用支付 {xinyongPay.toFixed(2)} 元
                 </div>
                 <div style={{float: 'right', marginTop: '-32px', marginRight: 20}}>
                   {/*<Button type='primary' style={{marginRight: 10}}>立即支付</Button>*/}
@@ -113,7 +107,7 @@ class OrderDetailV2 extends PureComponent {
               </div> : currentOrder.order_status === '2' ?
                 <div>
                   <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>请前往“我的物流”里进行调度，以保证订单能够顺利进行~</div>
-                  <div style={{float: 'right', marginTop: '23px', marginBottom: '40px', marginRight: 20}}>
+                  <div style={{float: 'right', marginTop: '-60px', marginBottom: '40px', marginRight: 20}}>
                     <Button type='primary' style={{marginRight: 10}} onClick={this.goLogisticsList}>马上去调度</Button>
                   </div>
                 </div> : currentOrder.order_status === '3' ?
@@ -122,8 +116,10 @@ class OrderDetailV2 extends PureComponent {
                   </div> : currentOrder.order_status === '4' ?
                     <div>
                       <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>点击“去结算”，在弹出窗口上进行订单结算</div>
-                      <div style={{float: 'right', marginTop: '23px', marginBottom: '40px', marginRight: 20}}>
-                        <Button type='primary' style={{marginRight: 10}}>去结算</Button>
+                      <div style={{float: 'right', marginTop: '-60px', marginBottom: '40px', marginRight: 20}}>
+                        <ResultModal>
+                          <Button type='primary' style={{marginRight: 10}}>去结算</Button>
+                        </ResultModal>
                       </div>
                     </div> : currentOrder.order_status === '5' ?
                       <div>
@@ -193,7 +189,7 @@ class OrderDetailV2 extends PureComponent {
                   <Col span={12} style={{fontSize: 14}}>
                     <div style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>收货信息</div>
                     <div style={{marginBottom: 4, fontWeight: 600}}>
-                      山东聊城小儿装加气站
+                      {currentOrder.site_name}
                       <span style={{
                         background: 'rgba(28,134,246, 0.2)',
                         color: '#1C86F6',

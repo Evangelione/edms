@@ -145,7 +145,7 @@ export default {
       const {data} = yield call(orderService.doResult, form)
       if (data.code === -1) return false
       if (data.code === 1) {
-        // message.success(data.msg)
+        message.success(data.msg)
         yield put(routerRedux.push({
           pathname: '/order',
         }))
@@ -155,6 +155,18 @@ export default {
     },
     * modifySave({payload: {form}}, {call, put}) {
       const {data} = yield call(orderService.modifyOrder, {form})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put(routerRedux.push({
+          pathname: '/order',
+        }))
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * confirmOrder({payload: {form}}, {call, put}) {
+      const {data} = yield call(orderService.confirmOrder, {form})
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)

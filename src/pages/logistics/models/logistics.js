@@ -26,7 +26,8 @@ export default {
     balanceHistoryPage: 1,
     balanceHistoryTotal: 0,
     companyOption: [],
-    companyDetail: {}
+    companyDetail: {},
+    currentLogistics: {}
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -50,7 +51,8 @@ export default {
             total: parseInt(data.data.count, 10),
             deliver_status,
             find_str,
-            statusNum: data.data.status_num
+            statusNum: data.data.status_num,
+            currentLogistics: data.data.list[0]
           }
         })
       }

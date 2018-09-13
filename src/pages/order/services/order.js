@@ -75,6 +75,17 @@ export function modifyOrder({form}) {
   })
 }
 
+export function confirmOrder({form}) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key]);
+  })
+  return request(`${IP}/home/order/confirm-order`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
 export function doPay({id}) {
   let formData = new FormData()
   formData.append('id', id)
