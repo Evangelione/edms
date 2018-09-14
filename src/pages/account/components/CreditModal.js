@@ -123,7 +123,7 @@ class CreditModal extends React.Component {
                 rules: [{
                   message: '请填写正确联系电话！',
                   max: 11,
-                  pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$'
+                  pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
                 }],
                 validateTrigger: 'onBlur',
               })(
