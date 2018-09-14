@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker } from 'antd'
+import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker,message } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
@@ -168,16 +168,17 @@ class OrderModal extends PureComponent {
 
   nextStep = () => {
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.setState({
-          step: 2,
-          required: true
-        }, () => {
-          this.props.form.setFieldsValue({
-            saler_num: values.shuliang - 0,
-          })
+      this.setState({
+        step: 2,
+        // required: true
+      }, () => {
+        this.props.form.setFieldsValue({
+          saler_num: isNaN(values.shuliang - 0) ? undefined : values.shuliang - 0,
         })
-      }
+        // this.props.form.setFieldsValue({
+        //   cust_id: undefined
+        // })
+      })
     })
 
   }
@@ -364,6 +365,10 @@ class OrderModal extends PureComponent {
             })
           })
         }
+      } else {
+        Object.keys(err).forEach((key, i) => {
+           message.error(`请检查${key}字段是否填写正确`)
+        })
       }
     })
   }
@@ -562,7 +567,7 @@ class OrderModal extends PureComponent {
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="客户名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('cust_id', {
-                      rules: [{required: this.state.required, message: '此项为必选项！'}],
+                      rules: [{required: true, message: '此项为必选项！'}],
                     })(
                       <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}>
                         {customOptions}
@@ -588,7 +593,7 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="销售价" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('saler_price', {
                       rules: [{
-                        required: this.state.required,
+                        required: true,
                         message: '请填写数字！',
                         pattern: '^[0-9.]*$',
                         max: 10
@@ -613,7 +618,7 @@ class OrderModal extends PureComponent {
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="站点简称" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('site_id', {
-                      rules: [{required: this.state.required, message: '此项为必选项！'}],
+                      rules: [{required: true, message: '此项为必选项！'}],
                     })(
                       <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}>
                         {siteOptions}
@@ -642,7 +647,7 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="收货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('recv_contact', {
                       rules: [
-                        {required: this.state.required, message: '请填写收货联系人'},
+                        {required: true, message: '请填写收货联系人'},
                       ],
                     })(
                       <AutoComplete
@@ -658,10 +663,10 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="联系电话" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('recv_phone', {
                       rules: [{
-                        required: this.state.required,
+                        required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
                       }],
                       validateTrigger: 'onBlur',
                     })(
@@ -672,7 +677,7 @@ class OrderModal extends PureComponent {
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="交货时间" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('recv_time', {
-                      rules: [{required: this.state.required, message: '请选择交货时间！'}],
+                      rules: [{required: true, message: '请选择交货时间！'}],
                     })(
                       <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:ss'} showTime
                                   locale={locale}/>
@@ -682,7 +687,7 @@ class OrderModal extends PureComponent {
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="配送方式" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('deliver_type', {
-                      rules: [{required: this.state.required, message: '此项为必选项！'}],
+                      rules: [{required: true, message: '此项为必选项！'}],
                     })(
                       <Select placeholder="请选择配送方式" style={{width: 150}}>
                         <Option value="1">卖家配送</Option>

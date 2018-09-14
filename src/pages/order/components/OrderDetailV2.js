@@ -165,7 +165,7 @@ class OrderDetailV2 extends PureComponent {
             border: 0,
             overflow: 'hidden'
           }} activeKey={[]} showArrow={false}
-                 header={this.state.expand ? <span style={{color: '#A1A9B3', paddingLeft: 10}}>物流信息：</span>
+                 header={this.state.expand ? <span style={{color: '#A1A9B3', paddingLeft: 10}}>详细信息：</span>
                    :
                    <span style={{color: '#A1A9B3', paddingLeft: 10}}>展开更多</span>} key="1">
             <div>
