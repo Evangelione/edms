@@ -226,7 +226,7 @@ class LogisticsDetailV2 extends PureComponent {
         <Steps progressDot current={currentLogistics.deliver_status - 0} style={{margin: '70px 0'}}>
           <Step title="待调度"/>
           <Step title="待接单"/>
-          <Step title="已结单"/>
+          <Step title="已接单"/>
           <Step title="运输中"/>
           <Step title="已卸车"/>
           <Step title="已完成"/>

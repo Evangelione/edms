@@ -185,8 +185,13 @@ class OrderModal extends PureComponent {
   backStep = () => {
     this.props.form.validateFields((err, values) => {
       this.setState({
-        step: 1,
+        required: false
+      }, () => {
+        this.setState({
+          step: 1,
+        })
       })
+
     })
   }
 
