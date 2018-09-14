@@ -46,7 +46,7 @@ export default connect(mapStateToProps)(({dispatch, accountKey}) => {
           <TabPane tab='客户余额' key='1'>
             <ClientTable></ClientTable>
           </TabPane>
-          <TabPane tab='供应商余额' key='2'>
+          <TabPane tab='供应商预付款' key='2'>
             <SupplierTable></SupplierTable>
           </TabPane>
         </Tabs>

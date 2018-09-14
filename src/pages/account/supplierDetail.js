@@ -76,7 +76,7 @@ export default connect(mapStateToProps)(withRouter((({dispatch, location, curren
         </Tabs>
       </Card>
       <div style={{textAlign: 'center'}}>
-        <Button size='large' type='primary' onClick={goSupplierList} style={{marginTop: 30}}>返回供应商余额</Button>
+        <Button size='large' type='primary' onClick={goSupplierList} style={{marginTop: 30}}>返回供应商预付款</Button>
       </div>
     </div>
   )

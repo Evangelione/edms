@@ -1,6 +1,7 @@
 import * as maintainService from '../services/maintain'
 import { message } from 'antd'
 import { routerRedux } from "dva/router"
+import { IP } from "../../../constants";
 
 export default {
   namespace: 'maintain',
@@ -360,35 +361,26 @@ export default {
 
     * exportUser({payload: {json}}, {call, put, select}) {
       const {data} = yield call(maintainService.exportUser, {json})
-      let url = window.URL.createObjectURL(new Blob([data]))
-      let link = document.createElement('a')
-      link.style.display = 'none'
-      link.href = url
-      link.setAttribute('download', '错误的客户数据.xlsx')
-      document.body.appendChild(link)
-      link.click()
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        window.location.href = `${IP}/admin/customer/batch-down-customer-get`
+      }
     },
 
     * exportSupp({payload: {json}}, {call, put, select}) {
       const {data} = yield call(maintainService.exportSupp, {json})
-      let url = window.URL.createObjectURL(new Blob([data]))
-      let link = document.createElement('a')
-      link.style.display = 'none'
-      link.href = url
-      link.setAttribute('download', '错误的供应商数据.xlsx')
-      document.body.appendChild(link)
-      link.click()
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        window.location.href = `${IP}/admin/supplier/batch-down-supplier-get`
+      }
     },
 
     * exportVehicle({payload: {json}}, {call, put, select}) {
       const {data} = yield call(maintainService.exportVehicle, {json})
-      let url = window.URL.createObjectURL(new Blob([data]))
-      let link = document.createElement('a')
-      link.style.display = 'none'
-      link.href = url
-      link.setAttribute('download', '错误的物流数据.xlsx')
-      document.body.appendChild(link)
-      link.click()
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        window.location.href = `${IP}/admin/car/batch-down-car-get`
+      }
     },
   },
   reducers: {

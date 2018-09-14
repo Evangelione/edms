@@ -22,7 +22,7 @@ export default connect()(({location}) => {
           :
           location.pathname === '/account/balance/supplierDetail' ?
             <div>
-              <PageTitle>供应商余额</PageTitle>
+              <PageTitle>供应商预付款</PageTitle>
               <SupplierDetail></SupplierDetail>
             </div>
             :
