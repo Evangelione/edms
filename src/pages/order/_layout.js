@@ -79,6 +79,13 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                       <span>全部</span>
                       <span></span>
                     </div>
+                    <div onClick={changeClass.bind(null, 'daiqueren', '0')}
+                         className={currentTab === 'daiqueren' ? 'blueBG ' : 'grayBG'}>
+                        <span
+                          className={currentTab === 'daiqueren' ? 'daiquerenBlue ' : 'daiquerenGray'}></span>
+                      <span>待确认</span>
+                      <span style={{color: 'red'}}>({statusNum.dqr})</span>
+                    </div>
                     <div onClick={changeClass.bind(null, 'daizhifu', '1')}
                          className={currentTab === 'daizhifu' ? 'blueBG ' : 'grayBG'}>
                         <span

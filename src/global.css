@@ -501,6 +501,22 @@ a:hover {
   vertical-align: middle;
 }
 
+.daiquerenGray {
+  width: 31px;
+  height: 28px;
+  display: inline-block;
+  background: url(./assets/image/daiquerenGray.png);
+  vertical-align: middle;
+}
+
+.daiquerenBlue {
+  width: 31px;
+  height: 28px;
+  display: inline-block;
+  background: url(./assets/image/daiquerenBlue.png);
+  vertical-align: middle;
+}
+
 .grayBG {
   color: #6A758A;
 }
