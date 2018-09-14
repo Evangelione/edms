@@ -31,17 +31,14 @@ class ResultModal extends Component {
     })
   }
 
-  componentDidMount() {
-    this.caigouCalculation()
-    this.xiaoshouCalculation()
-    this.wuliuCalculation()
-  }
-
   showModelHandler = (e) => {
     if (e) e.stopPropagation()
     this.setState({
       visible: true,
     })
+    this.caigouCalculation()
+    this.xiaoshouCalculation()
+    this.wuliuCalculation()
   }
 
   hideModelHandler = (e) => {
