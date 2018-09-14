@@ -357,6 +357,39 @@ export default {
         })
       }
     },
+
+    * exportUser({payload: {json}}, {call, put, select}) {
+      const {data} = yield call(maintainService.exportUser, {json})
+      let url = window.URL.createObjectURL(new Blob([data]))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', '错误的客户数据.xlsx')
+      document.body.appendChild(link)
+      link.click()
+    },
+
+    * exportSupp({payload: {json}}, {call, put, select}) {
+      const {data} = yield call(maintainService.exportSupp, {json})
+      let url = window.URL.createObjectURL(new Blob([data]))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', '错误的供应商数据.xlsx')
+      document.body.appendChild(link)
+      link.click()
+    },
+
+    * exportVehicle({payload: {json}}, {call, put, select}) {
+      const {data} = yield call(maintainService.exportVehicle, {json})
+      let url = window.URL.createObjectURL(new Blob([data]))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', '错误的物流数据.xlsx')
+      document.body.appendChild(link)
+      link.click()
+    },
   },
   reducers: {
     save(state, action) {

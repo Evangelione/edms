@@ -212,3 +212,30 @@ export function batchVehicle({form}) {
     body: formData
   })
 }
+
+export function exportUser({json}) {
+  let formData = new FormData()
+  formData.append('json_list', JSON.stringify(json))
+  return request(`${IP}/admin/customer/batch-down-customer`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function exportSupp({json}) {
+  let formData = new FormData()
+  formData.append('json_list', JSON.stringify(json))
+  return request(`${IP}/admin/supplier/batch-down-supplier`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function exportVehicle({json}) {
+  let formData = new FormData()
+  formData.append('json_list', JSON.stringify(json))
+  return request(`${IP}/admin/car/batch-down-car`, {
+    method: 'POST',
+    body: formData
+  })
+}
