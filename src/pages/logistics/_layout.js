@@ -94,7 +94,7 @@ class Order extends React.Component {
   }
 
   render() {
-    const {currentTab, statusNum} = this.props
+    const {currentTab, statusNum, currentLogistics} = this.props
     return (
       <div>
         {this.props.location.pathname === '/logistics/logisticsDetail' ?
@@ -194,7 +194,14 @@ class Order extends React.Component {
                       <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
                     </Col>
                     <Col span={14}>
-                      <LogisticsDetailV2/>
+                      {currentLogistics ?
+                        <LogisticsDetailV2/> :
+                        <div style={{
+                          backgroundColor: '#fff',
+                          border: '1px solid #e8e8e8',
+                          padding: 22,
+                          textAlign: 'center',
+                        }}>暂无物流信息</div>}
                     </Col>
                   </Row> : ''}
 

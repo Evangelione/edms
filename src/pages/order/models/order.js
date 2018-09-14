@@ -22,6 +22,11 @@ export default {
       return history.listen(({pathname, query}) => {
         if (pathname === '/order') {
           dispatch({type: 'fetch', payload: query})
+          dispatch({
+            type: 'save', payload: {
+              currentTab: 'quanbu'
+            }
+          })
         }
         if (pathname === '/order/doOrder') {
           dispatch({type: 'fetchSelect', payload: query})

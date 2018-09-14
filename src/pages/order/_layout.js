@@ -137,7 +137,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                     border: '1px solid #e8e8e8',
                     padding: 22,
                     textAlign: 'center',
-                  }}>暂无订单</div>}
+                  }}>暂无订单信息</div>}
               </Col>
             </Row>
           </div>
