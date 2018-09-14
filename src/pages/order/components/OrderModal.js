@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker,message } from 'antd'
+import { Modal, Form, Input, Select, Row, Col, Divider, Button, Icon, AutoComplete, DatePicker, message } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
@@ -367,7 +367,7 @@ class OrderModal extends PureComponent {
         }
       } else {
         Object.keys(err).forEach((key, i) => {
-           message.error(`请检查${key}字段是否填写正确`)
+          message.error(`请检查${key}字段是否填写正确`)
         })
       }
     })
@@ -569,7 +569,8 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('cust_id', {
                       rules: [{required: true, message: '此项为必选项！'}],
                     })(
-                      <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}>
+                      <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}
+                              disabled={this.props.confirm ? true : false}>
                         {customOptions}
                       </Select>
                     )}
@@ -599,7 +600,8 @@ class OrderModal extends PureComponent {
                         max: 10
                       }],
                     })(
-                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}
+                             disabled={this.props.confirm ? true : false}/>
                     )}
                   </FormItem>
                 </Col>
@@ -620,7 +622,8 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('site_id', {
                       rules: [{required: true, message: '此项为必选项！'}],
                     })(
-                      <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}>
+                      <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}
+                              disabled={this.props.confirm ? true : false}>
                         {siteOptions}
                       </Select>
                     )}
@@ -652,6 +655,7 @@ class OrderModal extends PureComponent {
                     })(
                       <AutoComplete
                         onSelect={this.autoSelect}
+                        disabled={this.props.confirm ? true : false}
                         dataSource={this.state.dataSource}
                         placeholder="请填写收货联系人姓名"
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
@@ -680,6 +684,7 @@ class OrderModal extends PureComponent {
                       rules: [{required: true, message: '请选择交货时间！'}],
                     })(
                       <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:ss'} showTime
+                                  disabled={this.props.confirm ? true : false}
                                   locale={locale}/>
                     )}
                   </FormItem>
@@ -689,7 +694,7 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('deliver_type', {
                       rules: [{required: true, message: '此项为必选项！'}],
                     })(
-                      <Select placeholder="请选择配送方式" style={{width: 150}}>
+                      <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}>
                         <Option value="1">卖家配送</Option>
                       </Select>
                     )}
