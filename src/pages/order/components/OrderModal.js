@@ -109,7 +109,7 @@ class OrderModal extends PureComponent {
         site_id3: result_type,
         recv_contact: form.recv_contact,
         recv_phone: form.recv_phone,
-        recv_time: moment(form.order_date),
+        recv_time: moment(form.recv_time),
         delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
         supp_id: form.supp_id ? form.supp_id : undefined,
         supp_id2: form.supp_contact,
@@ -600,8 +600,7 @@ class OrderModal extends PureComponent {
                         max: 10
                       }],
                     })(
-                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}
-                             disabled={this.props.confirm ? true : false}/>
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>
                     )}
                   </FormItem>
                 </Col>
@@ -749,7 +748,7 @@ class OrderModal extends PureComponent {
                 <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>销售额：<span
                   style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
                 <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>进销差：<span
-                  style={{color: '#FF4241'}}>{this.state.diffInSales}元</span></div>
+                  style={{color: '#FF4241'}}>{this.state.diffInSales}元 / 吨</span></div>
                 <Button size='large' type='primary'
                         style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}} onClick={this.submit}>提交订单
                   ></Button>
