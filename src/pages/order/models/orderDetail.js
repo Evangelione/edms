@@ -129,50 +129,82 @@ export default {
         })
       }
     },
-    * cancelOrder({payload: id}, {call, put}) {
+    * cancelOrder({payload: id}, {call, put, select}) {
       const {data} = yield call(orderService.cancelOrder, id)
+      const find_str = yield select(state => state.order.find_str)
+      const order_status = yield select(state => state.order.order_status)
+      const page = yield select(state => state.order.page)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/order',
-        }))
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status,
+            page
+          }
+        })
       } else {
         message.error(data.msg)
       }
     },
-    * doResult({payload: form}, {call, put}) {
+    * doResult({payload: form}, {call, put, select}) {
       const {data} = yield call(orderService.doResult, form)
+      const find_str = yield select(state => state.order.find_str)
+      const order_status = yield select(state => state.order.order_status)
+      const page = yield select(state => state.order.page)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/order',
-        }))
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status,
+            page
+          }
+        })
       } else {
         message.error(data.msg)
       }
     },
-    * modifySave({payload: {form}}, {call, put}) {
+    * modifySave({payload: {form}}, {call, put, select}) {
       const {data} = yield call(orderService.modifyOrder, {form})
+      const find_str = yield select(state => state.order.find_str)
+      const order_status = yield select(state => state.order.order_status)
+      const page = yield select(state => state.order.page)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/order',
-        }))
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status,
+            page
+          }
+        })
       } else {
         message.error(data.msg)
       }
     },
-    * confirmOrder({payload: {form}}, {call, put}) {
+    * confirmOrder({payload: {form}}, {call, put, select}) {
       const {data} = yield call(orderService.confirmOrder, {form})
+      const find_str = yield select(state => state.order.find_str)
+      const order_status = yield select(state => state.order.order_status)
+      const page = yield select(state => state.order.page)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/order',
-        }))
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status,
+            page
+          }
+        })
       } else {
         message.error(data.msg)
       }
