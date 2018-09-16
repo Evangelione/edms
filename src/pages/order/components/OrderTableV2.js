@@ -9,7 +9,6 @@ class OrderTableV2 extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      currentIndex: null,
       tabColor: {
         '待确认': '#666',
         '待支付': '#FF4241',
@@ -30,13 +29,11 @@ class OrderTableV2 extends PureComponent {
   }
 
   clickItme = (item, index) => {
-    this.setState({
-      currentIndex: index
-    })
     this.props.dispatch({
       type: 'order/save',
       payload: {
-        currentOrder: item
+        currentOrder: item,
+        currentIndex: index
       }
     })
   }
@@ -62,7 +59,7 @@ class OrderTableV2 extends PureComponent {
           renderItem={(item, index) => (
             <List.Item onClick={this.clickItme.bind(null, item, index)}
                        style={{cursor: 'pointer', paddingTop: 16, paddingBottom: 16}}
-                       className={this.state.currentIndex === index ? 'CurrentBorder' : ''}>
+                       className={this.props.currentIndex === index ? 'CurrentBorder' : ''}>
               <List.Item.Meta
                 title={
                   <div style={{fontSize: 16, color: '#545F76', padding: '2px 25px', fontWeight: 600}}>
@@ -114,12 +111,13 @@ class OrderTableV2 extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {list, total, page, order_status} = state.order
+  const {list, total, page, order_status, currentIndex} = state.order
   return {
     list,
     page,
     total,
     order_status,
+    currentIndex,
     loading: state.loading.models.order
   }
 }

@@ -111,7 +111,7 @@ class CreditModal extends React.Component {
                 initialValue: this.props.credit_notice === '0.00' ? '' : this.props.credit_notice,
                 rules: [{message: '请填写数字！', pattern: '^[0-9.]*$'}],
               })(
-                <Input placeholder='低于该额度将收到短信提醒'/>
+                <Input placeholder='低于该额度将收到短信提醒' addonAfter='元'/>
               )}
             </FormItem>
             <FormItem

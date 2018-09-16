@@ -27,7 +27,6 @@ class Logistics extends React.Component {
       id: '',
       uploading: false,
       etime: moment(),
-      currentIndex: null,
       tabColor: {
         '待确认': '#666',
         '待调度': '#FF4241',
@@ -239,13 +238,11 @@ class Logistics extends React.Component {
   }
 
   clickItme = (item, index) => {
-    this.setState({
-      currentIndex: index
-    })
     this.props.dispatch({
       type: 'logistics/save',
       payload: {
-        currentLogistics: item
+        currentLogistics: item,
+        currentIndex: index
       }
     })
   }
@@ -597,7 +594,7 @@ class Logistics extends React.Component {
               renderItem={(item, index) => (
                 <List.Item onClick={this.clickItme.bind(null, item, index)}
                            style={{cursor: 'pointer', paddingTop: 16, paddingBottom: 16}}
-                           className={this.state.currentIndex === index ? 'CurrentBorder' : ''}>
+                           className={this.props.currentIndex === index ? 'CurrentBorder' : ''}>
                   <List.Item.Meta
                     title={
                       <div style={{fontSize: 16, color: '#545F76', padding: '2px 25px', fontWeight: 600}}>
@@ -991,7 +988,7 @@ class Logistics extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {list, page, total, list2, page2, total2, deliver_status, currentLogistics} = state.logistics
+  const {list, page, total, list2, page2, total2, deliver_status, currentLogistics, currentIndex} = state.logistics
   const {detailForm, companyOption, carOption} = state.logisticsDetail
   return {
     list,
@@ -1005,6 +1002,7 @@ function mapStateToProps(state) {
     deliver_status,
     carOption,
     currentLogistics,
+    currentIndex,
     loading: state.loading.models.logisticsDetail
   }
 }

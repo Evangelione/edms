@@ -15,7 +15,8 @@ export default {
     supplierOption: [],
     goodsOption: [],
     statusNum: {},
-    currentOrder: {}
+    currentOrder: {},
+    currentIndex: 0
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -47,7 +48,8 @@ export default {
             order_status,
             find_str,
             statusNum: data.data.status_num,
-            currentOrder: data.data.list[0]
+            currentOrder: data.data.list[0],
+            currentIndex: 0
           }
         })
       }
