@@ -38,7 +38,8 @@ export default {
           dispatch({type: 'getDeliverFee', payload: query})
           dispatch({
             type: 'save', payload: {
-              currentTab: 'quanbu'
+              currentTab: 'quanbu',
+              currentIndex: 0,
             }
           })
         }
@@ -60,7 +61,6 @@ export default {
             find_str,
             statusNum: data.data.status_num,
             currentLogistics: data.data.list[currentIndex],
-            currentIndex: 0,
           }
         })
       }
