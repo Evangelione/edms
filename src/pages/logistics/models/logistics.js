@@ -54,7 +54,8 @@ export default {
             find_str,
             statusNum: data.data.status_num,
             currentLogistics: data.data.list[0],
-            currentIndex: 0
+            currentIndex: 0,
+            currentTab: 'quanbu',
           }
         })
       }
