@@ -39,7 +39,7 @@ export default {
   effects: {
     * fetch({payload: {page = 1, order_status = '', find_str = ''}}, {call, put, select}) {
       const {data} = yield call(orderService.getOrderList, {page, order_status, find_str})
-      const currentIndex = yield select(state => state.currentIndex)
+      const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {
         yield put({
           type: 'save',

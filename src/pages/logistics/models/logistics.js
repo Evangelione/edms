@@ -49,8 +49,7 @@ export default {
   effects: {
     * getDeliverList({payload: {page = 1, deliver_status = '', find_str = ''}}, {call, put, select}) {
       const {data} = yield call(logisticsService.getDeliverList, {page, deliver_status, find_str})
-      debugger
-      const currentIndex = yield select(state => state.currentIndex)
+      const currentIndex = yield select(state => state.logistics.currentIndex)
       console.log(currentIndex)
       if (data.code === 1) {
         yield put({

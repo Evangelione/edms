@@ -717,7 +717,7 @@ class OrderModal extends PureComponent {
                   </FormItem>
                 </Col>
                 <Col span={16}>
-                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 18}} label="装货地址" hasFeedback
+                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 18}} label="收货地址" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('delivery')(
                       <Input placeholder="请选择收货地址" disabled/>
@@ -752,7 +752,7 @@ class OrderModal extends PureComponent {
             }}>
             {this.state.step === 1 ?
               <div>
-                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>采购成本：<span
+                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>采购金额：<span
                   style={{color: '#FF4241'}}>{this.state.purchaseCost}元</span></div>
                 <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>物流成本：<span
                   style={{color: '#FF4241'}}>{this.state.logisticsCost}元</span></div>
