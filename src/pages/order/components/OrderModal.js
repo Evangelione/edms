@@ -489,7 +489,7 @@ class OrderModal extends PureComponent {
                     })(
                       <InputNumber placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
                                    disabled={this.props.confirm ? true : false} max={20} min={0} step={0.001}
-                                   style={{width: 150}}/>
+                                   precision={0.001} style={{width: 150}}/>
                     )}
                   </FormItem>
                 </Col>
