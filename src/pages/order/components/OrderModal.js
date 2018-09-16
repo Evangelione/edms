@@ -471,10 +471,10 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('shuliang', {
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 2}]
+                      rules: [{required: true, message: '请填写0-20之间的数字！', pattern: '/^[0-9]$|^1[0-9]$|^20$/', max: 2}]
                     })(
                       <Input placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
-                             disabled={this.props.confirm ? true : false} max={20}/>
+                             disabled={this.props.confirm ? true : false}/>
                     )}
                   </FormItem>
                 </Col>
