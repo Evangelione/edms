@@ -36,6 +36,11 @@ export default {
         if (pathname === '/logistics') {
           dispatch({type: 'getDeliverList', payload: query})
           dispatch({type: 'getDeliverFee', payload: query})
+          dispatch({
+            type: 'save', payload: {
+              currentTab: 'quanbu'
+            }
+          })
         }
       })
     }
@@ -55,7 +60,6 @@ export default {
             statusNum: data.data.status_num,
             currentLogistics: data.data.list[0],
             currentIndex: 0,
-            currentTab: 'quanbu',
           }
         })
       }
