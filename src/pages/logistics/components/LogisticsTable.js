@@ -598,7 +598,7 @@ class Logistics extends React.Component {
                   <List.Item.Meta
                     title={
                       <div style={{fontSize: 16, color: '#545F76', padding: '2px 25px', fontWeight: 600}}>
-                        <span style={{marginRight: 25}}>#998</span>
+                        <span style={{marginRight: 25}}>{index + 1}</span>
                         <span style={{marginRight: 30}}>{item.name_gas_source}</span>
                         <span style={{fontSize: 14}}>{item.saler_num}吨</span>
                         <span style={{
