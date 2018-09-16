@@ -16,7 +16,8 @@ export default {
     goodsOption: [],
     statusNum: {},
     currentOrder: {},
-    currentIndex: 0
+    currentIndex: 0,
+    find_str: ''
   },
   subscriptions: {
     setup({dispatch, history}) {

@@ -85,9 +85,13 @@ class StatusModal extends React.Component {
         //     id: this.props.id
         //   }
         // })
-        this.props.dispatch(routerRedux.push({
-          pathname: '/order',
-        }))
+        this.props.dispatch({
+          type: 'order/fetch',
+          payload: {
+            find_str: this.props.find_str,
+            order_status: this.props.order_status
+          }
+        })
       } else if (this.props.isSuccess === 'error') {
         this.setState({
           status: 'error',
@@ -132,9 +136,12 @@ class StatusModal extends React.Component {
 
 function mapStateToProps(state) {
   const {isSuccess} = state.orderDetail
+  const {find_str, order_status} = state.order
   // const {billLoading} = state.logisticsDetail
   return {
     isSuccess,
+    find_str,
+    order_status,
     loading: state.loading.models.orderDetail
   }
 }
