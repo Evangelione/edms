@@ -46,8 +46,9 @@ export default {
     }
   },
   effects: {
-    * getDeliverList({payload: {page = 1, deliver_status = '', find_str = ''}}, {call, put}) {
+    * getDeliverList({payload: {page = 1, deliver_status = '', find_str = ''}}, {call, put, select}) {
       const {data} = yield call(logisticsService.getDeliverList, {page, deliver_status, find_str})
+      const currentIndex = yield select(state => state.currentIndex)
       if (data.code === 1) {
         yield put({
           type: 'save',
@@ -58,7 +59,7 @@ export default {
             deliver_status,
             find_str,
             statusNum: data.data.status_num,
-            currentLogistics: data.data.list[0],
+            currentLogistics: data.data.list[currentIndex],
             currentIndex: 0,
           }
         })
