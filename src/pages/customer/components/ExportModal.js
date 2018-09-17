@@ -165,7 +165,7 @@ class ExportModal extends PureComponent {
             <FormItem
               style={{marginBottom: 10}}
               {...formItemLayout}
-              label="物流公司"
+              label="客户名称"
             >
               {getFieldDecorator('company', {
                 rules: [{require: true, message: '此项必填'}],
@@ -173,7 +173,7 @@ class ExportModal extends PureComponent {
                 <AutoComplete
                   onSelect={this.companyChange}
                   dataSource={companyOptions}
-                  placeholder="请选择需要导出的物流公司"
+                  placeholder="请选择需要导出的数据"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                 />
               )}
@@ -236,19 +236,19 @@ class ExportModal extends PureComponent {
           </div>
           <div style={{backgroundColor: '#F7F8FA', padding: '20px 40px', marginTop: 15}}>
             <div style={{margin: '5px 0'}}>
-              <span>物流公司：</span>
+              <span>客户名称：</span>
               <span>{this.state.companyName}</span>
             </div>
             <div style={{margin: '5px 0'}}>
-              <span>运单周期：</span>
+              <span>订单周期：</span>
               <span>{this.state.startValue ? this.state.startValue.format('YYYY/MM/DD') : this.props.stime ? this.props.stime.format('YYYY/MM/DD') : ''} - {this.state.endValue ? this.state.endValue.format('YYYY/MM/DD') : this.props.etime ? this.props.etime.format('YYYY/MM/DD') : ''}</span>
             </div>
             <div style={{margin: '5px 0'}}>
-              <span>运单数量：</span>
+              <span>订单数量：</span>
               <span>{companyDetail.order_count}</span>
             </div>
             <div style={{margin: '5px 0'}}>
-              <span>运单总额：</span>
+              <span>订单总额：</span>
               <span>{companyDetail.total_cost} 元</span>
             </div>
           </div>

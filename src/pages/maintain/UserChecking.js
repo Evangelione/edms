@@ -484,7 +484,7 @@ class EditableTable extends React.Component {
       align: 'center',
       width: 200,
       render: (text, record, index) => {
-        if (text === '') {
+        if (record.delivery_province === '' || record.delivery_city === '') {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         const adress = record.delivery_province + (record.delivery_city !== 'undefined' ? record.delivery_city : '') + (record.delivery_area !== 'undefined' ? record.delivery_area : '')

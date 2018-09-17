@@ -111,7 +111,7 @@ class BalanceOfAccount extends PureComponent {
       <div>
         <div className='toolBar'>
           <ExportModal str={this.props.find_str}>
-            <Button type='primary' icon='export' style={{height: 28}}>批量导出</Button>
+            <Button type='primary' icon='export' style={{height: 28}}>批量对账</Button>
           </ExportModal>
           <Button className='blueBorder' style={{width: 110}}
                   onClick={this.balanceHistory.bind(null, this.props.find_str)}>对账历史</Button>
