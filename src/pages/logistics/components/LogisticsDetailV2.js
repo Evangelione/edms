@@ -185,6 +185,12 @@ class LogisticsDetailV2 extends PureComponent {
     })
   }
 
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  }
+
   render() {
     const {getFieldDecorator} = this.props.form
     const {currentLogistics, companyOption, carOption, loading} = this.props
