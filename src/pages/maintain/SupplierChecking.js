@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import { routerRedux } from "dva/router"
+import { IP } from "../../constants";
 
 const Option = Select.Option
 const FormItem = Form.Item;
@@ -227,6 +228,8 @@ class EditableTable extends React.Component {
       payload: {
         json: this.state.dataSource
       }
+    }).then(() => {
+      window.location.href = `${IP}/admin/supplier/batch-down-supplier-get`
     })
     // window.location.href = `${IP}/admin/supplier/batch-down-supplier?json_list=${JSON.stringify(this.state.dataSource)}`
   }

@@ -1,7 +1,6 @@
 import * as maintainService from '../services/maintain'
 import { message } from 'antd'
 import { routerRedux } from "dva/router"
-import { IP } from "../../../constants";
 
 export default {
   namespace: 'maintain',
@@ -363,7 +362,9 @@ export default {
       const {data} = yield call(maintainService.exportUser, {json})
       if (data.code === -2) return false
       if (data.code === 1) {
-        window.location.href = `${IP}/admin/customer/batch-down-customer-get`
+        message.success('正在导出文件...')
+        // window.location.href = `${IP}/admin/customer/batch-down-customer-get`
+        // window.open(`${IP}/admin/customer/batch-down-customer-get`)
       }
     },
 
@@ -371,7 +372,8 @@ export default {
       const {data} = yield call(maintainService.exportSupp, {json})
       if (data.code === -2) return false
       if (data.code === 1) {
-        window.location.href = `${IP}/admin/supplier/batch-down-supplier-get`
+        message.success('正在导出文件...')
+        // window.location.href = `${IP}/admin/supplier/batch-down-supplier-get`
       }
     },
 
@@ -379,7 +381,8 @@ export default {
       const {data} = yield call(maintainService.exportVehicle, {json})
       if (data.code === -2) return false
       if (data.code === 1) {
-        window.location.href = `${IP}/admin/car/batch-down-car-get`
+        message.success('正在导出文件...')
+        // window.location.href = `${IP}/admin/car/batch-down-car-get`
       }
     },
   },

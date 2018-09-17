@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import { routerRedux } from "dva/router"
+import { IP } from "../../constants";
 
 const Option = Select.Option
 const FormItem = Form.Item;
@@ -266,6 +267,8 @@ class EditableTable extends React.Component {
       payload: {
         json: this.state.dataSource
       }
+    }).then(() => {
+      window.location.href = `${IP}/admin/customer/batch-down-customer-get`
     })
     // window.location.href = `${IP}/admin/customer/batch-down-customer?json_list=${JSON.stringify(this.state.dataSource)}`
   }
@@ -530,8 +533,8 @@ class EditableTable extends React.Component {
           return '加气站'
         } else if (text === '2') {
           return '气化站'
-        } else if (text === '0') {
-          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
+        } else if (text === '') {
+          return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}></div>
         }
       },
       onCell: record => ({

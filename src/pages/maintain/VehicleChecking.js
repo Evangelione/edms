@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Table, Input, Form, Button, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import { routerRedux } from "dva/router"
+import { IP } from "../../constants";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -170,6 +171,8 @@ class EditableTable extends React.Component {
       payload: {
         json: this.state.dataSource
       }
+    }).then(() => {
+      window.location.href = `${IP}/admin/car/batch-down-car-get`
     })
     // window.location.href = `${IP}/admin/car/batch-down-car?json_list=${JSON.stringify(this.state.dataSource)}`
   }

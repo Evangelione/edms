@@ -1,6 +1,5 @@
 import * as orderService from '../services/order'
 import { message, notification } from 'antd'
-import { routerRedux } from "dva/router";
 
 export default {
   namespace: 'orderDetail',
