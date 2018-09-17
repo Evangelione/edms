@@ -118,7 +118,7 @@ class OrderModal extends PureComponent {
         deliver_type: form.deliver_type,
         distance: form.distance,
         deliver_price: form.deliver_price,
-        site_id: form.site_id,
+        site_id: form.site_name,
         site_id2: form.site_type,
         site_id3: result_type,
         recv_contact: form.recv_contact,

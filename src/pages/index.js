@@ -479,7 +479,7 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-chudan"]}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}出单数 (元)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}出单数</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={(count.order_num - 0)} duration={3}/>
               </div>
