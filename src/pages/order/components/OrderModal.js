@@ -168,6 +168,7 @@ class OrderModal extends PureComponent {
     this.setState({
       visible: false,
       step: 1,
+      title: '成本信息',
     });
   }
 
@@ -177,6 +178,7 @@ class OrderModal extends PureComponent {
     this.setState({
       visible: false,
       step: 1,
+      title: '成本信息',
     });
   }
 
@@ -184,6 +186,7 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       this.setState({
         step: 2,
+        title: '销售信息',
         // required: true
       }, () => {
         this.props.form.setFieldsValue({
@@ -201,6 +204,7 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       this.setState({
         step: 1,
+        title: '成本信息',
       })
     })
   }
@@ -350,7 +354,8 @@ class OrderModal extends PureComponent {
           }).then(() => {
             this.setState({
               step: 1,
-              visible: false
+              visible: false,
+              title: '成本信息',
             })
           })
         } else if (this.props.confirm) {
@@ -363,7 +368,8 @@ class OrderModal extends PureComponent {
           }).then(() => {
             this.setState({
               step: 1,
-              visible: false
+              visible: false,
+              title: '成本信息',
             })
           })
         } else {
@@ -375,7 +381,8 @@ class OrderModal extends PureComponent {
           }).then(() => {
             this.setState({
               step: 1,
-              visible: false
+              visible: false,
+              title: '成本信息',
             })
           })
         }
@@ -491,6 +498,18 @@ class OrderModal extends PureComponent {
                                    disabled={this.props.confirm ? true : false} max={20} min={0} step={0.001}
                                    precision={3} style={{width: 150}}/>
                     )}
+                    <div style={{
+                      position: 'absolute',
+                      border: '1px solid #d9d9d9',
+                      backgroundColor: '#fafafa',
+                      top: '-6px',
+                      right: '-35px',
+                      padding: '0 11px',
+                      height: 32,
+                      lineHeight: '30px',
+                      borderRadius: '0 3px 3px 0',
+                    }}>吨
+                    </div>
                   </FormItem>
                 </Col>
               </Row>
@@ -712,6 +731,7 @@ class OrderModal extends PureComponent {
                     })(
                       <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}>
                         <Option value="1">卖家配送</Option>
+                        <Option value="2">买家自提</Option>
                       </Select>
                     )}
                   </FormItem>
