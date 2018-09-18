@@ -23,8 +23,14 @@ class Client extends React.Component {
   }
 
   callback = (key) => {
-    this.setState({
-      paneKey: key
+    // this.setState({
+    //   paneKey: key
+    // })
+    this.props.dispatch({
+      type: 'customer/save',
+      payload: {
+        currentKey: key,
+      }
     })
   }
 
@@ -111,7 +117,7 @@ class Client extends React.Component {
                         onSearch={this.iptSearch}/>
               </div>
               <Card>
-                <Tabs onChange={this.callback}>
+                <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
                   <TabPane tab="销售合同" key='1'>
                     <SalesContract/>
                   </TabPane>
@@ -131,11 +137,12 @@ class Client extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {find_str, stime, etime} = state.customer
+  const {find_str, stime, etime, currentKey} = state.customer
   return {
     find_str,
     stime,
     etime,
+    currentKey,
     loading: state.loading.models.customer
   }
 }

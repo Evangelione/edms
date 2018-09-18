@@ -23,8 +23,14 @@ class Supplier extends React.Component {
   }
 
   callback = (key) => {
-    this.setState({
-      paneKey: key
+    // this.setState({
+    //   paneKey: key
+    // })
+    this.props.dispatch({
+      type: 'supplier/save',
+      payload: {
+        currentKey: key,
+      }
     })
   }
 
@@ -92,7 +98,7 @@ class Supplier extends React.Component {
                         onSearch={this.iptSearch}/>
               </div>
               <Card>
-                <Tabs onChange={this.callback}>
+                <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
                   <TabPane tab="采购合同" key='1'>
                     <PurchaseContract/>
                   </TabPane>
@@ -112,11 +118,12 @@ class Supplier extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {find_str, stime, etime} = state.supplier
+  const {find_str, stime, etime, currentKey} = state.supplier
   return {
     find_str,
     stime,
     etime,
+    currentKey,
     loading: state.loading.models.supplier
   }
 }

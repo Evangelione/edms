@@ -22,7 +22,8 @@ export default {
     balanceDetailedPage: 1,
     balanceDetailedTotal: 0,
     companyOption: [],
-    companyDetail: {}
+    companyDetail: {},
+    currentKey: '1'
   },
   subscriptions: {
     setup({dispatch, history}) {

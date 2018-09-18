@@ -11,6 +11,7 @@ class StatusModal extends React.Component {
     this.state = {
       status: 'success',
       visible: false,
+      dopay: false,
       modalState: {
         success: {
           icon: 'success',
@@ -63,7 +64,8 @@ class StatusModal extends React.Component {
   hideModelHandler = (e) => {
     if (e) e.stopPropagation()
     this.setState({
-      visible: false
+      visible: false,
+      dopay: false
     })
   }
 
@@ -101,12 +103,19 @@ class StatusModal extends React.Component {
     })
   }
 
+  showPayModal = (e) => {
+    if (e) e.stopPropagation()
+    this.setState({
+      dopay: true
+    })
+  }
+
   render() {
     const state = this.state.status
     const modalState = this.state.modalState[state]
     return (
       <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block', marginRight: 10}}>
-        <Button type='primary' onClick={this.doPay}>立即支付</Button>
+        <Button type='primary' onClick={this.showPayModal}>立即支付</Button>
         <Modal
           title='提示'
           visible={this.state.visible}
@@ -126,6 +135,28 @@ class StatusModal extends React.Component {
             </Col>
             <Col>
               <Button onClick={modalState.okHandler} type='primary' style={{width: 120}}>{modalState.okText}</Button>
+            </Col>
+          </Row>
+        </Modal>
+        <Modal
+          title='提示'
+          visible={this.state.dopay}
+          footer={null}
+          onCancel={this.hideModelHandler}
+          bodyStyle={{textAlign: 'center', fontSize: 16, fontFamily: 'PingFangHK-Medium'}}
+          destroyOnClose={true}
+        >
+          <div>
+            <img src={images['cancel']} alt=""/>
+          </div>
+          <div style={{marginTop: 30}}>是否确定支付此订单？</div>
+          <Row type='flex' justify='space-around' style={{margin: '40px 35px 0 35px'}}>
+            <Col>
+              <Button onClick={this.hideModelHandler} className={'grayButton'}>再想想</Button>
+            </Col>
+            <Col>
+              <Button type='primary' onClick={this.doPay} style={{width: 120}}
+                      loading={this.props.loading}>确定支付</Button>
             </Col>
           </Row>
         </Modal>
