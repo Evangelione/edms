@@ -39,11 +39,11 @@ class MySider extends React.Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    this.setState({
-      currentKey: this.getCurrentTab()
-    })
-  }
+  // UNSAFE_componentWillMount() {
+  //   this.setState({
+  //     currentKey: this.getCurrentTab()
+  //   })
+  // }
 
   getCurrentTab = () => {
     if (this.props.location.pathname === '/') {
@@ -74,6 +74,7 @@ class MySider extends React.Component {
   }
 
   render() {
+    console.log(this.props.currentKey)
     const logo = window.location.hostname.match(/[A-Za-z]+/g)[0]
     const {collapsed} = this.props
     return (
@@ -84,7 +85,8 @@ class MySider extends React.Component {
           <div>
             <div className={styles.logo} style={{backgroundImage: `url(${LOGO[logo].logo})`}}/>
             <Menu theme="dark"
-                  defaultSelectedKeys={this.state.currentKey}
+                  defaultSelectedKeys={this.props.currentKey}
+                  selectedKeys={this.props.currentKey}
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onSelect={this.onSelect}
@@ -104,7 +106,8 @@ class MySider extends React.Component {
           <div>
             <div className={styles.logo} style={{backgroundImage: `url(${LOGO[logo].logo})`}}/>
             <Menu theme="dark"
-                  defaultSelectedKeys={this.state.currentKey}
+                  defaultSelectedKeys={this.props.currentKey}
+                  selectedKeys={this.props.currentKey}
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onSelect={this.onSelect}
@@ -152,9 +155,9 @@ class MySider extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {collapsed} = state.collapsed
+  const {currentKey} = state.collapsed
   return {
-    collapsed
+    currentKey
   }
 }
 

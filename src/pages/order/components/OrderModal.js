@@ -30,7 +30,7 @@ class OrderModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      title: '成本信息',
+      title: '采购及物流信息',
       visible: false,
       step: 1,
       report: null,
@@ -168,7 +168,7 @@ class OrderModal extends PureComponent {
     this.setState({
       visible: false,
       step: 1,
-      title: '成本信息',
+      title: '采购及物流信息',
     });
   }
 
@@ -178,7 +178,7 @@ class OrderModal extends PureComponent {
     this.setState({
       visible: false,
       step: 1,
-      title: '成本信息',
+      title: '采购及物流信息',
     });
   }
 
@@ -204,7 +204,7 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       this.setState({
         step: 1,
-        title: '成本信息',
+        title: '采购及物流信息',
       })
     })
   }
@@ -355,7 +355,7 @@ class OrderModal extends PureComponent {
             this.setState({
               step: 1,
               visible: false,
-              title: '成本信息',
+              title: '采购及物流信息',
             })
           })
         } else if (this.props.confirm) {
@@ -369,7 +369,7 @@ class OrderModal extends PureComponent {
             this.setState({
               step: 1,
               visible: false,
-              title: '成本信息',
+              title: '采购及物流信息',
             })
           })
         } else {
@@ -382,7 +382,7 @@ class OrderModal extends PureComponent {
             this.setState({
               step: 1,
               visible: false,
-              title: '成本信息',
+              title: '采购及物流信息',
             })
           })
         }
@@ -503,7 +503,7 @@ class OrderModal extends PureComponent {
                       border: '1px solid #d9d9d9',
                       backgroundColor: '#fafafa',
                       top: '-6px',
-                      right: '-35px',
+                      right: 0,
                       padding: '0 11px',
                       height: 32,
                       lineHeight: '30px',
@@ -685,7 +685,7 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="收货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('recv_contact', {
                       rules: [
-                        {required: true, message: '请填写收货联系人'},
+                        {required: true, message: '请填写收货联系人', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10},
                       ],
                     })(
                       <AutoComplete
