@@ -38,10 +38,19 @@ class PoundModal extends React.Component {
     })
   }
 
-  showModalHandler = () => {
+  showModalHandler = (e) => {
+    e.stopPropagation()
     this.setState({
       visible: true,
     })
+    if(this.props.title === '确认磅单') {
+      this.setState({
+        load_num: this.props.load_num,
+        unload_num: this.props.unload_num,
+        load_time: this.props.load_time,
+        unload_time: this.props.unload_time
+      })
+    }
   }
 
   handleCancel = (e) => {
@@ -96,6 +105,7 @@ class PoundModal extends React.Component {
       uploading: true,
     })
     let num = ''
+    debugger
     type === 'load' ? num = this.state.load_num : num = this.state.unload_num
     if (type === 'load') {
       this.props.dispatch({

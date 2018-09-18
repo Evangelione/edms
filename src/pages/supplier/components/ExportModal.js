@@ -119,8 +119,11 @@ class ExportModal extends PureComponent {
       let etime = this.props.form.getFieldValue('etime').format('YYYY-MM-DD')
       window.location.href = `${IP}/home/supplier/excel-supplier-account?id=${this.props.form.getFieldValue('company')}&start_date=${stime}&end_date=${etime}`
       this.setState({
-        visible: false,
         visible2: false,
+      }, () => {
+        this.setState({
+          visible: false,
+        })
       })
     } else {
       message.error('请填写完整信息')
