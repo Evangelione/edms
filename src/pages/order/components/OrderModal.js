@@ -30,7 +30,7 @@ class OrderModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      title: '采购及物流信息',
+      title: '采购信息',
       visible: false,
       step: 1,
       report: null,
@@ -46,7 +46,7 @@ class OrderModal extends PureComponent {
       credit_used: 0,
       yuePay: 0,
       xinyongPay: 0,
-      payType: '赊销',
+      payType: '预付款',
       suppbalance: 0,
       custombalance: 0,
       creditbalance: 0
@@ -182,7 +182,7 @@ class OrderModal extends PureComponent {
     this.setState({
       visible: false,
       step: 1,
-      title: '采购及物流信息',
+      title: '采购信息',
     });
   }
 
@@ -192,7 +192,7 @@ class OrderModal extends PureComponent {
     this.setState({
       visible: false,
       step: 1,
-      title: '采购及物流信息',
+      title: '采购信息',
     });
   }
 
@@ -218,7 +218,7 @@ class OrderModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       this.setState({
         step: 1,
-        title: '采购及物流信息',
+        title: '采购信息',
       })
     })
   }
@@ -387,7 +387,7 @@ class OrderModal extends PureComponent {
             this.setState({
               step: 1,
               visible: false,
-              title: '采购及物流信息',
+              title: '采购信息',
             })
           })
         } else if (this.props.confirm) {
@@ -401,7 +401,7 @@ class OrderModal extends PureComponent {
             this.setState({
               step: 1,
               visible: false,
-              title: '采购及物流信息',
+              title: '采购信息',
             })
           })
         } else {
@@ -414,7 +414,7 @@ class OrderModal extends PureComponent {
             this.setState({
               step: 1,
               visible: false,
-              title: '采购及物流信息',
+              title: '采购信息',
             })
           })
         }
@@ -639,12 +639,13 @@ class OrderModal extends PureComponent {
                   </FormItem>
                 </Col>
               </Row>
-              <Divider dashed={true}/>
-              <Row>
+              {/*<Divider dashed={true}/>*/}
+              <Row style={{display: 'none'}}>
                 <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>物流信息</Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="运距" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('distance', {
+                      initialValue: '0',
                       rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
                     })(
                       <Input placeholder="请填写运距" addonAfter='公里' onChange={this.calculation}/>
@@ -655,6 +656,7 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="运费单价" hasFeedback
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
+                      initialValue: '0',
                       rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
                     })(
                       <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>
@@ -809,8 +811,7 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('deliver_type', {
                       rules: [{required: true, message: '此项为必选项！'}],
                     })(
-                      <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}
-                              onChange={this.changeWay}>
+                      <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}>
                         <Option value="1">卖家配送</Option>
                         <Option value="2">买家自提</Option>
                       </Select>
@@ -855,8 +856,8 @@ class OrderModal extends PureComponent {
               <div>
                 <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>采购金额：<span
                   style={{color: '#FF4241'}}>{this.state.purchaseCost}元</span></div>
-                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>物流成本：<span
-                  style={{color: '#FF4241'}}>{this.state.logisticsCost}元</span></div>
+                {/*<div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>物流成本：<span*/}
+                {/*style={{color: '#FF4241'}}>{this.state.logisticsCost}元</span></div>*/}
                 <Button size='large' type='primary'
                         style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}} onClick={this.nextStep}>下一步
                   ></Button>
@@ -865,8 +866,8 @@ class OrderModal extends PureComponent {
               <div>
                 <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>销售额：<span
                   style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
-                <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>进销差：<span
-                  style={{color: '#FF4241'}}>{this.state.diffInSales}元 / 吨</span></div>
+                {/*<div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>进销差：<span*/}
+                  {/*style={{color: '#FF4241'}}>{this.state.diffInSales}元 / 吨</span></div>*/}
                 <Button size='large' type='primary'
                         style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}} onClick={this.submit}>提交订单
                   ></Button>

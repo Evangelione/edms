@@ -254,27 +254,27 @@ class ResultModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={8}>
+                <Col span={8} style={{display:'none'}}>
                   <FormItem
                     {...formItemLayout}
                     label="运费单价"
                   >
                     {getFieldDecorator('deliver_price', {
                       ...config,
-                      initialValue: this.props.detailForm.deliver_price
+                      initialValue: 0
                     })(
                       <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
                     )}
                   </FormItem>
                 </Col>
-                <Col span={13}>
+                <Col span={13} style={{display:'none'}}>
                   <FormItem
                     {...formItemLayout}
                     label="运距"
                   >
                     {getFieldDecorator('distance', {
                       ...config,
-                      initialValue: this.props.detailForm.distance
+                      initialValue: 0
                     })(
                       <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation} style={{marginLeft: 8}}/>
                     )}
