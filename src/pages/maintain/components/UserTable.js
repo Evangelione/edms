@@ -47,6 +47,10 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     })
   }
 
+  function downLoad() {
+    window.location.href = `${IP}/admin/customer/download`
+  }
+
   const columns = [{
     title: '客户名称',
     dataIndex: 'customer_name',
@@ -231,6 +235,8 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         >
           <Button className='blueBorder' icon="plus">批量导入</Button>
         </Upload>
+        <Button className='blueBorder' icon="cloud-download" style={{marginLeft: 10}}
+                onClick={downLoad}>下载客户导入模板</Button>
       </div>
       <Table
         columns={columns}

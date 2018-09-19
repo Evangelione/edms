@@ -1,7 +1,7 @@
 import React from 'react'
-import {connect} from 'dva'
+import { connect } from 'dva'
 import styles from './index.css'
-import {Row, Col, Divider, Progress, Radio, Menu, Dropdown, Button, Icon} from 'antd'
+import { Row, Col, Divider, Progress, Radio, Menu, Dropdown, Button, Icon } from 'antd'
 import classNames from 'classnames'
 import echarts from 'echarts/lib/echarts' //必须
 import 'echarts/lib/component/tooltip'
@@ -13,7 +13,7 @@ import 'echarts/lib/chart/effectScatter'
 import 'echarts/map/js/china' // 引入中国地图
 // import ReactEcharts from 'echarts-for-react'
 import CountUp from 'react-countup'
-import {routerRedux} from 'dva/router'
+import { routerRedux } from 'dva/router'
 import * as images from '../utils/images'
 
 const RadioButton = Radio.Button
@@ -499,7 +499,7 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-xiaoshouliang"]}></div>
               <div className={styles.dashTitle}>{this.state.topTip}销售量 (吨)</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.sale_num - 0)} duration={3}/>
+                <CountUp start={0} end={(count.sale_num - 0)} duration={3}/>.000
               </div>
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>

@@ -1,7 +1,7 @@
-import {connect} from 'dva'
-import {Table, Button, Pagination, Upload, message} from 'antd'
-import {routerRedux} from 'dva/router'
-import {IP, PAGE_SIZE} from '../../../constants'
+import { connect } from 'dva'
+import { Table, Button, Pagination, Upload, message } from 'antd'
+import { routerRedux } from 'dva/router'
+import { IP, PAGE_SIZE } from '../../../constants'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 
 function mapStateToProps(state) {
@@ -53,6 +53,10 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
         pathname: '/maintain/SupplierChecking',
       }))
     })
+  }
+
+  function downLoad() {
+    window.location.href = `${IP}/admin/supplier/download`
   }
 
   function openPDF(text) {
@@ -210,6 +214,8 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
         >
           <Button className='blueBorder' icon="plus">批量导入</Button>
         </Upload>
+        <Button className='blueBorder' icon="cloud-download" style={{marginLeft: 10}}
+                onClick={downLoad}>下载供应商导入模板</Button>
       </div>
       <Table
         columns={columns}

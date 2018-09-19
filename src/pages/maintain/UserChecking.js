@@ -651,7 +651,7 @@ class EditableTable extends React.Component {
             pagination={false}
             dataSource={dataSource}
             columns={columns}
-            scroll={{x: 2400}}
+            scroll={{x: 2600}}
           />
           <Row type="flex" justify="space-around" align="middle" style={{height: 80}}>
             <Col>

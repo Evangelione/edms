@@ -45,7 +45,11 @@ class OrderModal extends PureComponent {
       credit: 0,
       credit_used: 0,
       yuePay: 0,
-      xinyongPay: 0
+      xinyongPay: 0,
+      payType: '赊销',
+      suppbalance: 0,
+      custombalance: 0,
+      creditbalance: 0
     }
   }
 
@@ -154,6 +158,16 @@ class OrderModal extends PureComponent {
         total: (total * 1.075).toFixed(2),
         yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
         xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+      }, () => {
+        if ((this.state.xinyongPay - 0) > 0) {
+          this.setState({
+            payType: '赊销'
+          })
+        } else {
+          this.setState({
+            payType: '预付款'
+          })
+        }
       })
       // if (this.props.location.pathname === '/order/doOrder') {
       //   return false
@@ -214,6 +228,9 @@ class OrderModal extends PureComponent {
   }
 
   suppChange = (value, item) => {
+    this.setState({
+      suppbalance: item.props.balance
+    })
     this.props.dispatch({
       type: 'order/fetchGoods',
       payload: {
@@ -250,6 +267,10 @@ class OrderModal extends PureComponent {
   }
 
   customerChange = (value, item) => {
+    this.setState({
+      custombalance: item.props.balance,
+      creditbalance: (item.props.credit - item.props.credit_used).toFixed(2)
+    })
     this.props.dispatch({
       type: 'order/fetchSite',
       payload: {
@@ -317,7 +338,18 @@ class OrderModal extends PureComponent {
         total: (total * 1.075).toFixed(2),
         yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
         xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+      }, () => {
+        if ((this.state.xinyongPay - 0) > 0) {
+          this.setState({
+            payType: '赊销'
+          })
+        } else {
+          this.setState({
+            payType: '预付款'
+          })
+        }
       })
+
       // if (this.props.location.pathname === '/order/doOrder') {
       //   return false
       // }
@@ -401,6 +433,28 @@ class OrderModal extends PureComponent {
     })
   }
 
+  changeWay = (value, item) => {
+    if (value === '1') {
+      if (this.state.distance && this.state.deliver_price) {
+        this.props.form.setFieldsValue({
+          distance: this.state.distance,
+          deliver_price: this.state.deliver_price
+        })
+      }
+    } else {
+      this.setState({
+        distance: this.props.form.getFieldValue('distance'),
+        deliver_price: this.props.form.getFieldValue('deliver_price')
+      }, () => {
+        this.props.form.setFieldsValue({
+          distance: '0',
+          deliver_price: '0'
+        })
+      })
+    }
+    this.calculation()
+  }
+
   render() {
     const {children, customOption, siteOption, supplierOption, goodsOption} = this.props
     const {getFieldDecorator} = this.props.form
@@ -421,7 +475,7 @@ class OrderModal extends PureComponent {
                      value={option.id}>{option.site_name}</Option>
     })
     const supplierOptions = supplierOption.map(option => {
-      return <Option key={option.id} contact={option.supp_contact} mobile={option.supp_mobile}
+      return <Option key={option.id} contact={option.supp_contact} mobile={option.supp_mobile} balance={option.balance}
                      value={option.id}>{option.supp_name}</Option>
     })
     const goodsOptions = goodsOption.map(option => {
@@ -450,7 +504,19 @@ class OrderModal extends PureComponent {
           <Form layout='inline' style={{padding: '0 25px'}}>
             <div className={this.state.step === 1 ? 'stepShow' : 'stepHidden'}>
               <Row>
-                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>供应商信息</Col>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>
+                  供应商信息
+                  <div style={{
+                    position: 'absolute',
+                    top: 1,
+                    left: 115,
+                    backgroundColor: '#FFE595',
+                    color: '#545F76',
+                    fontSize: 15,
+                    padding: '2px 10px',
+                    borderRadius: 4
+                  }}><Icon type="red-envelope" theme="outlined"/>&nbsp;采购预付款余额： {this.state.suppbalance} 元</div>
+                </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="供应商名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('supp_id', {
@@ -599,7 +665,21 @@ class OrderModal extends PureComponent {
             </div>
             <div className={this.state.step === 2 ? 'stepShow' : 'stepHidden'}>
               <Row>
-                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>客户信息</Col>
+                <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>
+                  客户信息
+                  <div style={{
+                    position: 'absolute',
+                    top: 1,
+                    left: 115,
+                    backgroundColor: '#FFE595',
+                    color: '#545F76',
+                    fontSize: 15,
+                    padding: '2px 10px',
+                    borderRadius: 4
+                  }}><Icon type="red-envelope"
+                           theme="outlined"/>&nbsp;客户余额： {this.state.custombalance} 元&nbsp;&nbsp;&nbsp;&nbsp;<Icon
+                    type="schedule" theme="outlined"/>&nbsp;剩余信用额度： {this.state.creditbalance} 元</div>
+                </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="客户名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('cust_id', {
@@ -718,7 +798,7 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('recv_time', {
                       rules: [{required: true, message: '请选择交货时间！'}],
                     })(
-                      <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:ss'} showTime
+                      <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:00'} showTime={{format: 'HH:mm'}}
                                   disabled={this.props.confirm ? true : false}
                                   locale={locale}/>
                     )}
@@ -729,7 +809,8 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('deliver_type', {
                       rules: [{required: true, message: '此项为必选项！'}],
                     })(
-                      <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}>
+                      <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}
+                              onChange={this.changeWay}>
                         <Option value="1">卖家配送</Option>
                         <Option value="2">买家自提</Option>
                       </Select>
@@ -747,7 +828,7 @@ class OrderModal extends PureComponent {
               </Row>
               <Divider dashed={true}/>
               <div style={{textAlign: 'right'}}>
-                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 16}}>付款方式：预付款</div>
+                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 16}}>付款方式：{this.state.payType}</div>
                 <div style={{color: '#545F76', fontSize: 20, marginBottom: 8, fontWeight: 600}}>合计金额：
                   <span style={{color: '#FF4241', fontSize: 22}}>￥{this.state.total}</span>&nbsp;&nbsp;
                   <span style={{fontSize: 18}}>
