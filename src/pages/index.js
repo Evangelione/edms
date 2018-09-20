@@ -481,7 +481,7 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-chudan"]}></div>
               <div className={styles.dashTitle}>{this.state.topTip}出单数 (单)</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.order_num - 0)} duration={3}/>
+                <CountUp start={0} end={count.order_num} duration={3}/>
               </div>
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
@@ -499,7 +499,7 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-xiaoshouliang"]}></div>
               <div className={styles.dashTitle}>{this.state.topTip}销售量 (吨)</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.sale_num - 0)} duration={3}/>.000
+                <CountUp start={0} end={count.sale_num} decimals={3} duration={3}/>
               </div>
               {this.state.status === '1' ?
                 <div className={classNames(styles.boxBottomTip, styles.down)}>
@@ -515,9 +515,10 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-xiaoshoue"]}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}销售额 (元)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}销售额 ({count.saler_money > 1000000 ? '万元' : '元'})</div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.saler_money - 0)} duration={3}/>.00
+                <CountUp start={0} end={count.saler_money > 1000000 ? count.saler_money / 1000000 : count.saler_money}
+                         decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
               {this.state.status === '1' ?
@@ -534,9 +535,12 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-caigoue"]}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}采购额 (元)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}采购额 ({count.purchase_money > 1000000 ? '万元' : '元'})
+              </div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.purchase_money - 0)} duration={3}/>.00
+                <CountUp start={0}
+                         end={count.purchase_money > 1000000 ? count.purchase_money / 1000000 : count.purchase_money}
+                         decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
               {this.state.status === '1' ?
@@ -555,9 +559,12 @@ class IndexPage extends React.Component {
               <div className={styles["dashImg-yingkui"]}>
                 <img src={images.default.yingkui} alt="" width='62' height='62'/>
               </div>
-              <div className={styles.dashTitle}>{this.state.topTip}盈亏 (元)</div>
+              <div className={styles.dashTitle}>{this.state.topTip}盈亏 ({count.profit_and_loss > 1000000 ? '万元' : '元'})
+              </div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={(count.profit_and_loss - 0)} duration={3}/>.00
+                <CountUp start={0}
+                         end={count.profit_and_loss > 1000000 ? count.profit_and_loss / 1000000 : count.profit_and_loss}
+                         decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
             </div>
