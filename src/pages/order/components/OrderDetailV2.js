@@ -94,7 +94,14 @@ class OrderDetailV2 extends PureComponent {
                 <div
                   style={{color: '#A1A9B3', fontSize: 15}}>余额支付 {yuePay.toFixed(2)} 元，信用支付 {xinyongPay.toFixed(2)} 元
                 </div>
-                <div style={{float: 'right', marginTop: '-32px', marginRight: 20}}>
+                <div style={{
+                  float: 'right',
+                  marginTop: '-32px',
+                  marginRight: 20,
+                  display: 'flex',
+                  justifyItems: 'center',
+                  alignItems: 'center'
+                }}>
                   {/*<Button type='primary' style={{marginRight: 10}}>立即支付</Button>*/}
                   <StatusModal id={currentOrder.order_id}/>
                   <OrderModal modify={true} currentOrder={currentOrder}>

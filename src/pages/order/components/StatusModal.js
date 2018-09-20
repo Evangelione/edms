@@ -115,7 +115,12 @@ class StatusModal extends React.Component {
     const modalState = this.state.modalState[state]
     return (
       <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block', marginRight: 10}}>
-        <Button type='primary' onClick={this.showPayModal}>立即支付</Button>
+        <div type='primary' onClick={this.showPayModal}
+             style={{
+               background: `url(${require("../../../assets/image/pay.gif")})`,
+               width: 88,
+               height: 40
+             }}></div>
         <Modal
           title='提示'
           visible={this.state.visible}
