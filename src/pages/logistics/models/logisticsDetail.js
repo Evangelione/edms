@@ -1,5 +1,5 @@
 import * as logisticsService from '../services/logistics'
-import {message} from 'antd'
+import { message, notification } from 'antd'
 
 export default {
   namespace: 'logisticsDetail',
@@ -120,8 +120,17 @@ export default {
             page: 1
           }
         })
+        notification.success({
+          message: '温馨提示',
+          description: '调度已完成，请前往 我的订单 确认结算',
+          duration: 6,
+        })
       } else {
-        message.error(data.msg)
+        notification.error({
+          message: '温馨提示',
+          description: data.msg,
+          duration: 6,
+        })
       }
       yield put({
         type: 'save',

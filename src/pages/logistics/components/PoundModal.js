@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Modal, Row, Col, Button, Input, Card, Upload, Icon, message} from 'antd'
+import { connect } from 'dva'
+import { Modal, Row, Col, Button, Input, Card, Upload, Icon, message } from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
-import {IP} from '../../../constants'
+import { IP } from '../../../constants'
 import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -43,7 +43,7 @@ class PoundModal extends React.Component {
     this.setState({
       visible: true,
     })
-    if(this.props.title === '确认磅单') {
+    if (this.props.title === '确认磅单') {
       this.setState({
         load_num: this.props.load_num,
         unload_num: this.props.unload_num,
@@ -57,7 +57,7 @@ class PoundModal extends React.Component {
     e.stopPropagation()
     this.setState({
       visible: false,
-      fileList: []
+      fileList: [],
     })
   }
 
@@ -105,7 +105,6 @@ class PoundModal extends React.Component {
       uploading: true,
     })
     let num = ''
-    debugger
     type === 'load' ? num = this.state.load_num : num = this.state.unload_num
     if (type === 'load') {
       this.props.dispatch({
@@ -166,6 +165,13 @@ class PoundModal extends React.Component {
       }
     })
     return false
+  }
+
+  closePreView = (e) => {
+    e.stopPropagation()
+    this.setState({
+      previewVisible: false,
+    })
   }
 
 
@@ -360,6 +366,9 @@ class PoundModal extends React.Component {
                 </Card>
               </div>
           }
+        </Modal>
+        <Modal visible={this.state.previewVisible} footer={null} onCancel={this.closePreView}>
+          <img alt="example" style={{width: '100%'}} src={this.state.previewImage}/>
         </Modal>
       </div>
     )

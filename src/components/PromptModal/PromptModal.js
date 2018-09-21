@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Button, Row, Col, notification} from 'antd'
+import {Modal, Button, Row, Col} from 'antd'
 import {connect} from 'dva'
 import {routerRedux} from 'dva/router'
 import images from '../../utils/images'
@@ -143,11 +143,6 @@ class PromptModal extends React.Component {
       this.props.doClose()
       this.setState({
         visible: false
-      })
-      notification.success({
-        message: '温馨提示',
-        description: '调度已完成，请前往 我的订单 确认结算',
-        duration: 6,
       })
     })
   }
