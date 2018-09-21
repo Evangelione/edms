@@ -669,7 +669,7 @@ form .has-feedback > .ant-select .ant-select-selection-selected-value, form .has
   padding-right: 4px;
 }
 
-form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picker-icon, form .has-feedback .ant-calendar-picker-clear, form .has-feedback .ant-time-picker-clear{
+form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picker-icon, form .has-feedback .ant-calendar-picker-clear, form .has-feedback .ant-time-picker-clear {
   right: 8px;
 }
 
@@ -702,9 +702,11 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   color: #999;
   transition: all .3s;
 }
+
 .dynamic-delete-button:hover {
   color: #777;
 }
+
 .dynamic-delete-button[disabled] {
   cursor: not-allowed;
   opacity: 0.5;
@@ -716,7 +718,16 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   border: none;
 }
 
-.radioGp > .ant-radio-button-wrapper{
+.radioGp > .ant-radio-button-wrapper {
   border: none;
 }
 
+.shexiao {
+  width: 24px;
+  height: 25px;
+  position: absolute;
+  top: -1px;
+  right: 100px;
+  color: #6C6C6C;
+  background: url(./assets/image/card.png);
+}

@@ -3,7 +3,6 @@ import { Card, List, Pagination, Divider } from 'antd'
 import { connect } from 'dva'
 import { PAGE_SIZE } from "../../../constants"
 import { routerRedux } from "dva/router"
-import * as dateUtils from "../../../utils/getTime"
 
 class OrderTableV2 extends PureComponent {
   constructor(props) {
@@ -123,6 +122,7 @@ class OrderTableV2 extends PureComponent {
                       color: '#6C6C6C',
                       fontWeight: 400
                     }}>站点简称: {item.site_name}</span>
+                    <span className={item.order_type === '2' ? 'shexiao' : ''}></span>
                   </div>
                 }
                 description={
