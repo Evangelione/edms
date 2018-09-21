@@ -147,6 +147,8 @@ export default {
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+      } else {
+        message.error(data.msg)
       }
     }
   },
