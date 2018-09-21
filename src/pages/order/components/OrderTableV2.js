@@ -62,10 +62,19 @@ class OrderTableV2 extends PureComponent {
                        className={this.props.currentIndex === index ? 'CurrentBorder' : ''}>
               <List.Item.Meta
                 title={
-                  <div style={{fontSize: 16, color: '#545F76', padding: '2px 25px', fontWeight: 600}}>
+                  <div style={{
+                    fontSize: 16,
+                    color: '#545F76',
+                    padding: '2px 25px',
+                    fontWeight: 600,
+                    position: 'relative'
+                  }}>
                     <span style={{marginRight: 25}}>{index + 1}</span>
-                    <span style={{marginRight: 30}}>{item.name_gas_source ? item.name_gas_source : '暂无'}</span>
-                    <span style={{fontSize: 14}}>{item.saler_num}吨</span>
+                    <span style={{
+                      marginLeft: 30,
+                      marginBottom: 20,
+                      display: 'inline-block'
+                    }}>{item.name_gas_source ? item.name_gas_source : '暂无'}</span>
                     <span style={{
                       float: 'right',
                       fontSize: 12,
@@ -84,13 +93,42 @@ class OrderTableV2 extends PureComponent {
                         marginTop: '-3px',
                         marginRight: 5
                       }}/>{item.status_name}</span>
+                    <span style={{
+                      position: 'absolute',
+                      top: 27,
+                      left: 86,
+                      fontSize: 14,
+                      color: '#0087FE'
+                    }}>{item.saler_num} 吨</span>
+                    <span style={{
+                      position: 'absolute',
+                      top: 27,
+                      left: 148,
+                      fontSize: 14,
+                      color: '#cc2020'
+                    }}>({item.saler_price} 元/吨)</span>
+                    <span style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 320,
+                      fontSize: 12,
+                      color: '#6C6C6C',
+                      fontWeight: 400
+                    }}>客户名称: {item.customer_name}</span>
+                    <span style={{
+                      position: 'absolute',
+                      top: 20,
+                      left: 320,
+                      fontSize: 12,
+                      color: '#6C6C6C',
+                      fontWeight: 400
+                    }}>站点简称: {item.site_name}</span>
                   </div>
                 }
                 description={
                   <div>
-                    <span style={{paddingLeft: 85, color: '#54A8FD'}}>{item.saler_price} 元/吨</span>
-                    <span style={{float: 'right', marginRight: 25}}>{dateUtils.getYear(item.order_date)}</span>
-                    <span style={{float: 'right', marginRight: 40}}>{item.site_name}</span>
+                    <span style={{float: 'left', marginLeft: 85}}>创建时间: {item.create_time}</span>
+                    <span style={{float: 'right', marginRight: 25}}>预计交货时间: {item.order_date}</span>
                   </div>
                 }
               />

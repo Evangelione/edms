@@ -115,7 +115,13 @@ class OrderDetailV2 extends PureComponent {
                 <div>
                   <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>请前往“我的物流”里进行调度，以保证订单能够顺利进行~</div>
                   <div style={{float: 'right', marginTop: '-60px', marginBottom: '40px', marginRight: 20}}>
-                    <Button type='primary' style={{marginRight: 10}} onClick={this.goLogisticsList}>马上去调度</Button>
+                    <div onClick={this.goLogisticsList} style={{
+                      background: `url(${require("../../../assets/image/scheduling_now.gif")})`,
+                      width: 102,
+                      height: 38,
+                      marginRight: 10,
+                      cursor: 'pointer'
+                    }}></div>
                   </div>
                 </div> : currentOrder.order_status === '3' ?
                   <div>
@@ -125,7 +131,12 @@ class OrderDetailV2 extends PureComponent {
                       <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>点击“去结算”，在弹出窗口上进行订单结算</div>
                       <div style={{float: 'right', marginTop: '-60px', marginBottom: '40px', marginRight: 20}}>
                         <ResultModal>
-                          <Button type='primary' style={{marginRight: 10}}>去结算</Button>
+                          <div style={{
+                            background: `url(${require("../../../assets/image/settlement.gif")})`,
+                            width: 74,
+                            height: 38,
+                            marginRight: 10
+                          }}></div>
                         </ResultModal>
                       </div>
                     </div> : currentOrder.order_status === '5' ?

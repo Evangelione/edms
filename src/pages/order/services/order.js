@@ -1,12 +1,13 @@
 import request from '../../../utils/request'
 import { IP } from "../../../constants"
 
-export function getOrderList({page, order_status, find_str}) {
+export function getOrderList({page, order_status, find_str, order_type}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', 8)
   formData.append('order_status', order_status)
   formData.append('find_str', find_str)
+  formData.append('order_type', order_type)
   return request(`${IP}/home/order/order-list`, {
     method: 'POST',
     body: formData

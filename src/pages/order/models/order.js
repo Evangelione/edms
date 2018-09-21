@@ -17,7 +17,8 @@ export default {
     statusNum: {},
     currentOrder: {},
     currentIndex: 0,
-    find_str: ''
+    find_str: '',
+    order_type: '1'
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -38,8 +39,8 @@ export default {
     }
   },
   effects: {
-    * fetch({payload: {page = 1, order_status = '', find_str = ''}}, {call, put, select}) {
-      const {data} = yield call(orderService.getOrderList, {page, order_status, find_str})
+    * fetch({payload: {page = 1, order_status = '', find_str = '', order_type = '1'}}, {call, put, select}) {
+      const {data} = yield call(orderService.getOrderList, {page, order_status, find_str, order_type})
       const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {
         yield put({

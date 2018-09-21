@@ -115,7 +115,7 @@ class StatusModal extends React.Component {
     const modalState = this.state.modalState[state]
     return (
       <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block', marginRight: 10}}>
-        <div type='primary' onClick={this.showPayModal}
+        <div onClick={this.showPayModal}
              style={{
                background: `url(${require("../../../assets/image/pay.gif")})`,
                width: 88,

@@ -1,4 +1,4 @@
-import { Card, Tabs, Button, Input, Row, Col } from 'antd'
+import { Card, Tabs, Button, Input, Row, Col, Radio } from 'antd'
 // import styles from './order.css'
 import { connect } from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
@@ -13,18 +13,19 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, order_status, statusNum, currentOrder} = state.order
+  const {currentTab, find_str, order_status, statusNum, currentOrder, order_type} = state.order
   return {
     currentTab,
     find_str,
     order_status,
     statusNum,
     currentOrder,
+    order_type,
     loading: state.loading.models.order
   }
 }
 
-export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, find_str, statusNum, currentOrder}) => {
+export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, find_str, order_type, statusNum, currentOrder}) => {
   function changeClass(type, state) {
     if (loading) return false
     dispatch({
@@ -33,7 +34,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
     })
     dispatch({
       type: 'order/fetch',
-      payload: {find_str: find_str, order_status: state}
+      payload: {find_str: find_str, order_status: state, order_type}
     })
   }
 
@@ -43,6 +44,21 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
       payload: {
         find_str: value,
         order_status
+      }
+    })
+  }
+
+  function changeRadio(e) {
+    dispatch({
+      type: 'order/save',
+      payload: {order_type: e.target.value}
+    })
+    dispatch({
+      type: 'order/fetch',
+      payload: {
+        order_type: e.target.value,
+        order_status,
+        find_str,
       }
     })
   }
@@ -125,6 +141,11 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                 </TabPane>
               </Tabs>
             </Card>
+            <Radio.Group defaultValue="1" buttonStyle="solid" style={{marginTop: 10}} className='radioGp'
+                         onChange={changeRadio}>
+              <Radio.Button value="1">预付款订单</Radio.Button>
+              <Radio.Button value="2">赊销订单</Radio.Button>
+            </Radio.Group>
             <Row gutter={10} style={{marginTop: 10}}>
               <Col span={10}>
                 <OrderTableV2/>
