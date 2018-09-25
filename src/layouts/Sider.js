@@ -74,7 +74,6 @@ class MySider extends React.Component {
   }
 
   render() {
-    console.log(this.props.currentKey)
     const logo = window.location.hostname.match(/[A-Za-z]+/g)[0]
     const {collapsed} = this.props
     return (

@@ -26,7 +26,6 @@ class orderDetail extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('销毁')
     this.props.dispatch({
       type: 'orderDetail/save',
       payload: {

@@ -73,7 +73,6 @@ class BalanceOfAccountModal extends React.Component {
   render() {
     const {children, state} = this.props
     const modalState = this.state.modalState[state]
-    console.log(modalState.cancelHandler)
     return (
       <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block'}} onClick={this.showModelHandler}>
         {children}

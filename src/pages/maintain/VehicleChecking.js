@@ -160,7 +160,6 @@ class EditableTable extends React.Component {
   }
 
   handleDelete = (key) => {
-    debugger
     const dataSource = [...this.state.dataSource];
     this.setState({dataSource: dataSource.filter(item => item.key !== key)});
   }

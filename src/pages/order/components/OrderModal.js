@@ -178,7 +178,6 @@ class OrderModal extends PureComponent {
 
   handleOk = (e) => {
     e.stopPropagation()
-    console.log(e);
     this.setState({
       visible: false,
       step: 1,
@@ -188,7 +187,6 @@ class OrderModal extends PureComponent {
 
   handleCancel = (e) => {
     e.stopPropagation()
-    console.log(e);
     this.setState({
       visible: false,
       step: 1,

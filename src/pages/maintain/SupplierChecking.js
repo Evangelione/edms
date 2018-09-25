@@ -60,7 +60,6 @@ class EditableCell extends React.PureComponent {
           return;
         }
         this.toggleEdit();
-        debugger
         handleSave({...record, ...values});
       });
     }, 200)
