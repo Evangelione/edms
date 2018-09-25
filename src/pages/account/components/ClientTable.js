@@ -51,12 +51,12 @@ class ClientTable extends React.Component {
       key: 'balance',
       align: 'center'
     }, {
-      title: '信用总额度(元)',
+      title: <div style={{color: '#24c97a'}}>信用总额度(元)</div>,
       dataIndex: 'credit',
       key: 'credit',
       align: 'center'
     }, {
-      title: '可用额度(元)',
+      title: <div style={{color: '#1d86f8'}}>可用额度(元)</div>,
       dataIndex: 'diy',
       key: 'diy',
       align: 'center',
@@ -67,7 +67,7 @@ class ClientTable extends React.Component {
         )
       }
     }, {
-      title: '已用额度(元)',
+      title: <div style={{color: '#ec9126'}}>已用额度(元)</div>,
       dataIndex: 'credit_used',
       key: 'credit_used',
       align: 'center'
