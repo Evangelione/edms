@@ -135,6 +135,7 @@ class OrderDetailV2 extends PureComponent {
                       marginRight: 10,
                       cursor: 'pointer'
                     }}></div>
+                    {/*马上去调度*/}
                   </div>
                 </div> : currentOrder.order_status === '3' ?
                   <div>

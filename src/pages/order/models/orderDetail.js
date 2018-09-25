@@ -171,42 +171,20 @@ export default {
         message.error(data.msg)
       }
     },
-    * modifySave({payload: {form}}, {call, put, select}) {
+    * modifySave({payload: {form}}, {call}) {
       const {data} = yield call(orderService.modifyOrder, {form})
-      const find_str = yield select(state => state.order.find_str)
-      const order_status = yield select(state => state.order.order_status)
-      const page = yield select(state => state.order.page)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put({
-          type: 'order/fetch',
-          payload: {
-            find_str,
-            order_status,
-            page
-          }
-        })
       } else {
         message.error(data.msg)
       }
     },
-    * confirmOrder({payload: {form}}, {call, put, select}) {
+    * confirmOrder({payload: {form}}, {call}) {
       const {data} = yield call(orderService.confirmOrder, {form})
-      const find_str = yield select(state => state.order.find_str)
-      const order_status = yield select(state => state.order.order_status)
-      const page = yield select(state => state.order.page)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put({
-          type: 'order/fetch',
-          payload: {
-            find_str,
-            order_status,
-            page
-          }
-        })
       } else {
         message.error(data.msg)
       }
