@@ -75,7 +75,8 @@ export default {
         yield put({
           type: 'logistics/save',
           payload: {
-            currentTab: 'daijiedan'
+            currentTab: 'daijiedan',
+            currentIndex: 0
           }
         })
       } else {
@@ -97,7 +98,8 @@ export default {
         yield put({
           type: 'logistics/save',
           payload: {
-            currentTab: 'yunshuzhong'
+            currentTab: 'yunshuzhong',
+            currentIndex: 0
           }
         })
       } else {
@@ -119,7 +121,8 @@ export default {
         yield put({
           type: 'logistics/save',
           payload: {
-            currentTab: 'yixieche'
+            currentTab: 'yixieche',
+            currentIndex: 0
           }
         })
       } else {
@@ -148,7 +151,7 @@ export default {
         })
         yield put({
           type: 'order/save',
-          payload: {currentTab: 'daijiesuan'}
+          payload: {currentTab: 'daijiesuan', currentIndex: 0}
         })
         notification.success({
           message: '温馨提示',

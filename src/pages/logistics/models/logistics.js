@@ -111,7 +111,8 @@ export default {
         yield put({
           type: 'logistics/save',
           payload: {
-            currentTab: 'yijiedan'
+            currentTab: 'yijiedan',
+            currentIndex: 0
           }
         })
       } else {

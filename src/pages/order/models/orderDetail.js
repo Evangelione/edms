@@ -165,7 +165,7 @@ export default {
         })
         yield put({
           type: 'order/save',
-          payload: {currentTab: 'yijiesuan'}
+          payload: {currentTab: 'yijiesuan', currentIndex: 0}
         })
       } else {
         message.error(data.msg)

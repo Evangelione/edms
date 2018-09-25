@@ -49,7 +49,8 @@ class OrderDetailV2 extends PureComponent {
     this.props.dispatch({
       type: 'logistics/save',
       payload: {
-        currentTab: 'daidiaodu'
+        currentTab: 'daidiaodu',
+        currentIndex: 0
       }
     })
   }

@@ -114,68 +114,76 @@ class OrderModal extends PureComponent {
         }
       }
       this.props.dispatch({
-        type: 'order/fetchSite',
+        type: 'order/fetchGoods',
         payload: {
-          customer_id: form.cust_id
+          supplier_id: form.supp_id
         }
       }).then(() => {
-        this.props.form.setFieldsValue({
-          cust_id: form.cust_id,
-          cust_id2: form.customer_contact,
-          cust_id3: form.customer_mobile,
-          saler_price: undefined,
-          saler_num: form.saler_num,
-          deliver_type: form.deliver_type,
-          distance: form.distance,
-          deliver_price: form.deliver_price,
-          site_id: form.site_id,
-          site_id2: form.site_type,
-          site_id3: result_type,
-          recv_contact: form.recv_contact,
-          recv_phone: form.recv_phone,
-          recv_time: moment(form.recv_time),
-          delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
-          supp_id: form.supp_id ? form.supp_id : undefined,
-          supp_id2: form.supp_contact,
-          supp_id3: form.supp_mobile,
-          purchase_price: form.purchase_price,
-          shuliang: form.saler_num,
-          goods_id: form.goods_id ? form.goods_id : undefined,
-          goods_source: form.origin_gas_source,
-          goods_contact: form.cargo_contact,
-          goods_mobile: form.cargo_mobile,
-          goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
-        })
-        let purchase_price = this.props.form.getFieldValue('purchase_price')
-        let shuliang = this.props.form.getFieldValue('shuliang')
-        let distance = this.props.form.getFieldValue('distance')
-        let deliver_price = this.props.form.getFieldValue('deliver_price')
-        let saler_price = this.props.form.getFieldValue('saler_price')
-        let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-        let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-        let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-        let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-        let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-        this.setState({
-          purchaseCost: purcost.toFixed(2),
-          logisticsCost: logcost.toFixed(2),
-          sales: sales.toFixed(2),
-          diffInSales: diffSales.toFixed(2),
-          total: (total * 1.075).toFixed(2),
-          yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
-          xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
-        }, () => {
-          if ((this.state.xinyongPay - 0) > 0) {
-            this.setState({
-              payType: '赊销'
-            })
-          } else {
-            this.setState({
-              payType: '预付款'
-            })
+        this.props.dispatch({
+          type: 'order/fetchSite',
+          payload: {
+            customer_id: form.cust_id
           }
+        }).then(() => {
+          this.props.form.setFieldsValue({
+            cust_id: form.cust_id,
+            cust_id2: form.customer_contact,
+            cust_id3: form.customer_mobile,
+            saler_price: undefined,
+            saler_num: form.saler_num,
+            deliver_type: form.deliver_type,
+            distance: form.distance,
+            deliver_price: form.deliver_price,
+            site_id: form.site_id,
+            site_id2: form.site_type,
+            site_id3: result_type,
+            recv_contact: form.recv_contact,
+            recv_phone: form.recv_phone,
+            recv_time: moment(form.recv_time),
+            delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
+            supp_id: form.supp_id ? form.supp_id : undefined,
+            supp_id2: form.supp_contact,
+            supp_id3: form.supp_mobile,
+            purchase_price: form.purchase_price,
+            shuliang: form.saler_num,
+            goods_id: form.goods_id ? form.goods_id : undefined,
+            goods_source: form.origin_gas_source,
+            goods_contact: form.cargo_contact,
+            goods_mobile: form.cargo_mobile,
+            goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
+          })
+          let purchase_price = this.props.form.getFieldValue('purchase_price')
+          let shuliang = this.props.form.getFieldValue('shuliang')
+          let distance = this.props.form.getFieldValue('distance')
+          let deliver_price = this.props.form.getFieldValue('deliver_price')
+          let saler_price = this.props.form.getFieldValue('saler_price')
+          let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
+          let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
+          let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+          let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
+          let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+          this.setState({
+            purchaseCost: purcost.toFixed(2),
+            logisticsCost: logcost.toFixed(2),
+            sales: sales.toFixed(2),
+            diffInSales: diffSales.toFixed(2),
+            total: (total * 1.075).toFixed(2),
+            yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+            xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+          }, () => {
+            if ((this.state.xinyongPay - 0) > 0) {
+              this.setState({
+                payType: '赊销'
+              })
+            } else {
+              this.setState({
+                payType: '预付款'
+              })
+            }
+          })
         })
       })
+
       // if (this.props.location.pathname === '/order/doOrder') {
       //   return false
       // }
@@ -425,7 +433,7 @@ class OrderModal extends PureComponent {
         }
         this.props.dispatch({
           type: 'order/save',
-          payload: {currentTab: 'daizhifu'}
+          payload: {currentTab: 'daizhifu', currentIndex: 0}
         })
         this.props.dispatch({
           type: 'order/fetch', payload: {

@@ -83,7 +83,7 @@ class StatusModal extends React.Component {
         })
         this.props.dispatch({
           type: 'order/save',
-          payload: {currentTab: 'daifahuo'}
+          payload: {currentTab: 'daifahuo', currentIndex: 0}
         })
         this.props.dispatch({
           type: 'order/fetch',
