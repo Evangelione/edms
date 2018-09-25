@@ -151,8 +151,7 @@ export default {
     * doResult({payload: form}, {call, put, select}) {
       const {data} = yield call(orderService.doResult, form)
       const find_str = yield select(state => state.order.find_str)
-      const order_status = yield select(state => state.order.order_status)
-      const page = yield select(state => state.order.page)
+      const order_type = yield select(state => state.order.order_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -160,9 +159,13 @@ export default {
           type: 'order/fetch',
           payload: {
             find_str,
-            order_status,
-            page
+            order_status: '5',
+            order_type
           }
+        })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'yijiesuan'}
         })
       } else {
         message.error(data.msg)
