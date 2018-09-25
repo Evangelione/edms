@@ -1,5 +1,6 @@
 import * as logisticsService from '../services/logistics'
 import { message, notification } from 'antd'
+import * as routerRedux from "react-router-redux";
 
 export default {
   namespace: 'logisticsDetail',
@@ -135,18 +136,19 @@ export default {
       const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
       if (data.code === -1) return false
       if (data.code === 1) {
+        yield put(routerRedux.push({
+          pathname: '/order',
+        }))
         yield put({
-          type: 'logistics/getDeliverList',
+          type: 'order/fetch',
           payload: {
-            page: 1,
-            deliver_status: '6'
+            order_status: '5',
+            order_type: '1'
           }
         })
         yield put({
-          type: 'logistics/save',
-          payload: {
-            currentTab: 'yiwancheng'
-          }
+          type: 'order/save',
+          payload: {currentTab: 'daijiesuan'}
         })
         notification.success({
           message: '温馨提示',
