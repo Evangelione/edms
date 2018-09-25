@@ -375,7 +375,6 @@ class OrderModal extends PureComponent {
         // delete values.site_id3
         values.recv_time = values.recv_time.format('YYYY-MM-DD HH:mm:ss')
         values.pay_type = '1'
-        console.log(values)
         if (this.props.modify) {
           values.id = this.props.currentOrder.order_id
           this.props.dispatch({
@@ -418,6 +417,17 @@ class OrderModal extends PureComponent {
             })
           })
         }
+        this.props.dispatch({
+          type: 'order/save',
+          payload: {currentTab: 'daizhifu'}
+        })
+        this.props.dispatch({
+          type: 'order/fetch', payload: {
+            order_status: '1',
+            find_str: '',
+            order_type: this.props.order_type
+          }
+        })
       } else {
         // Object.keys(err).forEach((key, i) => {
         //   message.error(`请检查${key}字段是否填写正确`)
@@ -867,7 +877,7 @@ class OrderModal extends PureComponent {
                 <div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 55, fontWeight: 600}}>销售额：<span
                   style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
                 {/*<div style={{fontSize: 18, float: 'left', marginTop: 25, marginLeft: 15, fontWeight: 600}}>进销差：<span*/}
-                  {/*style={{color: '#FF4241'}}>{this.state.diffInSales}元 / 吨</span></div>*/}
+                {/*style={{color: '#FF4241'}}>{this.state.diffInSales}元 / 吨</span></div>*/}
                 <Button size='large' type='primary'
                         style={{float: 'right', marginTop: 22, marginRight: 40, width: 140}} onClick={this.submit}>提交订单
                   ></Button>
@@ -885,12 +895,14 @@ class OrderModal extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {customOption, supplierOption, siteOption, goodsOption} = state.order
+  const {customOption, supplierOption, siteOption, goodsOption, currentTab, order_type} = state.order
   return {
     customOption,
     supplierOption,
     siteOption,
     goodsOption,
+    currentTab,
+    order_type,
     loading: state.loading.models.order
   }
 }

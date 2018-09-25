@@ -105,7 +105,14 @@ export default {
         yield put({
           type: 'getDeliverList',
           payload: {
-            page: 1
+            page: 1,
+            deliver_status: '3'
+          }
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            currentTab: 'yijiedan'
           }
         })
       } else {

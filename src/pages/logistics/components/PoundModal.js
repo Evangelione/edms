@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Modal, Row, Col, Button, Input, Card, Upload, Icon, message } from 'antd'
+import { Modal, Row, Col, Button, Input, Card, Upload, Icon, message, InputNumber } from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import { IP } from '../../../constants'
@@ -63,13 +63,13 @@ class PoundModal extends React.Component {
 
   loadChange = (e) => {
     this.setState({
-      load_num: e.target.value
+      load_num: e
     })
   }
 
   unloadChange = (e) => {
     this.setState({
-      unload_num: e.target.value
+      unload_num: e
     })
   }
 
@@ -236,8 +236,22 @@ class PoundModal extends React.Component {
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                     :
-                    <Input addonAfter='吨' defaultValue={this.state.load_num} type='number'
-                           onChange={this.loadChange}/>
+                    <div>
+                      <InputNumber addonAfter='吨' defaultValue={this.state.load_num} precision={3} style={{width: 161}}
+                                   onChange={this.loadChange}/>
+                      <div style={{
+                        position: 'absolute',
+                        border: '1px solid #d9d9d9',
+                        backgroundColor: '#fafafa',
+                        top: 0,
+                        right: 0,
+                        padding: '0 11px',
+                        height: 32,
+                        lineHeight: '30px',
+                        borderRadius: '0 3px 3px 0',
+                      }}>吨
+                      </div>
+                    </div>
                   }
                 </Col>
                 <Col span={4} offset={1}>
@@ -258,17 +272,31 @@ class PoundModal extends React.Component {
                 </Col>
                 <Col span={7}>
                   {this.props.type === 'look' ?
-                    <div style={{lineHeight: '28px'}}>{this.state.unload_num}</div>
+                    <div style={{lineHeight: '28px'}}>{(this.state.unload_num - 0).toFixed(3)} 吨</div>
                     :
-                    <Input addonAfter='吨' defaultValue={this.state.unload_num} type='number'
-                           onChange={this.unloadChange}/>
+                    <div>
+                      <InputNumber addonAfter='吨' defaultValue={this.state.unload_num} precision={3}
+                                   style={{width: 161}} onChange={this.unloadChange}/>
+                      <div style={{
+                        position: 'absolute',
+                        border: '1px solid #d9d9d9',
+                        backgroundColor: '#fafafa',
+                        top: 0,
+                        right: 0,
+                        padding: '0 11px',
+                        height: 32,
+                        lineHeight: '30px',
+                        borderRadius: '0 3px 3px 0',
+                      }}>吨
+                      </div>
+                    </div>
                   }
                 </Col>
                 <Col span={4} offset={1}>
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
                 </Col>
                 <Col span={8}>
-                  <div style={{lineHeight: '28px'}}>{this.state.unload_time}</div>
+                  <div style={{lineHeight: '28px'}}>{(this.state.unload_time - 0).toFixed(3)}</div>
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2'}}>
@@ -287,7 +315,23 @@ class PoundModal extends React.Component {
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                       :
-                      <Input addonAfter='吨' type='number' onChange={this.loadChange} defaultValue='0'/>
+                      <div>
+                        <InputNumber addonAfter='吨' precision={3} style={{width: 161}} onChange={this.loadChange}
+                                     defaultValue='0'/>
+                        <div style={{
+                          position: 'absolute',
+                          border: '1px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          top: 0,
+                          right: 0,
+                          padding: '0 11px',
+                          height: 32,
+                          lineHeight: '30px',
+                          borderRadius: '0 3px 3px 0',
+                        }}>吨
+                        </div>
+                      </div>
+
                     }
                   </Col>
                   <Col span={4} offset={1}>
@@ -331,7 +375,23 @@ class PoundModal extends React.Component {
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.unload_num} 吨</div>
                       :
-                      <Input addonAfter='吨' type='number' onChange={this.unloadChange} defaultValue='0'/>
+                      <div>
+                        <InputNumber addonAfter='吨' precision={3} style={{width: 161}} onChange={this.unloadChange}
+                                     defaultValue='0'/>
+                        <div style={{
+                          position: 'absolute',
+                          border: '1px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          top: 0,
+                          right: 0,
+                          padding: '0 11px',
+                          height: 32,
+                          lineHeight: '30px',
+                          borderRadius: '0 3px 3px 0',
+                        }}>吨
+                        </div>
+                      </div>
+
                     }
                   </Col>
                   <Col span={4} offset={1}>

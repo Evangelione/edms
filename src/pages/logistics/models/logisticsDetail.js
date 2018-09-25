@@ -67,7 +67,14 @@ export default {
         yield put({
           type: 'logistics/getDeliverList',
           payload: {
-            page: 1
+            page: 1,
+            deliver_status: '2'
+          }
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            currentTab: 'daijiedan'
           }
         })
       } else {
@@ -82,7 +89,14 @@ export default {
         yield put({
           type: 'logistics/getDeliverList',
           payload: {
-            page: 1
+            page: 1,
+            deliver_status: '4'
+          }
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            currentTab: 'yunshuzhong'
           }
         })
       } else {
@@ -97,7 +111,14 @@ export default {
         yield put({
           type: 'logistics/getDeliverList',
           payload: {
-            page: 1
+            page: 1,
+            deliver_status: '5'
+          }
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            currentTab: 'yixieche'
           }
         })
       } else {
@@ -117,7 +138,14 @@ export default {
         yield put({
           type: 'logistics/getDeliverList',
           payload: {
-            page: 1
+            page: 1,
+            deliver_status: '6'
+          }
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            currentTab: 'yiwancheng'
           }
         })
         notification.success({

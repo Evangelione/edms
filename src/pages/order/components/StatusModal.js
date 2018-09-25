@@ -81,19 +81,24 @@ class StatusModal extends React.Component {
           status: 'success',
           // visible: true
         })
+        this.props.dispatch({
+          type: 'order/save',
+          payload: {currentTab: 'daifahuo'}
+        })
+        this.props.dispatch({
+          type: 'order/fetch',
+          payload: {
+            find_str: this.props.find_str,
+            order_status: '2',
+            order_type: '1'
+          }
+        })
         // this.props.dispatch({
         //   type: 'orderDetail/orderInfo',
         //   payload: {
         //     id: this.props.id
         //   }
         // })
-        this.props.dispatch({
-          type: 'order/fetch',
-          payload: {
-            find_str: this.props.find_str,
-            order_status: this.props.order_status
-          }
-        })
       } else if (this.props.isSuccess === 'error') {
         this.setState({
           status: 'error',
@@ -172,12 +177,14 @@ class StatusModal extends React.Component {
 
 function mapStateToProps(state) {
   const {isSuccess} = state.orderDetail
-  const {find_str, order_status} = state.order
+  const {find_str, order_status, order_type, list} = state.order
   // const {billLoading} = state.logisticsDetail
   return {
     isSuccess,
     find_str,
     order_status,
+    order_type,
+    list,
     loading: state.loading.models.orderDetail
   }
 }

@@ -162,9 +162,6 @@ class LogisticsDetailV2 extends PureComponent {
       this.setState({
         acceptBtn: false
       })
-      this.props.dispatch(routerRedux.push({
-        pathname: '/logistics',
-      }))
     })
   }
 
