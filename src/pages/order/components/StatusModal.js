@@ -90,7 +90,7 @@ class StatusModal extends React.Component {
           payload: {
             find_str: this.props.find_str,
             order_status: '2',
-            order_type: '1'
+            order_type: this.props.order_type
           }
         })
         // this.props.dispatch({

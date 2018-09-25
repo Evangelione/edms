@@ -142,7 +142,7 @@ export default {
         yield put({
           type: 'order/fetch',
           payload: {
-            order_status: '5',
+            order_status: '4',
             order_type: '1'
           }
         })

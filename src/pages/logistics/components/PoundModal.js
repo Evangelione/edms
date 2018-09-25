@@ -234,7 +234,7 @@ class PoundModal extends React.Component {
                 </Col>
                 <Col span={7}>
                   {this.props.type === 'look' ?
-                    <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
+                    <div style={{lineHeight: '28px'}}>{(this.state.load_num - 0).toFixed(3)} 吨</div>
                     :
                     <div>
                       <InputNumber addonAfter='吨' defaultValue={this.state.load_num} precision={3} style={{width: 161}}
@@ -296,7 +296,7 @@ class PoundModal extends React.Component {
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
                 </Col>
                 <Col span={8}>
-                  <div style={{lineHeight: '28px'}}>{(this.state.unload_time - 0).toFixed(3)}</div>
+                  <div style={{lineHeight: '28px'}}>{this.state.unload_time}</div>
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2'}}>
