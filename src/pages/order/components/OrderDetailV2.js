@@ -39,6 +39,19 @@ class OrderDetailV2 extends PureComponent {
     this.props.dispatch(routerRedux.push({
       pathname: '/logistics',
     }))
+    this.props.dispatch({
+      type: 'logistics/getDeliverList',
+      payload: {
+        page: 1,
+        deliver_status: '1'
+      }
+    })
+    this.props.dispatch({
+      type: 'logistics/save',
+      payload: {
+        currentTab: 'daidiaodu'
+      }
+    })
   }
 
   render() {

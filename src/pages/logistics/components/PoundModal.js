@@ -40,6 +40,7 @@ class PoundModal extends React.Component {
 
   showModalHandler = (e) => {
     e.stopPropagation()
+    if (this.state.visible) return
     this.setState({
       visible: true,
     })
@@ -62,12 +63,14 @@ class PoundModal extends React.Component {
   }
 
   loadChange = (e) => {
+    console.log(e)
     this.setState({
       load_num: e
     })
   }
 
   unloadChange = (e) => {
+    console.log(e)
     this.setState({
       unload_num: e
     })
