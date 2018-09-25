@@ -141,7 +141,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
                 </TabPane>
               </Tabs>
             </Card>
-            <Radio.Group defaultValue={'1'} buttonStyle="solid" style={{marginTop: 10}} className='radioGp'
+            <Radio.Group defaultValue={order_type} buttonStyle="solid" style={{marginTop: 10}} className='radioGp'
                          onChange={changeRadio}>
               <Radio.Button value="1">预付款订单</Radio.Button>
               <Radio.Button value="2">赊销订单</Radio.Button>

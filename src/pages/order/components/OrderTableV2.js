@@ -43,7 +43,8 @@ class OrderTableV2 extends PureComponent {
       pathname: '/order',
       query: {
         page,
-        order_status: this.props.order_status
+        order_status: this.props.order_status,
+        order_type: this.props.order_type
       }
     }))
   }
@@ -149,13 +150,14 @@ class OrderTableV2 extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {list, total, page, order_status, currentIndex} = state.order
+  const {list, total, page, order_status, currentIndex, order_type} = state.order
   return {
     list,
     page,
     total,
     order_status,
     currentIndex,
+    order_type,
     loading: state.loading.models.order
   }
 }

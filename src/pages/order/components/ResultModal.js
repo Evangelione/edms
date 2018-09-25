@@ -22,23 +22,22 @@ class ResultModal extends Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
+  showModelHandler = (e) => {
+    if (e) e.stopPropagation()
+    if (this.state.visible) return
+    this.setState({
+      visible: true,
+    })
     this.props.dispatch({
       type: 'orderDetail/orderInfo',
       payload: {
         id: this.props.currentOrder.order_id
       }
+    }).then(() => {
+      this.caigouCalculation()
+      this.xiaoshouCalculation()
+      this.wuliuCalculation()
     })
-  }
-
-  showModelHandler = (e) => {
-    if (e) e.stopPropagation()
-    this.setState({
-      visible: true,
-    })
-    this.caigouCalculation()
-    this.xiaoshouCalculation()
-    this.wuliuCalculation()
   }
 
   hideModelHandler = (e) => {
@@ -254,7 +253,7 @@ class ResultModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={8} style={{display:'none'}}>
+                <Col span={8} style={{display: 'none'}}>
                   <FormItem
                     {...formItemLayout}
                     label="运费单价"
@@ -267,7 +266,7 @@ class ResultModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={13} style={{display:'none'}}>
+                <Col span={13} style={{display: 'none'}}>
                   <FormItem
                     {...formItemLayout}
                     label="运距"

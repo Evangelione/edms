@@ -27,7 +27,8 @@ export default {
           dispatch({
             type: 'save', payload: {
               currentTab: 'quanbu',
-              currentIndex: 0
+              currentIndex: 0,
+              order_type: '1'
             }
           })
         }
