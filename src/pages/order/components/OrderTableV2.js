@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { Card, List, Pagination, Divider } from 'antd'
 import { connect } from 'dva'
 import { PAGE_SIZE } from "../../../constants"
-import { routerRedux } from "dva/router"
 
 class OrderTableV2 extends PureComponent {
   constructor(props) {

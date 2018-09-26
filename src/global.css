@@ -731,3 +731,38 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   color: #6C6C6C;
   background: url(./assets/image/card.png);
 }
+
+.anchorBL {
+  display: none;
+}
+
+.map-title {
+  position: absolute;
+  top: 70px;
+  left: 15px;
+  right: 15px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.20);
+  z-index: 10;
+  transition: all 0.5s;
+}
+
+.map-detail {
+  position: absolute;
+  top: 57px;
+  left: 0;
+  right: 0;
+  height: 0px;
+  background-color: #fff;
+  border-top: 1px solid #e8e8e8;
+  border-radius: 0 0 4px 4px;
+  z-index: 10;
+  transition: all 0.5s;
+  overflow: hidden;
+}
+
+.mapContainer {
+  width: 100%;
+  height: 700px;
+}

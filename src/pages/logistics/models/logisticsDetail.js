@@ -14,7 +14,8 @@ export default {
       driver: [],
       supercargo: [],
     },
-    billLoading: false
+    billLoading: false,
+    showMap: false
   },
   subscriptions: {
     setup({dispatch, history}) {

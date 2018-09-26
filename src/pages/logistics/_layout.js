@@ -191,10 +191,10 @@ class Order extends React.Component {
                 {/*</Card> : ''}*/}
                 {this.state.tableKey === '1' ?
                   <Row gutter={10} style={{marginTop: 10}}>
-                    <Col span={10}>
+                    <Col span={9}>
                       <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
                     </Col>
-                    <Col span={14}>
+                    <Col span={15}>
                       {currentLogistics ?
                         <LogisticsDetailV2/> :
                         <div style={{

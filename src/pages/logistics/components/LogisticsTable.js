@@ -234,7 +234,7 @@ class Logistics extends React.Component {
       <Option key={item.delivery_mobile}>
         {item.delivery_contact}
       </Option>
-    );
+    )
   }
 
   clickItme = (item, index) => {
@@ -243,6 +243,12 @@ class Logistics extends React.Component {
       payload: {
         currentLogistics: item,
         currentIndex: index
+      }
+    })
+    this.props.dispatch({
+      type: 'logisticsDetail/save',
+      payload: {
+        showMap: false
       }
     })
   }

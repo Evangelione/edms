@@ -12,4 +12,7 @@ export default {
   //     pathRewrite: { "^/api" : "" }
   //   }
   // },
+  externals: {
+    "BMap": "BMap"
+  }
 }
