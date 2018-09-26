@@ -30,7 +30,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
     if (loading) return false
     dispatch({
       type: 'order/save',
-      payload: {currentTab: type}
+      payload: {currentTab: type, currentIndex: 0}
     })
     dispatch({
       type: 'order/fetch',

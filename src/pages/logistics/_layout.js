@@ -30,7 +30,8 @@ class Order extends React.Component {
     this.props.dispatch({
       type: 'logistics/save',
       payload: {
-        currentTab: type
+        currentTab: type,
+        currentIndex: 0
       }
     })
     this.props.dispatch({
