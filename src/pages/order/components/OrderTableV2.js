@@ -39,14 +39,14 @@ class OrderTableV2 extends PureComponent {
 
 
   pageChangeHandler = (page) => {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/order',
-      query: {
+    this.props.dispatch({
+      type: 'order/fetch',
+      payload: {
         page,
         order_status: this.props.order_status,
         order_type: this.props.order_type
       }
-    }))
+    })
   }
 
   render() {
