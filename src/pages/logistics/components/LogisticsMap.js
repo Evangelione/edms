@@ -29,8 +29,16 @@ class LogisticsMap extends PureComponent {
     })
   }
 
+  getData = () => {
+    if (this.props.location.pathname.indexOf('/order') === 0) {
+      return this.props.currentOrder
+    } else {
+      return this.props.currentLogistics
+    }
+  }
+
   render() {
-    const currentLogistics = this.props.location.pathname.indexOf('/order') === 0 ? (this.props.currentOrder ? this.props.currentOrder : {}) : (this.props.currentLogistics ? this.props.currentLogistics : {})
+    const currentLogistics = this.getData()
     const char = this.props.location.pathname.indexOf('/order') === 0 ? '订' : '运'
     return (
       <Card bodyStyle={{transition: 'all 0.5s', padding: 0}}
