@@ -30,7 +30,7 @@ class LogisticsMap extends PureComponent {
   }
 
   render() {
-    const currentLogistics = this.props.location.pathname.indexOf('/order') === 0 ? this.props.currentOrder : this.props.currentLogistics
+    const currentLogistics = this.props.location.pathname.indexOf('/order') === 0 ? (this.props.currentOrder ? this.props.currentOrder : {}) : (this.props.currentLogistics ? this.props.currentLogistics : {})
     const char = this.props.location.pathname.indexOf('/order') === 0 ? '订' : '运'
     return (
       <Card bodyStyle={{transition: 'all 0.5s', padding: 0}}

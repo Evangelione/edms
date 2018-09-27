@@ -4,6 +4,7 @@ export const IP = '/api'
 // 全局表格
 export const PAGE_SIZE = 10
 
+// 根据域名前几位判断该用什么logo和名称
 export const LOGO = {
   lch: {
     name: '蓝采和',
