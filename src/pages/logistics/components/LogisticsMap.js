@@ -30,6 +30,7 @@ class LogisticsMap extends PureComponent {
   }
 
   getData = () => {
+    debugger
     if (this.props.location.pathname.indexOf('/order') === 0) {
       return this.props.currentOrder
     } else {
