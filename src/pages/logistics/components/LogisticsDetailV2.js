@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react'
-import { Card, Steps, Divider, Button, Row, Col, Collapse, Modal, Form, AutoComplete, Input, Icon } from 'antd'
-import TimeLine from '../../../components/TimeLine/TimeLine'
+import { Card, Divider, Button, Row, Col, Collapse, Modal, Form, AutoComplete, Input, Icon } from 'antd'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import LogisticsMap from './LogisticsMap'
+import LogisticsStep from './LogisticsStep'
 import { connect } from "dva/index"
 import { routerRedux } from 'dva/router'
-import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmap'
 import styles from '../logistics.css'
 import moment from 'moment'
 import PoundModal from './PoundModal'
@@ -13,7 +12,6 @@ import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
 
-const Step = Steps.Step
 const Panel = Collapse.Panel
 const FormItem = Form.Item
 const Option = AutoComplete.Option
@@ -244,14 +242,7 @@ class LogisticsDetailV2 extends PureComponent {
                                  borderColor: '#FF9A74',
                                  color: '#fff'
                                }}><Icon type="environment" theme="outlined"/>物流地图</Button>}>
-            <Steps progressDot current={currentLogistics.deliver_status - 0} style={{margin: '70px 0'}}>
-              <Step title="待调度"/>
-              <Step title="待接单"/>
-              <Step title="已接单"/>
-              <Step title="运输中"/>
-              <Step title="已卸车"/>
-              <Step title="已完成"/>
-            </Steps>
+            <LogisticsStep currentLogistics={currentLogistics}/>
             <div style={{margin: '0 20px'}}>
               <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
             </div>
@@ -444,21 +435,21 @@ class LogisticsDetailV2 extends PureComponent {
                     }}>运单编号：{currentLogistics.deliver_code}
                   </div>
                 </div>
-                <div style={{margin: '0 20px'}}>
-                  <Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>
-                </div>
+                {/*<div style={{margin: '0 20px'}}>*/}
+                  {/*<Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>*/}
+                {/*</div>*/}
                 {/*进度条*/}
-                <div>
-                  <TimeLine detail={currentLogistics}/>
-                  {currentLogistics.deliver_status !== '0' ?
-                    <div style={{margin: '0 40px 30px'}}>
-                      <Map center={{lng: 116.402544, lat: 39.928216}} zoom="11">
-                        <Marker position={{lng: 116.402544, lat: 39.928216}}/>
-                        <NavigationControl/>
-                        <InfoWindow position={{lng: 116.402544, lat: 39.928216}} text="内容" title="标题"/>
-                      </Map>
-                    </div> : ''}
-                </div>
+                {/*<div>*/}
+                  {/*<TimeLine detail={currentLogistics}/>*/}
+                  {/*{currentLogistics.deliver_status !== '0' ?*/}
+                    {/*<div style={{margin: '0 40px 30px'}}>*/}
+                      {/*<Map center={{lng: 116.402544, lat: 39.928216}} zoom="11">*/}
+                        {/*<Marker position={{lng: 116.402544, lat: 39.928216}}/>*/}
+                        {/*<NavigationControl/>*/}
+                        {/*<InfoWindow position={{lng: 116.402544, lat: 39.928216}} text="内容" title="标题"/>*/}
+                      {/*</Map>*/}
+                    {/*</div> : ''}*/}
+                {/*</div>*/}
                 <div style={{color: '#A1A9B3', paddingLeft: 25, cursor: 'pointer'}} onClick={this.expand}>收起</div>
               </Panel>
             </Collapse>

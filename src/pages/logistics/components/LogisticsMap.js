@@ -28,12 +28,12 @@ class LogisticsMap extends PureComponent {
       <Card bodyStyle={{transition: 'all 0.5s', padding: 0}}
             style={{borderColor: '#e8e8e8', marginBottom: 10}}
             title={<div style={{color: '#545F76', cursor: 'pointer', fontWeight: 600}} onClick={this.hideMap}>
-              <Icon type="left" theme="outlined"/>&nbsp;&nbsp;返回运单详情</div>}
+              <Icon type="left" theme="outliwned"/>&nbsp;&nbsp;返回运单详情</div>}
             extra={<div><span
               style={{color: '#545F76', fontSize: 15}}>运单编号：{currentLogistics.deliver_code}</span><span
               style={{fontSize: 15, paddingLeft: 50, color: '#aaa'}}>创建时间：{currentLogistics.create_time}</span>
             </div>}>
-        <MapDetail/>
+        <MapDetail currentLogistics={currentLogistics}/>
         <div className="mapContainer" id="mapContainer"></div>
       </Card>
     )
