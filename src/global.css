@@ -865,3 +865,13 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   top: 8px;
   left: 8px;
 }
+
+.upArrow:after {
+  content: '';
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgb(255, 154, 116);
+  position: absolute;
+  top: -5px;
+  left: 41px;
+}

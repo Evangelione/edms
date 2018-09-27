@@ -9,7 +9,8 @@ export default {
     step: 0,
     detailForm: '',
     modifyForm: '',
-    modifyId: ''
+    modifyId: '',
+    showMap: false
   },
   subscriptions: {
     setup({dispatch, history}) {

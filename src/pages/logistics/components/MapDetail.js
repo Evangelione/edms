@@ -67,7 +67,6 @@ class MapDetail extends PureComponent {
               </span>
             </div>
             <div style={{
-              width: 330,
               height: 1,
               backgroundColor: '#F0F0F0',
               display: 'block',
