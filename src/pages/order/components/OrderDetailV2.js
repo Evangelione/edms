@@ -238,7 +238,7 @@ class OrderDetailV2 extends PureComponent {
                             <div style={{marginBottom: 4}}>{currentOrder.cargo_contact}</div>
                             <div style={{marginBottom: 6}}>{currentOrder.cargo_mobile}</div>
                             <div
-                              style={{marginBottom: 6}}>{currentOrder.cargo_province + '/' + currentOrder.cargo_city + '/' + (currentOrder.cargo_area ? currentOrder.cargo_area : '') + '/' + currentOrder.detailed_address}</div>
+                              style={{marginBottom: 6}}>{currentOrder.cargo_province + '/' + currentOrder.cargo_city + '/' + (currentOrder.cargo_area ? currentOrder.cargo_area + '/' : '') + currentOrder.detailed_address}</div>
                             {currentOrder.temperament_report ?
                               <div style={{marginBottom: 6, color: '#3477ED', cursor: 'pointer'}}
                                    onClick={this.viewReport}>查看气质报告</div> :
@@ -262,7 +262,7 @@ class OrderDetailV2 extends PureComponent {
                         <div style={{marginBottom: 4}}>{currentOrder.recv_contact}</div>
                         <div style={{marginBottom: 6}}>{currentOrder.recv_phone}</div>
                         <div
-                          style={{marginBottom: 6}}>{currentOrder.delivery_province + '/' + currentOrder.delivery_city + '/' + (currentOrder.delivery_area ? currentOrder.delivery_area : '') + '/' + currentOrder.detaileds_address}</div>
+                          style={{marginBottom: 6}}>{currentOrder.delivery_province + '/' + currentOrder.delivery_city + '/' + (currentOrder.delivery_area ? currentOrder.delivery_area + '/' : '') + currentOrder.detaileds_address}</div>
                         <div style={{marginBottom: 6}}>交货时间: {currentOrder.recv_time}</div>
                         <div style={{marginBottom: 6, marginTop: 12, color: '#A1A9B3'}}>用户类型: LNG加气站</div>
                         <div style={{marginBottom: 6, color: '#A1A9B3'}}>配送方式: {currentOrder.deliver_type_name}</div>

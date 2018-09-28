@@ -34,15 +34,15 @@ class MapDetail extends PureComponent {
           <div className='map-title-item'>
             <div className='map-title-item-status'>
               <div>当前已行驶</div>
-              <div>0 公里</div>
+              <div>{this.props.alreadyDriven}</div>
             </div>
             <div className='map-title-item-status'>
               <div>还需时长</div>
-              <div>1小时43分</div>
+              <div>{this.props.stillNeedTime}</div>
             </div>
             <div className='map-title-item-status'>
               <div>总运距</div>
-              <div>143.9公里</div>
+              <div>{this.props.totalDistance}</div>
             </div>
           </div>
           <div className='map-title-item'>

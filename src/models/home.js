@@ -13,6 +13,8 @@ export default {
     supplierLoading: false,
     currentOrder: {},
     currentLogistics: {},
+    logMapData: {},
+    orderMapData: {}
   },
 
   subscriptions: {
@@ -89,6 +91,28 @@ export default {
           type: 'save',
           payload: {
             trend: data.data.list
+          }
+        })
+      }
+    },
+    * getLogMapData({payload: {id}}, {call, put}) {
+      const {data} = yield call(loginServices.getLogMapData, {id})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            logMapData: data.data.list
+          }
+        })
+      }
+    },
+    * getOrderMapData({payload: {id}}, {call, put}) {
+      const {data} = yield call(loginServices.getOrderMapData, {id})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            orderMapData: data.data.list
           }
         })
       }

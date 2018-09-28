@@ -17,8 +17,10 @@ export default {
           dispatch({type: 'save', payload: {currentKey: ['maintain']}})
         } else if (pathname.indexOf('/order') === 0) {
           dispatch({type: 'save', payload: {currentKey: ['order']}})
+          dispatch({type: 'orderDetail/save', payload: {showMap: false}})
         } else if (pathname.indexOf('/logistics') === 0) {
           dispatch({type: 'save', payload: {currentKey: ['logistics']}})
+          dispatch({type: 'logisticsDetail/save', payload: {showMap: false}})
         } else if (pathname.indexOf('/account/balance') === 0) {
           dispatch({type: 'save', payload: {currentKey: ['balance']}})
         } else if (pathname.indexOf('/account/analysis') === 0) {

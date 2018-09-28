@@ -34,6 +34,18 @@ class OrderTableV2 extends PureComponent {
         currentIndex: index
       }
     })
+    this.props.dispatch({
+      type: 'home/save',
+      payload: {
+        currentOrder: item,
+      }
+    })
+    this.props.dispatch({
+      type: 'orderDetail/save',
+      payload: {
+        showMap: false
+      }
+    })
   }
 
 

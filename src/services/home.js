@@ -42,3 +42,21 @@ export function trend({flag}) {
     body: formData
   })
 }
+
+export function getLogMapData({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/map`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function getOrderMapData({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/order/map`, {
+    method: 'POST',
+    body: formData
+  })
+}
