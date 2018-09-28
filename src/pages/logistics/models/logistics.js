@@ -63,6 +63,12 @@ export default {
             currentLogistics: data.data.list[currentIndex],
           }
         })
+        yield put({
+          type: 'home/save',
+          payload: {
+            currentLogistics: data.data.list[currentIndex],
+          }
+        })
       }
     },
     * getDeliverFee({payload: {page = 1, find_str = '', stime = '', etime = ''}}, {call, put}) {

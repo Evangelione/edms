@@ -5,7 +5,6 @@ import BMap from 'BMap'
 import MapDetail from './MapDetail'
 import { withRouter } from "react-router";
 
-
 class LogisticsMap extends PureComponent {
 
   componentDidMount() {
@@ -58,8 +57,7 @@ class LogisticsMap extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {currentLogistics} = state.logistics
-  const {currentOrder} = state.order
+  const {currentLogistics, currentOrder} = state.home
   return {
     currentLogistics,
     currentOrder,
