@@ -246,12 +246,6 @@ class Logistics extends React.Component {
       }
     })
     this.props.dispatch({
-      type: 'home/save',
-      payload: {
-        currentLogistics: item,
-      }
-    })
-    this.props.dispatch({
       type: 'logisticsDetail/save',
       payload: {
         showMap: false

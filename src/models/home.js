@@ -10,9 +10,7 @@ export default {
     trend: {},
     countLoading: false,
     customerLoading: false,
-    supplierLoading: false,
-    currentOrder: {},
-    currentLogistics: {},
+    supplierLoading: false
   },
 
   subscriptions: {
@@ -24,6 +22,8 @@ export default {
           dispatch({type: 'supplierPer', payload: query})
           dispatch({type: 'logistics', payload: query})
           dispatch({type: 'trend', payload: query})
+          dispatch({type: 'order/fetch', payload: query})
+          dispatch({type: 'logistics/getDeliverList', payload: query})
         }
       })
     },

@@ -55,12 +55,6 @@ export default {
             currentOrder: data.data.list[currentIndex],
           }
         })
-        yield put({
-          type: 'home/save',
-          payload: {
-            currentOrder: data.data.list[currentIndex],
-          }
-        })
       }
     },
     * fetchSelect({payload}, {call, put}) {
