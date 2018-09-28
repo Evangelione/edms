@@ -10,7 +10,9 @@ export default {
     trend: {},
     countLoading: false,
     customerLoading: false,
-    supplierLoading: false
+    supplierLoading: false,
+    currentOrder: {},
+    currentLogistics: {},
   },
 
   subscriptions: {

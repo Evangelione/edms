@@ -57,8 +57,7 @@ class LogisticsMap extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {currentLogistics} = state.logistics
-  const {currentOrder} = state.order
+  const {currentLogistics, currentOrder} = state.home
   return {
     currentLogistics,
     currentOrder,
