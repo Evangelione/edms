@@ -43,7 +43,8 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
       type: 'order/fetch',
       payload: {
         find_str: value,
-        order_status
+        order_status,
+        order_type
       }
     })
   }

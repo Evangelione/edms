@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
-import { Card, Icon } from 'antd'
+import { Card, Icon, notification } from 'antd'
 import { connect } from "dva/index"
 import BMap from 'BMap'
+import BMapLib from 'BMapLib'
 import MapDetail from './MapDetail'
 import { withRouter } from "react-router";
 
@@ -11,17 +12,19 @@ class LogisticsMap extends PureComponent {
     this.state = {
       alreadyDriven: 0,
       stillNeedTime: 0,
-      totalDistance: 0
+      totalDistance: 0,
+      map: {}
     }
   }
 
   componentDidMount() {
     let map = new BMap.Map('mapContainer')
+    // map.clearOverlays()
+    this.setState({map})
     map.enableScrollWheelZoom(true)
     let myGeo = new BMap.Geocoder()
     let IconStart = new BMap.Icon(require('../../../assets/image/start_22_22.png'), new BMap.Size(19, 23))
     let IconEnd = new BMap.Icon(require('../../../assets/image/end_22_22.png'), new BMap.Size(19, 23))
-    let IconCar = new BMap.Icon(require('../../../assets/image/che.svg'), new BMap.Size(12, 48))
     let transitS_C = new BMap.DrivingRoute(map, {
       onSearchComplete: this.setAlreadyDriven,
     })
@@ -34,6 +37,14 @@ class LogisticsMap extends PureComponent {
     let data = {}
     if (this.props.location.pathname.indexOf('/order') === 0) {
       data = this.props.currentOrder
+      if (data === 0) {
+        notification.error({
+          message: '温馨提示',
+          description: '暂无司机接单',
+          duration: 6,
+        })
+        return false
+      }
       this.props.dispatch({
         type: 'home/getOrderMapData',
         payload: {
@@ -45,7 +56,6 @@ class LogisticsMap extends PureComponent {
         let endPoint = {}
         map.centerAndZoom(currentPoint, 8)
         map.addOverlay(new BMap.Marker(startPoint, {icon: IconStart}))
-        map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
         myGeo.getPoint(data.detaileds_address, function (point) {
           if (point) {
             endPoint = point
@@ -63,6 +73,14 @@ class LogisticsMap extends PureComponent {
       })
     } else {
       data = this.props.currentLogistics
+      if (data === 0) {
+        notification.error({
+          message: '温馨提示',
+          description: '暂无司机接单',
+          duration: 6,
+        })
+        return false
+      }
       this.props.dispatch({
         type: 'home/getLogMapData',
         payload: {
@@ -74,7 +92,6 @@ class LogisticsMap extends PureComponent {
         let endPoint = {}
         map.centerAndZoom(currentPoint, 8)
         map.addOverlay(new BMap.Marker(startPoint, {icon: IconStart}))
-        map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
         myGeo.getPoint(data.detaileds_address, function (point) {
           if (point) {
             endPoint = point
@@ -102,9 +119,43 @@ class LogisticsMap extends PureComponent {
 
   setStillNeedTime = (results) => {
     let plan = results.getPlan(0)
+    let currentPoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 1].lng, this.props.orderMapData[this.props.orderMapData.length - 1].lat)
+    let beforePoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 2].lng, this.props.orderMapData[this.props.orderMapData.length - 2].lat)
+    let arrPois = []
+    for (let j = 0; j < plan.getNumRoutes(); j++) {
+      let route = plan.getRoute(j)
+      arrPois = arrPois.concat(route.getPath())
+    }
+    this.state.map.addOverlay(new BMap.Polyline(arrPois, {strokeColor: '#111'}))
+    this.state.map.setViewport(arrPois)
     this.setState({
       stillNeedTime: plan.getDuration(true),
     })
+    console.log([beforePoint, currentPoint])
+    let IconCar = new BMap.Icon(require('../../../assets/image/che.svg'), new BMap.Size(36, 16))
+    let lushu = new BMapLib.LuShu(this.state.map, [beforePoint, currentPoint], {
+      defaultContent: "",
+      autoView: true,
+      icon: IconCar,
+      speed: 4500,
+      enableRotation: true,
+      landmarkPois: [
+        {lng: 116.314782, lat: 39.913508, html: '加油站', pauseTime: 2},
+        {
+          lng: 116.315391,
+          lat: 39.964429,
+          html: '高速公路收费<div><img src="http://map.baidu.com/img/logo-map.gif"/></div>',
+          pauseTime: 3
+        },
+        {
+          lng: 116.381476,
+          lat: 39.974073,
+          html: '肯德基早餐<div><img src="http://ishouji.baidu.com/resource/images/map/show_pic04.gif"/></div>',
+          pauseTime: 2
+        }
+      ]
+    })
+    lushu.start()
   }
 
   setTotalDistance = (results) => {

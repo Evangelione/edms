@@ -13,6 +13,7 @@ export default {
   //   }
   // },
   externals: {
-    "BMap": "BMap"
+    "BMap": "BMap",
+    "BMapLib": "BMapLib"
   }
 }

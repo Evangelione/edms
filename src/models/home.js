@@ -104,6 +104,13 @@ export default {
             logMapData: data.data.list
           }
         })
+      } else if (data.code === 0) {
+        yield put({
+          type: 'save',
+          payload: {
+            logMapData: 0
+          }
+        })
       }
     },
     * getOrderMapData({payload: {id}}, {call, put}) {
@@ -113,6 +120,13 @@ export default {
           type: 'save',
           payload: {
             orderMapData: data.data.list
+          }
+        })
+      } else if (data.code === 0) {
+        yield put({
+          type: 'save',
+          payload: {
+            orderMapData: 0
           }
         })
       }
