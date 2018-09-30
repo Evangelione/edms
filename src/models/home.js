@@ -14,7 +14,8 @@ export default {
     currentOrder: {},
     currentLogistics: {},
     logMapData: {},
-    orderMapData: {}
+    orderMapData: {},
+    homeMapData: []
   },
 
   subscriptions: {
@@ -127,6 +128,24 @@ export default {
           type: 'save',
           payload: {
             orderMapData: 0
+          }
+        })
+      }
+    },
+    * getHomeMapData({payload}, {call, put}) {
+      const {data} = yield call(loginServices.getHomeMapData)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            homeMapData: data.data.list
+          }
+        })
+      } else if (data.code === 0) {
+        yield put({
+          type: 'save',
+          payload: {
+            homeMapData: []
           }
         })
       }

@@ -60,3 +60,7 @@ export function getOrderMapData({id}) {
     body: formData
   })
 }
+
+export function getHomeMapData() {
+  return request(`${IP}/home/home/gps`)
+}

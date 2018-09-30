@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import styles from './index.css'
 import { Row, Col, Divider, Progress, Radio, Menu, Dropdown, Button, Icon } from 'antd'
 import classNames from 'classnames'
+import BMap from 'BMap'
 import echarts from 'echarts/lib/echarts' //必须
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
@@ -29,7 +30,8 @@ class IndexPage extends React.Component {
       currentCount: '4',
       currentCustomer: '4',
       currentSupplier: '4',
-      flag: true
+      flag: true,
+      map: false
     }
   }
 
@@ -49,17 +51,12 @@ class IndexPage extends React.Component {
         return false
       }
     }
-    setTimeout(() => {
+    this.props.dispatch({
+      type: 'home/getHomeMapData'
+    }).then(() => {
       this.initBmp()
-    }, 500)
-    // fetch('mapData').then(function (response) {
-    //   response.json().then(function (data) {
-    //     console.log(data)
-    //     that.initBmp(data)
-    //   })
-    // }).catch(function (e) {
-    //   console.log("Oops, error")
-    // })
+    })
+
   }
 
   topRadioChange = (e) => {
@@ -149,194 +146,19 @@ class IndexPage extends React.Component {
 
   initBmp = () => {
     // !Object.keys(this.props.logistics).length ||
-    if (!Object.keys(this.refs).length) return false
-    let allData = {
-      "citys": [{
-        "name": "榆林",
-        "value": [109.734144, 38.291562, 2],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "烟台",
-        "value": [121.446943, 37.479204, 2],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "莱阳",
-        "value": [120.721293, 36.983481, 4],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "莱州",
-        "value": [119.950897, 37.182867, 1],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "龙口",
-        "value": [120.484795, 37.653697, 1],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "聊城",
-        "value": [115.985264, 36.462991, 1],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "青岛",
-        "value": [120.387015, 36.071002, 1],
-        "symbolSize": 3,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "邢台",
-        "value": [114.500536, 37.077376, 10],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "莱芜",
-        "value": [117.678659, 36.224362, 1],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "菏泽",
-        "value": [115.481225, 35.248134, 2],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "新泰",
-        "value": [117.775614, 35.915322, 3],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }, {
-        "name": "威海经济技术开发区",
-        "value": [122.168803, 37.42723, 2],
-        "symbolSize": 2,
-        "itemStyle": {"normal": {"color": "#F58158"}}
-      }],
-      "moveLines": [{
-        "fromName": "榆林",
-        "toName": "聊城",
-        "coords": [[109.734144, 38.291562], [115.985264, 36.462991]]
-      }, {
-        "fromName": "榆林",
-        "toName": "烟台",
-        "coords": [[109.734144, 38.291562], [121.446943, 37.479204]]
-      }, {
-        "fromName": "榆林",
-        "toName": "青岛",
-        "coords": [[109.734144, 38.291562], [120.387015, 36.071002]]
-      }, {
-        "fromName": "榆林",
-        "toName": "邢台",
-        "coords": [[109.734144, 38.291562], [114.500536, 37.077376]]
-      }, {
-        "fromName": "青岛",
-        "toName": "莱芜",
-        "coords": [[120.387015, 36.071002], [117.678659, 36.224362]]
-      }, {
-        "fromName": "青岛",
-        "toName": "菏泽",
-        "coords": [[120.387015, 36.071002], [115.481225, 35.248134]]
-      }, {
-        "fromName": "青岛",
-        "toName": "新泰",
-        "coords": [[120.387015, 36.071002], [117.775614, 35.915322]]
-      }, {
-        "fromName": "青岛",
-        "toName": "威海经区",
-        "coords": [[120.387015, 36.071002], [122.168803, 37.42723]]
-      }, {
-        "fromName": "青岛",
-        "toName": "聊城",
-        "coords": [[120.387015, 36.071002], [115.985264, 36.462991]]
-      }]
+    if (this.state.map) return false
+    let map = new BMap.Map('indexMap')
+    this.setState({
+      map
+    })
+    map.enableScrollWheelZoom(true)
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 5)
+    let data = this.props.homeMapData
+    // let IconCar = new BMap.Icon(require('../assets/image/che.svg'), new BMap.Size(36, 16))
+    for (let i = 0; i < data.length; i++) {
+      let point = new BMap.Point(data[i].lng, data[i].lat)
+      map.addOverlay(new BMap.Marker(point))
     }
-    let myChart = echarts.init(this.refs.echartMap)
-    let option = {
-      backgroundColor: '#404a59',
-      legend: {
-        show: false,
-        orient: 'vertical',
-        top: 'bottom',
-        left: 'right',
-        data: ['地点', '线路'],
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      geo: {
-        map: 'china',
-        label: {
-          emphasis: {
-            show: false
-          }
-        },
-        roam: true,
-        itemStyle: {
-          normal: {
-            areaColor: '#323c48',
-            borderColor: '#404a59'
-          },
-          emphasis: {
-            areaColor: '#2a333d'
-          }
-        }
-      },
-      series: [{
-        name: '地点',
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        zlevel: 2,
-        rippleEffect: {
-          brushType: 'stroke'
-        },
-        label: {
-          emphasis: {
-            show: true,
-            position: 'right',
-            formatter: '{b}'
-          }
-        },
-        symbolSize: 2,
-        showEffectOn: 'render',
-        itemStyle: {
-          normal: {
-            color: '#46bee9'
-          }
-        },
-        data: allData.citys
-      }, {
-        name: '线路',
-        type: 'lines',
-        coordinateSystem: 'geo',
-        zlevel: 2,
-        large: true,
-        effect: {
-          show: true,
-          constantSpeed: 30,
-          symbol: 'pin',
-          symbolSize: 3,
-          trailLength: 0,
-        },
-        lineStyle: {
-          normal: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0, color: '#58B3CC'
-            }, {
-              offset: 1, color: '#F58158'
-            }], false),
-            width: 1,
-            opacity: 0.2,
-            curveness: 0.1
-          }
-        },
-        data: allData.moveLines
-      }]
-    };
-    myChart.setOption(option)
-    window.onresize = function () {
-      myChart.resize()
-    }
-    myChart.resize()
   }
 
   render() {
@@ -515,7 +337,8 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles["dashImg-xiaoshoue"]}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}销售额 ({count.saler_money > 1000000 ? '万元' : '元'})</div>
+              <div className={styles.dashTitle}>{this.state.topTip}销售额 ({count.saler_money > 1000000 ? '万元' : '元'})
+              </div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={count.saler_money > 1000000 ? count.saler_money / 1000000 : count.saler_money}
                          decimals={2} duration={3}/>
@@ -604,7 +427,7 @@ class IndexPage extends React.Component {
             </div>
             <Divider></Divider>
             <div style={{margin: '15px 10px 0px 10px'}}>
-              <div ref='echartMap' style={{width, height: 482}}></div>
+              <div ref='echartMap' id='indexMap' style={{width, height: 482}}></div>
             </div>
           </div>
         </div>
@@ -660,7 +483,7 @@ class IndexPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {count, customerPer, supplierPer, logistics, trend, countLoading, customerLoading, supplierLoading} = state.home
+  const {count, customerPer, supplierPer, logistics, trend, countLoading, customerLoading, supplierLoading, homeMapData} = state.home
   return {
     count,
     customerPer,
@@ -670,6 +493,7 @@ function mapStateToProps(state) {
     countLoading,
     customerLoading,
     supplierLoading,
+    homeMapData,
     loading: state.loading.models.home
   }
 }
