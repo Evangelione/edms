@@ -13,20 +13,27 @@ class LogisticsMap extends PureComponent {
       alreadyDriven: 0,
       stillNeedTime: 0,
       totalDistance: 0,
-      map: 0
+      map: 0,
+      analysisLocation: false
     }
   }
 
   componentDidMount() {
     // 定义变量存储map对象
+    console.log('didmount')
     let map = this.state.map
     // 如果map存在，则清除map所有覆盖物，不存在则创建地图
     if (!this.state.map) {
       map = new BMap.Map('mapContainer')
-      this.setState({map})
+      this.setState({
+        map
+      })
     } else {
       map.clearOverlays()
     }
+    this.setState({
+      analysisLocation: false
+    })
     // 可以拖动
     map.enableScrollWheelZoom(true)
     // 设置中心点
@@ -69,9 +76,31 @@ class LogisticsMap extends PureComponent {
         }
         // 定义当前所在位置
         let currentPoint
-        if (this.props.orderMapData.gps2 !== []) {
+        if (this.props.orderMapData.gps2.length !== 0) {
           currentPoint = new BMap.Point(this.props.orderMapData.gps2[this.props.orderMapData.gps2.length - 1].lng, this.props.orderMapData.gps2[this.props.orderMapData.gps2.length - 1].lat)
           map.centerAndZoom(currentPoint, 8)
+        } else if (this.props.orderMapData.gps1.length !== 0) {
+          currentPoint = new BMap.Point(this.props.orderMapData.gps1[this.props.orderMapData.gps1.length - 1].lng, this.props.orderMapData.gps1[this.props.orderMapData.gps1.length - 1].lat)
+          map.centerAndZoom(currentPoint, 8)
+        }
+        // 画线
+        if (this.props.orderMapData.gps1.length !== 0) {
+          let lineData = this.serializationPoint(this.props.orderMapData.gps1)
+          let polygon = new BMap.Polyline(lineData, {
+            strokeColor: "#979797",
+            strokeWeight: 5,
+            strokeOpacity: 0.8
+          })
+          map.addOverlay(polygon)
+        }
+        if (this.props.orderMapData.gps2.length !== 0) {
+          let lineData = this.serializationPoint(this.props.orderMapData.gps2)
+          let polygon = new BMap.Polyline(lineData, {
+            strokeColor: "#5186f4",
+            strokeWeight: 5,
+            strokeOpacity: 0.8
+          })
+          map.addOverlay(polygon)
         }
         // 定义起点位置
         let startPoint
@@ -83,36 +112,24 @@ class LogisticsMap extends PureComponent {
             // 定义终点位置
             myGeo.getPoint(data.detaileds_address, (point) => {
               if (point) {
+                this.setState({
+                  analysisLocation: true
+                })
                 endPoint = point
                 map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
-                // 画线
-                if (this.props.orderMapData.gps1 !== []) {
-                  let lineData = this.serializationPoint(this.props.orderMapData.gps1)
-                  let polygon = new BMap.Polyline(lineData, {
-                    strokeColor: "#979797",
-                    strokeWeight: 5,
-                    strokeOpacity: 0.8
-                  })
-                  map.addOverlay(polygon)
-                }
-                if (this.props.orderMapData.gps2 !== []) {
-                  let lineData = this.serializationPoint(this.props.orderMapData.gps2)
-                  let polygon = new BMap.Polyline(lineData, {
-                    strokeColor: "#5186f4",
-                    strokeWeight: 5,
-                    strokeOpacity: 0.8
-                  })
-                  map.addOverlay(polygon)
-                }
-                transitS_E.search(startPoint, endPoint)
-                transitS_C.search(startPoint, currentPoint)
-                transitC_E.search(currentPoint, endPoint)
+                startPoint && endPoint && transitS_E.search(startPoint, endPoint)
+                startPoint && currentPoint && transitS_C.search(startPoint, currentPoint)
+                currentPoint && endPoint && transitC_E.search(currentPoint, endPoint)
               } else {
                 notification.error({
                   message: '错误！',
                   description: '终点地址没有解析到结果!',
                   duration: 6,
                 })
+                if (currentPoint) {
+                  let IconCar = new BMap.Icon(require('../../../assets/image/car_32.png'), new BMap.Size(32, 32))
+                  map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
+                }
               }
             }, data.delivery_city)
           } else {
@@ -121,6 +138,10 @@ class LogisticsMap extends PureComponent {
               description: '起点地址没有解析到结果!',
               duration: 6,
             })
+            if (currentPoint) {
+              let IconCar = new BMap.Icon(require('../../../assets/image/car_32.png'), new BMap.Size(32, 32))
+              map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
+            }
           }
         }, data.cargo_city)
       })
@@ -144,9 +165,31 @@ class LogisticsMap extends PureComponent {
         }
         // 定义当前所在位置
         let currentPoint
-        if (this.props.logMapData.gps2 !== []) {
+        if (this.props.logMapData.gps2.length !== 0) {
           currentPoint = new BMap.Point(this.props.logMapData.gps2[this.props.logMapData.gps2.length - 1].lng, this.props.logMapData.gps2[this.props.logMapData.gps2.length - 1].lat)
           map.centerAndZoom(currentPoint, 8)
+        } else if (this.props.logMapData.gps1.length !== 0) {
+          currentPoint = new BMap.Point(this.props.logMapData.gps1[this.props.logMapData.gps1.length - 1].lng, this.props.logMapData.gps1[this.props.logMapData.gps1.length - 1].lat)
+          map.centerAndZoom(currentPoint, 8)
+        }
+        // 画线
+        if (this.props.logMapData.gps1.length !== 0) {
+          let lineData = this.serializationPoint(this.props.logMapData.gps1)
+          let polygon = new BMap.Polyline(lineData, {
+            strokeColor: "#979797",
+            strokeWeight: 5,
+            strokeOpacity: 0.8
+          })
+          map.addOverlay(polygon)
+        }
+        if (this.props.logMapData.gps2.length !== 0) {
+          let lineData = this.serializationPoint(this.props.logMapData.gps2)
+          let polygon = new BMap.Polyline(lineData, {
+            strokeColor: "#5186f4",
+            strokeWeight: 5,
+            strokeOpacity: 0.8
+          })
+          map.addOverlay(polygon)
         }
         // 定义起点位置
         let startPoint
@@ -158,36 +201,24 @@ class LogisticsMap extends PureComponent {
             // 定义终点位置
             myGeo.getPoint(data.detaileds_address, (point) => {
               if (point) {
+                this.setState({
+                  analysisLocation: true
+                })
                 endPoint = point
                 map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
-                // 画线
-                if (this.props.logMapData.gps1 !== []) {
-                  let lineData = this.serializationPoint(this.props.logMapData.gps1)
-                  let polygon = new BMap.Polyline(lineData, {
-                    strokeColor: "#979797",
-                    strokeWeight: 5,
-                    strokeOpacity: 0.8
-                  })
-                  map.addOverlay(polygon)
-                }
-                if (this.props.logMapData.gps2 !== []) {
-                  let lineData = this.serializationPoint(this.props.logMapData.gps2)
-                  let polygon = new BMap.Polyline(lineData, {
-                    strokeColor: "#5186f4",
-                    strokeWeight: 5,
-                    strokeOpacity: 0.8
-                  })
-                  map.addOverlay(polygon)
-                }
-                transitS_E.search(startPoint, endPoint)
-                transitS_C.search(startPoint, currentPoint)
-                transitC_E.search(currentPoint, endPoint)
+                startPoint && endPoint && transitS_E.search(startPoint, endPoint)
+                startPoint && currentPoint && transitS_C.search(startPoint, currentPoint)
+                currentPoint && endPoint && transitC_E.search(currentPoint, endPoint)
               } else {
                 notification.error({
                   message: '错误！',
                   description: '终点地址没有解析到结果!',
                   duration: 6,
                 })
+                if (currentPoint) {
+                  let IconCar = new BMap.Icon(require('../../../assets/image/car_32.png'), new BMap.Size(32, 32))
+                  map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
+                }
               }
             }, data.delivery_city)
           } else {
@@ -196,8 +227,13 @@ class LogisticsMap extends PureComponent {
               description: '起点地址没有解析到结果!',
               duration: 6,
             })
+            if (currentPoint) {
+              let IconCar = new BMap.Icon(require('../../../assets/image/car_32.png'), new BMap.Size(32, 32))
+              map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
+            }
           }
         }, data.cargo_city)
+
       })
     }
   }
@@ -217,10 +253,10 @@ class LogisticsMap extends PureComponent {
     } else {
       data = this.props.logMapData
     }
-    if (data.gps2 !== [] && data.gps2.length >= 2) {
+    if (data.gps2.length !== 0 && data.gps2.length >= 2) {
       currentPoint = new BMap.Point(data.gps2[data.gps2.length - 1].lng, data.gps2[data.gps2.length - 1].lat)
       beforePoint = new BMap.Point(data.gps2[data.gps2.length - 2].lng, data.gps2[data.gps2.length - 2].lat)
-    } else if (data.gps1 !== [] && data.gps1.length >= 2) {
+    } else if (data.gps1.length !== 0 && data.gps1.length >= 2) {
       currentPoint = new BMap.Point(data.gps1[data.gps1.length - 1].lng, data.gps1[data.gps1.length - 1].lat)
       beforePoint = new BMap.Point(data.gps1[data.gps1.length - 2].lng, data.gps1[data.gps1.length - 2].lat)
     }
@@ -236,7 +272,6 @@ class LogisticsMap extends PureComponent {
       stillNeedTime: plan.getDuration(true),
     })
     let IconCar = new BMap.Icon(require('../../../assets/image/che.svg'), new BMap.Size(36, 16))
-    debugger
     if (currentPoint && beforePoint) {
       new BMapLib.LuShu(this.state.map, [beforePoint, currentPoint], {
         defaultContent: "",
