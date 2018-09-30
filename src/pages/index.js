@@ -154,17 +154,17 @@ class IndexPage extends React.Component {
     map.enableScrollWheelZoom(true)
     map.centerAndZoom(new BMap.Point(116.404, 39.915), 5)
     let data = this.props.homeMapData
-    // let IconCar = new BMap.Icon(require('../assets/image/che.svg'), new BMap.Size(36, 16))
+    let IconCar = new BMap.Icon(require('../assets/image/car_32.png'), new BMap.Size(32, 32))
     for (let i = 0; i < data.length; i++) {
       let point = new BMap.Point(data[i].lng, data[i].lat)
-      let mk = new BMap.Marker(point)
+      let mk = new BMap.Marker(point, {icon: IconCar})
       map.addOverlay(mk)
       console.log(mk.openInfoWindow)
-      let label = new BMap.Label(data[i].car_head,{offset:new BMap.Size(-18,-20)});
+      let label = new BMap.Label(data[i].car_head, {offset: new BMap.Size(-18, -20)});
       label.setStyle({
-        border:'1px solid #ccc',
+        border: '1px solid #ccc',
         borderRadius: '4px',
-        padding:'1px 3px'
+        padding: '1px 3px'
       })
       mk.setLabel(label);
     }

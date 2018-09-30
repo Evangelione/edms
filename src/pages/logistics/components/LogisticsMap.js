@@ -19,7 +19,6 @@ class LogisticsMap extends PureComponent {
 
   componentDidMount() {
     let map = this.state.map
-    debugger
     if (!this.state.map) {
       map = new BMap.Map('mapContainer')
     } else {
@@ -42,20 +41,21 @@ class LogisticsMap extends PureComponent {
     let data = {}
     if (this.props.location.pathname.indexOf('/order') === 0) {
       data = this.props.currentOrder
-      if (data === 0) {
-        notification.error({
-          message: '温馨提示',
-          description: '暂无司机接单',
-          duration: 6,
-        })
-        return false
-      }
       this.props.dispatch({
         type: 'home/getOrderMapData',
         payload: {
           id: data.id
         }
       }).then(() => {
+        if (this.props.orderMapData === 0) {
+          notification.error({
+            message: '温馨提示',
+            description: '暂无司机接单',
+            duration: 6,
+          })
+          map.centerAndZoom('杭州', 8)
+          return false
+        }
         let startPoint = new BMap.Point(this.props.orderMapData[0].lng, this.props.orderMapData[0].lat)
         let currentPoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 1].lng, this.props.orderMapData[this.props.orderMapData.length - 1].lat)
         let endPoint = {}
@@ -68,7 +68,11 @@ class LogisticsMap extends PureComponent {
             transitC_E.search(currentPoint, endPoint)
             transitS_E.search(startPoint, endPoint)
           } else {
-            alert("终点地址没有解析到结果!")
+            notification.error({
+              message: '错误！',
+              description: '终点地址没有解析到结果!',
+              duration: 6,
+            })
           }
         }, data.delivery_city)
         let lineData = this.serializationPoint(this.props.orderMapData)
@@ -78,20 +82,22 @@ class LogisticsMap extends PureComponent {
       })
     } else {
       data = this.props.currentLogistics
-      if (data === 0) {
-        notification.error({
-          message: '温馨提示',
-          description: '暂无司机接单',
-          duration: 6,
-        })
-        return false
-      }
+
       this.props.dispatch({
         type: 'home/getLogMapData',
         payload: {
           id: data.id
         }
       }).then(() => {
+        if (this.props.logMapData === 0) {
+          notification.error({
+            message: '温馨提示',
+            description: '暂无司机接单',
+            duration: 6,
+          })
+          map.centerAndZoom('杭州', 8)
+          return false
+        }
         let startPoint = new BMap.Point(this.props.logMapData[0].lng, this.props.logMapData[0].lat)
         let currentPoint = new BMap.Point(this.props.logMapData[this.props.logMapData.length - 1].lng, this.props.logMapData[this.props.logMapData.length - 1].lat)
         let endPoint = {}
@@ -104,7 +110,11 @@ class LogisticsMap extends PureComponent {
             transitC_E.search(currentPoint, endPoint)
             transitS_E.search(startPoint, endPoint)
           } else {
-            alert("终点地址没有解析到结果!")
+            notification.error({
+              message: '错误！',
+              description: '终点地址没有解析到结果!',
+              duration: 6,
+            })
           }
         }, data.delivery_city)
         let lineData = this.serializationPoint(this.props.logMapData)
@@ -137,12 +147,12 @@ class LogisticsMap extends PureComponent {
       let route = plan.getRoute(j)
       arrPois = arrPois.concat(route.getPath())
     }
-    this.state.map.addOverlay(new BMap.Polyline(arrPois, {strokeColor: '#111'}))
-    this.state.map.setViewport(arrPois)
+    // 预计走的路线
+    // this.state.map.addOverlay(new BMap.Polyline(arrPois, {strokeColor: '#111'}))
+    // this.state.map.setViewport(arrPois)
     this.setState({
       stillNeedTime: plan.getDuration(true),
     })
-    console.log([beforePoint, currentPoint])
     let IconCar = new BMap.Icon(require('../../../assets/image/che.svg'), new BMap.Size(36, 16))
     let lushu = new BMapLib.LuShu(this.state.map, [beforePoint, currentPoint], {
       defaultContent: "",
