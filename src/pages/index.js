@@ -157,7 +157,16 @@ class IndexPage extends React.Component {
     // let IconCar = new BMap.Icon(require('../assets/image/che.svg'), new BMap.Size(36, 16))
     for (let i = 0; i < data.length; i++) {
       let point = new BMap.Point(data[i].lng, data[i].lat)
-      map.addOverlay(new BMap.Marker(point))
+      let mk = new BMap.Marker(point)
+      map.addOverlay(mk)
+      console.log(mk.openInfoWindow)
+      let label = new BMap.Label(data[i].car_head,{offset:new BMap.Size(-18,-20)});
+      label.setStyle({
+        border:'1px solid #ccc',
+        borderRadius: '4px',
+        padding:'1px 3px'
+      })
+      mk.setLabel(label);
     }
   }
 

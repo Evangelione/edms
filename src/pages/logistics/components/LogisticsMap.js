@@ -13,13 +13,18 @@ class LogisticsMap extends PureComponent {
       alreadyDriven: 0,
       stillNeedTime: 0,
       totalDistance: 0,
-      map: {}
+      map: 0
     }
   }
 
   componentDidMount() {
-    let map = new BMap.Map('mapContainer')
-    // map.clearOverlays()
+    let map = this.state.map
+    debugger
+    if (!this.state.map) {
+      map = new BMap.Map('mapContainer')
+    } else {
+      map.clearOverlays()
+    }
     this.setState({map})
     map.enableScrollWheelZoom(true)
     let myGeo = new BMap.Geocoder()
@@ -119,8 +124,14 @@ class LogisticsMap extends PureComponent {
 
   setStillNeedTime = (results) => {
     let plan = results.getPlan(0)
-    let currentPoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 1].lng, this.props.orderMapData[this.props.orderMapData.length - 1].lat)
-    let beforePoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 2].lng, this.props.orderMapData[this.props.orderMapData.length - 2].lat)
+    let currentPoint, beforePoint
+    if (this.props.location.pathname.indexOf('/order') === 0) {
+      currentPoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 1].lng, this.props.orderMapData[this.props.orderMapData.length - 1].lat)
+      beforePoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 2].lng, this.props.orderMapData[this.props.orderMapData.length - 2].lat)
+    } else {
+      currentPoint = new BMap.Point(this.props.logMapData[this.props.logMapData.length - 1].lng, this.props.logMapData[this.props.logMapData.length - 1].lat)
+      beforePoint = new BMap.Point(this.props.logMapData[this.props.logMapData.length - 2].lng, this.props.logMapData[this.props.logMapData.length - 2].lat)
+    }
     let arrPois = []
     for (let j = 0; j < plan.getNumRoutes(); j++) {
       let route = plan.getRoute(j)
@@ -139,21 +150,7 @@ class LogisticsMap extends PureComponent {
       icon: IconCar,
       speed: 4500,
       enableRotation: true,
-      landmarkPois: [
-        {lng: 116.314782, lat: 39.913508, html: '加油站', pauseTime: 2},
-        {
-          lng: 116.315391,
-          lat: 39.964429,
-          html: '高速公路收费<div><img src="http://map.baidu.com/img/logo-map.gif"/></div>',
-          pauseTime: 3
-        },
-        {
-          lng: 116.381476,
-          lat: 39.974073,
-          html: '肯德基早餐<div><img src="http://ishouji.baidu.com/resource/images/map/show_pic04.gif"/></div>',
-          pauseTime: 2
-        }
-      ]
+      landmarkPois: []
     })
     lushu.start()
   }
