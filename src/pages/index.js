@@ -160,7 +160,7 @@ class IndexPage extends React.Component {
       let mk = new BMap.Marker(point, {icon: IconCar})
       map.addOverlay(mk)
       console.log(mk.openInfoWindow)
-      let label = new BMap.Label(data[i].car_head, {offset: new BMap.Size(-18, -20)});
+      let label = new BMap.Label(data[i].car_head, {offset: new BMap.Size(-12, -20)});
       label.setStyle({
         border: '1px solid #ccc',
         borderRadius: '4px',

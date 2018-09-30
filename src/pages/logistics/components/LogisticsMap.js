@@ -18,17 +18,25 @@ class LogisticsMap extends PureComponent {
   }
 
   componentDidMount() {
+    // 定义变量存储map对象
     let map = this.state.map
+    // 如果map存在，则清除map所有覆盖物，不存在则创建地图
     if (!this.state.map) {
       map = new BMap.Map('mapContainer')
+      this.setState({map})
     } else {
       map.clearOverlays()
     }
-    this.setState({map})
+    // 可以拖动
     map.enableScrollWheelZoom(true)
+    // 设置中心点
+    map.centerAndZoom('杭州', 8)
+    // 定义传地名获取点的对象
     let myGeo = new BMap.Geocoder()
+    // 定义开始，结束图标
     let IconStart = new BMap.Icon(require('../../../assets/image/start_22_22.png'), new BMap.Size(19, 23))
     let IconEnd = new BMap.Icon(require('../../../assets/image/end_22_22.png'), new BMap.Size(19, 23))
+    // 定义3个测距方法
     let transitS_C = new BMap.DrivingRoute(map, {
       onSearchComplete: this.setAlreadyDriven,
     })
@@ -38,89 +46,158 @@ class LogisticsMap extends PureComponent {
     let transitS_E = new BMap.DrivingRoute(map, {
       onSearchComplete: this.setTotalDistance,
     })
+    // 定义data来存储当前订单信息
     let data = {}
+    // 判断当前是订单地图还是物流地图
     if (this.props.location.pathname.indexOf('/order') === 0) {
       data = this.props.currentOrder
+      // 获取订单地图数据
       this.props.dispatch({
         type: 'home/getOrderMapData',
         payload: {
           id: data.id
         }
       }).then(() => {
+        // 如果订单数据没有代表司机未接单，则为0
         if (this.props.orderMapData === 0) {
           notification.error({
             message: '温馨提示',
             description: '暂无司机接单',
             duration: 6,
           })
-          map.centerAndZoom('杭州', 8)
           return false
         }
-        let startPoint = new BMap.Point(this.props.orderMapData[0].lng, this.props.orderMapData[0].lat)
-        let currentPoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 1].lng, this.props.orderMapData[this.props.orderMapData.length - 1].lat)
-        let endPoint = {}
-        map.centerAndZoom(currentPoint, 8)
-        map.addOverlay(new BMap.Marker(startPoint, {icon: IconStart}))
-        myGeo.getPoint(data.detaileds_address, function (point) {
+        // 定义当前所在位置
+        let currentPoint
+        if (this.props.orderMapData.gps2 !== []) {
+          currentPoint = new BMap.Point(this.props.orderMapData.gps2[this.props.orderMapData.gps2.length - 1].lng, this.props.orderMapData.gps2[this.props.orderMapData.gps2.length - 1].lat)
+          map.centerAndZoom(currentPoint, 8)
+        }
+        // 定义起点位置
+        let startPoint
+        let endPoint
+        myGeo.getPoint(data.detailed_address, (point) => {
           if (point) {
-            endPoint = point
-            map.addOverlay(new BMap.Marker(point, {icon: IconEnd}));
-            transitC_E.search(currentPoint, endPoint)
-            transitS_E.search(startPoint, endPoint)
+            startPoint = point
+            map.addOverlay(new BMap.Marker(point, {icon: IconStart}))
+            // 定义终点位置
+            myGeo.getPoint(data.detaileds_address, (point) => {
+              if (point) {
+                endPoint = point
+                map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
+                // 画线
+                if (this.props.orderMapData.gps1 !== []) {
+                  let lineData = this.serializationPoint(this.props.orderMapData.gps1)
+                  let polygon = new BMap.Polyline(lineData, {
+                    strokeColor: "#979797",
+                    strokeWeight: 5,
+                    strokeOpacity: 0.8
+                  })
+                  map.addOverlay(polygon)
+                }
+                if (this.props.orderMapData.gps2 !== []) {
+                  let lineData = this.serializationPoint(this.props.orderMapData.gps2)
+                  let polygon = new BMap.Polyline(lineData, {
+                    strokeColor: "#5186f4",
+                    strokeWeight: 5,
+                    strokeOpacity: 0.8
+                  })
+                  map.addOverlay(polygon)
+                }
+                transitS_E.search(startPoint, endPoint)
+                transitS_C.search(startPoint, currentPoint)
+                transitC_E.search(currentPoint, endPoint)
+              } else {
+                notification.error({
+                  message: '错误！',
+                  description: '终点地址没有解析到结果!',
+                  duration: 6,
+                })
+              }
+            }, data.delivery_city)
           } else {
             notification.error({
               message: '错误！',
-              description: '终点地址没有解析到结果!',
+              description: '起点地址没有解析到结果!',
               duration: 6,
             })
           }
-        }, data.delivery_city)
-        let lineData = this.serializationPoint(this.props.orderMapData)
-        let polygon = new BMap.Polyline(lineData, {strokeColor: "#5186F4", strokeWeight: 5, strokeOpacity: 1})
-        map.addOverlay(polygon)
-        transitS_C.search(startPoint, currentPoint)
+        }, data.cargo_city)
       })
     } else {
       data = this.props.currentLogistics
-
+      // 获取订单地图数据
       this.props.dispatch({
         type: 'home/getLogMapData',
         payload: {
           id: data.id
         }
       }).then(() => {
+        // 如果订单数据没有代表司机未接单，则为0
         if (this.props.logMapData === 0) {
           notification.error({
             message: '温馨提示',
             description: '暂无司机接单',
             duration: 6,
           })
-          map.centerAndZoom('杭州', 8)
           return false
         }
-        let startPoint = new BMap.Point(this.props.logMapData[0].lng, this.props.logMapData[0].lat)
-        let currentPoint = new BMap.Point(this.props.logMapData[this.props.logMapData.length - 1].lng, this.props.logMapData[this.props.logMapData.length - 1].lat)
-        let endPoint = {}
-        map.centerAndZoom(currentPoint, 8)
-        map.addOverlay(new BMap.Marker(startPoint, {icon: IconStart}))
-        myGeo.getPoint(data.detaileds_address, function (point) {
+        // 定义当前所在位置
+        let currentPoint
+        if (this.props.logMapData.gps2 !== []) {
+          currentPoint = new BMap.Point(this.props.logMapData.gps2[this.props.logMapData.gps2.length - 1].lng, this.props.logMapData.gps2[this.props.logMapData.gps2.length - 1].lat)
+          map.centerAndZoom(currentPoint, 8)
+        }
+        // 定义起点位置
+        let startPoint
+        let endPoint
+        myGeo.getPoint(data.detailed_address, (point) => {
           if (point) {
-            endPoint = point
-            map.addOverlay(new BMap.Marker(point, {icon: IconEnd}));
-            transitC_E.search(currentPoint, endPoint)
-            transitS_E.search(startPoint, endPoint)
+            startPoint = point
+            map.addOverlay(new BMap.Marker(point, {icon: IconStart}))
+            // 定义终点位置
+            myGeo.getPoint(data.detaileds_address, (point) => {
+              if (point) {
+                endPoint = point
+                map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
+                // 画线
+                if (this.props.logMapData.gps1 !== []) {
+                  let lineData = this.serializationPoint(this.props.logMapData.gps1)
+                  let polygon = new BMap.Polyline(lineData, {
+                    strokeColor: "#979797",
+                    strokeWeight: 5,
+                    strokeOpacity: 0.8
+                  })
+                  map.addOverlay(polygon)
+                }
+                if (this.props.logMapData.gps2 !== []) {
+                  let lineData = this.serializationPoint(this.props.logMapData.gps2)
+                  let polygon = new BMap.Polyline(lineData, {
+                    strokeColor: "#5186f4",
+                    strokeWeight: 5,
+                    strokeOpacity: 0.8
+                  })
+                  map.addOverlay(polygon)
+                }
+                transitS_E.search(startPoint, endPoint)
+                transitS_C.search(startPoint, currentPoint)
+                transitC_E.search(currentPoint, endPoint)
+              } else {
+                notification.error({
+                  message: '错误！',
+                  description: '终点地址没有解析到结果!',
+                  duration: 6,
+                })
+              }
+            }, data.delivery_city)
           } else {
             notification.error({
               message: '错误！',
-              description: '终点地址没有解析到结果!',
+              description: '起点地址没有解析到结果!',
               duration: 6,
             })
           }
-        }, data.delivery_city)
-        let lineData = this.serializationPoint(this.props.logMapData)
-        let polygon = new BMap.Polyline(lineData, {strokeColor: "#5186F4", strokeWeight: 5, strokeOpacity: 1})
-        map.addOverlay(polygon)
-        transitS_C.search(startPoint, currentPoint)
+        }, data.cargo_city)
       })
     }
   }
@@ -134,13 +211,18 @@ class LogisticsMap extends PureComponent {
 
   setStillNeedTime = (results) => {
     let plan = results.getPlan(0)
-    let currentPoint, beforePoint
+    let currentPoint, beforePoint, data
     if (this.props.location.pathname.indexOf('/order') === 0) {
-      currentPoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 1].lng, this.props.orderMapData[this.props.orderMapData.length - 1].lat)
-      beforePoint = new BMap.Point(this.props.orderMapData[this.props.orderMapData.length - 2].lng, this.props.orderMapData[this.props.orderMapData.length - 2].lat)
+      data = this.props.orderMapData
     } else {
-      currentPoint = new BMap.Point(this.props.logMapData[this.props.logMapData.length - 1].lng, this.props.logMapData[this.props.logMapData.length - 1].lat)
-      beforePoint = new BMap.Point(this.props.logMapData[this.props.logMapData.length - 2].lng, this.props.logMapData[this.props.logMapData.length - 2].lat)
+      data = this.props.logMapData
+    }
+    if (data.gps2 !== [] && data.gps2.length >= 2) {
+      currentPoint = new BMap.Point(data.gps2[data.gps2.length - 1].lng, data.gps2[data.gps2.length - 1].lat)
+      beforePoint = new BMap.Point(data.gps2[data.gps2.length - 2].lng, data.gps2[data.gps2.length - 2].lat)
+    } else if (data.gps1 !== [] && data.gps1.length >= 2) {
+      currentPoint = new BMap.Point(data.gps1[data.gps1.length - 1].lng, data.gps1[data.gps1.length - 1].lat)
+      beforePoint = new BMap.Point(data.gps1[data.gps1.length - 2].lng, data.gps1[data.gps1.length - 2].lat)
     }
     let arrPois = []
     for (let j = 0; j < plan.getNumRoutes(); j++) {
@@ -154,15 +236,19 @@ class LogisticsMap extends PureComponent {
       stillNeedTime: plan.getDuration(true),
     })
     let IconCar = new BMap.Icon(require('../../../assets/image/che.svg'), new BMap.Size(36, 16))
-    let lushu = new BMapLib.LuShu(this.state.map, [beforePoint, currentPoint], {
-      defaultContent: "",
-      autoView: true,
-      icon: IconCar,
-      speed: 4500,
-      enableRotation: true,
-      landmarkPois: []
-    })
-    lushu.start()
+    debugger
+    if (currentPoint && beforePoint) {
+      new BMapLib.LuShu(this.state.map, [beforePoint, currentPoint], {
+        defaultContent: "",
+        autoView: true,
+        icon: IconCar,
+        speed: 4500,
+        enableRotation: true,
+        landmarkPois: []
+      }).start()
+    } else {
+      this.state.map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
+    }
   }
 
   setTotalDistance = (results) => {
