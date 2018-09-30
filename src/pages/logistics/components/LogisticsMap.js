@@ -20,7 +20,6 @@ class LogisticsMap extends PureComponent {
 
   componentDidMount() {
     // 定义变量存储map对象
-    console.log('didmount')
     let map = this.state.map
     // 如果map存在，则清除map所有覆盖物，不存在则创建地图
     if (!this.state.map) {
@@ -108,6 +107,7 @@ class LogisticsMap extends PureComponent {
         myGeo.getPoint(data.detailed_address, (point) => {
           if (point) {
             startPoint = point
+            if (!currentPoint) map.centerAndZoom(startPoint, 8)
             map.addOverlay(new BMap.Marker(point, {icon: IconStart}))
             // 定义终点位置
             myGeo.getPoint(data.detaileds_address, (point) => {
@@ -116,6 +116,7 @@ class LogisticsMap extends PureComponent {
                   analysisLocation: true
                 })
                 endPoint = point
+                if (!currentPoint) map.centerAndZoom(endPoint, 8)
                 map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
                 startPoint && endPoint && transitS_E.search(startPoint, endPoint)
                 startPoint && currentPoint && transitS_C.search(startPoint, currentPoint)
@@ -197,6 +198,7 @@ class LogisticsMap extends PureComponent {
         myGeo.getPoint(data.detailed_address, (point) => {
           if (point) {
             startPoint = point
+            if (!currentPoint) map.centerAndZoom(startPoint, 8)
             map.addOverlay(new BMap.Marker(point, {icon: IconStart}))
             // 定义终点位置
             myGeo.getPoint(data.detaileds_address, (point) => {
@@ -205,6 +207,7 @@ class LogisticsMap extends PureComponent {
                   analysisLocation: true
                 })
                 endPoint = point
+                if (!currentPoint) map.centerAndZoom(endPoint, 8)
                 map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
                 startPoint && endPoint && transitS_E.search(startPoint, endPoint)
                 startPoint && currentPoint && transitS_C.search(startPoint, currentPoint)
