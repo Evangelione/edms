@@ -152,7 +152,7 @@ class IndexPage extends React.Component {
       map
     })
     map.enableScrollWheelZoom(true)
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 5)
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 14)
     let data = this.props.homeMapData
     let IconCar = new BMap.Icon(require('../assets/image/car_32.png'), new BMap.Size(32, 32))
     for (let i = 0; i < data.length; i++) {

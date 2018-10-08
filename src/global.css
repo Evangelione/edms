@@ -875,3 +875,8 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   top: -5px;
   left: 41px;
 }
+
+.pano_close{
+  top: 80px;
+  right: 15px;
+}

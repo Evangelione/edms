@@ -36,7 +36,7 @@ class LogisticsMap extends PureComponent {
     // 可以拖动
     map.enableScrollWheelZoom(true)
     // 设置中心点
-    map.centerAndZoom('杭州', 8)
+    map.centerAndZoom('杭州', 13)
     // 定义传地名获取点的对象
     let myGeo = new BMap.Geocoder()
     // 定义开始，结束图标
@@ -77,10 +77,10 @@ class LogisticsMap extends PureComponent {
         let currentPoint
         if (this.props.orderMapData.gps2.length !== 0) {
           currentPoint = new BMap.Point(this.props.orderMapData.gps2[this.props.orderMapData.gps2.length - 1].lng, this.props.orderMapData.gps2[this.props.orderMapData.gps2.length - 1].lat)
-          map.centerAndZoom(currentPoint, 8)
+          map.centerAndZoom(currentPoint, 13)
         } else if (this.props.orderMapData.gps1.length !== 0) {
           currentPoint = new BMap.Point(this.props.orderMapData.gps1[this.props.orderMapData.gps1.length - 1].lng, this.props.orderMapData.gps1[this.props.orderMapData.gps1.length - 1].lat)
-          map.centerAndZoom(currentPoint, 8)
+          map.centerAndZoom(currentPoint, 13)
         }
         // 画线
         if (this.props.orderMapData.gps1.length !== 0) {
@@ -107,7 +107,7 @@ class LogisticsMap extends PureComponent {
         myGeo.getPoint(data.detailed_address, (point) => {
           if (point) {
             startPoint = point
-            if (!currentPoint) map.centerAndZoom(startPoint, 8)
+            if (!currentPoint) map.centerAndZoom(startPoint, 13)
             map.addOverlay(new BMap.Marker(point, {icon: IconStart}))
             // 定义终点位置
             myGeo.getPoint(data.detaileds_address, (point) => {
@@ -116,7 +116,7 @@ class LogisticsMap extends PureComponent {
                   analysisLocation: true
                 })
                 endPoint = point
-                if (!currentPoint) map.centerAndZoom(endPoint, 8)
+                if (!currentPoint) map.centerAndZoom(endPoint, 13)
                 map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
                 startPoint && endPoint && transitS_E.search(startPoint, endPoint)
                 startPoint && currentPoint && transitS_C.search(startPoint, currentPoint)
@@ -168,10 +168,10 @@ class LogisticsMap extends PureComponent {
         let currentPoint
         if (this.props.logMapData.gps2.length !== 0) {
           currentPoint = new BMap.Point(this.props.logMapData.gps2[this.props.logMapData.gps2.length - 1].lng, this.props.logMapData.gps2[this.props.logMapData.gps2.length - 1].lat)
-          map.centerAndZoom(currentPoint, 8)
+          map.centerAndZoom(currentPoint, 13)
         } else if (this.props.logMapData.gps1.length !== 0) {
           currentPoint = new BMap.Point(this.props.logMapData.gps1[this.props.logMapData.gps1.length - 1].lng, this.props.logMapData.gps1[this.props.logMapData.gps1.length - 1].lat)
-          map.centerAndZoom(currentPoint, 8)
+          map.centerAndZoom(currentPoint, 13)
         }
         // 画线
         if (this.props.logMapData.gps1.length !== 0) {
@@ -198,7 +198,7 @@ class LogisticsMap extends PureComponent {
         myGeo.getPoint(data.detailed_address, (point) => {
           if (point) {
             startPoint = point
-            if (!currentPoint) map.centerAndZoom(startPoint, 8)
+            if (!currentPoint) map.centerAndZoom(startPoint, 13)
             map.addOverlay(new BMap.Marker(point, {icon: IconStart}))
             // 定义终点位置
             myGeo.getPoint(data.detaileds_address, (point) => {
@@ -207,7 +207,7 @@ class LogisticsMap extends PureComponent {
                   analysisLocation: true
                 })
                 endPoint = point
-                if (!currentPoint) map.centerAndZoom(endPoint, 8)
+                if (!currentPoint) map.centerAndZoom(endPoint, 13)
                 map.addOverlay(new BMap.Marker(point, {icon: IconEnd}))
                 startPoint && endPoint && transitS_E.search(startPoint, endPoint)
                 startPoint && currentPoint && transitS_C.search(startPoint, currentPoint)
