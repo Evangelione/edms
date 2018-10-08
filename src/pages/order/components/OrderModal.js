@@ -415,6 +415,13 @@ class OrderModal extends PureComponent {
               visible: false,
               title: '采购信息',
             })
+            this.props.dispatch({
+              type: 'order/fetch', payload: {
+                order_status: '1',
+                find_str: '',
+                order_type: this.props.order_type
+              }
+            })
           })
         } else {
           this.props.dispatch({
@@ -428,18 +435,18 @@ class OrderModal extends PureComponent {
               visible: false,
               title: '采购信息',
             })
+            this.props.dispatch({
+              type: 'order/fetch', payload: {
+                order_status: '1',
+                find_str: '',
+                order_type: this.props.order_type
+              }
+            })
           })
         }
         this.props.dispatch({
           type: 'order/save',
           payload: {currentTab: 'daizhifu', currentIndex: 0}
-        })
-        this.props.dispatch({
-          type: 'order/fetch', payload: {
-            order_status: '1',
-            find_str: '',
-            order_type: this.props.order_type
-          }
         })
       } else {
         // Object.keys(err).forEach((key, i) => {
