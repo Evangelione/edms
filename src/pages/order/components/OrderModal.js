@@ -381,13 +381,12 @@ class OrderModal extends PureComponent {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        debugger
         // delete values.cust_id2
         // delete values.cust_id3
         // delete values.delivery
         // delete values.site_id2
         // delete values.site_id3
-        values.recv_time = values.recv_time.format('YYYY-MM-DD HH:mm:ss')
+        values.recv_time = values.recv_time.format('YYYY-MM-DD HH:00:00')
         values.pay_type = '1'
         if (this.props.modify) {
           values.id = this.props.currentOrder.order_id

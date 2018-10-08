@@ -21,5 +21,9 @@ export const LOGO = {
   chenchen: {
     name: '蓝采和',
     logo: require('./assets/image/Group.png')
+  },
+  localhost: {
+    name: '蓝采和',
+    logo: require('./assets/image/Group.png')
   }
 }
