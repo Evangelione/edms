@@ -144,6 +144,13 @@ class IndexPage extends React.Component {
     }
   }
 
+  goLogisticsList = () => {
+    console.log(11111)
+    this.props.dispatch(routerRedux.push({
+      pathname: '/logistics',
+    }))
+  }
+
   initBmp = () => {
     // !Object.keys(this.props.logistics).length ||
     if (this.state.map) return false
@@ -152,14 +159,13 @@ class IndexPage extends React.Component {
       map
     })
     map.enableScrollWheelZoom(true)
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 14)
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 5)
     let data = this.props.homeMapData
     let IconCar = new BMap.Icon(require('../assets/image/car_32.png'), new BMap.Size(32, 32))
     for (let i = 0; i < data.length; i++) {
       let point = new BMap.Point(data[i].lng, data[i].lat)
       let mk = new BMap.Marker(point, {icon: IconCar})
       map.addOverlay(mk)
-      console.log(mk.openInfoWindow)
       let label = new BMap.Label(data[i].car_head, {offset: new BMap.Size(-12, -20)});
       label.setStyle({
         border: '1px solid #ccc',
@@ -167,6 +173,7 @@ class IndexPage extends React.Component {
         padding: '1px 3px'
       })
       mk.setLabel(label);
+      mk.addEventListener('click', this.goLogisticsList)
     }
   }
 

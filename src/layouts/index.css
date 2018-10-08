@@ -11,9 +11,7 @@
 
 .logo {
   height: 120px;
-  background-color: #233D7A;
-  background-repeat: no-repeat;
-  background-position: 27px 31px;
+  background: #233D7A no-repeat 27px 31px;
 }
 
 .header {
