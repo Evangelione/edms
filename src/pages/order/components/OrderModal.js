@@ -824,7 +824,7 @@ class OrderModal extends PureComponent {
                     {getFieldDecorator('recv_time', {
                       rules: [{required: true, message: '请选择交货时间！'}],
                     })(
-                      <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:mm:00'} showTime={{format: 'HH:mm'}}
+                      <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:00:00'} showTime={{format: 'HH'}}
                                   disabled={this.props.confirm ? true : false}
                                   locale={locale}/>
                     )}
