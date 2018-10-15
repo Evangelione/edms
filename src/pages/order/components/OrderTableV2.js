@@ -139,7 +139,7 @@ class OrderTableV2 extends PureComponent {
                 }
                 description={
                   <div>
-                    <span style={{float: 'left', marginLeft: 85}}>创建时间: {item.create_time}</span>
+                    <span style={{float: 'left', marginLeft: 85}}>创建时间: {item.order_date}</span>
                     <span style={{float: 'right', marginRight: 25}}>预计交货时间: {item.recv_time}</span>
                   </div>
                 }
