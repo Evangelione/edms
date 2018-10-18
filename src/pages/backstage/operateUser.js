@@ -1,12 +1,13 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal} from 'antd'
+import { connect } from 'dva'
+import { Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Modal } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
-import {IP} from '../../constants'
-import {routerRedux} from 'dva/router'
+import { IP } from '../../constants'
+import { routerRedux } from 'dva/router'
 
 const FormItem = Form.Item
+const {TextArea} = Input
 
 class OperateUser extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class OperateUser extends React.Component {
         uid: -1,
         name: 'avatar.png',
         status: 'done',
-        url: this.props.editForm.head_img,
+        url: this.props.editForm.logo,
       }],
       gly: false,
       yhqx: false,
@@ -31,19 +32,19 @@ class OperateUser extends React.Component {
     if (this.props.location.query.type === 'edit') {
       if (!Object.keys(this.props.editForm).length) {
         this.props.dispatch(routerRedux.push({
-          pathname: '/backstage'
+          pathname: '/backstage',
         }))
       } else {
         this.setState({
           value: this.props.editForm.role,
           gly: ((this.props.editForm.auth - 0) & 1 !== 0) ? true : false,
           yhqx: ((this.props.editForm.auth - 0) & 2 !== 0) ? true : false,
-          sjwh: ((this.props.editForm.auth - 0) & 4 !== 0) ? true : false
+          sjwh: ((this.props.editForm.auth - 0) & 4 !== 0) ? true : false,
         })
       }
     } else {
       this.setState({
-        fileList: []
+        fileList: [],
       })
     }
   }
@@ -53,8 +54,8 @@ class OperateUser extends React.Component {
   handlePreview = (file) => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
-      previewVisible: true
-    });
+      previewVisible: true,
+    })
   }
 
   handleChange = ({fileList}) => this.setState({fileList})
@@ -67,9 +68,9 @@ class OperateUser extends React.Component {
         values.yhqx === true ? auth += 2 : auth += 0
         values.sjwh === true ? auth += 4 : auth += 0
         if (this.state.fileList.length === 0) {
-          values.head_img = ''
+          values.logo = ''
         } else {
-          values.head_img = this.props.imgUrl ? this.props.imgUrl : this.state.fileList[0].url
+          values.logo = this.props.imgUrl ? this.props.imgUrl : this.state.fileList[0].url
         }
         delete values.gly
         delete values.yhqx
@@ -80,13 +81,13 @@ class OperateUser extends React.Component {
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'backstage/insertAdmin',
-            payload: values
+            payload: values,
           })
         } else {
           values.id = this.props.editForm.id
           this.props.dispatch({
             type: 'backstage/modifyAdmin',
-            payload: values
+            payload: values,
           })
         }
       }
@@ -96,7 +97,7 @@ class OperateUser extends React.Component {
   cacelForm = () => {
     this.props.form.resetFields()
     this.props.dispatch(routerRedux.push({
-      pathname: '/backstage'
+      pathname: '/backstage',
     }))
   }
 
@@ -179,7 +180,7 @@ class OperateUser extends React.Component {
   customRequest = (file) => {
     this.props.dispatch({
       type: 'backstage/postAvatar',
-      payload: file
+      payload: file,
     })
   }
 
@@ -188,7 +189,7 @@ class OperateUser extends React.Component {
     const {previewVisible, previewImage, fileList} = this.state
     const formItemLayout = {
       labelCol: {span: 2},
-      wrapperCol: {span: 5}
+      wrapperCol: {span: 5},
     }
     const uploadButton = (
       <div>
@@ -200,23 +201,23 @@ class OperateUser extends React.Component {
     return (
       <div>
         <div>
-          <PageTitle>{title}管理员</PageTitle>
+          <PageTitle>{title}企业</PageTitle>
           <Card>
             <Form>
-              <div className='itemTitle'>1.管理员信息</div>
+              <div className='itemTitle'>1.ED+平台用户信息</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
                   <FormItem
-                    label="头像"
+                    label="LOGO"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('head_img')(
+                    {getFieldDecorator('logo')(
                       <div>
                         <Upload
-                          action={`${IP}/admin/admin/img`}
+                          action={`${IP}/admin/company/img`}
                           listType="picture-card"
-                          name='AdminForm[img]'
+                          name='CompanyForm[img]'
                           fileList={fileList}
                           onPreview={this.handlePreview}
                           onChange={this.handleChange}
@@ -227,20 +228,50 @@ class OperateUser extends React.Component {
                         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                           <img alt="example" style={{width: '100%'}} src={previewImage}/>
                         </Modal>
-                      </div>
+                      </div>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={24}>
                   <FormItem
-                    label="姓名"
+                    label="平台名称"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('name', {
-                      initialValue: this.props.editForm.name ? this.props.editForm.name : '',
-                      rules: [{required: true, message: '请填写姓名!'}],
+                    {getFieldDecorator('platform_name', {
+                      initialValue: this.props.editForm.platform_name ? this.props.editForm.platform_name : '',
+                      rules: [{required: true, message: '请填写平台名称!'}],
                     })(
-                      <Input placeholder="请填写真实姓名"/>
+                      <Input placeholder="请填写平台名称"/>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <div className='itemTitle'>2.企业信息</div>
+              <Divider></Divider>
+              <Row style={{marginTop: 35}}>
+                <Col span={24}>
+                  <FormItem
+                    label="企业名称"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('full_name', {
+                      initialValue: this.props.editForm.full_name ? this.props.editForm.full_name : '',
+                      rules: [{required: true, message: '请填写企业名称!'}],
+                    })(
+                      <Input placeholder="请填写企业名称"/>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={24}>
+                  <FormItem
+                    label="联系人"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('contact', {
+                      initialValue: this.props.editForm.contact ? this.props.editForm.contact : '',
+                      rules: [{required: true, message: '请填写联系人!'}],
+                    })(
+                      <Input placeholder="请填写联系人"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -249,21 +280,22 @@ class OperateUser extends React.Component {
                     label="手机号"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('mobile', {
-                      initialValue: this.props.editForm.mobile ? this.props.editForm.mobile : '',
+                    {getFieldDecorator('contact_mobile', {
+                      initialValue: this.props.editForm.contact_mobile ? this.props.editForm.contact_mobile : '',
                       rules: [{
+                        required: true,
                         message: '请填写正确手机号！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写手机号"/>
+                      <Input placeholder="请填写手机号"/>,
                     )}
                   </FormItem>
                 </Col>
               </Row>
-              <div className='itemTitle'>2.账号密码</div>
+              <div className='itemTitle'>3.账号密码</div>
               <Divider></Divider>
               <Row style={{marginTop: 35}}>
                 <Col span={24}>
@@ -276,7 +308,7 @@ class OperateUser extends React.Component {
                       rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: '^[A-Za-z0-9]{1,30}$'}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="只支持英文/数字"/>
+                      <Input placeholder="只支持英文/数字"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -289,75 +321,27 @@ class OperateUser extends React.Component {
                       rules: [{required: false, message: '请填写正确密码！', min: 6, max: 16, pattern: '^(\\w){6,16}$'}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="6-16位字母/数字/下划线" type='password'/>
+                      <Input placeholder="6-16位字母/数字/下划线" type='password'/>,
                     )}
                   </FormItem>
                 </Col>
               </Row>
-              {/*<div className={'itemTitle'} style={{display: 'none'}}>3.管理员角色</div>*/}
-              {/*<Divider style={{display: 'none'}}></Divider>*/}
-              {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
-              {/*<Col span={12} offset={1}>*/}
-              {/*<FormItem*/}
-              {/*label=""*/}
-              {/*{...formItemLayout2}*/}
-              {/*>*/}
-              {/*{getFieldDecorator('role', {*/}
-              {/*initialValue: '2',*/}
-              {/*valuePropName: 'checked',*/}
-              {/*})(*/}
-              {/*<RadioGroup value={this.state.value}*/}
-              {/*onChange={this.radioChange}>*/}
-              {/*<Radio value={'1'}>超级管理员</Radio>*/}
-              {/*<Radio value={'2'} style={{marginLeft: 110}}>普通管理员</Radio>*/}
-              {/*</RadioGroup>*/}
-              {/*)}*/}
-              {/*</FormItem>*/}
-              {/*</Col>*/}
-              {/*</Row>*/}
-              {/*<div className={'itemTitle'} style={{display: 'none'}}>4.角色权限</div>*/}
-              {/*<Divider style={{display: 'none'}}></Divider>*/}
-              {/*<Row style={{marginTop: 35}} style={{display: 'none'}}>*/}
-              {/*<Col span={5}>*/}
-              {/*<FormItem*/}
-              {/*label="管理员设置"*/}
-              {/*{...formItemLayout2}*/}
-              {/*>*/}
-              {/*{getFieldDecorator('gly', {*/}
-              {/*valuePropName: 'checked',*/}
-              {/*initialValue: false,*/}
-              {/*})(*/}
-              {/*<Switch onChange={this.checkChange.bind(null, 'gly')}/>,*/}
-              {/*)}*/}
-              {/*</FormItem>*/}
-              {/*</Col>*/}
-              {/*<Col span={5}>*/}
-              {/*<FormItem*/}
-              {/*label="用户权限设置"*/}
-              {/*{...formItemLayout2}*/}
-              {/*>*/}
-              {/*{getFieldDecorator('yhqx', {*/}
-              {/*valuePropName: 'checked',*/}
-              {/*initialValue: true,*/}
-              {/*})(*/}
-              {/*<Switch onChange={this.checkChange.bind(null, 'yhqx')}/>,*/}
-              {/*)}*/}
-              {/*</FormItem>*/}
-              {/*</Col>*/}
-              {/*<Col span={5}>*/}
-              {/*<FormItem*/}
-              {/*label="数据维护"*/}
-              {/*{...formItemLayout2}*/}
-              {/*>*/}
-              {/*{getFieldDecorator('sjwh', {*/}
-              {/*valuePropName: 'checked',*/}
-              {/*initialValue: true,*/}
-              {/*})(*/}
-              {/*<Switch onChange={this.checkChange.bind(null, 'sjwh')}/>,*/}
-              {/*)}*/}
-              {/*</FormItem>*/}
-              {/*</Col>*/}
-              {/*</Row>*/}
+              <div className='itemTitle'>4.备注信息</div>
+              <Divider></Divider>
+              <Row style={{marginTop: 35}}>
+                <Col span={24}>
+                  <FormItem
+                    label="备注"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('remark', {
+                      initialValue: this.props.editForm.remark ? this.props.editForm.remark : '',
+                    })(
+                      <TextArea placeholder="请输入备注信息" autosize={{ minRows: 2, maxRows: 6 }} />
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
               <Row style={{width: 500, margin: '42px 0 20px 85px'}}>
                 <Col span={5} offset={2}>
                   <Button className='grayButton' style={{width: 100}} onClick={this.cacelForm}>取消</Button>
@@ -378,7 +362,7 @@ function mapStateToProps(state) {
   const {imgUrl, editForm} = state.backstage
   return {
     imgUrl,
-    editForm
+    editForm,
   }
 }
 

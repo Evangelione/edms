@@ -91,7 +91,7 @@ class MySider extends React.Component {
                   onSelect={this.onSelect}
                   onOpenChange={this.onOpenChange}>
               {((sessionStorage.getItem('backAuth') & 1) !== 0) ? <Menu.Item key="administrator">
-                <Link to='/backstage'/><i className={'iconfont icon-shouye'}></i><span>管理员设置</span>
+                <Link to='/backstage'/><i className={'iconfont icon-shouye'}></i><span>企业管理</span>
               </Menu.Item> : ''}
               {((sessionStorage.getItem('backAuth') & 2) !== 0) ? <Menu.Item key="permission">
                 <Link to='/permission'/><Icon type="file-text" style={{marginRight: 20}}/><span>用户列表</span>

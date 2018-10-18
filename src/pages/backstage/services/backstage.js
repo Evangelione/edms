@@ -5,9 +5,13 @@ export function getAdminList({page, find_auth, find_str}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
-  formData.append('find_auth', find_auth)
+  // formData.append('find_auth', find_auth)
   formData.append('find_str', find_str)
-  return request(`${IP}/admin/admin/admin-list`, {
+  // return request(`${IP}/admin/admin/admin-list`, {
+  //   method: 'POST',
+  //   body: formData
+  // })
+  return request(`${IP}/admin/company/company-list`, {
     method: 'POST',
     body: formData
   })
@@ -27,7 +31,7 @@ export function insertAdmin({form}) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key]);
   })
-  return request(`${IP}/admin/admin/add-admin`, {
+  return request(`${IP}/admin/company/add-company`, {
     method: 'POST',
     body: formData
   })
@@ -38,7 +42,7 @@ export function modifyAdmin({form}) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key]);
   })
-  return request(`${IP}/admin/admin/modify-admin`, {
+  return request(`${IP}/admin/company/modify-company`, {
     method: 'POST',
     body: formData
   })
@@ -47,7 +51,7 @@ export function modifyAdmin({form}) {
 export function forbiddenControl({id}) {
   let formData = new FormData()
   formData.append('id', id.id);
-  return request(`${IP}/admin/admin/forbidden`, {
+  return request(`${IP}/admin/company/forbidden`, {
     method: 'POST',
     body: formData
   })

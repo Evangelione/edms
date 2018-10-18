@@ -56,9 +56,9 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
   }
 
   const columns = [{
-    title: '头像',
-    dataIndex: 'head_img',
-    key: 'head_img',
+    title: 'LOGO',
+    dataIndex: 'logo',
+    key: 'logo',
     align: 'center',
     render: (text, record, index) => {
       return (
@@ -68,14 +68,24 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       )
     }
   }, {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
+    title: '登陆界面名称',
+    dataIndex: 'platform_name',
+    key: 'platform_name',
     align: 'center'
   }, {
+    title: '企业名称',
+    dataIndex: 'full_name',
+    key: 'full_name',
+    align: 'center',
+  }, {
+    title: '联系人',
+    dataIndex: 'contact',
+    key: 'contact',
+    align: 'center',
+  }, {
     title: '手机号',
-    dataIndex: 'mobile',
-    key: 'mobile',
+    dataIndex: 'contact_mobile',
+    key: 'contact_mobile',
     align: 'center',
   }, {
     title: '账号',
@@ -83,21 +93,9 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     key: 'account',
     align: 'center',
   }, {
-    title: '角色',
-    dataIndex: 'role',
-    key: 'role',
-    align: 'center',
-    render: (text, record, index) => {
-      if (text === '1') {
-        return '超级管理员'
-      } else if (text === '2') {
-        return '普通管理员'
-      }
-    }
-  }, {
     title: '创建时间',
-    dataIndex: 'creation_time',
-    key: 'creation_time',
+    dataIndex: 'creat_time',
+    key: 'creat_time',
     align: 'center',
     width: 120,
     render: (text, record, index) => {
@@ -110,6 +108,11 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
         </div>
       )
     }
+  }, {
+    title: '备注',
+    dataIndex: 'remark',
+    key: 'remark',
+    align: 'center',
   }, {
     title: '操作',
     align: 'center',
@@ -154,7 +157,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     <div>
       {location.pathname === '/backstage' ?
         <div>
-          <PageTitle>管理员设置</PageTitle>
+          <PageTitle>企业管理</PageTitle>
           <div className='searchBox'>
             <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={iptSearch}
@@ -162,10 +165,10 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           </div>
           <Card>
             <Tabs>
-              <TabPane tab="管理员设置" key='1'>
+              <TabPane tab="企业管理" key='1'>
                 <div className='toolBar'>
                   <Button className='blueBorder' icon="plus"
-                          onClick={editUser.bind(null, 'insert')}>新增管理员</Button>
+                          onClick={editUser.bind(null, 'insert')}>新增企业</Button>
                 </div>
                 <Table
                   columns={columns}
