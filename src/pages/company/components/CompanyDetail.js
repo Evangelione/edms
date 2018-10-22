@@ -30,20 +30,19 @@ class CompanyDetail extends React.Component {
           imgUrl: this.props.companyDetail.certificate,
         },
       })
-      console.log(this.props)
       let fileList = []
       let certificate = JSON.parse(this.props.companyDetail.certificate)
       if (typeof certificate === 'string') {
         certificate = Array(certificate)
-        certificate.forEach((val, index) => {
-          fileList.push({
-            uid: index,
-            name: 'xxx.png',
-            status: 'done',
-            url: val,
-          })
-        })
       }
+      certificate.forEach((val, index) => {
+        fileList.push({
+          uid: index,
+          name: 'xxx.png',
+          status: 'done',
+          url: val,
+        })
+      })
       this.setState({
         fileList: fileList,
       }, () => {
