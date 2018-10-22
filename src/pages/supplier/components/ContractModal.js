@@ -77,12 +77,13 @@ class ContractModal extends React.Component {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        debugger
         this.props.dispatch({
           type: 'supplier/addSupplierContract',
           payload: {
             id: values.suppliers_id,
-            stime: this.state.stime.format('YYYY-MM-DD'),
-            etime: this.state.etime.format('YYYY-MM-DD'),
+            stime: values.sendData.split(' - ')[0],
+            etime: values.sendData.split(' - ')[1],
           },
         }).then(() => {
           this.setState({

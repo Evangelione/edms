@@ -69,8 +69,8 @@ class ContractModal extends React.Component {
           type: 'customer/addCustomerContract',
           payload: {
             id: values.customer_id,
-            stime: this.state.stime.format('YYYY-MM-DD'),
-            etime: this.state.etime.format('YYYY-MM-DD'),
+            stime: values.sendData.split(' - ')[0],
+            etime: values.sendData.split(' - ')[1],
           },
         }).then(() => {
           this.setState({
