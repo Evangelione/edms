@@ -1,10 +1,10 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Cascader, Select, message} from 'antd'
+import { connect } from 'dva'
+import { Card, Button, Input, Form, Row, Col, Divider, Upload, Icon, Cascader, Select, message } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
-import {IP} from '../../constants'
-import {routerRedux} from 'dva/router'
+import { IP } from '../../constants'
+import { routerRedux } from 'dva/router'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -22,13 +22,13 @@ class operateUser extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        name: ''
-      }
+        name: '',
+      },
     })
     if (this.props.location.query.type === 'edit') {
       if (!Object.keys(this.props.editForm).length) {
         this.props.dispatch(routerRedux.push({
-          pathname: '/maintain'
+          pathname: '/maintain',
         }))
       }
     }
@@ -48,13 +48,13 @@ class operateUser extends React.Component {
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'maintain/insertSupplier',
-            payload: values
+            payload: values,
           })
         } else {
           values.id = this.props.editForm.id
           this.props.dispatch({
             type: 'maintain/modifySupplier',
-            payload: values
+            payload: values,
           })
         }
       }
@@ -63,21 +63,21 @@ class operateUser extends React.Component {
 
   editForm = () => {
     this.setState({
-      editable: true
+      editable: true,
     })
   }
 
   cacelForm = () => {
     this.props.form.resetFields()
     this.props.dispatch(routerRedux.push({
-      pathname: '/maintain'
+      pathname: '/maintain',
     }))
   }
 
   customRequest = (file) => {
     this.props.dispatch({
       type: 'maintain/postReport',
-      payload: file
+      payload: file,
     })
   }
 
@@ -92,8 +92,8 @@ class operateUser extends React.Component {
       type: 'maintain/fetchOptions',
       payload: {
         name: targetOption.value,
-        targetOption
-      }
+        targetOption,
+      },
     })
   }
 
@@ -102,7 +102,7 @@ class operateUser extends React.Component {
     if (!isPDF) {
       message.error('You can only upload JPG file!')
     }
-    const isLt20M = file.size / 1024 / 1024 < 20;
+    const isLt20M = file.size / 1024 / 1024 < 20
     if (!isLt20M) {
       message.error('Image must smaller than 2MB!')
     }
@@ -134,7 +134,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.supp_name ? this.props.editForm.supp_name : '',
                       rules: [{required: true, message: '填写正确供应商名称!'}],
                     })(
-                      <Input placeholder="请填写供应商全称（合同名称）"/>
+                      <Input placeholder="请填写供应商全称（合同名称）"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -152,7 +152,7 @@ class operateUser extends React.Component {
                         <Option value="2">运贸商</Option>
                         <Option value="3">液厂</Option>
                         <Option value="4">接收站</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -163,9 +163,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('supp_contact', {
                       initialValue: this.props.editForm.supp_contact ? this.props.editForm.supp_contact : '',
-                      rules: [{required: true, message: '填写正确供应商联系人！'}],
+                      rules: [{required: true, message: '填写正确供应商联系人！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写供应商联系人姓名"/>
+                      <Input placeholder="请填写供应商联系人姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -180,11 +180,11 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -201,7 +201,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.name_gas_source ? this.props.editForm.name_gas_source : '',
                       rules: [{required: true, message: '填写正确气源名称！'}],
                     })(
-                      <Input placeholder="请填写气源名称"/>
+                      <Input placeholder="请填写气源名称"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -214,7 +214,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.origin_gas_source ? this.props.editForm.origin_gas_source : '',
                       rules: [{required: true, message: '填写正确气源产地！'}],
                     })(
-                      <Input placeholder="请填写气源产地"/>
+                      <Input placeholder="请填写气源产地"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -247,7 +247,7 @@ class operateUser extends React.Component {
                           }
                         </Upload>,
 
-                      </div>
+                      </div>,
                     )}
                   </FormItem>
                 </Col>
@@ -262,9 +262,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('cargo_contact', {
                       initialValue: this.props.editForm.cargo_contact ? this.props.editForm.cargo_contact : '',
-                      rules: [{required: true, message: '填写正确装货联系人姓名！'}],
+                      rules: [{required: true, message: '填写正确装货联系人姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写装货联系人姓名"/>
+                      <Input placeholder="请填写装货联系人姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -279,11 +279,11 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -301,7 +301,7 @@ class operateUser extends React.Component {
                         <Cascader options={this.props.CascaderOptions}
                                   loadData={this.loadData}
                                   placeholder="请选择装货地址"
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -315,7 +315,7 @@ class operateUser extends React.Component {
                         initialValue: this.props.editForm.detailed_address ? this.props.editForm.detailed_address : '',
                         rules: [{required: true, message: '请填写正确详细装货地址！'}],
                       })(
-                        <Input placeholder="请填写详细装货地址"/>
+                        <Input placeholder="请填写详细装货地址"/>,
                       )}
                     </FormItem>
                   </Col>

@@ -19,7 +19,7 @@ class PoundModal extends React.Component {
       fileList: [],
       file: null,
       uploading: false,
-      time: moment()
+      time: moment(),
     }
   }
 
@@ -34,7 +34,7 @@ class PoundModal extends React.Component {
       load_num: this.props.load_num,
       unload_num: this.props.unload_num,
       load_time: this.props.load_time,
-      unload_time: this.props.unload_time
+      unload_time: this.props.unload_time,
     })
   }
 
@@ -49,7 +49,7 @@ class PoundModal extends React.Component {
         load_num: this.props.load_num,
         unload_num: this.props.unload_num,
         load_time: this.props.load_time,
-        unload_time: this.props.unload_time
+        unload_time: this.props.unload_time,
       })
     }
   }
@@ -64,19 +64,19 @@ class PoundModal extends React.Component {
 
   loadChange = (e) => {
     this.setState({
-      load_num: e
+      load_num: e,
     })
   }
 
   unloadChange = (e) => {
     this.setState({
-      unload_num: e
+      unload_num: e,
     })
   }
 
   doClose = () => {
     this.setState({
-      visible: false
+      visible: false,
     })
   }
 
@@ -91,7 +91,7 @@ class PoundModal extends React.Component {
 
   saveFile = (file) => {
     this.setState({
-      file: file
+      file: file,
     })
     file.onProgress({percent: 100})
     file.onSuccess()
@@ -115,14 +115,14 @@ class PoundModal extends React.Component {
           id,
           num: num,
           load_type: type,
-          load_time: this.state.time.format('YYYY-MM-DD HH:mm:00')
-        }
+          load_time: this.state.time.format('YYYY-MM-DD HH:mm:00'),
+        },
       }).then(() => {
         this.setState({
           uploading: false,
           visible: false,
           fileList: [],
-          file: null
+          file: null,
         })
       })
     } else {
@@ -133,14 +133,14 @@ class PoundModal extends React.Component {
           id,
           num: num,
           load_type: type,
-          unload_time: this.state.time.format('YYYY-MM-DD HH:mm:00')
-        }
+          unload_time: this.state.time.format('YYYY-MM-DD HH:mm:00'),
+        },
       }).then(() => {
         this.setState({
           uploading: false,
           visible: false,
           fileList: [],
-          file: null
+          file: null,
         })
       })
     }
@@ -162,8 +162,8 @@ class PoundModal extends React.Component {
       file: {
         file,
         filename: 'DeliverForm[bill_img]',
-        action: `${IP}/home/logistics/load-bill`
-      }
+        action: `${IP}/home/logistics/load-bill`,
+      },
     })
     return false
   }
@@ -175,6 +175,17 @@ class PoundModal extends React.Component {
     })
   }
 
+  limitDecimals = value => {
+    const reg = /^(\-)*(\d+)\.(\d\d\d).*$/
+    console.log(value)
+    if (typeof value === 'string') {
+      return !isNaN(Number(value)) ? value.replace(reg, '$1$2.$3') : ''
+    } else if (typeof value === 'number') {
+      return !isNaN(value) ? String(value).replace(reg, '$1$2.$3') : ''
+    } else {
+      return ''
+    }
+  }
 
   render() {
     const {hidden, id} = this.props
@@ -187,17 +198,17 @@ class PoundModal extends React.Component {
       </div>
     )
     let locale = {
-      "format": 'YYYY-MM-DD',
-      "separator": " - ",
-      "applyLabel": "确定",
-      "cancelLabel": "取消",
-      "fromLabel": "起始时间",
-      "toLabel": "结束时间'",
-      "customRangeLabel": "自定义",
-      "weekLabel": "W",
-      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
-      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      "firstDay": 1
+      'format': 'YYYY-MM-DD',
+      'separator': ' - ',
+      'applyLabel': '确定',
+      'cancelLabel': '取消',
+      'fromLabel': '起始时间',
+      'toLabel': '结束时间\'',
+      'customRangeLabel': '自定义',
+      'weekLabel': 'W',
+      'daysOfWeek': ['日', '一', '二', '三', '四', '五', '六'],
+      'monthNames': ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+      'firstDay': 1,
     }
     return (
       <div onClick={this.showModalHandler}>
@@ -225,7 +236,7 @@ class PoundModal extends React.Component {
                             onClick={this.customRequest.bind(null, id, hidden)}>上传磅单</Button>
                 }
               </Col>
-            </Row>
+            </Row>,
           ]}>
           {hidden === 'all' ?
             <div>
@@ -239,7 +250,8 @@ class PoundModal extends React.Component {
                     :
                     <div>
                       <InputNumber addonAfter='吨' defaultValue={this.state.load_num} precision={3} style={{width: 161}}
-                                   onChange={this.loadChange}/>
+                                   onChange={this.loadChange} formatter={this.limitDecimals}
+                                   parser={this.limitDecimals}/>
                       <div style={{
                         position: 'absolute',
                         border: '1px solid #d9d9d9',
@@ -277,7 +289,8 @@ class PoundModal extends React.Component {
                     :
                     <div>
                       <InputNumber addonAfter='吨' defaultValue={this.state.unload_num} precision={3}
-                                   style={{width: 161}} onChange={this.unloadChange}/>
+                                   style={{width: 161}} onChange={this.unloadChange} formatter={this.limitDecimals}
+                                   parser={this.limitDecimals}/>
                       <div style={{
                         position: 'absolute',
                         border: '1px solid #d9d9d9',
@@ -318,7 +331,7 @@ class PoundModal extends React.Component {
                       :
                       <div>
                         <InputNumber addonAfter='吨' precision={3} style={{width: 161}} onChange={this.loadChange}
-                                     defaultValue='0'/>
+                                     defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals}/>
                         <div style={{
                           position: 'absolute',
                           border: '1px solid #d9d9d9',
@@ -353,7 +366,7 @@ class PoundModal extends React.Component {
                 </Row>
                 <Card style={{borderColor: '#D2D2D2', marginBottom: 10}}>
                   <Upload
-                    accept='.png'
+                    accept='.jpg,.png'
                     name='DeliverForm[bill_img]'
                     action={`${IP}/home/logistics/load-bill`}
                     listType="picture-card"
@@ -378,7 +391,7 @@ class PoundModal extends React.Component {
                       :
                       <div>
                         <InputNumber addonAfter='吨' precision={3} style={{width: 161}} onChange={this.unloadChange}
-                                     defaultValue='0'/>
+                                     defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals}/>
                         <div style={{
                           position: 'absolute',
                           border: '1px solid #d9d9d9',
@@ -413,7 +426,7 @@ class PoundModal extends React.Component {
                 </Row>
                 <Card style={{borderColor: '#D2D2D2'}}>
                   <Upload
-                    accept='.png'
+                    accept='.jpg,.png'
                     name='DeliverForm[bill_img]'
                     action={`${IP}/home/logistics/load-bill`}
                     listType="picture-card"

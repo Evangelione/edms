@@ -1,8 +1,8 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Row, Col, Form, Upload, Input, Select, Button, Icon, Modal, message} from 'antd'
+import { connect } from 'dva'
+import { Row, Col, Form, Upload, Input, Select, Button, Icon, Modal, message } from 'antd'
 import styles from '../company.css'
-import {IP} from '../../../constants'
+import { IP } from '../../../constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -15,35 +15,37 @@ class CompanyDetail extends React.Component {
       previewVisible: false,
       previewImage: '',
       fileList: [],
-      submitLoading: false
+      submitLoading: false,
     }
   }
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
-      type: 'company/fetchCompanyDetail'
+      type: 'company/fetchCompanyDetail',
     }).then(() => {
+      if (!this.props.companyDetail.certificate) return false
       this.props.dispatch({
         type: 'company/saveImg',
         payload: {
-          imgUrl: this.props.companyDetail.certificate
-        }
+          imgUrl: this.props.companyDetail.certificate,
+        },
       })
+      console.log(this.props)
       let fileList = []
       let certificate = JSON.parse(this.props.companyDetail.certificate)
       if (typeof certificate === 'string') {
         certificate = Array(certificate)
-      }
-      certificate.forEach((val, index) => {
-        fileList.push({
-          uid: index,
-          name: 'xxx.png',
-          status: 'done',
-          url: val
+        certificate.forEach((val, index) => {
+          fileList.push({
+            uid: index,
+            name: 'xxx.png',
+            status: 'done',
+            url: val,
+          })
         })
-      })
+      }
       this.setState({
-        fileList: fileList
+        fileList: fileList,
       }, () => {
         console.log(this.state.fileList)
       })
@@ -54,18 +56,18 @@ class CompanyDetail extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({
-          submitLoading: true
+          submitLoading: true,
         })
         this.props.imgUrl.length ? values.certificate = JSON.stringify(this.props.imgUrl) : values.certificate = JSON.stringify(values.certificate)
         this.props.dispatch({
           type: 'company/modifyCompany',
           payload: {
-            form: values
-          }
+            form: values,
+          },
         }).then(() => {
           this.setState({
             editable: false,
-            submitLoading: false
+            submitLoading: false,
           })
         })
       }
@@ -74,14 +76,14 @@ class CompanyDetail extends React.Component {
 
   editForm = () => {
     this.setState({
-      editable: true
+      editable: true,
     })
   }
 
   cacelForm = () => {
     this.props.form.resetFields()
     this.setState({
-      editable: false
+      editable: false,
     })
   }
 
@@ -103,8 +105,8 @@ class CompanyDetail extends React.Component {
     this.props.dispatch({
       type: 'company/saveImg',
       payload: {
-        imgUrl: JSON.stringify(arr)
-      }
+        imgUrl: JSON.stringify(arr),
+      },
     })
     if (!this.state.editable) return false
   }
@@ -112,8 +114,8 @@ class CompanyDetail extends React.Component {
   handleChange = ({fileList}) => this.setState({fileList})
 
   beforeUpload = (file) => {
-    const isJPG = file.type === 'image/jpeg';
-    const isPNG = file.type === 'image/png';
+    const isJPG = file.type === 'image/jpeg'
+    const isPNG = file.type === 'image/png'
     const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
       message.error('仅支持JPG、PNG格式，文件小于2MB!')
@@ -128,7 +130,7 @@ class CompanyDetail extends React.Component {
   customRequest = (file) => {
     this.props.dispatch({
       type: 'company/postImg',
-      payload: file
+      payload: file,
     })
   }
 
@@ -137,7 +139,7 @@ class CompanyDetail extends React.Component {
     const {getFieldDecorator} = this.props.form
     const formItemLayout = {
       labelCol: {span: 2},
-      wrapperCol: {span: 5}
+      wrapperCol: {span: 5},
     }
     const uploadButton = (
       <div>
@@ -154,13 +156,13 @@ class CompanyDetail extends React.Component {
           label="证件照片"
         >
           {getFieldDecorator('certificate', {
-            initialValue: ["http://lch-img.oss-cn-beijing.aliyuncs.com/lch-bill20180801094752u0.png"],
-            rules: [{required: true, message: 'Please input your note!'}]
+            initialValue: ['http://lch-img.oss-cn-beijing.aliyuncs.com/lch-bill20180801094752u0.png'],
+            rules: [{required: true, message: 'Please input your note!'}],
           })(
             <div>
               <div className="clearfix">
                 <Upload
-                  accept='.png'
+                  accept='.jpg,.png'
                   name='CompanyForm[img]'
                   action={`${IP}/home/company/img`}
                   listType="picture-card"
@@ -178,7 +180,7 @@ class CompanyDetail extends React.Component {
                   <img alt="example" style={{width: '100%'}} src={previewImage}/>
                 </Modal>
               </div>
-            </div>
+            </div>,
           )}
         </FormItem>
         <div className={styles.title}>2.公司信息</div>
@@ -188,9 +190,9 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('full_name', {
             rules: [{required: true, message: 'Please input your note!'}],
-            initialValue: this.props.companyDetail.full_name
+            initialValue: this.props.companyDetail.full_name,
           })(
-            <Input placeholder="请填写公司全称（合同名称）" disabled={!this.state.editable}/>
+            <Input placeholder="请填写公司全称（合同名称）" disabled={!this.state.editable}/>,
           )}
         </FormItem>
         <FormItem
@@ -199,9 +201,9 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('corporation', {
             rules: [{required: true, message: 'Please input your note!'}],
-            initialValue: this.props.companyDetail.corporation
+            initialValue: this.props.companyDetail.corporation,
           })(
-            <Input placeholder="请填写法定代表人姓名" disabled={!this.state.editable}/>
+            <Input placeholder="请填写法定代表人姓名" disabled={!this.state.editable}/>,
           )}
         </FormItem>
         <FormItem
@@ -210,9 +212,9 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('addr', {
             rules: [{required: true, message: 'Please input your note!'}],
-            initialValue: this.props.companyDetail.addr
+            initialValue: this.props.companyDetail.addr,
           })(
-            <Input placeholder="请填写详细办公地址" disabled={!this.state.editable}/>
+            <Input placeholder="请填写详细办公地址" disabled={!this.state.editable}/>,
           )}
         </FormItem>
         <FormItem
@@ -221,9 +223,9 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('fixed_telephone', {
             rules: [{required: true, message: 'Please input your note!'}],
-            initialValue: this.props.companyDetail.fixed_telephone
+            initialValue: this.props.companyDetail.fixed_telephone,
           })(
-            <Input placeholder="请填写公司固话" disabled={!this.state.editable}/>
+            <Input placeholder="请填写公司固话" disabled={!this.state.editable}/>,
           )}
         </FormItem>
         <div className={styles.title}>3.联系方式</div>
@@ -233,9 +235,9 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('contact', {
             rules: [{required: true, message: 'Please input your note!'}],
-            initialValue: this.props.companyDetail.contact
+            initialValue: this.props.companyDetail.contact,
           })(
-            <Input placeholder="请填写联系人姓名" disabled={!this.state.editable}/>
+            <Input placeholder="请填写联系人姓名" disabled={!this.state.editable}/>,
           )}
         </FormItem>
         <FormItem
@@ -244,9 +246,9 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('contact_mobile', {
             rules: [{required: true, message: 'Please input your note!'}],
-            initialValue: this.props.companyDetail.contact_mobile
+            initialValue: this.props.companyDetail.contact_mobile,
           })(
-            <Input placeholder="请填写手机号" disabled={!this.state.editable}/>
+            <Input placeholder="请填写手机号" disabled={!this.state.editable}/>,
           )}
         </FormItem>
         <div className={styles.title}>4.公司类型</div>
@@ -255,16 +257,16 @@ class CompanyDetail extends React.Component {
           label="请选择公司类型"
         >
           {getFieldDecorator('company_type', {
-            initialValue: this.props.companyDetail.company_type
+            initialValue: this.props.companyDetail.company_type,
           })(
             <Select placeholder="请选择公司类型" style={{width: 150}} disabled={!this.state.editable}>
-              {/*<Option value="0">没有类型</Option>*/}
+              <Option value="0">暂无类型</Option>
               <Option value="1">贸易商</Option>
               <Option value="2">运贸商</Option>
               <Option value="3">液厂</Option>
               <Option value="4">接收站</Option>
               <Option value="5">其它</Option>
-            </Select>
+            </Select>,
           )}
         </FormItem>
         <Row style={{width: 500, margin: '42px 0 20px 85px'}}>
@@ -294,7 +296,7 @@ function mapStateToProps(state) {
   return {
     companyDetail,
     imgUrl,
-    loading: state.loading.models.company
+    loading: state.loading.models.company,
   }
 }
 

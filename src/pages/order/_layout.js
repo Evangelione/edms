@@ -7,7 +7,7 @@ import OrderDetail from './orderDetail'
 // import OrderTable from './components/OrderTable'
 import OrderTableV2 from './components/OrderTableV2'
 import OrderDetailV2 from './components/OrderDetailV2'
-import OrderModal from "./components/OrderModal"
+import OrderModal from './components/OrderModal'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     statusNum,
     currentOrder,
     order_type,
-    loading: state.loading.models.order
+    loading: state.loading.models.order,
   }
 }
 
@@ -30,11 +30,11 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
     if (loading) return false
     dispatch({
       type: 'order/save',
-      payload: {currentTab: type, currentIndex: 0}
+      payload: {currentTab: type, currentIndex: 0},
     })
     dispatch({
       type: 'order/fetch',
-      payload: {find_str: find_str, order_status: state, order_type}
+      payload: {find_str: find_str, order_status: state, order_type},
     })
   }
 
@@ -44,15 +44,15 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
       payload: {
         find_str: value,
         order_status,
-        order_type
-      }
+        order_type,
+      },
     })
   }
 
   function changeRadio(e) {
     dispatch({
       type: 'order/save',
-      payload: {order_type: e.target.value}
+      payload: {order_type: e.target.value},
     })
     dispatch({
       type: 'order/fetch',
@@ -60,7 +60,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
         order_type: e.target.value,
         order_status,
         find_str,
-      }
+      },
     })
   }
 
@@ -144,6 +144,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
             </Card>
             <Radio.Group defaultValue={order_type} buttonStyle="solid" style={{marginTop: 10}} className='radioGp'
                          onChange={changeRadio}>
+              <Radio.Button value="3">全部</Radio.Button>
               <Radio.Button value="1">预付款订单</Radio.Button>
               <Radio.Button value="2">赊销订单</Radio.Button>
             </Radio.Group>

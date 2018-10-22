@@ -17,7 +17,7 @@ export default {
     currentOrder: {},
     currentIndex: 0,
     find_str: '',
-    order_type: '1'
+    order_type: '3'
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -28,7 +28,7 @@ export default {
             type: 'save', payload: {
               currentTab: 'quanbu',
               currentIndex: 0,
-              order_type: '1'
+              order_type: '3'
             }
           })
         }
@@ -39,7 +39,7 @@ export default {
     }
   },
   effects: {
-    * fetch({payload: {page = 1, order_status = '', find_str = '', order_type = '1'}}, {call, put, select}) {
+    * fetch({payload: {page = 1, order_status = '', find_str = '', order_type = '3'}}, {call, put, select}) {
       const {data} = yield call(orderService.getOrderList, {page, order_status, find_str, order_type})
       const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {

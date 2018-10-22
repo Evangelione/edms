@@ -31,7 +31,8 @@ class IndexPage extends React.Component {
       currentCustomer: '4',
       currentSupplier: '4',
       flag: true,
-      map: false
+      map: false,
+      tipStatus: '',
     }
   }
 
@@ -52,7 +53,7 @@ class IndexPage extends React.Component {
       }
     }
     this.props.dispatch({
-      type: 'home/getHomeMapData'
+      type: 'home/getHomeMapData',
     }).then(() => {
       this.initBmp()
     })
@@ -63,68 +64,71 @@ class IndexPage extends React.Component {
     if (this.props.countLoading) return false
     if (e.target.value === '1') {
       this.setState({
-        topTip: '今日'
+        topTip: '今日',
+        tipStatus: '昨日',
       })
     } else if (e.target.value === '2') {
       this.setState({
-        topTip: '本周'
+        topTip: '本周',
+        tipStatus: '上周',
       })
     } else if (e.target.value === '3') {
       this.setState({
-        topTip: '本月'
+        topTip: '本月',
+        tipStatus: '上月',
       })
     } else if (e.target.value === '4') {
       this.setState({
-        topTip: '总'
+        topTip: '总',
       })
     }
     this.setState({
       status: e.target.value,
-      currentCount: e.target.value
+      currentCount: e.target.value,
     })
     this.props.dispatch({
       type: 'home/count',
       payload: {
-        flag: e.target.value
-      }
+        flag: e.target.value,
+      },
     })
   }
 
   customerRadioChange = (e) => {
     if (this.props.customerLoading) return false
     this.setState({
-      currentCustomer: e.target.value
+      currentCustomer: e.target.value,
     })
     this.props.dispatch({
       type: 'home/customerPer',
       payload: {
-        flag: e.target.value
-      }
+        flag: e.target.value,
+      },
     })
   }
 
   supplierRadioChange = (e) => {
     if (this.props.supplierLoading) return false
     this.setState({
-      currentSupplier: e.target.value
+      currentSupplier: e.target.value,
     })
     this.props.dispatch({
       type: 'home/supplierPer',
       payload: {
-        flag: e.target.value
-      }
+        flag: e.target.value,
+      },
     })
   }
 
   chartBtnChange = (e) => {
     this.setState({
-      currentSelect: e.item.props.children
+      currentSelect: e.item.props.children,
     })
     this.props.dispatch({
       type: 'home/trend',
       payload: {
-        flag: e.key
-      }
+        flag: e.key,
+      },
     })
   }
 
@@ -132,12 +136,12 @@ class IndexPage extends React.Component {
     if (!Object.keys(this.props.trend).length || !Object.keys(this.refs).length) return false
     if (this.state.flag) {
       this.setState({
-        flag: false
+        flag: false,
       })
       let myChart = echarts.init(this.refs.echart) //初始化echarts
       //设置options
       myChart.setOption(chartOption)
-      window.onresize = function () {
+      window.onresize = function() {
         myChart.resize()
       }
       myChart.resize()
@@ -156,7 +160,7 @@ class IndexPage extends React.Component {
     if (this.state.map) return false
     let map = new BMap.Map('indexMap')
     this.setState({
-      map
+      map,
     })
     map.enableScrollWheelZoom(true)
     map.centerAndZoom(new BMap.Point(116.404, 39.915), 5)
@@ -166,20 +170,20 @@ class IndexPage extends React.Component {
       let point = new BMap.Point(data[i].lng, data[i].lat)
       let mk = new BMap.Marker(point, {icon: IconCar})
       map.addOverlay(mk)
-      let label = new BMap.Label(data[i].car_head, {offset: new BMap.Size(-12, -20)});
+      let label = new BMap.Label(data[i].car_head, {offset: new BMap.Size(-12, -20)})
       label.setStyle({
         border: '1px solid #ccc',
         borderRadius: '4px',
-        padding: '1px 3px'
+        padding: '1px 3px',
       })
-      mk.setLabel(label);
+      mk.setLabel(label)
       mk.addEventListener('click', this.goLogisticsList)
     }
   }
 
   render() {
     const {count, customerPer, supplierPer, logistics, trend} = this.props
-    const {width = "100%", height = "540px"} = this.props
+    const {width = '100%', height = '540px'} = this.props
     const customerDivs = customerPer.map((val, index) => {
       return <div key={index + '1'} style={{margin: '10px 0'}}>
         <div key={index + '2'} style={{color: '#ACB4BF', fontSize: 14}}>{val.customer_name}</div>
@@ -227,43 +231,43 @@ class IndexPage extends React.Component {
           text: '价格趋势图',
           textStyle: {
             color: '#545F76',
-            fontFamily: 'PingFangHK-Regular'
+            fontFamily: 'PingFangHK-Regular',
           },
         },
         color: ['#4A90E2', '#FF9A74'],
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
         },
         legend: {
           data: ['采购', '销售'],
           top: 5,
-          right: 200
+          right: 200,
         },
         grid: {
           top: '15%',
           left: '1%',
           right: '6%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         toolbox: {
           feature: {
-            saveAsImage: {}
+            saveAsImage: {},
           },
-          right: 18
+          right: 18,
         },
         xAxis: {
           type: 'category',
           data: trend.date,
           axisLine: {
             lineStyle: {
-              color: '#DEDEDE'
-            }
+              color: '#DEDEDE',
+            },
           },
           axisLabel: {
             color: '#7C8B99',
-            margin: 20
-          }
+            margin: 20,
+          },
         },
         yAxis: {
           type: 'value',
@@ -271,32 +275,32 @@ class IndexPage extends React.Component {
           nameTextStyle: {
             color: '#7C8B99',
             fontSize: '14px',
-            padding: [0, 0, 10, 0]
+            padding: [0, 0, 10, 0],
           },
           axisLine: {
-            show: false
+            show: false,
           },
           axisTick: {
-            show: false
+            show: false,
           },
           axisLabel: {
-            color: '#7C8B99'
-          }
+            color: '#7C8B99',
+          },
         },
         series: [
           {
             name: '采购',
             type: 'line',
             smooth: true,
-            data: trend.purchase_price
+            data: trend.purchase_price,
           },
           {
             name: '销售',
             type: 'line',
             smooth: true,
-            data: trend.saler_price
-          }
-        ]
+            data: trend.saler_price,
+          },
+        ],
       })
     }
     // this.initBmp()
@@ -316,43 +320,45 @@ class IndexPage extends React.Component {
         <Row className={styles.dashBoard} gutter={24}>
           <Col className={styles.topBox}>
             <div>
-              <div className={styles["dashImg-chudan"]}></div>
+              <div className={styles['dashImg-chudan']}></div>
               <div className={styles.dashTitle}>{this.state.topTip}出单数 (单)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={count.order_num} duration={3}/>
               </div>
-              {this.state.status === '1' ?
-                <div className={classNames(styles.boxBottomTip, styles.down)}>
+              {this.state.status !== '4' ?
+                <div className={classNames(styles.boxBottomTip)}
+                     style={count.order_num_f === 1 ? {color: '#59C694'} : count.order_num_f === 2 ? {color: '#EA7878'} : {color: '#ccc'}}>
                   <div
-                    className={styles.percentage}>{count.order_num_f === 1 ? `${(count.order_num_h - 0).toFixed(2)}%` : `-${(count.order_num_h - 0).toFixed(2)}%`}</div>
+                    className={styles.percentage}>{count.order_num_f === 1 ? `${(count.order_num_h - 0).toFixed(2)}%` : count.order_num_f === 2 ? `-${(count.order_num_h - 0).toFixed(2)}%` : `${(count.order_num_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.order_num_f === 1 ? '↑' : count.order_num_f === 2 ? '↓' : '-'}</div>
-                  <div className={styles.ring}>环比昨日</div>
+                  <div className={styles.ring}>环比{this.state.tipStatus}</div>
                 </div> : ''
               }
             </div>
           </Col>
           <Col className={styles.topBox}>
             <div>
-              <div className={styles["dashImg-xiaoshouliang"]}></div>
+              <div className={styles['dashImg-xiaoshouliang']}></div>
               <div className={styles.dashTitle}>{this.state.topTip}销售量 (吨)</div>
               <div className={styles.dashCount}>
                 <CountUp start={0} end={count.sale_num} decimals={3} duration={3}/>
               </div>
-              {this.state.status === '1' ?
-                <div className={classNames(styles.boxBottomTip, styles.down)}>
+              {this.state.status !== '4' ?
+                <div className={classNames(styles.boxBottomTip)}
+                     style={count.sale_num_f === 1 ? {color: '#59C694'} : count.order_num_f === 2 ? {color: '#EA7878'} : {color: '#ccc'}}>
                   <div
-                    className={styles.percentage}>{count.sale_num_f === 1 ? `${(count.sale_num_h - 0).toFixed(2)}%` : `-${(count.sale_num_h - 0).toFixed(2)}%`}</div>
+                    className={styles.percentage}>{count.sale_num_f === 1 ? `${(count.sale_num_h - 0).toFixed(2)}%` : count.sale_num_f === 2 ? `-${(count.sale_num_h - 0).toFixed(2)}%` : `${(count.sale_num_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.sale_num_f === 1 ? '↑' : count.sale_num_f === 2 ? '↓' : '-'}</div>
-                  <div className={styles.ring}>环比昨日</div>
+                  <div className={styles.ring}>环比{this.state.tipStatus}</div>
                 </div> : ''
               }
             </div>
           </Col>
           <Col className={styles.topBox}>
             <div>
-              <div className={styles["dashImg-xiaoshoue"]}></div>
+              <div className={styles['dashImg-xiaoshoue']}></div>
               <div className={styles.dashTitle}>{this.state.topTip}销售额 ({count.saler_money > 1000000 ? '万元' : '元'})
               </div>
               <div className={styles.dashCount}>
@@ -360,20 +366,21 @@ class IndexPage extends React.Component {
                          decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
-              {this.state.status === '1' ?
-                <div className={classNames(styles.boxBottomTip, styles.down)}>
+              {this.state.status !== '4' ?
+                <div className={classNames(styles.boxBottomTip)}
+                     style={count.saler_money_f === 1 ? {color: '#59C694'} : count.order_num_f === 2 ? {color: '#EA7878'} : {color: '#ccc'}}>
                   <div
-                    className={styles.percentage}>{count.saler_money_f === 1 ? `${(count.saler_money_h - 0).toFixed(2)}%` : `-${(count.saler_money_h - 0).toFixed(2)}%`}</div>
+                    className={styles.percentage}>{count.saler_money_f === 1 ? `${(count.saler_money_h - 0).toFixed(2)}%` : count.saler_money_f === 2 ? `-${(count.saler_money_h - 0).toFixed(2)}%` : `${(count.saler_money_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.saler_money_f === 1 ? '↑' : count.saler_money_f === 2 ? '↓' : '-'}</div>
-                  <div className={styles.ring}>环比昨日</div>
+                  <div className={styles.ring}>环比{this.state.tipStatus}</div>
                 </div> : ''
               }
             </div>
           </Col>
           <Col className={styles.topBox}>
             <div>
-              <div className={styles["dashImg-caigoue"]}></div>
+              <div className={styles['dashImg-caigoue']}></div>
               <div className={styles.dashTitle}>{this.state.topTip}采购额 ({count.purchase_money > 1000000 ? '万元' : '元'})
               </div>
               <div className={styles.dashCount}>
@@ -382,20 +389,21 @@ class IndexPage extends React.Component {
                          decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
-              {this.state.status === '1' ?
-                <div className={classNames(styles.boxBottomTip, styles.down)}>
+              {this.state.status !== '4' ?
+                <div className={classNames(styles.boxBottomTip)}
+                     style={count.purchase_money_f === 1 ? {color: '#59C694'} : count.order_num_f === 2 ? {color: '#EA7878'} : {color: '#ccc'}}>
                   <div
-                    className={styles.percentage}>{count.purchase_money_f === 1 ? `${(count.purchase_money_h - 0).toFixed(2)}%` : `-${(count.purchase_money_h - 0).toFixed(2)}%`}</div>
+                    className={styles.percentage}>{count.purchase_money_f === 1 ? `${(count.purchase_money_h - 0).toFixed(2)}%` : count.purchase_money_f === 2 ? `-${(count.purchase_money_h - 0).toFixed(2)}%` : `${(count.purchase_money_h - 0).toFixed(2)}%`}</div>
                   <div
                     className={styles.toBottom}>{count.purchase_money_f === 1 ? '↑' : count.purchase_money_f === 2 ? '↓' : '-'}</div>
-                  <div className={styles.ring}>环比昨日</div>
+                  <div className={styles.ring}>环比{this.state.tipStatus}</div>
                 </div> : ''
               }
             </div>
           </Col>
           <Col className={styles.topBox}>
             <div>
-              <div className={styles["dashImg-yingkui"]}>
+              <div className={styles['dashImg-yingkui']}>
                 <img src={images.default.yingkui} alt="" width='62' height='62'/>
               </div>
               <div className={styles.dashTitle}>{this.state.topTip}盈亏 ({count.profit_and_loss > 1000000 ? '万元' : '元'})
@@ -406,6 +414,16 @@ class IndexPage extends React.Component {
                          decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
+              {this.state.status !== '4' ?
+                <div className={classNames(styles.boxBottomTip)}
+                     style={count.profit_and_loss_f === 1 ? {color: '#59C694'} : count.order_num_f === 2 ? {color: '#EA7878'} : {color: '#ccc'}}>
+                  <div
+                    className={styles.percentage}>{count.profit_and_loss_f === 1 ? `${(count.profit_and_loss_h - 0).toFixed(2)}%` : count.profit_and_loss_f === 2 ? `-${(count.profit_and_loss_h - 0).toFixed(2)}%` : `${(count.profit_and_loss_h - 0).toFixed(2)}%`}</div>
+                  <div
+                    className={styles.toBottom}>{count.profit_and_loss_f === 1 ? '↑' : count.profit_and_loss_f === 2 ? '↓' : '-'}</div>
+                  <div className={styles.ring}>环比{this.state.tipStatus}</div>
+                </div> : ''
+              }
             </div>
           </Col>
         </Row>
@@ -430,7 +448,7 @@ class IndexPage extends React.Component {
             display: 'inline-block',
             verticalAlign: 'top',
             marginLeft: '2%',
-            position: 'relative'
+            position: 'relative',
           }}>
             <div style={{margin: '0 20px'}}>实时物流</div>
             <div style={{
@@ -438,7 +456,7 @@ class IndexPage extends React.Component {
               right: '36px',
               top: '24px',
               color: '#A1A9B3',
-              fontSize: 14
+              fontSize: 14,
             }}>在线车辆：{logistics.length}
             </div>
             <Divider></Divider>
@@ -453,7 +471,7 @@ class IndexPage extends React.Component {
             display: 'inline-block',
             marginRight: '2%',
             position: 'relative',
-            verticalAlign: 'top'
+            verticalAlign: 'top',
           }}>
             <div style={{margin: '0 20px'}}>我的客户 (销量占比)</div>
             <div style={{position: 'absolute', top: 15, right: 20}}>
@@ -510,7 +528,7 @@ function mapStateToProps(state) {
     customerLoading,
     supplierLoading,
     homeMapData,
-    loading: state.loading.models.home
+    loading: state.loading.models.home,
   }
 }
 

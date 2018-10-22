@@ -12,7 +12,7 @@ import {
   AutoComplete,
   DatePicker,
   message,
-  InputNumber
+  InputNumber,
 } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
@@ -49,7 +49,7 @@ class OrderModal extends PureComponent {
       payType: '预付款',
       suppbalance: 0,
       custombalance: 0,
-      creditbalance: 0
+      creditbalance: 0,
     }
   }
 
@@ -64,13 +64,13 @@ class OrderModal extends PureComponent {
     if (this.state.visible === true) return
     this.props.form.resetFields()
     this.setState({
-      visible: true
+      visible: true,
     })
     if (this.props.currentOrder) {
       const form = this.props.currentOrder
       this.setState({
         report: form.temperament_report,
-        dataSource: form.shouhuo.map(this.renderOption)
+        dataSource: form.shouhuo.map(this.renderOption),
       })
       let text = form.user_type
       let result_type = ''
@@ -116,15 +116,20 @@ class OrderModal extends PureComponent {
       this.props.dispatch({
         type: 'order/fetchGoods',
         payload: {
-          supplier_id: form.supp_id
-        }
+          supplier_id: form.supp_id,
+        },
       }).then(() => {
         this.props.dispatch({
           type: 'order/fetchSite',
           payload: {
-            customer_id: form.cust_id
-          }
+            customer_id: form.cust_id,
+          },
         }).then(() => {
+          this.setState({
+            suppbalance: form.s_balance,
+            custombalance: form.c_balance,
+            creditbalance: form.credit - form.credit_used,
+          })
           this.props.form.setFieldsValue({
             cust_id: form.cust_id,
             cust_id2: form.customer_contact,
@@ -173,11 +178,11 @@ class OrderModal extends PureComponent {
           }, () => {
             if ((this.state.xinyongPay - 0) > 0) {
               this.setState({
-                payType: '赊销'
+                payType: '赊销',
               })
             } else {
               this.setState({
-                payType: '预付款'
+                payType: '预付款',
               })
             }
           })
@@ -197,7 +202,7 @@ class OrderModal extends PureComponent {
       visible: false,
       step: 1,
       title: '采购信息',
-    });
+    })
   }
 
   handleCancel = (e) => {
@@ -206,7 +211,7 @@ class OrderModal extends PureComponent {
       visible: false,
       step: 1,
       title: '采购信息',
-    });
+    })
   }
 
   nextStep = () => {
@@ -242,13 +247,13 @@ class OrderModal extends PureComponent {
 
   suppChange = (value, item) => {
     this.setState({
-      suppbalance: item.props.balance
+      suppbalance: item.props.balance,
     })
     this.props.dispatch({
       type: 'order/fetchGoods',
       payload: {
-        supplier_id: value
-      }
+        supplier_id: value,
+      },
     })
     this.props.form.setFieldsValue({
       supp_id2: item.props.contact,
@@ -275,25 +280,25 @@ class OrderModal extends PureComponent {
       goods_delivery: item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address,
     })
     this.setState({
-      report: item.props.report
+      report: item.props.report,
     })
   }
 
   customerChange = (value, item) => {
     this.setState({
       custombalance: item.props.balance,
-      creditbalance: (item.props.credit - item.props.credit_used).toFixed(2)
+      creditbalance: (item.props.credit - item.props.credit_used).toFixed(2),
     })
     this.props.dispatch({
       type: 'order/fetchSite',
       payload: {
-        customer_id: value
-      }
+        customer_id: value,
+      },
     })
     this.setState({
       balance: item.props.balance,
       credit: item.props.credit,
-      credit_used: item.props.credit_used
+      credit_used: item.props.credit_used,
     })
     this.props.form.setFieldsValue({
       cust_id2: item.props.contact,
@@ -306,7 +311,7 @@ class OrderModal extends PureComponent {
       recv_contact: undefined,
       recv_phone: undefined,
       recv_time: undefined,
-      deliver_type: undefined
+      deliver_type: undefined,
     })
   }
 
@@ -318,10 +323,10 @@ class OrderModal extends PureComponent {
       recv_contact: undefined,
       recv_phone: undefined,
       recv_time: undefined,
-      deliver_type: undefined
+      deliver_type: undefined,
     })
     this.setState({
-      dataSource: item.props.shouhuo.map(this.renderOption)
+      dataSource: item.props.shouhuo.map(this.renderOption),
     })
   }
 
@@ -354,11 +359,11 @@ class OrderModal extends PureComponent {
       }, () => {
         if ((this.state.xinyongPay - 0) > 0) {
           this.setState({
-            payType: '赊销'
+            payType: '赊销',
           })
         } else {
           this.setState({
-            payType: '预付款'
+            payType: '预付款',
           })
         }
       })
@@ -375,7 +380,7 @@ class OrderModal extends PureComponent {
       <Option2 key={item.delivery_mobile} value={item.delivery_contact}>
         {item.delivery_contact}
       </Option2>
-    );
+    )
   }
 
   submit = () => {
@@ -393,8 +398,8 @@ class OrderModal extends PureComponent {
           this.props.dispatch({
             type: 'orderDetail/modifySave',
             payload: {
-              form: values
-            }
+              form: values,
+            },
           }).then(() => {
             this.setState({
               step: 1,
@@ -407,8 +412,8 @@ class OrderModal extends PureComponent {
           this.props.dispatch({
             type: 'orderDetail/confirmOrder',
             payload: {
-              form: values
-            }
+              form: values,
+            },
           }).then(() => {
             this.setState({
               step: 1,
@@ -419,16 +424,16 @@ class OrderModal extends PureComponent {
               type: 'order/fetch', payload: {
                 order_status: '1',
                 find_str: '',
-                order_type: this.props.order_type
-              }
+                order_type: this.props.order_type,
+              },
             })
           })
         } else {
           this.props.dispatch({
             type: 'order/addOrder',
             payload: {
-              values
-            }
+              values,
+            },
           }).then(() => {
             this.setState({
               step: 1,
@@ -439,14 +444,14 @@ class OrderModal extends PureComponent {
               type: 'order/fetch', payload: {
                 order_status: '1',
                 find_str: '',
-                order_type: this.props.order_type
-              }
+                order_type: this.props.order_type,
+              },
             })
           })
         }
         this.props.dispatch({
           type: 'order/save',
-          payload: {currentTab: 'daizhifu', currentIndex: 0}
+          payload: {currentTab: 'daizhifu', currentIndex: 0},
         })
       } else {
         // Object.keys(err).forEach((key, i) => {
@@ -459,7 +464,7 @@ class OrderModal extends PureComponent {
 
   autoSelect = (value, option) => {
     this.props.form.setFieldsValue({
-      recv_phone: option.key
+      recv_phone: option.key,
     })
   }
 
@@ -468,17 +473,17 @@ class OrderModal extends PureComponent {
       if (this.state.distance && this.state.deliver_price) {
         this.props.form.setFieldsValue({
           distance: this.state.distance,
-          deliver_price: this.state.deliver_price
+          deliver_price: this.state.deliver_price,
         })
       }
     } else {
       this.setState({
         distance: this.props.form.getFieldValue('distance'),
-        deliver_price: this.props.form.getFieldValue('deliver_price')
+        deliver_price: this.props.form.getFieldValue('deliver_price'),
       }, () => {
         this.props.form.setFieldsValue({
           distance: '0',
-          deliver_price: '0'
+          deliver_price: '0',
         })
       })
     }
@@ -544,7 +549,7 @@ class OrderModal extends PureComponent {
                     color: '#545F76',
                     fontSize: 15,
                     padding: '2px 10px',
-                    borderRadius: 4
+                    borderRadius: 4,
                   }}><Icon type="red-envelope" theme="outlined"/>&nbsp;采购预付款余额： {this.state.suppbalance} 元</div>
                 </Col>
                 <Col span={8}>
@@ -557,30 +562,30 @@ class OrderModal extends PureComponent {
                     })(
                       <Select placeholder="请选择供应商名称" style={{width: 185}} onChange={this.suppChange}>
                         {supplierOptions}
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="供应商联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('supp_id2')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="联系电话" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('supp_id3')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="采购价" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('purchase_price', {
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                     })(
-                      <Input placeholder='请填写采购价' addonAfter='元 / 吨' onChange={this.calculation}/>
+                      <Input placeholder='请填写采购价' addonAfter='元 / 吨' onChange={this.calculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -588,11 +593,11 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('shuliang', {
-                      rules: [{required: true, message: '请填写数字！'}]
+                      rules: [{required: true, message: '请填写数字！'}],
                     })(
                       <InputNumber placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
                                    disabled={this.props.confirm ? true : false} max={20} min={0} step={0.001}
-                                   precision={3} style={{width: 150}}/>
+                                   precision={3} style={{width: 150}}/>,
                     )}
                     <div style={{
                       position: 'absolute',
@@ -615,18 +620,18 @@ class OrderModal extends PureComponent {
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="气源名称" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('goods_id', {
-                      rules: [{required: true, message: '此项为必选项！'}]
+                      rules: [{required: true, message: '此项为必选项！'}],
                     })(
                       <Select placeholder="请选择气源名称" style={{width: 185}} onChange={this.goodsChange}>
                         {goodsOptions}
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="气源产地" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('goods_source')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -641,14 +646,14 @@ class OrderModal extends PureComponent {
                           :
                           <div>暂无气质报告</div>
                         }
-                      </div>
+                      </div>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="装货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('goods_contact')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -656,7 +661,7 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="联系电话" hasFeedback
                             style={{display: 'block', marginLeft: '-5px', marginBottom: 10}}>
                     {getFieldDecorator('goods_mobile')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -664,7 +669,7 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 5}} wrapperCol={{span: 12}} label="装货地址" hasFeedback
                             style={{display: 'block', marginLeft: '-5px', marginBottom: 10}}>
                     {getFieldDecorator('goods_delivery')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -676,9 +681,9 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="运距" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('distance', {
                       initialValue: '0',
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                     })(
-                      <Input placeholder="请填写运距" addonAfter='公里' onChange={this.calculation}/>
+                      <Input placeholder="请填写运距" addonAfter='公里' onChange={this.calculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -687,9 +692,9 @@ class OrderModal extends PureComponent {
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
                       initialValue: '0',
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}]
+                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
                     })(
-                      <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>
+                      <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -707,7 +712,7 @@ class OrderModal extends PureComponent {
                     color: '#545F76',
                     fontSize: 15,
                     padding: '2px 10px',
-                    borderRadius: 4
+                    borderRadius: 4,
                   }}><Icon type="red-envelope"
                            theme="outlined"/>&nbsp;客户余额： {this.state.custombalance} 元&nbsp;&nbsp;&nbsp;&nbsp;<Icon
                     type="schedule" theme="outlined"/>&nbsp;剩余信用额度： {this.state.creditbalance} 元</div>
@@ -720,21 +725,21 @@ class OrderModal extends PureComponent {
                       <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}
                               disabled={this.props.confirm ? true : false}>
                         {customOptions}
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="客户联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('cust_id2')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="联系电话" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('cust_id3')(
-                      <Input placeholder="自动生成，非手填" disabled/>
+                      <Input placeholder="自动生成，非手填" disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -745,10 +750,10 @@ class OrderModal extends PureComponent {
                         required: true,
                         message: '请填写数字！',
                         pattern: '^[0-9.]*$',
-                        max: 10
+                        max: 10,
                       }],
                     })(
-                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -756,7 +761,7 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num')(
-                      <Input placeholder="请填写数量" addonAfter='吨' disabled/>
+                      <Input placeholder="请填写数量" addonAfter='吨' disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -772,7 +777,7 @@ class OrderModal extends PureComponent {
                       <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}
                               disabled={this.props.confirm ? true : false}>
                         {siteOptions}
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -782,14 +787,14 @@ class OrderModal extends PureComponent {
                       <Select placeholder="自动生成，非手填" style={{width: 185}} disabled>
                         <Option value="1">加气站</Option>
                         <Option value="2">气化站</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="用户类型" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('site_id3')(
-                      <Select placeholder="自动生成，非手填" style={{width: 185}} disabled></Select>
+                      <Select placeholder="自动生成，非手填" style={{width: 185}} disabled></Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -806,7 +811,7 @@ class OrderModal extends PureComponent {
                         dataSource={this.state.dataSource}
                         placeholder="请填写收货联系人姓名"
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -817,11 +822,11 @@ class OrderModal extends PureComponent {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -832,7 +837,7 @@ class OrderModal extends PureComponent {
                     })(
                       <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:00:00'} showTime={{format: 'HH'}}
                                   disabled={this.props.confirm ? true : false}
-                                  locale={locale}/>
+                                  locale={locale}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -844,7 +849,7 @@ class OrderModal extends PureComponent {
                       <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}>
                         <Option value="1">卖家配送</Option>
                         <Option value="2">买家自提</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -852,7 +857,7 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 5}} wrapperCol={{span: 18}} label="收货地址" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('delivery')(
-                      <Input placeholder="请选择收货地址" disabled/>
+                      <Input placeholder="请选择收货地址" disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -869,7 +874,7 @@ class OrderModal extends PureComponent {
                 <div style={{
                   color: '#A1A9B3',
                   fontSize: 18,
-                  marginBottom: 8
+                  marginBottom: 8,
                 }}>余额支付{this.state.yuePay}元，信用支付{this.state.xinyongPay}元
                 </div>
               </div>
@@ -880,7 +885,7 @@ class OrderModal extends PureComponent {
               height: 84,
               backgroundColor: '#F4F6F8',
               borderTop: '1px solid #CCCED2',
-              margin: '30px -23px -23px'
+              margin: '30px -23px -23px',
             }}>
             {this.state.step === 1 ?
               <div>
@@ -923,7 +928,7 @@ function mapStateToProps(state) {
     goodsOption,
     currentTab,
     order_type,
-    loading: state.loading.models.order
+    loading: state.loading.models.order,
   }
 }
 

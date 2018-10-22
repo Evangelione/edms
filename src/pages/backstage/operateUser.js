@@ -318,7 +318,13 @@ class OperateUser extends React.Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('pwd', {
-                      rules: [{required: false, message: '请填写正确密码！', min: 6, max: 16, pattern: '^(\\w){6,16}$'}],
+                      rules: [{
+                        required: this.props.location.query.type === 'insert' ? true : false,
+                        message: '请填写正确密码！',
+                        min: 6,
+                        max: 16,
+                        pattern: '^(\\w){6,16}$',
+                      }],
                       validateTrigger: 'onBlur',
                     })(
                       <Input placeholder="6-16位字母/数字/下划线" type='password'/>,
@@ -337,7 +343,7 @@ class OperateUser extends React.Component {
                     {getFieldDecorator('remark', {
                       initialValue: this.props.editForm.remark ? this.props.editForm.remark : '',
                     })(
-                      <TextArea placeholder="请输入备注信息" autosize={{ minRows: 2, maxRows: 6 }} />
+                      <TextArea placeholder="请输入备注信息" autosize={{minRows: 2, maxRows: 6}}/>,
                     )}
                   </FormItem>
                 </Col>

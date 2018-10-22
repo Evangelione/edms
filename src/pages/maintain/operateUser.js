@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Button, Input, Form, Row, Col, Divider, Select, Cascader} from 'antd'
+import { connect } from 'dva'
+import { Card, Button, Input, Form, Row, Col, Divider, Select, Cascader } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
-import {routerRedux} from 'dva/router'
+import { routerRedux } from 'dva/router'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -14,7 +14,7 @@ class operateUser extends React.Component {
     this.state = {
       selectOption: '1',
       userType1: ['LNG加气站', 'L-CNG加气站', 'LNG L-CNG合建站', 'LNG CNG合建站', 'LNG 汽柴油合建站', 'LNG泵船', '其他'],
-      userType2: ['电厂', '城市居民', '城市商服', '城市供暖', '工业燃料', '工业原料', '其他', '分布式项目']
+      userType2: ['电厂', '城市居民', '城市商服', '城市供暖', '工业燃料', '工业原料', '其他', '分布式项目'],
     }
   }
 
@@ -22,21 +22,21 @@ class operateUser extends React.Component {
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        name: ''
-      }
+        name: '',
+      },
     })
     if (this.props.location.query.type === 'edit') {
       if (!Object.keys(this.props.editForm).length) {
         this.props.dispatch(routerRedux.push({
-          pathname: '/maintain'
+          pathname: '/maintain',
         }))
         return false
       }
       this.setState({
-        selectOption: this.props.editForm.site_type
+        selectOption: this.props.editForm.site_type,
       }, () => {
         this.props.form.setFieldsValue({
-          user_type: this.props.editForm.user_type - 0
+          user_type: this.props.editForm.user_type - 0,
         })
       })
     }
@@ -58,13 +58,13 @@ class operateUser extends React.Component {
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'maintain/insertCustomer',
-            payload: values
+            payload: values,
           })
         } else {
           values.id = this.props.editForm.id
           this.props.dispatch({
             type: 'maintain/modifyCustomer',
-            payload: values
+            payload: values,
           })
         }
       }
@@ -74,7 +74,7 @@ class operateUser extends React.Component {
   cacelForm = () => {
     this.props.form.resetFields()
     this.props.dispatch(routerRedux.push({
-      pathname: '/maintain'
+      pathname: '/maintain',
     }))
   }
 
@@ -95,8 +95,8 @@ class operateUser extends React.Component {
       type: 'maintain/fetchOptions',
       payload: {
         name: targetOption.value,
-        targetOption
-      }
+        targetOption,
+      },
     })
   }
 
@@ -159,7 +159,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.customer_name ? this.props.editForm.customer_name : '',
                       rules: [{required: true, message: '请填写客户公司全称（合同名称）！'}],
                     })(
-                      <Input placeholder="请填写客户公司全称（合同名称）"/>
+                      <Input placeholder="请填写客户公司全称（合同名称）"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -175,7 +175,7 @@ class operateUser extends React.Component {
                       <Select placeholder="请选择客户类型">
                         <Option value="1">终端用户</Option>
                         <Option value="2">贸易商</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -186,9 +186,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('customer_contact', {
                       initialValue: this.props.editForm.customer_contact ? this.props.editForm.customer_contact : '',
-                      rules: [{required: true, message: '请输入客户联系人姓名！'}],
+                      rules: [{required: true, message: '请输入客户联系人姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写客户联系人姓名"/>
+                      <Input placeholder="请填写客户联系人姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -203,11 +203,11 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -224,7 +224,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.site_name ? this.props.editForm.site_name : '',
                       rules: [{required: true, message: '请填写站点简称！'}],
                     })(
-                      <Input placeholder="请填写站点简称（公司缩写+地区+加气站）"/>
+                      <Input placeholder="请填写站点简称（公司缩写+地区+加气站）"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -237,7 +237,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.full_site_name ? this.props.editForm.full_site_name : '',
                       rules: [{required: true, message: '请填写站点全称（合同名称）！'}],
                     })(
-                      <Input placeholder="请填写站点全称（合同名称）"/>
+                      <Input placeholder="请填写站点全称（合同名称）"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -253,7 +253,7 @@ class operateUser extends React.Component {
                       <Select placeholder="请选择站点类型" onChange={this.selectChange}>
                         <Option value="1">加气站</Option>
                         <Option value="2">气化站</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -269,7 +269,7 @@ class operateUser extends React.Component {
                         {this.state.selectOption === '1' ?
                           typeList1 : typeList2
                         }
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -284,9 +284,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('delivery_contact1', {
                       initialValue: this.props.editForm.delivery_contact1 ? this.props.editForm.delivery_contact1 : '',
-                      rules: [{required: true, message: '请填写收货联系人姓名！'}],
+                      rules: [{required: true, message: '请填写收货联系人姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写收货联系人姓名"/>
+                      <Input placeholder="请填写收货联系人姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -301,11 +301,11 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -316,9 +316,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('delivery_contact2', {
                       initialValue: this.props.editForm.delivery_mobile2 ? this.props.editForm.delivery_mobile2 : '',
-                      rules: [{message: '请填写收货联系人！'}],
+                      rules: [{message: '请填写收货联系人！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写收货联系人姓名"/>
+                      <Input placeholder="请填写收货联系人姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -332,11 +332,11 @@ class operateUser extends React.Component {
                       rules: [{
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -354,8 +354,8 @@ class operateUser extends React.Component {
                         <Cascader options={this.props.CascaderOptions}
                                   loadData={this.loadData}
                                   placeholder="请选择收货地址"
-                                  // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
-                        />
+                          // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -369,7 +369,7 @@ class operateUser extends React.Component {
                         initialValue: this.props.editForm.detailed_address ? this.props.editForm.detailed_address : '',
                         rules: [{required: true, message: '请填写正确详细收货地址！'}],
                       })(
-                        <Input placeholder="请填写详细收货地址"/>
+                        <Input placeholder="请填写详细收货地址"/>,
                       )}
                     </FormItem>
                   </Col>
@@ -396,7 +396,7 @@ function mapStateToProps(state) {
   return {
     editForm,
     CascaderOptions,
-    loading: state.loading.models.maintain
+    loading: state.loading.models.maintain,
   }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Modal, Form, Select, Input, Row, Col, Button} from 'antd'
+import { connect } from 'dva'
+import { Modal, Form, Select, Input, Row, Col, Button } from 'antd'
 import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -26,10 +26,10 @@ class ContractModal extends React.Component {
     }).then(() => {
       const customerOptions = this.props.customOption.map((option, index) =>
         <Option key={index} value={option.id} contact={option.customer_contact} mobile={option.customer_mobile}
-                type={option.customer_type}>{option.customer_name}</Option>
+                type={option.customer_type}>{option.customer_name}</Option>,
       )
       this.setState({
-        customerOptions
+        customerOptions,
       })
     })
     this.props.dispatch({
@@ -49,7 +49,7 @@ class ContractModal extends React.Component {
     this.props.form.setFieldsValue({
       customer_type: type,
       customer_contact: item.props.contact,
-      customer_mobile: item.props.mobile
+      customer_mobile: item.props.mobile,
     })
   }
 
@@ -71,14 +71,14 @@ class ContractModal extends React.Component {
             id: values.customer_id,
             stime: this.state.stime.format('YYYY-MM-DD'),
             etime: this.state.etime.format('YYYY-MM-DD'),
-          }
+          },
         }).then(() => {
           this.setState({
             visible: false,
           })
           this.props.dispatch({
             type: 'customer/salesContractFetch',
-            payload: {page: 1}
+            payload: {page: 1},
           })
         })
       }
@@ -112,17 +112,17 @@ class ContractModal extends React.Component {
       label = start
     }
     let locale = {
-      "format": 'YYYY-MM-DD',
-      "separator": " - ",
-      "applyLabel": "确定",
-      "cancelLabel": "取消",
-      "fromLabel": "起始时间",
-      "toLabel": "结束时间'",
-      "customRangeLabel": "自定义",
-      "weekLabel": "W",
-      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
-      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      "firstDay": 1
+      'format': 'YYYY-MM-DD',
+      'separator': ' - ',
+      'applyLabel': '确定',
+      'cancelLabel': '取消',
+      'fromLabel': '起始时间',
+      'toLabel': '结束时间\'',
+      'customRangeLabel': '自定义',
+      'weekLabel': 'W',
+      'daysOfWeek': ['日', '一', '二', '三', '四', '五', '六'],
+      'monthNames': ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+      'firstDay': 1,
     }
     return (
       <div onClick={this.showModal}>
@@ -144,7 +144,7 @@ class ContractModal extends React.Component {
               })(
                 <Select placeholder='请选择买方名称' onChange={this.customerChange}>
                   {this.state.customerOptions}
-                </Select>
+                </Select>,
               )}
             </FormItem>
             <FormItem
@@ -153,7 +153,7 @@ class ContractModal extends React.Component {
               label="买方类型"
             >
               {getFieldDecorator('customer_type')(
-                <Input placeholder='请输入买方类型' disabled/>
+                <Input placeholder='请输入买方类型' disabled/>,
               )}
             </FormItem>
             <FormItem
@@ -162,7 +162,7 @@ class ContractModal extends React.Component {
               label="联系人"
             >
               {getFieldDecorator('customer_contact')(
-                <Input placeholder='请输入联系人' disabled/>
+                <Input placeholder='请输入联系人' disabled/>,
               )}
             </FormItem>
             <FormItem
@@ -171,7 +171,7 @@ class ContractModal extends React.Component {
               label="联系电话"
             >
               {getFieldDecorator('customer_mobile')(
-                <Input placeholder='请输入联系电话' disabled/>
+                <Input placeholder='请输入联系电话' disabled/>,
               )}
             </FormItem>
             <FormItem
@@ -180,9 +180,9 @@ class ContractModal extends React.Component {
               label="卖方"
             >
               {getFieldDecorator('yifang', {
-                initialValue: this.props.company.full_name
+                initialValue: this.props.company.full_name,
               })(
-                <Input placeholder='请输入卖方名称' disabled/>
+                <Input placeholder='请输入卖方名称' disabled/>,
               )}
             </FormItem>
             <FormItem
@@ -191,15 +191,16 @@ class ContractModal extends React.Component {
               label="卖方类型"
             >
               {getFieldDecorator('yifangleixing', {
-                initialValue: this.props.company.company_type
+                initialValue: this.props.company.company_type,
               })(
                 <Select placeholder="请选择卖方类型" disabled>
+                  <Option value="0">暂无类型</Option>
                   <Option value="1">贸易商</Option>
                   <Option value="2">运贸商</Option>
                   <Option value="3">液厂</Option>
                   <Option value="4">接收站</Option>
                   <Option value="5">其它</Option>
-                </Select>
+                </Select>,
               )}
             </FormItem>
             <FormItem
@@ -208,9 +209,9 @@ class ContractModal extends React.Component {
               label="联系人"
             >
               {getFieldDecorator('lianxiren', {
-                initialValue: this.props.company.contact
+                initialValue: this.props.company.contact,
               })(
-                <Input placeholder='请输入联系人' disabled/>
+                <Input placeholder='请输入联系人' disabled/>,
               )}
             </FormItem>
             <FormItem
@@ -219,9 +220,9 @@ class ContractModal extends React.Component {
               label="联系电话"
             >
               {getFieldDecorator('lianxidianhua', {
-                initialValue: this.props.company.contact_mobile
+                initialValue: this.props.company.contact_mobile,
               })(
-                <Input placeholder='请输入联系电话' disabled/>
+                <Input placeholder='请输入联系电话' disabled/>,
               )}
             </FormItem>
             <FormItem
@@ -241,7 +242,7 @@ class ContractModal extends React.Component {
                   drops={'up'}
                   onApply={this.handleApply}>
                   <Input type="text" value={label} readOnly/>
-                </DateRangePicker>
+                </DateRangePicker>,
               )}
             </FormItem>
           </Form>
@@ -264,7 +265,7 @@ function mapStateToProps(state) {
   return {
     customOption,
     company,
-    loading: state.loading.models.customer
+    loading: state.loading.models.customer,
   }
 }
 

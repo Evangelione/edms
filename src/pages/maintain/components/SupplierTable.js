@@ -160,7 +160,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
               <Button className={'blueBorder'} size={'small'} onClick={openPDF.bind(null, text)}>查看</Button>
               :
               <Upload
-                accept='.pdf'
+                accept='.jpg,.png'
                 name='SuppForm[pdf]'
                 action={`${IP}/admin/supplier/up-report`}
                 customRequest={upLoadReport.bind(null, record.id)}

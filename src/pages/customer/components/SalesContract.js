@@ -41,9 +41,9 @@ class SalesContract extends React.Component {
       key: 'customer_type',
       align: 'center',
       render: (text, record, index) => {
-        if (record.company_type === '1') {
+        if (record.customer_type === '1') {
           return '终端用户'
-        } else if (record.company_type === '2') {
+        } else if (record.customer_type === '2') {
           return '贸易商'
         }
       }

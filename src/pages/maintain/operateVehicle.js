@@ -12,7 +12,7 @@ class operateUser extends React.Component {
     if (this.props.location.query.type === 'edit') {
       if (!Object.keys(this.props.editForm).length) {
         this.props.dispatch(routerRedux.push({
-          pathname: '/maintain'
+          pathname: '/maintain',
         }))
       }
     }
@@ -24,13 +24,13 @@ class operateUser extends React.Component {
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'maintain/insertCar',
-            payload: values
+            payload: values,
           })
         } else {
           values.id = this.props.editForm.id
           this.props.dispatch({
             type: 'maintain/modifyCar',
-            payload: values
+            payload: values,
           })
         }
       }
@@ -40,7 +40,7 @@ class operateUser extends React.Component {
   cacelForm = () => {
     this.props.form.resetFields()
     this.props.dispatch(routerRedux.push({
-      pathname: '/maintain'
+      pathname: '/maintain',
     }))
   }
 
@@ -69,7 +69,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.logistic_company ? this.props.editForm.logistic_company : '',
                       rules: [{required: true, message: '请填写物流公司全称！'}],
                     })(
-                      <Input placeholder="请填写物流公司全称（合同名称）"/>
+                      <Input placeholder="请填写物流公司全称（合同名称）"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -80,9 +80,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('logistic_contact', {
                       initialValue: this.props.editForm.logistic_contact ? this.props.editForm.logistic_contact : '',
-                      rules: [{required: true, message: '请填写物流公司联系人姓名！'}],
+                      rules: [{required: true, message: '请填写物流公司联系人姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写物流公司联系人姓名"/>
+                      <Input placeholder="请填写物流公司联系人姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -97,10 +97,10 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -117,7 +117,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.car_head ? this.props.editForm.car_head : '',
                       rules: [{required: true, message: '请填写车头牌照！'}],
                     })(
-                      <Input placeholder="请填写车头牌照"/>
+                      <Input placeholder="请填写车头牌照"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -130,7 +130,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.car_body ? this.props.editForm.car_body : '',
                       rules: [{required: true, message: '请填写车挂牌照！'}],
                     })(
-                      <Input placeholder="请填写车挂牌照"/>
+                      <Input placeholder="请填写车挂牌照"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -143,7 +143,7 @@ class operateUser extends React.Component {
                       initialValue: this.props.editForm.rated_load ? this.props.editForm.rated_load : '',
                       rules: [{required: true, message: '请填写额定载重！'}],
                     })(
-                      <Input placeholder="请填写额定载重" addonAfter='吨'/>
+                      <Input placeholder="请填写额定载重" addonAfter='吨'/>,
                     )}
                   </FormItem>
                 </Col>
@@ -158,9 +158,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('driver', {
                       initialValue: this.props.editForm.driver ? this.props.editForm.driver : '',
-                      rules: [{required: true, message: '请填写司机姓名！'}],
+                      rules: [{required: true, message: '请填写司机姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写司机姓名"/>
+                      <Input placeholder="请填写司机姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -175,10 +175,10 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -189,9 +189,9 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('supercargo', {
                       initialValue: this.props.editForm.supercargo ? this.props.editForm.supercargo : '',
-                      rules: [{required: false, message: '请填写押运员！'}],
+                      rules: [{required: false, message: '请填写押运员！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
                     })(
-                      <Input placeholder="请填写押运员"/>
+                      <Input placeholder="请填写押运员"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -206,10 +206,10 @@ class operateUser extends React.Component {
                         required: false,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
                       }],
                     })(
-                      <Input placeholder="请填写联系电话"/>
+                      <Input placeholder="请填写联系电话"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -234,7 +234,7 @@ function mapStateToProps(state) {
   const {editForm} = state.maintain
   return {
     editForm,
-    loading: state.loading.models.order
+    loading: state.loading.models.order,
   }
 }
 
