@@ -77,7 +77,6 @@ class ContractModal extends React.Component {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        debugger
         this.props.dispatch({
           type: 'supplier/addSupplierContract',
           payload: {

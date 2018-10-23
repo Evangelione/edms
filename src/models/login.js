@@ -1,6 +1,6 @@
 import * as loginServices from '../services/login'
-import {message} from 'antd'
-import {routerRedux} from "dva/router";
+import { message } from 'antd'
+import { routerRedux } from 'dva/router'
 
 export default {
   namespace: 'login',
@@ -70,12 +70,40 @@ export default {
         }))
       }
     },
+    * checkLogin({payload}, {call, put}) {
+      const {data} = yield call(loginServices.checkLogin)
+      if (data.code === 1) {
+        message.success(data.msg)
+        sessionStorage.setItem('loginAuth', data.user.auth)
+        sessionStorage.setItem('userData', JSON.stringify(data.user))
+        yield put(routerRedux.push({
+          pathname: '/',
+        }))
+      }
+    },
+    * checkAdminLogin({payload}, {call, put}) {
+      const {data} = yield call(loginServices.checkAdminLogin)
+      if (data.code === 1) {
+        message.success(data.msg)
+        sessionStorage.setItem('backAuth', data.admin.auth)
+        sessionStorage.setItem('adminData', JSON.stringify(data.admin))
+        if ((sessionStorage.getItem('backAuth') - 0) === 6) {
+          yield put(routerRedux.push({
+            pathname: '/permission',
+          }))
+        } else {
+          yield put(routerRedux.push({
+            pathname: '/backstage',
+          }))
+        }
+      }
+    },
   },
 
   reducers: {
     done(state, action) {
-      return {...state, ...action.payload};
+      return {...state, ...action.payload}
     },
   },
 
-};
+}

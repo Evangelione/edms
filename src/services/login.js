@@ -37,3 +37,19 @@ export function backlogout() {
   })
 }
 
+export function checkLogin() {
+  let formData = new FormData()
+  return request(`${IP}/home/login/check-login`, {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export function checkAdminLogin() {
+  let formData = new FormData()
+  return request(`${IP}/admin/login/check-login`, {
+    method: 'POST',
+    body: formData
+  })
+
+}

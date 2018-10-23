@@ -81,8 +81,6 @@ class RegisterModal extends React.Component {
         this.setState({
           uploading: true,
         })
-        console.log(this.state)
-        debugger
         this.props.dispatch({
           type: this.props.type === 'client' ? 'balance/clientRegistration' : 'balance/supplierRegistration',
           payload: {
