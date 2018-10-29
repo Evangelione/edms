@@ -28,7 +28,7 @@ export default {
     companyOption: [],
     companyDetail: {},
     currentLogistics: {},
-    currentIndex: 0
+    currentIndex: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -40,11 +40,11 @@ export default {
             type: 'save', payload: {
               currentTab: 'quanbu',
               currentIndex: 0,
-            }
+            },
           })
         }
       })
-    }
+    },
   },
   effects: {
     * getDeliverList({payload: {page = 1, deliver_status = '', find_str = ''}}, {call, put, select}) {
@@ -61,13 +61,13 @@ export default {
             find_str,
             statusNum: data.data.status_num,
             currentLogistics: data.data.list[currentIndex],
-          }
+          },
         })
         yield put({
           type: 'home/save',
           payload: {
             currentLogistics: data.data.list[currentIndex],
-          }
+          },
         })
       }
     },
@@ -82,8 +82,8 @@ export default {
             total2: parseInt(data.data.count, 10),
             stime,
             etime,
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -95,46 +95,74 @@ export default {
         yield put({
           type: 'getDeliverList',
           payload: {
-            page: 1
-          }
-        })
-      } else {
-        message.error(data.msg)
-      }
-    },
-    * acceptOrder({payload: id}, {call, put}) {
-      const {data} = yield call(logisticsService.acceptOrder, id)
-      if (data.code === -1) return false
-      if (data.code === 1) {
-        message.success(data.msg)
-        yield put({
-          type: 'getDeliverList',
-          payload: {
             page: 1,
-            deliver_status: '3'
-          }
-        })
-        yield put({
-          type: 'logistics/save',
-          payload: {
-            currentTab: 'yijiedan',
-            currentIndex: 0
-          }
+          },
         })
       } else {
         message.error(data.msg)
       }
     },
-    * refuseOrder({payload: id}, {call, put}) {
-      const {data} = yield call(logisticsService.refuseOrder, id)
+    * acceptOrder({payload: id}, {call, put, select}) {
+      const {data} = yield call(logisticsService.acceptOrder, id)
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        // yield put({
+        //   type: 'getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '3'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'yijiedan',
+        //     currentIndex: 0
+        //   }
+        // })
         yield put({
-          type: 'getDeliverList',
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0}
+        })
+        yield put({
+          type: 'order/fetch',
           payload: {
-            page: 1
-          }
+            find_str,
+            order_status: '3',
+            order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * refuseOrder({payload: id}, {call, put, select}) {
+      const {data} = yield call(logisticsService.refuseOrder, id)
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put({
+        //   type: 'getDeliverList',
+        //   payload: {
+        //     page: 1
+        //   }
+        // })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0}
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '3',
+            order_type,
+          },
         })
       } else {
         message.error(data.msg)
@@ -149,8 +177,8 @@ export default {
             balanceList: data.data.list,
             balancePage: parseInt(page, 10),
             balanceTotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -163,8 +191,8 @@ export default {
             balanceDetailedList: data.data.list,
             balanceDetailedPage: parseInt(page, 10),
             balanceDetailedTotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -177,8 +205,8 @@ export default {
             balanceHistoryList: data.data.list,
             balanceHistoryPage: parseInt(page, 10),
             balanceHistoryTotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -207,8 +235,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            companyOption: data.data.list
-          }
+            companyOption: data.data.list,
+          },
         })
       }
     },
@@ -219,8 +247,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            companyDetail: data.data.list
-          }
+            companyDetail: data.data.list,
+          },
         })
       }
     },
@@ -228,6 +256,6 @@ export default {
   reducers: {
     save(state, action) {
       return {...state, ...action.payload}
-    }
-  }
+    },
+  },
 }

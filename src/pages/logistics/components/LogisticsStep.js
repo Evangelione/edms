@@ -154,7 +154,7 @@ class LogisticsStep extends PureComponent {
         <Step title={<div style={{
           position: 'absolute',
           top: 65,
-          left: '-10px',
+          left: '-40px',
           textAlign: 'left',
         }}>
           <div style={{width: 50}}>已完成</div>

@@ -1,7 +1,7 @@
 export default {
   plugins: [
     'umi-plugin-dva',
-    'umi-plugin-polyfill'
+    'umi-plugin-polyfill',
   ],
   // hashHistory: true,
   // publicPath: '/static/',
@@ -13,7 +13,8 @@ export default {
   //   }
   // },
   externals: {
-    "BMap": "BMap",
-    "BMapLib": "BMapLib"
-  }
+    'BMap': 'BMap',
+    'BMapLib': 'BMapLib',
+  },
+  theme: './src/common/theme.js',
 }

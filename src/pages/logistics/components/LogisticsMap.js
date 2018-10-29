@@ -1,20 +1,21 @@
 import React, { PureComponent } from 'react'
-import { Card, Icon, notification } from 'antd'
-import { connect } from "dva/index"
+import { Card, Button, notification, message } from 'antd'
+import { connect } from 'dva/index'
 import BMap from 'BMap'
 import BMapLib from 'BMapLib'
 import MapDetail from './MapDetail'
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router'
+import copy from 'copy-to-clipboard'
 
 class LogisticsMap extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       alreadyDriven: 0,
       stillNeedTime: 0,
       totalDistance: 0,
       map: 0,
-      analysisLocation: false
+      analysisLocation: false,
     }
   }
 
@@ -25,13 +26,13 @@ class LogisticsMap extends PureComponent {
     if (!this.state.map) {
       map = new BMap.Map('mapContainer')
       this.setState({
-        map
+        map,
       })
     } else {
       map.clearOverlays()
     }
     this.setState({
-      analysisLocation: false
+      analysisLocation: false,
     })
     // 可以拖动
     map.enableScrollWheelZoom(true)
@@ -55,14 +56,14 @@ class LogisticsMap extends PureComponent {
     // 定义data来存储当前订单信息
     let data = {}
     // 判断当前是订单地图还是物流地图
-    if (this.props.location.pathname.indexOf('/order') === 0) {
+    if (this.props.location.pathname.indexOf('/order') !== 0) {
       data = this.props.currentOrder
       // 获取订单地图数据
       this.props.dispatch({
         type: 'home/getOrderMapData',
         payload: {
-          id: data.id
-        }
+          id: data.id,
+        },
       }).then(() => {
         // 如果订单数据没有代表司机未接单，则为0
         if (this.props.orderMapData === 0) {
@@ -86,18 +87,18 @@ class LogisticsMap extends PureComponent {
         if (this.props.orderMapData.gps1.length !== 0) {
           let lineData = this.serializationPoint(this.props.orderMapData.gps1)
           let polygon = new BMap.Polyline(lineData, {
-            strokeColor: "#979797",
+            strokeColor: '#979797',
             strokeWeight: 5,
-            strokeOpacity: 0.8
+            strokeOpacity: 0.8,
           })
           map.addOverlay(polygon)
         }
         if (this.props.orderMapData.gps2.length !== 0) {
           let lineData = this.serializationPoint(this.props.orderMapData.gps2)
           let polygon = new BMap.Polyline(lineData, {
-            strokeColor: "#5186f4",
+            strokeColor: '#5186f4',
             strokeWeight: 5,
-            strokeOpacity: 0.8
+            strokeOpacity: 0.8,
           })
           map.addOverlay(polygon)
         }
@@ -113,7 +114,7 @@ class LogisticsMap extends PureComponent {
             myGeo.getPoint(data.detaileds_address, (point) => {
               if (point) {
                 this.setState({
-                  analysisLocation: true
+                  analysisLocation: true,
                 })
                 endPoint = point
                 if (!currentPoint) map.centerAndZoom(endPoint, 13)
@@ -152,8 +153,8 @@ class LogisticsMap extends PureComponent {
       this.props.dispatch({
         type: 'home/getLogMapData',
         payload: {
-          id: data.id
-        }
+          id: data.id,
+        },
       }).then(() => {
         // 如果订单数据没有代表司机未接单，则为0
         if (this.props.logMapData === 0) {
@@ -177,18 +178,18 @@ class LogisticsMap extends PureComponent {
         if (this.props.logMapData.gps1.length !== 0) {
           let lineData = this.serializationPoint(this.props.logMapData.gps1)
           let polygon = new BMap.Polyline(lineData, {
-            strokeColor: "#979797",
+            strokeColor: '#979797',
             strokeWeight: 5,
-            strokeOpacity: 0.8
+            strokeOpacity: 0.8,
           })
           map.addOverlay(polygon)
         }
         if (this.props.logMapData.gps2.length !== 0) {
           let lineData = this.serializationPoint(this.props.logMapData.gps2)
           let polygon = new BMap.Polyline(lineData, {
-            strokeColor: "#5186f4",
+            strokeColor: '#5186f4',
             strokeWeight: 5,
-            strokeOpacity: 0.8
+            strokeOpacity: 0.8,
           })
           map.addOverlay(polygon)
         }
@@ -204,7 +205,7 @@ class LogisticsMap extends PureComponent {
             myGeo.getPoint(data.detaileds_address, (point) => {
               if (point) {
                 this.setState({
-                  analysisLocation: true
+                  analysisLocation: true,
                 })
                 endPoint = point
                 if (!currentPoint) map.centerAndZoom(endPoint, 13)
@@ -277,12 +278,12 @@ class LogisticsMap extends PureComponent {
     let IconCar = new BMap.Icon(require('../../../assets/image/che.svg'), new BMap.Size(36, 16))
     if (currentPoint && beforePoint) {
       new BMapLib.LuShu(this.state.map, [beforePoint, currentPoint], {
-        defaultContent: "",
+        defaultContent: '',
         autoView: true,
         icon: IconCar,
         speed: 4500,
         enableRotation: true,
-        landmarkPois: []
+        landmarkPois: [],
       }).start()
     } else {
       this.state.map.addOverlay(new BMap.Marker(currentPoint, {icon: IconCar}))
@@ -300,14 +301,14 @@ class LogisticsMap extends PureComponent {
     this.props.dispatch({
       type: 'logisticsDetail/save',
       payload: {
-        showMap: false
-      }
+        showMap: false,
+      },
     })
     this.props.dispatch({
       type: 'orderDetail/save',
       payload: {
-        showMap: false
-      }
+        showMap: false,
+      },
     })
   }
 
@@ -319,25 +320,25 @@ class LogisticsMap extends PureComponent {
     return arr
   }
 
-  getData = () => {
-    if (this.props.location.pathname.indexOf('/order') === 0) {
-      return this.props.currentOrder
-    } else {
-      return this.props.currentLogistics
-    }
+  copyCode = (text) => {
+    copy(text)
+    message.success('订单编号已复制到剪贴板')
   }
 
   render() {
-    const currentLogistics = this.getData()
+    const currentLogistics = this.props.currentOrder
+    console.log(currentLogistics)
     const char = this.props.location.pathname.indexOf('/order') === 0 ? '订' : '运'
     return (
       <Card bodyStyle={{transition: 'all 0.5s', padding: 0}}
-            style={{borderColor: '#e8e8e8', marginBottom: 10}}
-            title={<div style={{color: '#545F76', cursor: 'pointer', fontWeight: 600}} onClick={this.hideMap}>
-              <Icon type="left" theme="outliwned"/>&nbsp;&nbsp;返回{char}单详情</div>}
+            style={{borderColor: '#e8e8e8', marginBottom: 10, borderRadius: 12, marginTop: 30, overflow: 'hidden'}}
+            title={<div style={{color: '#545F76'}} onClick={this.hideMap}>
+              {char}单编号: {currentLogistics.order_code}&nbsp;&nbsp;&nbsp;
+              <Button type='primary' size='small'
+                      onClick={this.copyCode.bind(null, currentLogistics.order_code)}>复制</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;运单编号：{currentLogistics.deliver_code}
+            </div>}
             extra={<div><span
-              style={{color: '#545F76', fontSize: 15}}>运单编号：{currentLogistics.deliver_code}</span><span
-              style={{fontSize: 15, paddingLeft: 50, color: '#aaa'}}>创建时间：{currentLogistics.create_time}</span>
+              style={{color: '#545F76', fontSize: 15}}></span>
             </div>}>
         <MapDetail currentLogistics={currentLogistics}
                    alreadyDriven={this.state.alreadyDriven}
@@ -356,7 +357,7 @@ function mapStateToProps(state) {
     currentOrder,
     orderMapData,
     logMapData,
-    loading: state.loading.models.logisticsDetail
+    loading: state.loading.models.logisticsDetail,
   }
 }
 

@@ -1,6 +1,5 @@
 import * as logisticsService from '../services/logistics'
 import { message, notification } from 'antd'
-import * as routerRedux from "react-router-redux";
 
 export default {
   namespace: 'logisticsDetail',
@@ -61,76 +60,118 @@ export default {
         })
       }
     },
-    * doDispatch({payload: form}, {call, put}) {
+    * doDispatch({payload: form}, {call, put, select}) {
       const {data} = yield call(logisticsService.doDispatch, form)
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        // yield put({
+        //   type: 'logistics/getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '2'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'daijiedan',
+        //     currentIndex: 0
+        //   }
+        // })
         yield put({
-          type: 'logistics/getDeliverList',
-          payload: {
-            page: 1,
-            deliver_status: '2'
-          }
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
         })
         yield put({
-          type: 'logistics/save',
+          type: 'order/fetch',
           payload: {
-            currentTab: 'daijiedan',
-            currentIndex: 0
-          }
+            find_str,
+            order_status: '3',
+            order_type,
+          },
         })
       } else {
         message.error(data.msg)
       }
     },
-    * uploadPound({payload: {file, id, load_type, num, load_time}}, {call, put}) {
+    * uploadPound({payload: {file, id, load_type, num, load_time}}, {call, put, select}) {
       const {data} = yield call(logisticsService.uploadPound, {file, id, load_type, num, load_time})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        // yield put({
+        //   type: 'logistics/getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '4'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'yunshuzhong',
+        //     currentIndex: 0
+        //   }
+        // })
         yield put({
-          type: 'logistics/getDeliverList',
-          payload: {
-            page: 1,
-            deliver_status: '4'
-          }
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
         })
         yield put({
-          type: 'logistics/save',
+          type: 'order/fetch',
           payload: {
-            currentTab: 'yunshuzhong',
-            currentIndex: 0
-          }
+            find_str,
+            order_status: '3',
+            order_type,
+          },
         })
       } else {
         message.error(data.msg)
       }
     },
-    * uploadUnPound({payload: {file, id, load_type, num, unload_time}}, {call, put}) {
+    * uploadUnPound({payload: {file, id, load_type, num, unload_time}}, {call, put, select}) {
       const {data} = yield call(logisticsService.uploadUnPound, {file, id, load_type, num, unload_time})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        // yield put({
+        //   type: 'logistics/getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '5'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'yixieche',
+        //     currentIndex: 0
+        //   }
+        // })
         yield put({
-          type: 'logistics/getDeliverList',
-          payload: {
-            page: 1,
-            deliver_status: '5'
-          }
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
         })
         yield put({
-          type: 'logistics/save',
+          type: 'order/fetch',
           payload: {
-            currentTab: 'yixieche',
-            currentIndex: 0
-          }
+            find_str,
+            order_status: '3',
+            order_type,
+          },
         })
       } else {
         message.error(data.msg)
       }
     },
-    * confirmBill({payload: {id, load_num, unload_num}}, {call, put}) {
+    * confirmBill({payload: {id, load_num, unload_num}}, {call, put, select}) {
       yield put({
         type: 'save',
         payload: {
@@ -138,21 +179,31 @@ export default {
         }
       })
       const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
       if (data.code === -1) return false
       if (data.code === 1) {
-        yield put(routerRedux.push({
-          pathname: '/order',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/order',
+        // }))
+        // yield put({
+        //   type: 'order/fetch',
+        //   payload: {
+        //     order_status: '4',
+        //     order_type: '1'
+        //   }
+        // })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test2', currentIndex: 0}
+        })
         yield put({
           type: 'order/fetch',
           payload: {
+            find_str,
             order_status: '4',
-            order_type: '1'
-          }
-        })
-        yield put({
-          type: 'order/save',
-          payload: {currentTab: 'daijiesuan', currentIndex: 0}
+            order_type,
+          },
         })
         notification.success({
           message: '温馨提示',

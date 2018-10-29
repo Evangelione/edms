@@ -1,3 +1,193 @@
+.grayFont {
+  color: #697087;
+}
+
+.blueFont {
+  color: #3477ED;
+}
+
+.currentOrder {
+  border: 1px solid #3C87F6 !important;
+  box-shadow: 0 12px 12px 0 rgba(64, 120, 230, 0.10);
+}
+
+.currentOrder:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -9px;
+  top: 29px;
+  border-top: solid 9px transparent;
+  border-left: solid 9px #3C87F6;
+  border-bottom: solid 9px transparent;
+}
+
+.currentOrder:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -8px;
+  top: 30px;
+  border-top: solid 8px transparent;
+  border-left: solid 8px white;
+  border-bottom: solid 8px transparent;
+}
+
+.orderTitle {
+  position: relative;
+  color: #545F76;
+  font-size: 16px;
+  padding: 2px 25px;
+  font-weight: 600;
+}
+
+.orderNumber {
+  margin-right: 25px;
+}
+
+.orderGasName {
+  display: inline-block;
+  margin-left: 30px;
+  margin-bottom: 20px;
+}
+
+.orderStatus {
+  float: right;
+  font-size: 12px;
+  padding: 0px 10px;
+  font-weight: 400;
+}
+
+.orderStatusDot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 3px;
+  margin-top: -3px;
+  margin-right: 5px;
+}
+
+.orderWeight {
+  position: absolute;
+  top: 27px;
+  left: 86px;
+  font-size: 14px;
+  color: #0087FE;
+}
+
+.orderPrice {
+  position: absolute;
+  top: 27px;
+  left: 148px;
+  font-size: 14px;
+  color: #cc2020;
+}
+
+.orderCustomer {
+  position: absolute;
+  top: 0px;
+  left: 320px;
+  font-size: 12px;
+  color: #6C6C6C;
+  font-weight: 400;
+}
+
+.orderSite {
+  position: absolute;
+  top: 20px;
+  left: 320px;
+  font-size: 12px;
+  color: #6C6C6C;
+  font-weight: 400;
+}
+
+.upArrow {
+  position: absolute;
+  top: 20px;
+  left: 25px;
+}
+
+.upArrow:after {
+  content: '';
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgb(255, 154, 116);
+  position: absolute;
+  top: -5px;
+  left: 41px;
+}
+
+.showMapBtn {
+  background-color: rgb(255, 154, 116);
+  border-color: rgb(255, 154, 116);
+  color: rgb(255, 255, 255);
+}
+
+.showMapBtn:hover {
+  background-color: rgb(255, 154, 116);
+  border-color: rgb(255, 154, 116);
+  color: rgb(255, 255, 255);
+}
+
+.detailTitle {
+  color: #545F76;
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.yellowTip {
+  position: absolute;
+  top: 1px;
+  left: 115px;
+  background-color: #FFE595;
+  color: #545F76;
+  font-size: 15px;
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+.radioGp > div {
+  display: inline-block;
+  margin: 5px 15px;
+  cursor: pointer;
+}
+
+.order_title {
+  position: absolute;
+  top: -25px;
+  left: 0px;
+  color: #565F74;
+  font-size: 12px;
+  width: 100%;
+}
+
+.order_title > span {
+  margin-left: 10px;
+}
+
+.showExpand {
+  height: 200px;
+}
+
+.hideExpand {
+  height: 0px;
+}
+
+.listItem {
+  color: #A2A9B2;
+  font-size: 14px;
+}
+
+.listItem > div:first-child {
+  font-weight: 600;
+  color: #565F74;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
 
 .resultBox {
   float: right;

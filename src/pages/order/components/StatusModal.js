@@ -19,7 +19,7 @@ class StatusModal extends React.Component {
           cancelText: '返回订单列表',
           text: '恭喜您支付成功，订单已提交！',
           okHandler: this.successHandler,
-          cancelHandler: this.goOrder
+          cancelHandler: this.goOrder,
         },
         error: {
           icon: 'error',
@@ -27,9 +27,9 @@ class StatusModal extends React.Component {
           cancelText: '返回订单列表',
           text: '支付失败，当前账户余额不足！',
           okHandler: this.rechargeHandler,
-          cancelHandler: this.goOrder
-        }
-      }
+          cancelHandler: this.goOrder,
+        },
+      },
     }
   }
 
@@ -50,14 +50,14 @@ class StatusModal extends React.Component {
       pathname: '/order',
     }))
     this.setState({
-      visible: false
+      visible: false,
     })
   }
 
   showModelHandler = (e) => {
     if (e) e.stopPropagation()
     this.setState({
-      visible: true
+      visible: true,
     })
   }
 
@@ -65,7 +65,7 @@ class StatusModal extends React.Component {
     if (e) e.stopPropagation()
     this.setState({
       visible: false,
-      dopay: false
+      dopay: false,
     })
   }
 
@@ -73,8 +73,8 @@ class StatusModal extends React.Component {
     this.props.dispatch({
       type: 'orderDetail/doPay',
       payload: {
-        id: this.props.id
-      }
+        id: this.props.id,
+      },
     }).then(() => {
       if (this.props.isSuccess === 'success') {
         this.setState({
@@ -83,15 +83,15 @@ class StatusModal extends React.Component {
         })
         this.props.dispatch({
           type: 'order/save',
-          payload: {currentTab: 'daifahuo', currentIndex: 0}
+          payload: {currentTab: 'icon-icon-test1', currentIndex: 0},
         })
         this.props.dispatch({
           type: 'order/fetch',
           payload: {
             find_str: this.props.find_str,
             order_status: '2',
-            order_type: this.props.order_type
-          }
+            order_type: this.props.order_type,
+          },
         })
         // this.props.dispatch({
         //   type: 'orderDetail/orderInfo',
@@ -102,7 +102,7 @@ class StatusModal extends React.Component {
       } else if (this.props.isSuccess === 'error') {
         this.setState({
           status: 'error',
-          visible: true
+          visible: true,
         })
       }
     })
@@ -111,7 +111,7 @@ class StatusModal extends React.Component {
   showPayModal = (e) => {
     if (e) e.stopPropagation()
     this.setState({
-      dopay: true
+      dopay: true,
     })
   }
 
@@ -120,12 +120,14 @@ class StatusModal extends React.Component {
     const modalState = this.state.modalState[state]
     return (
       <div style={{cursor: 'pointer', color: '#3477ED', display: 'inline-block', marginRight: 10}}>
-        <div onClick={this.showPayModal}
-             style={{
-               background: `url(${require("../../../assets/image/pay.gif")})`,
-               width: 88,
-               height: 40
-             }}></div>
+        {/*<div onClick={this.showPayModal}*/}
+        {/*style={{*/}
+        {/*background: `url(${require("../../../assets/image/pay.gif")})`,*/}
+        {/*width: 88,*/}
+        {/*height: 40*/}
+        {/*}}></div>*/}
+        <Button type='primary' onClick={this.showPayModal}
+                style={{backgroundColor: '#D0021B', borderColor: '#D0021B'}}>立即支付</Button>
         <Modal
           title='提示'
           visible={this.state.visible}
@@ -171,7 +173,7 @@ class StatusModal extends React.Component {
           </Row>
         </Modal>
       </div>
-    );
+    )
   }
 }
 
@@ -185,7 +187,7 @@ function mapStateToProps(state) {
     order_status,
     order_type,
     list,
-    loading: state.loading.models.orderDetail
+    loading: state.loading.models.orderDetail,
   }
 }
 

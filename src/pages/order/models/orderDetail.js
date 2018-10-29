@@ -10,7 +10,7 @@ export default {
     detailForm: '',
     modifyForm: '',
     modifyId: '',
-    showMap: false
+    showMap: false,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -21,37 +21,37 @@ export default {
             payload: {
               editable: false,
               // isSuccess: false
-            }
+            },
           })
         }
       })
-    }
+    },
   },
   effects: {
     * orderInfo({payload: id}, {call, put}) {
       const {data} = yield call(orderService.orderInfo, id)
       if (data.code === 1) {
         yield put({
-          type: 'order/fetchSelect'
+          type: 'order/fetchSelect',
         })
         yield put({
           type: 'order/fetchSite',
           payload: {
-            customer_id: data.data.order.cust_id
-          }
+            customer_id: data.data.order.cust_id,
+          },
         })
         yield put({
           type: 'order/fetchGoods',
           payload: {
-            supplier_id: data.data.order.supp_id
-          }
+            supplier_id: data.data.order.supp_id,
+          },
         })
         yield put({
           type: 'save',
           payload: {
             detailForm: data.data.order,
-            step: data.data.order.order_status
-          }
+            step: data.data.order.order_status,
+          },
         })
       }
     },
@@ -96,8 +96,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            editable: false
-          }
+            editable: false,
+          },
         })
         notification.success({
           message: '温馨提示',
@@ -116,16 +116,16 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            isSuccess: 'success'
-          }
+            isSuccess: 'success',
+          },
         })
       } else {
         message.error(data.msg)
         yield put({
           type: 'save',
           payload: {
-            isSuccess: 'error'
-          }
+            isSuccess: 'error',
+          },
         })
       }
     },
@@ -142,8 +142,8 @@ export default {
           payload: {
             find_str,
             order_status,
-            page
-          }
+            page,
+          },
         })
       } else {
         message.error(data.msg)
@@ -161,12 +161,17 @@ export default {
           payload: {
             find_str,
             order_status: '5',
-            order_type
-          }
+            order_type,
+          },
         })
         yield put({
           type: 'order/save',
-          payload: {currentTab: 'yijiesuan', currentIndex: 0}
+          payload: {currentTab: 'icon-icon-test7', currentIndex: 0},
+        })
+        notification.success({
+          message: '温馨提示',
+          description: '请前往 我的客户-销售明细，我的供应商-采购明细，我的账务-数据分析 对账',
+          duration: 12,
         })
       } else {
         message.error(data.msg)
@@ -194,6 +199,6 @@ export default {
   reducers: {
     save(state, action) {
       return {...state, ...action.payload}
-    }
-  }
+    },
+  },
 }

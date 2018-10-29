@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { connect } from 'dva'
 import withRouter from 'umi/withRouter'
-import { Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber, notification } from 'antd'
+import { Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber } from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
 
 const FormItem = Form.Item
@@ -18,7 +18,7 @@ class ResultModal extends Component {
       resultNum: '',
       distance: this.props.detailForm.distance,
       caigou: 0,
-      xiaoshou: 0
+      xiaoshou: 0,
     }
   }
 
@@ -31,8 +31,8 @@ class ResultModal extends Component {
     this.props.dispatch({
       type: 'orderDetail/orderInfo',
       payload: {
-        id: this.props.currentOrder.order_id
-      }
+        id: this.props.currentOrder.order_id,
+      },
     }).then(() => {
       this.caigouCalculation()
       this.xiaoshouCalculation()
@@ -44,7 +44,7 @@ class ResultModal extends Component {
     if (e) e.stopPropagation()
     this.setState({
       visible: false,
-      step: 0
+      step: 0,
     })
   }
 
@@ -54,14 +54,9 @@ class ResultModal extends Component {
         values.id = this.props.currentOrder.order_id
         this.props.dispatch({
           type: 'orderDetail/doResult',
-          payload: values
+          payload: values,
         }).then(() => {
           this.hideModelHandler()
-          notification.success({
-            message: '温馨提示',
-            description: '请前往 我的客户-销售明细，我的供应商-采购明细，我的账务-数据分析 对账',
-            duration: 12,
-          })
         })
       }
     })
@@ -73,7 +68,7 @@ class ResultModal extends Component {
       const cg_final_num = this.props.form.getFieldValue('cg_final_num')
       let result = isNaN((purchase_price - 0) * (cg_final_num - 0)) ? 0 : (purchase_price - 0) * (cg_final_num - 0)
       this.setState({
-        caigou: result.toFixed(2)
+        caigou: result.toFixed(2),
       })
     }, 100)
   }
@@ -87,7 +82,7 @@ class ResultModal extends Component {
       const extra_fee = this.props.form.getFieldValue('extra_fee')
       let result = isNaN((saler_price - 0) * (xs_final_num - 0) + (deliver_price - 0) * (distance - 0) * (xs_final_num - 0) + (extra_fee - 0)) ? 0 : (saler_price - 0) * (xs_final_num - 0) + (deliver_price - 0) * (distance - 0) * (xs_final_num - 0) + (extra_fee - 0)
       this.setState({
-        xiaoshou: result.toFixed(2)
+        xiaoshou: result.toFixed(2),
       })
     }, 100)
   }
@@ -100,7 +95,7 @@ class ResultModal extends Component {
       const wl_extra_fee = this.props.form.getFieldValue('wl_extra_fee')
       let result = isNaN((wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)
       this.setState({
-        wuliu: result.toFixed(2)
+        wuliu: result.toFixed(2),
       })
     }, 100)
   }
@@ -117,7 +112,7 @@ class ResultModal extends Component {
         xs: {span: 12},
         sm: {span: 12},
       },
-      style: {margin: '0 0 15px 0'}
+      style: {margin: '0 0 15px 0'},
     }
     const config = {
       rules: [{required: true, message: '此项为必填项！'}],
@@ -130,6 +125,7 @@ class ResultModal extends Component {
           title={this.state.title}
           visible={this.state.visible}
           footer={null}
+          destroyOnClose={true}
           onCancel={this.hideModelHandler}
         >
           <Card style={{border: '1px solid #EEEEEE', background: '#F9FAFC', minHeight: 340}}>
@@ -140,7 +136,7 @@ class ResultModal extends Component {
                 <div>
                   <div style={{
                     display: 'inline-block',
-                    margin: '20px 10px 30px 10px'
+                    margin: '20px 10px 30px 10px',
                   }}>装车吨位：{this.props.detailForm.load_num}吨
                   </div>
                   <ImageModal style={{display: 'inline-block'}} imgUrl={this.props.detailForm.load_url}>
@@ -152,7 +148,7 @@ class ResultModal extends Component {
                 <div>
                   <div style={{
                     display: 'inline-block',
-                    margin: '20px 10px 30px 10px'
+                    margin: '20px 10px 30px 10px',
                   }}>卸车吨位：{this.props.detailForm.unload_num}吨
                   </div>
                   <ImageModal style={{display: 'inline-block'}} imgUrl={this.props.detailForm.unload_url}>
@@ -163,24 +159,24 @@ class ResultModal extends Component {
               <Col span={12}>
                 <div style={{
                   display: 'inline-block',
-                  margin: '0px 10px 30px 10px'
+                  margin: '0px 10px 30px 10px',
                 }}>装车时间：{this.props.detailForm.load_time}
                 </div>
               </Col>
               <Col span={12}>
                 <div style={{
                   display: 'inline-block',
-                  margin: '0px 10px 30px 10px'
+                  margin: '0px 10px 30px 10px',
                 }}>卸车时间：{this.props.detailForm.unload_time}
                 </div>
               </Col>
               <Col span={12}>
                 <div style={{
                   display: 'inline-block',
-                  margin: '0px 10px 30px 10px'
+                  margin: '0px 10px 30px 10px',
                 }}>磅差：<span style={{
                   color: '#FF4241',
-                  fontWeight: 600
+                  fontWeight: 600,
                 }}>{((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)}</span> 吨
                 </div>
               </Col>
@@ -200,9 +196,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('purchase_price', {
                       ...config,
-                      initialValue: this.props.detailForm.purchase_price
+                      initialValue: this.props.detailForm.purchase_price,
                     })(
-                      <InputNumber min={0} step={0.01} onChange={this.caigouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.caigouCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -213,9 +209,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('cg_final_num', {
                       ...config,
-                      initialValue: this.props.detailForm.load_num
+                      initialValue: this.props.detailForm.load_num,
                     })(
-                      <InputNumber min={0} step={0.001} onChange={this.caigouCalculation}/>
+                      <InputNumber min={0} step={0.001} onChange={this.caigouCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -234,9 +230,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('saler_price', {
                       ...config,
-                      initialValue: this.props.detailForm.saler_price
+                      initialValue: this.props.detailForm.saler_price,
                     })(
-                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -247,9 +243,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('xs_final_num', {
                       ...config,
-                      initialValue: this.props.detailForm.load_num
+                      initialValue: this.props.detailForm.load_num,
                     })(
-                      <InputNumber min={0} step={0.001} onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.001} onChange={this.xiaoshouCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -260,9 +256,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('deliver_price', {
                       ...config,
-                      initialValue: 0
+                      initialValue: 0,
                     })(
-                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -273,9 +269,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('distance', {
                       ...config,
-                      initialValue: 0
+                      initialValue: 0,
                     })(
-                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation} style={{marginLeft: 8}}/>
+                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation} style={{marginLeft: 8}}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -286,9 +282,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('extra_fee', {
                       ...config,
-                      initialValue: 0
+                      initialValue: 0,
                     })(
-                      <InputNumber step={0.01} onChange={this.xiaoshouCalculation}/>
+                      <InputNumber step={0.01} onChange={this.xiaoshouCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -307,10 +303,10 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('wl_deliver_price', {
                       ...config,
-                      initialValue: 0
+                      initialValue: 0,
                     })(
                       <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
-                                   style={{marginLeft: 8}}/>
+                                   style={{marginLeft: 8}}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -321,10 +317,10 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('wl_distance', {
                       ...config,
-                      initialValue: this.props.detailForm.distance
+                      initialValue: this.props.detailForm.distance,
                     })(
                       <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
-                                   style={{marginLeft: 8}}/>
+                                   style={{marginLeft: 8}}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -335,10 +331,10 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('wl_final_num', {
                       ...config,
-                      initialValue: this.props.detailForm.load_num
+                      initialValue: this.props.detailForm.load_num,
                     })(
                       <InputNumber style={{marginLeft: 8}} min={0} step={0.001}
-                                   onChange={this.wuliuCalculation}/>
+                                   onChange={this.wuliuCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -349,9 +345,9 @@ class ResultModal extends Component {
                   >
                     {getFieldDecorator('wl_extra_fee', {
                       ...config,
-                      initialValue: 0
+                      initialValue: 0,
                     })(
-                      <InputNumber step={0.01} onChange={this.wuliuCalculation}/>
+                      <InputNumber step={0.01} onChange={this.wuliuCalculation}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -375,7 +371,7 @@ function mapStateToProps(state) {
   return {
     detailForm,
     currentOrder,
-    loading: state.loading.models.orderDetail
+    loading: state.loading.models.orderDetail,
   }
 }
 

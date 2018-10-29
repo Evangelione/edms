@@ -20,7 +20,7 @@ class Order extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      tableKey: '1',
+      tableKey: '2',
       currentTab: 'quanbu'
     }
   }
@@ -95,7 +95,7 @@ class Order extends React.Component {
   }
 
   render() {
-    const {currentTab, statusNum, currentLogistics} = this.props
+    const { currentLogistics} = this.props
     return (
       <div>
         {this.props.location.pathname === '/logistics/logisticsDetail' ?
@@ -122,56 +122,6 @@ class Order extends React.Component {
                 </div>
                 <Card>
                   <Tabs onChange={this.callback} activeKey={this.state.tableKey}>
-                    <TabPane tab="我的物流" key='1'>
-                      <div className='changeList'>
-                        <div onClick={this.changeClass.bind(null, 'quanbu', '')}
-                             className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
-                          <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
-                          <span>全部</span>
-                          <span></span>
-                        </div>
-                        <div onClick={this.changeClass.bind(null, 'daidiaodu', '1')}
-                             className={currentTab === 'daidiaodu' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'daidiaodu' ? 'daidiaoduBlue ' : 'daidiaoduGray'}></span>
-                          <span>待调度</span>
-                          <span style={{color: 'red'}}>({statusNum.ddd})</span>
-                        </div>
-                        <div onClick={this.changeClass.bind(null, 'daijiedan', '2')}
-                             className={currentTab === 'daijiedan' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'daijiedan' ? 'daijiedanBlue ' : 'daijiedanGray'}></span>
-                          <span>待接单</span>
-                          <span style={{color: 'red'}}>({statusNum.djd})</span>
-                        </div>
-                        <div onClick={this.changeClass.bind(null, 'yijiedan', '3')}
-                             className={currentTab === 'yijiedan' ? 'blueBG ' : 'grayBG'}>
-                          <span className={currentTab === 'yijiedan' ? 'yijiedanBlue ' : 'yijiedanGray'}></span>
-                          <span>已接单</span>
-                          <span style={{color: 'red'}}>({statusNum.yjd})</span>
-                        </div>
-                        <div onClick={this.changeClass.bind(null, 'yunshuzhong', '4')}
-                             className={currentTab === 'yunshuzhong' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'yunshuzhong' ? 'yunshuzhongBlue ' : 'yunshuzhongGray'}></span>
-                          <span>运输中</span>
-                          <span style={{color: 'red'}}>({statusNum.ysz})</span>
-                        </div>
-                        <div onClick={this.changeClass.bind(null, 'yixieche', '5')}
-                             className={currentTab === 'yixieche' ? 'blueBG ' : 'grayBG'}>
-                          <span className={currentTab === 'yixieche' ? 'yixiecheBlue ' : 'yixiecheGray'}></span>
-                          <span>已卸车</span>
-                          <span style={{color: 'red'}}>({statusNum.yxc})</span>
-                        </div>
-                        <div onClick={this.changeClass.bind(null, 'yiwancheng', '6')}
-                             className={currentTab === 'yiwancheng' ? 'blueBG ' : 'grayBG'}>
-                      <span
-                        className={currentTab === 'yiwancheng' ? 'yiwanchengBlue ' : 'yiwanchengGray'}></span>
-                          <span>已完成</span>
-                          <span></span>
-                        </div>
-                      </div>
-                    </TabPane>
                     <TabPane tab="运费明细" key='2'>
                       <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
                       <div className='toolBar'>

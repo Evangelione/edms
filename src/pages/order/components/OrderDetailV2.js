@@ -5,10 +5,10 @@ import StatusModal from './StatusModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import OrderModal from './OrderModal'
 import ResultModal from '../components/ResultModal'
-import { connect } from "dva/index"
+import { connect } from 'dva/index'
 import { routerRedux } from 'dva/router'
 import { Map, Marker, NavigationControl, InfoWindow } from 'react-bmap'
-import LogisticsMap from "../../logistics/components/LogisticsMap";
+import LogisticsMap from '../../logistics/components/LogisticsMap'
 
 const Step = Steps.Step
 const Panel = Collapse.Panel
@@ -28,7 +28,7 @@ class OrderDetailV2 extends PureComponent {
   expand = () => {
     this.setState({
       expand: !this.state.expand,
-      activeKey: this.state.activeKey.length === 0 ? ['1'] : []
+      activeKey: this.state.activeKey.length === 0 ? ['1'] : [],
     })
   }
 
@@ -44,15 +44,15 @@ class OrderDetailV2 extends PureComponent {
       type: 'logistics/getDeliverList',
       payload: {
         page: 1,
-        deliver_status: '1'
-      }
+        deliver_status: '1',
+      },
     })
     this.props.dispatch({
       type: 'logistics/save',
       payload: {
         currentTab: 'daidiaodu',
-        currentIndex: 0
-      }
+        currentIndex: 0,
+      },
     })
   }
 
@@ -60,8 +60,8 @@ class OrderDetailV2 extends PureComponent {
     this.props.dispatch({
       type: 'orderDetail/save',
       payload: {
-        showMap: true
-      }
+        showMap: true,
+      },
     })
   }
 
@@ -73,10 +73,10 @@ class OrderDetailV2 extends PureComponent {
       <div>
         {this.props.showMap ? <LogisticsMap/> :
           <Card bodyStyle={{transition: 'all 0.5s'}}
-                style={{borderColor: '#e8e8e8', marginBottom: 10}}
+                style={{borderColor: '#e8e8e8', marginBottom: 10, borderRadius: 12}}
                 title={<div style={{
                   color: '#545F76',
-                  fontSize: 15
+                  fontSize: 15,
                 }}>订单编号：{currentOrder.order_code}</div>}
                 extra={<div>创建时间：{currentOrder.order_date}</div>}
           >
@@ -88,12 +88,12 @@ class OrderDetailV2 extends PureComponent {
                 position: 'absolute',
                 top: 20,
                 left: 25,
-                display: (currentOrder.order_status - 0) >= 3 ? 'block' : 'none'
+                display: (currentOrder.order_status - 0) >= 3 ? 'block' : 'none',
               }}>
                 <Button size='large' style={{
                   background: 'rgb(255, 154, 116)',
                   borderColor: 'rgb(255, 154, 116)',
-                  color: 'rgb(255, 255, 255)'
+                  color: 'rgb(255, 255, 255)',
                 }}>查看地图</Button>
               </div>}/>
               <Step title="待结算"/>
@@ -108,7 +108,7 @@ class OrderDetailV2 extends PureComponent {
                 color: '#545F76',
                 fontWeight: 600,
                 fontSize: 17,
-                marginBottom: 8
+                marginBottom: 8,
               }}>订单状态：{currentOrder.status_name}</div>
               {currentOrder.order_status === '0' ?
                 <div>
@@ -140,7 +140,7 @@ class OrderDetailV2 extends PureComponent {
                       marginRight: 20,
                       display: 'flex',
                       justifyItems: 'center',
-                      alignItems: 'center'
+                      alignItems: 'center',
                     }}>
                       {/*<Button type='primary' style={{marginRight: 10}}>立即支付</Button>*/}
                       <StatusModal id={currentOrder.order_id}/>
@@ -156,11 +156,11 @@ class OrderDetailV2 extends PureComponent {
                       <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>请前往“我的物流”里进行调度，以保证订单能够顺利进行~</div>
                       <div style={{float: 'right', marginTop: '-60px', marginBottom: '40px', marginRight: 20}}>
                         <div onClick={this.goLogisticsList} style={{
-                          background: `url(${require("../../../assets/image/scheduling_now.gif")})`,
+                          background: `url(${require('../../../assets/image/scheduling_now.gif')})`,
                           width: 102,
                           height: 38,
                           marginRight: 10,
-                          cursor: 'pointer'
+                          cursor: 'pointer',
                         }}></div>
                         {/*马上去调度*/}
                       </div>
@@ -173,10 +173,10 @@ class OrderDetailV2 extends PureComponent {
                           <div style={{float: 'right', marginTop: '-60px', marginBottom: '40px', marginRight: 20}}>
                             <ResultModal>
                               <div style={{
-                                background: `url(${require("../../../assets/image/settlement.gif")})`,
+                                background: `url(${require('../../../assets/image/settlement.gif')})`,
                                 width: 74,
                                 height: 38,
-                                marginRight: 10
+                                marginRight: 10,
                               }}></div>
                             </ResultModal>
                           </div>
@@ -222,7 +222,7 @@ class OrderDetailV2 extends PureComponent {
                 borderRadius: 4,
                 marginBottom: 61,
                 border: 0,
-                overflow: 'hidden'
+                overflow: 'hidden',
               }} activeKey={[]} showArrow={false}
                      header={this.state.expand ? <span style={{color: '#A1A9B3', paddingLeft: 10}}>详细信息：</span>
                        :
@@ -256,7 +256,7 @@ class OrderDetailV2 extends PureComponent {
                             display: 'inline-block',
                             height: 18,
                             fontSize: 12,
-                            marginLeft: 10
+                            marginLeft: 10,
                           }}>加气站</span>
                         </div>
                         <div style={{marginBottom: 4}}>{currentOrder.recv_contact}</div>
@@ -284,7 +284,7 @@ class OrderDetailV2 extends PureComponent {
                             float: 'right',
                             marginTop: '-88px',
                             marginRight: 20,
-                            color: '#545F76'
+                            color: '#545F76',
                           }}>运单编号：暂无
                         </div>
                       </div> :
@@ -296,7 +296,7 @@ class OrderDetailV2 extends PureComponent {
                             float: 'right',
                             marginTop: '-88px',
                             marginRight: 20,
-                            color: '#545F76'
+                            color: '#545F76',
                           }}>运单编号：{currentOrder.deliver_code}
                         </div>
                       </div>}
@@ -335,7 +335,7 @@ function mapStateToProps(state) {
     list,
     currentOrder,
     showMap,
-    loading: state.loading.models.order
+    loading: state.loading.models.order,
   }
 }
 

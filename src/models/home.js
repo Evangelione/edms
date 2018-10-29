@@ -15,7 +15,7 @@ export default {
     currentLogistics: {},
     logMapData: {},
     orderMapData: {},
-    homeMapData: []
+    homeMapData: [],
   },
 
   subscriptions: {
@@ -30,6 +30,10 @@ export default {
           dispatch({type: 'order/fetch', payload: query})
           dispatch({type: 'logistics/getDeliverList', payload: query})
         }
+        dispatch({
+          type: `${pathname.substr(1)}/fetch`,
+          payload: {},
+        })
       })
     },
   },
@@ -42,8 +46,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            count: data.data.count
-          }
+            count: data.data.count,
+          },
         })
       }
       yield put({type: 'save', payload: {countLoading: false}})
@@ -55,8 +59,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            customerPer: data.data.list
-          }
+            customerPer: data.data.list,
+          },
         })
       }
       yield put({type: 'save', payload: {customerLoading: false}})
@@ -68,8 +72,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            supplierPer: data.data.list
-          }
+            supplierPer: data.data.list,
+          },
         })
       }
       yield put({type: 'save', payload: {supplierLoading: false}})
@@ -80,8 +84,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            logistics: data.data.list
-          }
+            logistics: data.data.list,
+          },
         })
       }
     },
@@ -91,8 +95,8 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            trend: data.data.list
-          }
+            trend: data.data.list,
+          },
         })
       }
     },
@@ -102,15 +106,15 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            logMapData: data.data.list
-          }
+            logMapData: data.data.list,
+          },
         })
       } else if (data.code === 0) {
         yield put({
           type: 'save',
           payload: {
-            logMapData: 0
-          }
+            logMapData: 0,
+          },
         })
       }
     },
@@ -120,15 +124,15 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            orderMapData: data.data.list
-          }
+            orderMapData: data.data.list,
+          },
         })
       } else if (data.code === 0) {
         yield put({
           type: 'save',
           payload: {
-            orderMapData: 0
-          }
+            orderMapData: 0,
+          },
         })
       }
     },
@@ -138,15 +142,15 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            homeMapData: data.data.list
-          }
+            homeMapData: data.data.list,
+          },
         })
       } else if (data.code === 0) {
         yield put({
           type: 'save',
           payload: {
-            homeMapData: []
-          }
+            homeMapData: [],
+          },
         })
       }
     },
@@ -154,7 +158,7 @@ export default {
 
   reducers: {
     save(state, action) {
-      return {...state, ...action.payload};
+      return {...state, ...action.payload}
     },
   },
 }

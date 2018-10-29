@@ -134,7 +134,7 @@ class OrderModal extends PureComponent {
             cust_id: form.cust_id,
             cust_id2: form.customer_contact,
             cust_id3: form.customer_mobile,
-            saler_price: undefined,
+            saler_price: form.saler_price,
             saler_num: form.saler_num,
             deliver_type: form.deliver_type,
             distance: form.distance,
@@ -441,10 +441,13 @@ class OrderModal extends PureComponent {
               title: '采购信息',
             })
             this.props.dispatch({
+              type: 'order/save',
+              payload: {currentTab: 'icon-icon-test9', currentIndex: 0}
+            })
+            this.props.dispatch({
               type: 'order/fetch', payload: {
                 order_status: '1',
                 find_str: '',
-                order_type: this.props.order_type,
               },
             })
           })

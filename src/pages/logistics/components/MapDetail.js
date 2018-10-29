@@ -1,18 +1,18 @@
 import React, { PureComponent } from 'react'
-import LogisticsStep from "./LogisticsStep";
+import LogisticsStep from './LogisticsStep'
 
 class MapDetail extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      showDetail: false
+      showDetail: false,
     }
   }
 
   toggleMapDetail = (e) => {
     e.stopPropagation()
     this.setState({
-      showDetail: !this.state.showDetail
+      showDetail: !this.state.showDetail,
     })
   }
 
@@ -27,7 +27,7 @@ class MapDetail extends PureComponent {
               color: '#777777',
               fontSize: 14,
               marginTop: 19,
-              marginLeft: 10
+              marginLeft: 10,
             }}>{currentLogistics.status_name}</div>
             <div className='expendBtn' style={this.state.showDetail ? {transform: 'rotate(-180deg)'} : {}}></div>
           </div>
@@ -59,10 +59,16 @@ class MapDetail extends PureComponent {
             }
           </div>
           <div className='map-title-item' style={{color: '#999999'}}>
-            <div style={{display: 'block', paddingLeft: 25, position: 'relative', marginTop: 5}}>
+            <div style={{
+              display: 'block', paddingLeft: 25, position: 'relative', marginTop: 5, maxWidth: 234,
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}>
               <span className='greenMarker'></span>
               <span>发货地：</span>
-              <span style={{color: '#697087'}}>
+              <span style={{color: '#697087'}}
+                    title={currentLogistics.cargo_province ? currentLogistics.cargo_province + currentLogistics.cargo_city + (currentLogistics.cargo_area ? currentLogistics.cargo_area : '') : '暂无'}>
                 {currentLogistics.cargo_province ? currentLogistics.cargo_province + currentLogistics.cargo_city + (currentLogistics.cargo_area ? currentLogistics.cargo_area : '') : '暂无'}
               </span>
             </div>
@@ -71,12 +77,18 @@ class MapDetail extends PureComponent {
               backgroundColor: '#F0F0F0',
               display: 'block',
               marginTop: 5,
-              marginBottom: 3
+              marginBottom: 3,
             }}></div>
-            <div style={{display: 'block', paddingLeft: 25, position: 'relative', marginTop: 2}}>
+            <div style={{
+              display: 'block', paddingLeft: 25, position: 'relative', marginTop: 2, maxWidth: 234,
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}>
               <span className='redMarker'></span>
               <span>收货地：</span>
-              <span style={{color: '#697087'}}>
+              <span style={{color: '#697087'}}
+                    title={currentLogistics.delivery_province ? currentLogistics.delivery_province + currentLogistics.delivery_city + (currentLogistics.delivery_area ? currentLogistics.delivery_area : '') : '暂无'}>
                 {currentLogistics.delivery_province ? currentLogistics.delivery_province + currentLogistics.delivery_city + (currentLogistics.delivery_area ? currentLogistics.delivery_area : '') : '暂无'}
               </span>
             </div>
