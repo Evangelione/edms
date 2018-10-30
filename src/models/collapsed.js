@@ -13,7 +13,7 @@ export default {
         } else if (pathname.indexOf('/backstage') === 0) {
           dispatch({type: 'save', payload: {currentKey: ['administrator'], currentPageName: '企业管理'}})
         } else if (pathname.indexOf('/permission') === 0) {
-          dispatch({type: 'save', payload: {currentKey: ['permission'], currentPageName: '用户列表'}})
+          dispatch({type: 'save', payload: {currentKey: ['permission'], currentPageName: '用户权限设置'}})
         } else if (pathname.indexOf('/maintain') === 0) {
           dispatch({type: 'save', payload: {currentKey: ['maintain'], currentPageName: '数据维护'}})
         } else if (pathname.indexOf('/order') === 0) {

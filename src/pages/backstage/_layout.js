@@ -1,11 +1,11 @@
-import {connect} from 'dva'
-import {Card, Tabs, Button, Input, Table, Pagination} from 'antd'
-import PageTitle from '../../components/PageTitle/PageTitle'
+import { connect } from 'dva'
+import { Card, Tabs, Button, Input, Table, Pagination } from 'antd'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import OperateUser from './operateUser'
-import {routerRedux} from 'dva/router'
-import {PAGE_SIZE} from '../../constants'
+import { routerRedux } from 'dva/router'
+import { PAGE_SIZE } from '../../constants'
 import * as dateUtils from '../../utils/getTime'
+import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -19,7 +19,7 @@ function mapStateToProps(state) {
     currentTab,
     find_auth,
     find_str,
-    loading: state.loading.models.backstage
+    loading: state.loading.models.backstage,
   }
 }
 
@@ -27,11 +27,11 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
   function editUser(type, record) {
     dispatch({
       type: 'backstage/save',
-      payload: {editForm: record}
+      payload: {editForm: record},
     })
     dispatch(routerRedux.push({
       pathname: '/backstage/operateUser',
-      query: {type: type}
+      query: {type: type},
     }))
   }
 
@@ -40,8 +40,8 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       pathname: '/backstage',
       query: {
         page,
-        find_str
-      }
+        find_str,
+      },
     }))
   }
 
@@ -50,8 +50,8 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       type: 'backstage/fetch',
       payload: {
         find_str: value,
-        find_auth: find_auth
-      }
+        find_auth: find_auth,
+      },
     })
   }
 
@@ -66,12 +66,12 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           <img src={text} alt=''/>
         </div>
       )
-    }
+    },
   }, {
     title: '登陆界面名称',
     dataIndex: 'platform_name',
     key: 'platform_name',
-    align: 'center'
+    align: 'center',
   }, {
     title: '企业名称',
     dataIndex: 'full_name',
@@ -107,7 +107,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
         </div>
       )
-    }
+    },
   }, {
     title: '备注',
     dataIndex: 'remark',
@@ -124,7 +124,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                   size='small'>编辑</Button>
         </div>
       )
-    }
+    },
   }, {
     title: '状态',
     align: 'center',
@@ -151,21 +151,20 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           }
         </div>
       )
-    }
+    },
   }]
   return (
-    <div>
+    <AnimatePage>
       {location.pathname === '/backstage' ?
         <div>
-          <PageTitle>企业管理</PageTitle>
           <div className='searchBox'>
             <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={iptSearch}
             />
           </div>
-          <Card>
-            <Tabs>
-              <TabPane tab="企业管理" key='1'>
+          <Tabs>
+            <TabPane tab="企业管理" key='1'>
+              <Card style={{paddingTop: 30}}>
                 <div className='toolBar'>
                   <Button className='blueBorder' icon="plus"
                           onClick={editUser.bind(null, 'insert')}>新增企业</Button>
@@ -184,16 +183,16 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                   pageSize={PAGE_SIZE}
                   onChange={pageChangeHandler}
                 />
-              </TabPane>
-            </Tabs>
-          </Card>
+              </Card>
+            </TabPane>
+          </Tabs>
         </div>
         :
         location.pathname === '/backstage/operateUser' ?
           <OperateUser></OperateUser>
           : ''
       }
-    </div>
+    </AnimatePage>
   )
 })
 

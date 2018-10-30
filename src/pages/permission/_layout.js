@@ -1,12 +1,12 @@
 import React from 'react'
-import {Card, Tabs, Button, Input, Table, Pagination} from 'antd'
-import {connect} from 'dva'
-import PageTitle from '../../components/PageTitle/PageTitle'
+import { Card, Tabs, Button, Input, Table, Pagination } from 'antd'
+import { connect } from 'dva'
 import PromptModal from '../../components/PromptModal/PromptModal'
 import OperateUser from './operateUser'
-import {routerRedux} from 'dva/router'
-import {PAGE_SIZE} from "../../constants";
-import * as dateUtils from "../../utils/getTime";
+import { routerRedux } from 'dva/router'
+import { PAGE_SIZE } from '../../constants'
+import * as dateUtils from '../../utils/getTime'
+import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -20,7 +20,7 @@ function mapStateToProps(state) {
     currentTab,
     find_auth,
     find_str,
-    loading: state.loading.models.permission
+    loading: state.loading.models.permission,
   }
 }
 
@@ -30,32 +30,32 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     if (loading) return false
     dispatch({
       type: 'permission/save',
-      payload: {currentTab: type}
+      payload: {currentTab: type},
     })
     dispatch({
       type: 'permission/fetch',
       payload: {
         find_auth: auth,
-        find_str
-      }
+        find_str,
+      },
     })
   }
 
   function editUser(type, record) {
     dispatch({
       type: 'permission/save',
-      payload: {editForm: record}
+      payload: {editForm: record},
     })
     dispatch(routerRedux.push({
       pathname: '/permission/operateUser',
-      query: {type: type}
+      query: {type: type},
     }))
   }
 
   function pageChangeHandler(page) {
     dispatch(routerRedux.push({
       pathname: '/permission',
-      query: {page}
+      query: {page},
     }))
   }
 
@@ -64,8 +64,8 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       type: 'permission/fetch',
       payload: {
         find_str: value,
-        find_auth
-      }
+        find_auth,
+      },
     })
   }
 
@@ -81,12 +81,12 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           <img src={text} alt=''/>
         </div>
       )
-    }
+    },
   }, {
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
-    align: 'center'
+    align: 'center',
   }, {
     title: '手机号',
     dataIndex: 'mobile',
@@ -101,7 +101,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     title: '角色',
     dataIndex: 'role',
     key: 'role',
-    align: 'center'
+    align: 'center',
   }, {
     title: '权限',
     dataIndex: 'auth',
@@ -131,7 +131,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
         txt = txt.slice(0, txt.length - 1)
       }
       return <div className='txt-overflow' title={txt}>{txt}</div>
-    }
+    },
   }, {
     title: '创建时间',
     dataIndex: 'creation_time',
@@ -147,7 +147,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
         </div>
       )
-    }
+    },
   }, {
     title: '操作',
     align: 'center',
@@ -159,7 +159,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                   size={'small'}>编辑</Button>
         </div>
       )
-    }
+    },
   }, {
     title: '状态',
     align: 'center',
@@ -180,22 +180,21 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           }
         </div>
       )
-    }
+    },
   }]
   return (
-    <div>
+    <AnimatePage>
       {location.pathname === '/permission' ?
         <div>
-          <PageTitle>用户权限设置</PageTitle>
           <div className={'searchBox'}>
             <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={iptSearch}
             />
           </div>
-          <Card>
-            <Tabs>
-              <TabPane tab="用户权限设置" key='1'>
-                <div className={'toolBar'}>
+          <Tabs>
+            <TabPane tab="用户权限设置" key='1'>
+              <Card>
+                <div className={'toolBar'} style={{top: 20}}>
                   <Button className={'blueBorder'} icon="plus" onClick={editUser.bind(null, 'insert')}>新增用户</Button>
                 </div>
                 <div className={'changeList'}>
@@ -241,9 +240,9 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                     <span>我的公司</span>
                   </div>
                 </div>
-              </TabPane>
-            </Tabs>
-          </Card>
+              </Card>
+            </TabPane>
+          </Tabs>
           <Card style={{marginTop: 5}}>
             <Table
               columns={columns}
@@ -266,6 +265,6 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
           <OperateUser></OperateUser>
           : ''
       }
-    </div>
+    </AnimatePage>
   )
 })

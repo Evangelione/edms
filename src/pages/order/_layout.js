@@ -31,7 +31,7 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
              key={item.name}>
           <IconFont type={item.name} style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>
           <span>{item.value}</span>
-          <span style={{color: '#D0021B', marginLeft: 10}}>(200)</span>
+          <span style={{color: '#D0021B', marginLeft: 10}}>({statusNum[item.count]})</span>
         </div>,
       )
     }

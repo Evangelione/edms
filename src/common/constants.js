@@ -37,10 +37,10 @@ export const IconFont = Icon.createFromIconfontCN({
 
 export const getIcon = icon => {
   if (typeof icon === 'string' && icon.indexOf('http') === 0) {
-    return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`} />
+    return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`}/>
   }
   if (typeof icon === 'string') {
-    return <IconFont type={icon} />
+    return <IconFont type={icon}/>
   }
   return icon
 }
@@ -98,34 +98,42 @@ export const orderTabs = [{
   name: 'icon-icon-test3',
   value: '全部',
   status: '',
+  count: 'qb',
 }, {
   name: 'icon-icon-test5',
   value: '待确认',
   status: '0',
+  count: 'dqr',
 }, {
   name: 'icon-icon-test9',
   value: '待支付',
   status: '1',
+  count: 'dzf',
 }, {
   name: 'icon-icon-test1',
   value: '待发货',
   status: '2',
+  count: 'dfh',
 }, {
   name: 'icon-icon-test',
   value: '待收货',
   status: '3',
+  count: 'dsh',
 }, {
   name: 'icon-icon-test2',
   value: '待结算',
   status: '4',
+  count: 'djs',
 }, {
   name: 'icon-icon-test7',
   value: '已完成',
   status: '5',
+  count: 'ywc',
 }, {
   name: 'icon-icon-test6',
   value: '已取消',
   status: '6',
+  count: 'yqx',
 }]
 
 

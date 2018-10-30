@@ -56,7 +56,6 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     dataIndex: 'customer_name',
     key: 'customer_name',
     align: 'center',
-    fixed: 'left',
   }, {
     title: '客户类型',
     dataIndex: 'customer_type',
@@ -200,7 +199,6 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     title: '操作',
     align: 'center',
     key: 'createdAt',
-    fixed: 'right',
     render: (text, record, index) => {
       return (
         <div className='operating'>
@@ -244,7 +242,6 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-        scroll={{x: 2300}}
       ></Table>
       <Pagination
         className='ant-table-pagination'
