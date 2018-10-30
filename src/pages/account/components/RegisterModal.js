@@ -5,6 +5,7 @@ import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -212,7 +213,7 @@ class RegisterModal extends React.Component {
               label={this.props.type === 'client' ? '收款金额' : '付款金额'}
             >
               {getFieldDecorator('record_sum', {
-                rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
               })(
                 <Input placeholder={this.props.type === 'client' ? '请输入收款金额' : '请输入付款金额'} addonAfter='元'/>,
               )}

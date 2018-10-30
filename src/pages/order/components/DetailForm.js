@@ -6,6 +6,7 @@ import withRouter from 'umi/withRouter'
 import styles from '../order.css'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import {routerRedux} from 'dva/router'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -357,7 +358,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('saler_price', {
-                  rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                 })(
                   <Input placeholder="请填写销售价" addonAfter='元 / 吨' disabled={!editable} onChange={this.calculation}
                          className={styles.blueBd}/>
@@ -371,7 +372,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 15, offset: 1}}
               >
                 {getFieldDecorator('saler_num', {
-                  rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                 })(
                   <Input placeholder="请填写数量" addonAfter='吨' disabled={!editable} onChange={this.calculation}
                          className={styles.blueBd}/>
@@ -402,7 +403,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('distance', {
-                  rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                 })(
                   <Input placeholder="请填写运距" addonAfter='公里' disabled={!editable} onChange={this.calculation}
                          className={styles.blueBd}/>
@@ -416,7 +417,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 15, offset: 1}}
               >
                 {getFieldDecorator('deliver_price', {
-                  rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                 })(
                   <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' disabled={!editable}
                          onChange={this.calculation} className={styles.blueBd}/>
@@ -505,7 +506,7 @@ class DetailForm extends React.Component {
                     required: true,
                     message: '请填写正确联系电话！',
                     max: 11,
-                    pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7]))\\d{8}$'
+                    pattern: REGS.phone
                   }],
                   validateTrigger: 'onBlur',
                 })(
@@ -608,7 +609,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('purchase_price', {
-                  rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                 })(
                   <Input placeholder="请填写采购价" addonAfter='元 / 吨' disabled={!editable} className={styles.blueBd}/>
                 )}
@@ -621,7 +622,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('shuliang', {
-                  rules: [{required: false, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                  rules: [{required: false, message: '请填写数字！', pattern: REGS.number, max: 10}],
                 })(
                   <Input placeholder="请填写数量" addonAfter='吨' disabled={!editable}/>
                 )}

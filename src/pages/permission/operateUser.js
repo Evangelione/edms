@@ -4,7 +4,8 @@ import { connect } from 'dva'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
 import { IP } from '../../constants'
-import { routerRedux } from "dva/router";
+import { routerRedux } from 'dva/router'
+import { REGS } from '../../common/constants'
 
 const FormItem = Form.Item
 
@@ -20,7 +21,7 @@ class OperateUser extends React.Component {
         name: 'avatar.png',
         status: 'done',
         url: this.props.editForm.head_img,
-      }]
+      }],
     }
   }
 
@@ -28,12 +29,12 @@ class OperateUser extends React.Component {
     if (this.props.location.query.type === 'edit') {
       if (!Object.keys(this.props.editForm).length) {
         this.props.dispatch(routerRedux.push({
-          pathname: '/permission'
+          pathname: '/permission',
         }))
       }
     } else {
       this.setState({
-        fileList: []
+        fileList: [],
       })
     }
   }
@@ -44,7 +45,7 @@ class OperateUser extends React.Component {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
-    });
+    })
   }
 
   handleChange = ({fileList}) => this.setState({fileList})
@@ -71,17 +72,17 @@ class OperateUser extends React.Component {
         delete values.wdgys
         delete values.wdgs
         values.auth = auth.toString()
-        if(values.pwd === undefined) values.pwd = ''
+        if (values.pwd === undefined) values.pwd = ''
         if (this.props.location.query.type === 'insert') {
           this.props.dispatch({
             type: 'permission/insertAdmin',
-            payload: values
+            payload: values,
           })
         } else {
           values.id = this.props.editForm.id
           this.props.dispatch({
             type: 'permission/modifyAdmin',
-            payload: values
+            payload: values,
           })
         }
       }
@@ -91,7 +92,7 @@ class OperateUser extends React.Component {
   cacelForm = () => {
     this.props.form.resetFields()
     this.props.dispatch(routerRedux.push({
-      pathname: '/permission'
+      pathname: '/permission',
     }))
   }
 
@@ -153,7 +154,7 @@ class OperateUser extends React.Component {
                         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                           <img alt="example" style={{width: '100%'}} src={previewImage}/>
                         </Modal>
-                      </div>
+                      </div>,
                     )}
                   </FormItem>
                 </Col>
@@ -166,7 +167,7 @@ class OperateUser extends React.Component {
                       initialValue: this.props.editForm.name ? this.props.editForm.name : '',
                       rules: [{required: true, message: '请填写真实姓名!'}],
                     })(
-                      <Input placeholder="请填写真实姓名"/>
+                      <Input placeholder="请填写真实姓名"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -180,11 +181,11 @@ class OperateUser extends React.Component {
                       rules: [{
                         message: '请填写正确手机号！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                        pattern: REGS.phone,
                       }],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="请填写手机号"/>
+                      <Input placeholder="请填写手机号"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -199,10 +200,10 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('account', {
                       initialValue: this.props.editForm.account ? this.props.editForm.account : '',
-                      rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: '^[A-Za-z0-9]{1,11}$'}],
+                      rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: REGS.account}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="只支持英文/数字"/>
+                      <Input placeholder="只支持英文/数字"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -212,10 +213,10 @@ class OperateUser extends React.Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('pwd', {
-                      rules: [{required: false, message: '请填写正确密码！', min: 6, max: 16, pattern: '^(\\w){6,16}$'}],
+                      rules: [{required: false, message: '请填写正确密码！', min: 6, max: 16, pattern: REGS.password}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="6-16位字母/数字/下划线" type='password'/>
+                      <Input placeholder="6-16位字母/数字/下划线" type='password'/>,
                     )}
                   </FormItem>
                 </Col>
@@ -230,10 +231,10 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('role', {
                       initialValue: this.props.editForm.role ? this.props.editForm.role : '',
-                      rules: [{required: true, message: '请填角色名称！', max: 6, pattern: '^[\u4e00-\u9fa5]{0,}$'}],
+                      rules: [{required: true, message: '请填角色名称！', max: 6, pattern: REGS.name}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder='请输入角色名称，例：销售'/>
+                      <Input placeholder='请输入角色名称，例：销售'/>,
                     )}
                   </FormItem>
                 </Col>
@@ -342,7 +343,7 @@ function mapStateToProps(state) {
   const {imgUrl, editForm} = state.permission
   return {
     imgUrl,
-    editForm
+    editForm,
   }
 }
 

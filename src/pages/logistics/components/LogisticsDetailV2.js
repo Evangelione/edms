@@ -3,7 +3,7 @@ import { Card, Divider, Button, Row, Col, Collapse, Modal, Form, AutoComplete, I
 import PromptModal from '../../../components/PromptModal/PromptModal'
 import LogisticsMap from './LogisticsMap'
 import LogisticsStep from './LogisticsStep'
-import { connect } from "dva/index"
+import { connect } from 'dva/index'
 import { routerRedux } from 'dva/router'
 import styles from '../logistics.css'
 import moment from 'moment'
@@ -11,6 +11,7 @@ import PoundModal from './PoundModal'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
+import { REGS } from '../../../common/constants'
 
 const Panel = Collapse.Panel
 const FormItem = Form.Item
@@ -26,7 +27,7 @@ class LogisticsDetailV2 extends PureComponent {
       visible: false,
       etime: moment(),
       acceptBtn: false,
-      refuseBtn: false
+      refuseBtn: false,
       // yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
       // xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
 
@@ -36,7 +37,7 @@ class LogisticsDetailV2 extends PureComponent {
   expand = () => {
     this.setState({
       expand: !this.state.expand,
-      activeKey: this.state.activeKey.length === 0 ? ['1'] : []
+      activeKey: this.state.activeKey.length === 0 ? ['1'] : [],
     })
   }
 
@@ -53,20 +54,20 @@ class LogisticsDetailV2 extends PureComponent {
   scheduling = (id) => {
     this.setState({
       schedulingBtn: true,
-      id: id
+      id: id,
     })
     this.props.dispatch({
       type: 'logisticsDetail/getDetail',
       payload: {
-        id: id
-      }
+        id: id,
+      },
     }).then(() => {
       this.props.dispatch({
-        type: 'logisticsDetail/getCompanyOption'
+        type: 'logisticsDetail/getCompanyOption',
       }).then(() => {
         this.setState({
           visible: true,
-          schedulingBtn: false
+          schedulingBtn: false,
         })
         const detailForm = this.props.detailForm
         this.props.form.setFieldsValue({
@@ -90,8 +91,8 @@ class LogisticsDetailV2 extends PureComponent {
     this.props.dispatch({
       type: 'logisticsDetail/getCarOption',
       payload: {
-        logistic_company: value
-      }
+        logistic_company: value,
+      },
     })
     this.props.form.resetFields('chetoupaizhao')
   }
@@ -136,11 +137,11 @@ class LogisticsDetailV2 extends PureComponent {
         this.props.dispatch({
           type: 'logisticsDetail/doDispatch',
           payload: {
-            form: values
-          }
+            form: values,
+          },
         }).then(() => {
           this.setState({
-            visible: false
+            visible: false,
           })
         })
       }
@@ -150,16 +151,16 @@ class LogisticsDetailV2 extends PureComponent {
   acceptOrder = (id, e) => {
     e.stopPropagation()
     this.setState({
-      acceptBtn: true
+      acceptBtn: true,
     })
     this.props.dispatch({
       type: 'logistics/acceptOrder',
       payload: {
-        id: id
-      }
+        id: id,
+      },
     }).then(() => {
       this.setState({
-        acceptBtn: false
+        acceptBtn: false,
       })
     })
   }
@@ -167,16 +168,16 @@ class LogisticsDetailV2 extends PureComponent {
   refuseOrder = (id, e) => {
     e.stopPropagation()
     this.setState({
-      refuseBtn: true
+      refuseBtn: true,
     })
     this.props.dispatch({
       type: 'logistics/refuseOrder',
       payload: {
-        id: id
-      }
+        id: id,
+      },
     }).then(() => {
       this.setState({
-        refuseBtn: false
+        refuseBtn: false,
       })
     })
   }
@@ -184,15 +185,15 @@ class LogisticsDetailV2 extends PureComponent {
   handleCancel = () => {
     this.setState({
       visible: false,
-    });
+    })
   }
 
   showMap = () => {
     this.props.dispatch({
       type: 'logisticsDetail/save',
       payload: {
-        showMap: true
-      }
+        showMap: true,
+      },
     })
   }
 
@@ -204,26 +205,26 @@ class LogisticsDetailV2 extends PureComponent {
         {option.logistic_company}
       </Option>)
     const carHeadOptions = carOption.car_head.map((option, index) =>
-      <Option key={index} value={option.car_head}>{option.car_head}</Option>
+      <Option key={index} value={option.car_head}>{option.car_head}</Option>,
     )
     const carBodyOptions = carOption.car_body.map((option, index) =>
-      <Option key={index} value={option.car_body} load={option.rated_load}>{option.car_body}</Option>
+      <Option key={index} value={option.car_body} load={option.rated_load}>{option.car_body}</Option>,
     )
     const driverOptions = carOption.driver.map((option, index) =>
-      <Option key={index} value={option.driver} phone={option.driver_mobile}>{option.driver}</Option>
+      <Option key={index} value={option.driver} phone={option.driver_mobile}>{option.driver}</Option>,
     )
     let locale = {
-      "format": 'YYYY-MM-DD',
-      "separator": " - ",
-      "applyLabel": "确定",
-      "cancelLabel": "取消",
-      "fromLabel": "起始时间",
-      "toLabel": "结束时间'",
-      "customRangeLabel": "自定义",
-      "weekLabel": "W",
-      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
-      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      "firstDay": 1
+      'format': 'YYYY-MM-DD',
+      'separator': ' - ',
+      'applyLabel': '确定',
+      'cancelLabel': '取消',
+      'fromLabel': '起始时间',
+      'toLabel': '结束时间\'',
+      'customRangeLabel': '自定义',
+      'weekLabel': 'W',
+      'daysOfWeek': ['日', '一', '二', '三', '四', '五', '六'],
+      'monthNames': ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+      'firstDay': 1,
     }
     let time = this.state.etime.format('YYYY-MM-DD HH:mm:00')
     return (
@@ -240,7 +241,7 @@ class LogisticsDetailV2 extends PureComponent {
                                style={{
                                  background: '#FF9A74',
                                  borderColor: '#FF9A74',
-                                 color: '#fff'
+                                 color: '#fff',
                                }}><Icon type="environment" theme="outlined"/>物流地图</Button>}>
             <LogisticsStep currentLogistics={currentLogistics}/>
             <div style={{margin: '0 20px'}}>
@@ -252,18 +253,18 @@ class LogisticsDetailV2 extends PureComponent {
                 color: '#545F76',
                 fontWeight: 600,
                 fontSize: 17,
-                marginBottom: 8
+                marginBottom: 8,
               }}>运单状态：{currentLogistics.status_name}</div>
               {currentLogistics.deliver_status === '0' ?
                 <div>
                   <div style={{color: '#A1A9B3', fontSize: 15, marginBottom: 20}}>调度后订单才能继续往下进行哦~</div>
                   <div style={{float: 'right', marginTop: '-60px', marginRight: 20}}>
                     <div onClick={this.scheduling.bind(null, currentLogistics.id)} style={{
-                      background: `url(${require("../../../assets/image/scheduling.gif")})`,
+                      background: `url(${require('../../../assets/image/scheduling.gif')})`,
                       width: 64,
                       height: 38,
                       marginRight: 10,
-                      cursor: 'pointer'
+                      cursor: 'pointer',
                     }}></div>
                   </div>
                 </div> : currentLogistics.deliver_status === '1' ?
@@ -279,7 +280,7 @@ class LogisticsDetailV2 extends PureComponent {
                                 borderColor: '#EA7878',
                                 marginLeft: 10,
                                 marginRight: 10,
-                                color: '#fff'
+                                color: '#fff',
                               }}
                               loading={this.state.refuseBtn}>拒绝</Button>
                       <PromptModal state='cancelLogistics' cancelID={currentLogistics.id} txt={currentLogistics}>
@@ -367,7 +368,7 @@ class LogisticsDetailV2 extends PureComponent {
                         display: 'inline-block',
                         height: 18,
                         fontSize: 12,
-                        marginLeft: 10
+                        marginLeft: 10,
                       }}>{currentLogistics.site_type_name}</span>
                     </div>
                     <div style={{marginBottom: 4}}>{currentLogistics.recv_contact}</div>
@@ -378,7 +379,7 @@ class LogisticsDetailV2 extends PureComponent {
                     <div style={{
                       marginBottom: 6,
                       marginTop: 12,
-                      color: '#A1A9B3'
+                      color: '#A1A9B3',
                     }}>用户类型: {currentLogistics.user_type_name}</div>
                     <div style={{marginBottom: 6, color: '#A1A9B3'}}>配送方式: {currentLogistics.deliver_type_name}</div>
                   </Col>
@@ -394,7 +395,7 @@ class LogisticsDetailV2 extends PureComponent {
                 borderRadius: 4,
                 marginBottom: 61,
                 border: 0,
-                overflow: 'hidden'
+                overflow: 'hidden',
               }} activeKey={[]} showArrow={false}
                      header={this.state.expand ? <span style={{color: '#A1A9B3', paddingLeft: 10}}>详细信息：</span>
                        :
@@ -431,24 +432,24 @@ class LogisticsDetailV2 extends PureComponent {
                       float: 'right',
                       marginTop: '-88px',
                       marginRight: 20,
-                      color: '#545F76'
+                      color: '#545F76',
                     }}>运单编号：{currentLogistics.deliver_code}
                   </div>
                 </div>
                 {/*<div style={{margin: '0 20px'}}>*/}
-                  {/*<Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>*/}
+                {/*<Divider style={{backgroundColor: '#e8e8e8', height: 2}}/>*/}
                 {/*</div>*/}
                 {/*进度条*/}
                 {/*<div>*/}
-                  {/*<TimeLine detail={currentLogistics}/>*/}
-                  {/*{currentLogistics.deliver_status !== '0' ?*/}
-                    {/*<div style={{margin: '0 40px 30px'}}>*/}
-                      {/*<Map center={{lng: 116.402544, lat: 39.928216}} zoom="11">*/}
-                        {/*<Marker position={{lng: 116.402544, lat: 39.928216}}/>*/}
-                        {/*<NavigationControl/>*/}
-                        {/*<InfoWindow position={{lng: 116.402544, lat: 39.928216}} text="内容" title="标题"/>*/}
-                      {/*</Map>*/}
-                    {/*</div> : ''}*/}
+                {/*<TimeLine detail={currentLogistics}/>*/}
+                {/*{currentLogistics.deliver_status !== '0' ?*/}
+                {/*<div style={{margin: '0 40px 30px'}}>*/}
+                {/*<Map center={{lng: 116.402544, lat: 39.928216}} zoom="11">*/}
+                {/*<Marker position={{lng: 116.402544, lat: 39.928216}}/>*/}
+                {/*<NavigationControl/>*/}
+                {/*<InfoWindow position={{lng: 116.402544, lat: 39.928216}} text="内容" title="标题"/>*/}
+                {/*</Map>*/}
+                {/*</div> : ''}*/}
                 {/*</div>*/}
                 <div style={{color: '#A1A9B3', paddingLeft: 25, cursor: 'pointer'}} onClick={this.expand}>收起</div>
               </Panel>
@@ -463,7 +464,7 @@ class LogisticsDetailV2 extends PureComponent {
                   <Col key='col'>
                     <Button key='submit' type='primary' onClick={this.submit} loading={loading}>确定调度</Button>
                   </Col>
-                </Row>
+                </Row>,
               ]}
               onCancel={this.handleCancel}
               destroyOnClose={true}
@@ -483,7 +484,7 @@ class LogisticsDetailV2 extends PureComponent {
                       dataSource={companyOptions}
                       placeholder="请填写物流公司全程（合同名称）"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                    />
+                    />,
                     // <Select placeholder="请选择物流公司..." style={{marginLeft: 8}} onChange={this.companyChange}>
                     //   {companyOptions}
                     // </Select>
@@ -504,7 +505,7 @@ class LogisticsDetailV2 extends PureComponent {
                           dataSource={carHeadOptions}
                           placeholder="请选车头牌照"
                           filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -522,7 +523,7 @@ class LogisticsDetailV2 extends PureComponent {
                           dataSource={carBodyOptions}
                           placeholder="请选车挂牌照"
                           filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -537,7 +538,7 @@ class LogisticsDetailV2 extends PureComponent {
                       {getFieldDecorator('edingzaizhong', {
                         rules: [{required: false, message: '此项为必选项！'}],
                       })(
-                        <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>
+                        <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>,
                       )}
                     </FormItem>
                   </Col>
@@ -558,7 +559,7 @@ class LogisticsDetailV2 extends PureComponent {
                           dataSource={driverOptions}
                           placeholder="请选择司机"
                           filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -573,11 +574,11 @@ class LogisticsDetailV2 extends PureComponent {
                           required: true,
                           message: '请填写正确联系电话！',
                           max: 11,
-                          pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                          pattern: REGS.phone,
                         }],
                         validateTrigger: 'onBlur',
                       })(
-                        <Input placeholder="填写司机电话"/>
+                        <Input placeholder="填写司机电话"/>,
                       )}
                     </FormItem>
                   </Col>
@@ -592,7 +593,7 @@ class LogisticsDetailV2 extends PureComponent {
                       {getFieldDecorator('yayunyuan', {
                         rules: [{required: false, message: '此项为必选项！'}],
                       })(
-                        <Input/>
+                        <Input/>,
                       )}
                     </FormItem>
                   </Col>
@@ -603,7 +604,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('supercargo_mobile')(
-                        <Input placeholder="选择押运员后显示" disabled/>
+                        <Input placeholder="选择押运员后显示" disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -617,7 +618,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('zhuanghuolianxiren')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -628,7 +629,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('zhuanghuolianxidianhua')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -654,7 +655,7 @@ class LogisticsDetailV2 extends PureComponent {
                           drops={'up'}
                           onApply={this.handleApply}>
                           <Input type="text" value={time} readOnly/>
-                        </DateRangePicker>
+                        </DateRangePicker>,
                       )}
                     </FormItem>
                   </Col>
@@ -665,7 +666,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('zhuanghuoshuliang')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -679,7 +680,7 @@ class LogisticsDetailV2 extends PureComponent {
                         wrapperCol={{span: 15}}
                       >
                         {getFieldDecorator('zhuanghuodizhi')(
-                          <Input disabled style={{marginLeft: 20}}/>
+                          <Input disabled style={{marginLeft: 20}}/>,
                         )}
                       </FormItem>
                     </Col>
@@ -690,7 +691,7 @@ class LogisticsDetailV2 extends PureComponent {
                         wrapperCol={{span: 20}}
                       >
                         {getFieldDecorator('zhuanghuoxiangxidizhi')(
-                          <Input disabled/>
+                          <Input disabled/>,
                         )}
                       </FormItem>
                     </Col>
@@ -705,7 +706,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('shouhuolianxiren')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -716,7 +717,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('shouhuolianxidianhua')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -729,7 +730,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('shouhuoshijian')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -740,7 +741,7 @@ class LogisticsDetailV2 extends PureComponent {
                       wrapperCol={{span: 13, offset: 1}}
                     >
                       {getFieldDecorator('shouhuoshuliang')(
-                        <Input disabled/>
+                        <Input disabled/>,
                       )}
                     </FormItem>
                   </Col>
@@ -754,7 +755,7 @@ class LogisticsDetailV2 extends PureComponent {
                         wrapperCol={{span: 15}}
                       >
                         {getFieldDecorator('shouhuodizhi')(
-                          <Input disabled style={{marginLeft: 20}}/>
+                          <Input disabled style={{marginLeft: 20}}/>,
                         )}
                       </FormItem>
                     </Col>
@@ -765,7 +766,7 @@ class LogisticsDetailV2 extends PureComponent {
                         wrapperCol={{span: 20}}
                       >
                         {getFieldDecorator('shouhuoxiangxidizhi')(
-                          <Input disabled/>
+                          <Input disabled/>,
                         )}
                       </FormItem>
                     </Col>
@@ -788,7 +789,7 @@ function mapStateToProps(state) {
     companyOption,
     carOption,
     showMap,
-    loading: state.loading.models.logisticsDetail
+    loading: state.loading.models.logisticsDetail,
   }
 }
 

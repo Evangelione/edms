@@ -5,6 +5,7 @@ import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
 import { IP } from '../../constants'
 import { routerRedux } from 'dva/router'
+import { REGS } from '../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -163,7 +164,7 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('supp_contact', {
                       initialValue: this.props.editForm.supp_contact ? this.props.editForm.supp_contact : '',
-                      rules: [{required: true, message: '填写正确供应商联系人！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
+                      rules: [{required: true, message: '填写正确供应商联系人！', pattern: REGS.name, max: 10}],
                     })(
                       <Input placeholder="请填写供应商联系人姓名"/>,
                     )}
@@ -180,7 +181,7 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                       validateTrigger: 'onBlur',
                     })(
@@ -262,7 +263,7 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('cargo_contact', {
                       initialValue: this.props.editForm.cargo_contact ? this.props.editForm.cargo_contact : '',
-                      rules: [{required: true, message: '填写正确装货联系人姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
+                      rules: [{required: true, message: '填写正确装货联系人姓名！', pattern: REGS.name, max: 10}],
                     })(
                       <Input placeholder="请填写装货联系人姓名"/>,
                     )}
@@ -279,7 +280,7 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                       validateTrigger: 'onBlur',
                     })(

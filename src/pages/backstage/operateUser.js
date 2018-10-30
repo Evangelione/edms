@@ -5,6 +5,7 @@ import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
 import { IP } from '../../constants'
 import { routerRedux } from 'dva/router'
+import { REGS } from '../../common/constants'
 
 const FormItem = Form.Item
 const {TextArea} = Input
@@ -286,7 +287,7 @@ class OperateUser extends React.Component {
                         required: true,
                         message: '请填写正确手机号！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                       validateTrigger: 'onBlur',
                     })(
@@ -305,7 +306,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('account', {
                       initialValue: this.props.editForm.account ? this.props.editForm.account : '',
-                      rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: '^[A-Za-z0-9]{1,30}$'}],
+                      rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: REGS.account}],
                       validateTrigger: 'onBlur',
                     })(
                       <Input placeholder="只支持英文/数字"/>,
@@ -323,7 +324,7 @@ class OperateUser extends React.Component {
                         message: '请填写正确密码！',
                         min: 6,
                         max: 16,
-                        pattern: '^(\\w){6,16}$',
+                        pattern: REGS.password,
                       }],
                       validateTrigger: 'onBlur',
                     })(

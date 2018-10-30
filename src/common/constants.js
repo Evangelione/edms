@@ -6,6 +6,14 @@ export const IP = '/xtw'
 // 全局表格
 export const PAGE_SIZE = 10
 
+export const REGS = {
+  name: '^[\\u4e00-\\u9fa5]+$',
+  number: '^[0-9.]*$',
+  account: '^[A-Za-z0-9]{1,30}$',
+  password: '^(\\w){6,16}$',
+  phone: '^[1][3-9][0-9]{9}$',
+}
+
 // 根据域名前几位判断该用什么logo和名称
 export const LOGO = {
   lch: {

@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Modal, Icon, Button, Row, Col, Form, Input } from 'antd'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 let uuid = 0
@@ -131,7 +132,7 @@ class CreditModal extends React.Component {
             rules: [{
               message: '请填写正确联系电话！',
               max: 11,
-              pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+              pattern: REGS.phone
             }],
           })(
             <Input placeholder="请输入接收短信的手机号码" style={{width: '85%', marginRight: 8}}/>
@@ -177,7 +178,7 @@ class CreditModal extends React.Component {
               label="设置额度"
             >
               {getFieldDecorator('credit', {
-                rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$'}],
+                rules: [{required: true, message: '请填写数字！', pattern: REGS.number}],
               })(
                 <Input placeholder='请输入新的额度' addonAfter='元'/>
               )}
@@ -188,7 +189,7 @@ class CreditModal extends React.Component {
             >
               {getFieldDecorator('notice', {
                 initialValue: this.props.credit_notice === '0.00' ? '' : this.props.credit_notice,
-                rules: [{message: '请填写数字！', pattern: '^[0-9.]*$'}],
+                rules: [{message: '请填写数字！', pattern: REGS.number}],
               })(
                 <Input placeholder='低于该额度将收到短信提醒' addonAfter='元'/>
               )}

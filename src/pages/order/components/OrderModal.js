@@ -17,6 +17,7 @@ import {
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -442,7 +443,7 @@ class OrderModal extends PureComponent {
             })
             this.props.dispatch({
               type: 'order/save',
-              payload: {currentTab: 'icon-icon-test9', currentIndex: 0}
+              payload: {currentTab: 'icon-icon-test9', currentIndex: 0},
             })
             this.props.dispatch({
               type: 'order/fetch', payload: {
@@ -586,7 +587,7 @@ class OrderModal extends PureComponent {
                 <Col span={8}>
                   <FormItem {...formItemLayout} label="采购价" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('purchase_price', {
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                      rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                     })(
                       <Input placeholder='请填写采购价' addonAfter='元 / 吨' onChange={this.calculation}/>,
                     )}
@@ -684,7 +685,7 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="运距" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('distance', {
                       initialValue: '0',
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                      rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                     })(
                       <Input placeholder="请填写运距" addonAfter='公里' onChange={this.calculation}/>,
                     )}
@@ -695,7 +696,7 @@ class OrderModal extends PureComponent {
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
                       initialValue: '0',
-                      rules: [{required: true, message: '请填写数字！', pattern: '^[0-9.]*$', max: 10}],
+                      rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                     })(
                       <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>,
                     )}
@@ -752,7 +753,7 @@ class OrderModal extends PureComponent {
                       rules: [{
                         required: true,
                         message: '请填写数字！',
-                        pattern: '^[0-9.]*$',
+                        pattern: REGS.number,
                         max: 10,
                       }],
                     })(
@@ -805,7 +806,7 @@ class OrderModal extends PureComponent {
                   <FormItem {...formItemLayout} label="收货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('recv_contact', {
                       rules: [
-                        {required: true, message: '请填写收货联系人', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10},
+                        {required: true, message: '请填写收货联系人', pattern: REGS.name, max: 10},
                       ],
                     })(
                       <AutoComplete
@@ -825,7 +826,7 @@ class OrderModal extends PureComponent {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                       validateTrigger: 'onBlur',
                     })(

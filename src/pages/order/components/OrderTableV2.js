@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Card, Pagination, Button, Divider, Row, Col, Form, AutoComplete, Modal, Input } from 'antd'
 import { connect } from 'dva'
 import { PAGE_SIZE } from '../../../constants'
-import { IconFont } from '../../../common/constants'
+import { IconFont, REGS } from '../../../common/constants'
 import StatusModal from './StatusModal'
 import OrderModal from './OrderModal'
 import PromptModal from '../../../components/PromptModal/PromptModal'
@@ -586,7 +586,7 @@ class OrderTableV2 extends PureComponent {
                           required: true,
                           message: '请填写正确联系电话！',
                           max: 11,
-                          pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                          pattern: REGS.phone,
                         }],
                         validateTrigger: 'onBlur',
                       })(

@@ -4,6 +4,7 @@ import { Card, Button, Input, Form, Row, Col, Divider } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import withRouter from 'umi/withRouter'
 import { routerRedux } from 'dva/router'
+import { REGS } from '../../common/constants'
 
 const FormItem = Form.Item
 
@@ -80,7 +81,7 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('logistic_contact', {
                       initialValue: this.props.editForm.logistic_contact ? this.props.editForm.logistic_contact : '',
-                      rules: [{required: true, message: '请填写物流公司联系人姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
+                      rules: [{required: true, message: '请填写物流公司联系人姓名！', pattern: REGS.name, max: 10}],
                     })(
                       <Input placeholder="请填写物流公司联系人姓名"/>,
                     )}
@@ -97,7 +98,7 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                     })(
                       <Input placeholder="请填写联系电话"/>,
@@ -158,7 +159,7 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('driver', {
                       initialValue: this.props.editForm.driver ? this.props.editForm.driver : '',
-                      rules: [{required: true, message: '请填写司机姓名！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
+                      rules: [{required: true, message: '请填写司机姓名！', pattern: REGS.name, max: 10}],
                     })(
                       <Input placeholder="请填写司机姓名"/>,
                     )}
@@ -175,7 +176,7 @@ class operateUser extends React.Component {
                         required: true,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                     })(
                       <Input placeholder="请填写联系电话"/>,
@@ -189,7 +190,7 @@ class operateUser extends React.Component {
                   >
                     {getFieldDecorator('supercargo', {
                       initialValue: this.props.editForm.supercargo ? this.props.editForm.supercargo : '',
-                      rules: [{required: false, message: '请填写押运员！', pattern: '^[\\u4e00-\\u9fa5]+$', max: 10}],
+                      rules: [{required: false, message: '请填写押运员！', pattern: REGS.name, max: 10}],
                     })(
                       <Input placeholder="请填写押运员"/>,
                     )}
@@ -206,7 +207,7 @@ class operateUser extends React.Component {
                         required: false,
                         message: '请填写正确联系电话！',
                         max: 11,
-                        pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$',
+                        pattern: REGS.phone,
                       }],
                     })(
                       <Input placeholder="请填写联系电话"/>,

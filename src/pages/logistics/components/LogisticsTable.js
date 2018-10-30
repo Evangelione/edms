@@ -11,6 +11,7 @@ import moment from 'moment'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
+import { REGS } from '../../../common/constants'
 
 
 const FormItem = Form.Item
@@ -794,7 +795,7 @@ class Logistics extends React.Component {
                       required: true,
                       message: '请填写正确联系电话！',
                       max: 11,
-                      pattern: '^((1[3,5,8][0-9])|(14[5,7])|(17[0,3,6,7,8])|(19[7,9]))\\d{8}$'
+                      pattern: REGS.phone
                     }],
                     validateTrigger: 'onBlur',
                   })(
