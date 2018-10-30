@@ -28,7 +28,7 @@ class MapDetail extends PureComponent {
               fontSize: 14,
               marginTop: 19,
               marginLeft: 10,
-            }}>{currentLogistics.status_name}</div>
+            }}>{currentLogistics.status_name ? currentLogistics.status_name.substr(0, 3) : currentLogistics.status_name}</div>
             <div className='expendBtn' style={this.state.showDetail ? {transform: 'rotate(-180deg)'} : {}}></div>
           </div>
           <div className='map-title-item'>

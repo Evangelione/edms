@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect} from 'dva'
-import {Card, Tabs, Input} from 'antd'
-import PageTitle from '../../components/PageTitle/PageTitle'
+import { connect } from 'dva'
+import { Card, Tabs, Input } from 'antd'
 import CompanyDetail from './components/CompanyDetail'
 import SalesPerformance from './components/SalesPerformance'
+import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -18,15 +18,15 @@ class Company extends React.Component {
 
   callback = (key) => {
     this.setState({
-      paneKey: key
+      paneKey: key,
     })
-    if(key === '2') {
+    if (key === '2') {
       this.props.dispatch({
         type: 'company/fetchCompanyList',
         payload: {
           page: 1,
-          find_str: ''
-        }
+          find_str: '',
+        },
       })
     }
   }
@@ -37,31 +37,32 @@ class Company extends React.Component {
       payload: {
         page: 1,
         find_str: value,
-      }
+      },
     })
   }
 
   render() {
     return (
-      <div>
-        <PageTitle>我的公司</PageTitle>
+      <AnimatePage>
         {this.state.paneKey === '2' ?
           <div className={'searchBox'}>
             <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                     onSearch={this.iptSearch}/>
           </div>
           : ''}
-        <Card>
-          <Tabs onChange={this.callback}>
-            <TabPane tab="公司信息" key='1'>
+        <Tabs onChange={this.callback}>
+          <TabPane tab="公司信息" key='1'>
+            <Card style={{paddingTop: 30}}>
               <CompanyDetail></CompanyDetail>
-            </TabPane>
-            <TabPane tab="销售业绩" key='2'>
+            </Card>
+          </TabPane>
+          <TabPane tab="销售业绩" key='2'>
+            <Card style={{paddingTop: 30}}>
               <SalesPerformance></SalesPerformance>
-            </TabPane>
-          </Tabs>
-        </Card>
-      </div>
+            </Card>
+          </TabPane>
+        </Tabs>
+      </AnimatePage>
     )
   }
 }

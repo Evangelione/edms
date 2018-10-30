@@ -75,11 +75,10 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
 
     console.log(order_type)
     return (
-
       <AnimatePage>
         <Tabs>
-          <TabPane tab="我的订单" key="1">
-            <div className={'toolBar'}>
+          <TabPane tab="运单管理" key="1">
+            <div className={'toolBar'} style={{top: 0, right: 0}}>
               <OrderModal>
                 <Button type='primary' style={{boxShadow: '0px 1px 10px #1890ff', width: 140, height: 47}}>新的订单</Button>
               </OrderModal>

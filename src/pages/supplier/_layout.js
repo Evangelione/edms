@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, Tabs, DatePicker, Input } from 'antd'
-import PageTitle from '../../components/PageTitle/PageTitle'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import PurchaseContract from './components/PurchaseContract'
 import PurchaseDetail from './components/PurchaseDetail'
@@ -9,6 +8,7 @@ import SupplierHistory from './supplierHistory'
 import SupplierBalance from './supplierBalance'
 import { connect } from 'dva'
 import moment from 'moment'
+import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -30,7 +30,7 @@ class Supplier extends React.Component {
       type: 'supplier/save',
       payload: {
         currentKey: key,
-      }
+      },
     })
   }
 
@@ -41,8 +41,8 @@ class Supplier extends React.Component {
         page: 1,
         stime: date[0],
         etime: date[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
     this.props.dispatch({
       type: 'supplier/balanceFetch',
@@ -50,13 +50,13 @@ class Supplier extends React.Component {
         page: 1,
         stime: date[0],
         etime: date[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
   }
 
   disabledDate = (current) => {
-    return current && current > moment().endOf('day');
+    return current && current > moment().endOf('day')
   }
 
   iptSearch = (value) => {
@@ -64,8 +64,8 @@ class Supplier extends React.Component {
       type: 'supplier/purchaseContractFetch',
       payload: {
         page: 1,
-        find_str: value
-      }
+        find_str: value,
+      },
     })
     this.props.dispatch({
       type: 'supplier/purchaseDetailFetch',
@@ -73,14 +73,14 @@ class Supplier extends React.Component {
         page: 1,
         stime: this.props.stime,
         etime: this.props.etime,
-        find_str: value
-      }
+        find_str: value,
+      },
     })
   }
 
   render() {
     return (
-      <div>
+      <AnimatePage>
         {this.props.location.pathname === '/supplier/supplierHistory' ?
           <SupplierHistory/>
           :
@@ -88,7 +88,6 @@ class Supplier extends React.Component {
             <SupplierBalance/>
             :
             <div>
-              <PageTitle>我的供应商</PageTitle>
               <div className={'searchBox'}>
                 {this.state.paneKey === '1' ? '' :
                   <span>
@@ -97,22 +96,26 @@ class Supplier extends React.Component {
                 <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                         onSearch={this.iptSearch}/>
               </div>
-              <Card>
-                <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
-                  <TabPane tab="采购合同" key='1'>
+              <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
+                <TabPane tab="采购合同" key='1'>
+                  <Card style={{paddingTop: 30}}>
                     <PurchaseContract/>
-                  </TabPane>
-                  <TabPane tab="采购明细" key='2'>
+                  </Card>
+                </TabPane>
+                <TabPane tab="采购明细" key='2'>
+                  <Card style={{paddingTop: 30}}>
                     <PurchaseDetail/>
-                  </TabPane>
-                  <TabPane tab='采购对账' key='3'>
+                  </Card>
+                </TabPane>
+                <TabPane tab='采购对账' key='3'>
+                  <Card style={{paddingTop: 30}}>
                     <BalanceOfAccount/>
-                  </TabPane>
-                </Tabs>
-              </Card>
+                  </Card>
+                </TabPane>
+              </Tabs>
             </div>
         }
-      </div>
+      </AnimatePage>
     )
   }
 }
@@ -124,7 +127,7 @@ function mapStateToProps(state) {
     stime,
     etime,
     currentKey,
-    loading: state.loading.models.supplier
+    loading: state.loading.models.supplier,
   }
 }
 

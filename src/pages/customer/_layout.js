@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Card, Tabs, DatePicker, Input } from 'antd'
-import PageTitle from '../../components/PageTitle/PageTitle'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import SalesContract from './components/SalesContract'
@@ -9,6 +8,7 @@ import SalesDetail from './components/SalesDetail'
 import BalanceOfAccount from './components/BalanceOfAccount'
 import CustomerHistory from './customerHistory'
 import CustomerBalance from './customerBalance'
+import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
@@ -30,7 +30,7 @@ class Client extends React.Component {
       type: 'customer/save',
       payload: {
         currentKey: key,
-      }
+      },
     })
   }
 
@@ -41,8 +41,8 @@ class Client extends React.Component {
         page: 1,
         stime: date[0],
         etime: date[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
     this.props.dispatch({
       type: 'customer/balanceFetch',
@@ -50,8 +50,8 @@ class Client extends React.Component {
         page: 1,
         stime: date[0],
         etime: date[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
     this.props.dispatch({
       type: 'customer/balanceFetch',
@@ -59,8 +59,8 @@ class Client extends React.Component {
         page: 1,
         stime: date[0],
         etime: date[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
   }
 
@@ -73,8 +73,8 @@ class Client extends React.Component {
       type: 'customer/salesContractFetch',
       payload: {
         page: 1,
-        find_str: value
-      }
+        find_str: value,
+      },
     })
     this.props.dispatch({
       type: 'customer/salesDetailFetch',
@@ -82,8 +82,8 @@ class Client extends React.Component {
         page: 1,
         stime: this.props.stime,
         etime: this.props.etime,
-        find_str: value
-      }
+        find_str: value,
+      },
     })
     this.props.dispatch({
       type: 'customer/balanceFetch',
@@ -91,14 +91,14 @@ class Client extends React.Component {
         page: 1,
         stime: this.props.stime,
         etime: this.props.etime,
-        find_str: value
-      }
+        find_str: value,
+      },
     })
   }
 
   render() {
     return (
-      <div>
+      <AnimatePage>
         {this.props.location.pathname === '/customer/customerHistory' ?
           <CustomerHistory/>
           :
@@ -106,7 +106,6 @@ class Client extends React.Component {
             <CustomerBalance/>
             :
             <div>
-              <PageTitle>我的客户</PageTitle>
               <div className='searchBox'>
                 {this.state.paneKey === '1' ? '' :
                   <span>
@@ -116,22 +115,26 @@ class Client extends React.Component {
                 <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
                         onSearch={this.iptSearch}/>
               </div>
-              <Card>
-                <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
-                  <TabPane tab="销售合同" key='1'>
+              <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
+                <TabPane tab="销售合同" key='1'>
+                  <Card style={{paddingTop: 30}}>
                     <SalesContract/>
-                  </TabPane>
-                  <TabPane tab="销售明细" key='2'>
+                  </Card>
+                </TabPane>
+                <TabPane tab="销售明细" key='2'>
+                  <Card style={{paddingTop: 30}}>
                     <SalesDetail/>
-                  </TabPane>
-                  <TabPane tab="客户对账" key='3'>
+                  </Card>
+                </TabPane>
+                <TabPane tab="客户对账" key='3'>
+                  <Card style={{paddingTop: 30}}>
                     <BalanceOfAccount/>
-                  </TabPane>
-                </Tabs>
-              </Card>
+                  </Card>
+                </TabPane>
+              </Tabs>
             </div>
         }
-      </div>
+      </AnimatePage>
     )
   }
 }
@@ -143,7 +146,7 @@ function mapStateToProps(state) {
     stime,
     etime,
     currentKey,
-    loading: state.loading.models.customer
+    loading: state.loading.models.customer,
   }
 }
 

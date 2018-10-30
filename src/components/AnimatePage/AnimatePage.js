@@ -19,7 +19,7 @@ class AnimatePage extends PureComponent {
 
   render() {
     return (
-      <Animated.div style={{transform: [{translateX: this.state.anim}]}}>
+      <Animated.div style={{transform: [{translateX: this.state.anim}], position: 'relative'}}>
         {this.props.children}
       </Animated.div>
     )

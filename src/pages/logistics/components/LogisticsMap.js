@@ -69,7 +69,7 @@ class LogisticsMap extends PureComponent {
         if (this.props.orderMapData === 0) {
           notification.error({
             message: '温馨提示',
-            description: '暂无司机接单',
+            description: '本单暂无司机接单',
             duration: 6,
           })
           return false
@@ -160,7 +160,7 @@ class LogisticsMap extends PureComponent {
         if (this.props.logMapData === 0) {
           notification.error({
             message: '温馨提示',
-            description: '暂无司机接单',
+            description: '本单暂无司机接单',
             duration: 6,
           })
           return false
@@ -327,7 +327,6 @@ class LogisticsMap extends PureComponent {
 
   render() {
     const currentLogistics = this.props.currentOrder
-    console.log(currentLogistics)
     const char = this.props.location.pathname.indexOf('/order') === 0 ? '订' : '运'
     return (
       <Card bodyStyle={{transition: 'all 0.5s', padding: 0}}

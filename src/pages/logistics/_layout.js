@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Card, Tabs, Button, Input, DatePicker, Row, Col } from 'antd'
-import PageTitle from '../../components/PageTitle/PageTitle'
 import LogisticsDetail from './logisticsDetail'
 import LogisticsBalance from './logisticsBalance'
 import LogisticsHistory from './logisticsHistory'
@@ -11,17 +10,18 @@ import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
 import BalanceOfAccount from './components/BalanceOfAccount'
 import LogisticsDetailV2 from './components/LogisticsDetailV2'
+import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
-const {RangePicker} = DatePicker;
+const {RangePicker} = DatePicker
 
 class Order extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       tableKey: '2',
-      currentTab: 'quanbu'
+      currentTab: 'quanbu',
     }
   }
 
@@ -31,20 +31,20 @@ class Order extends React.Component {
       type: 'logistics/save',
       payload: {
         currentTab: type,
-        currentIndex: 0
-      }
+        currentIndex: 0,
+      },
     })
     this.props.dispatch({
       type: 'logistics/getDeliverList',
       payload: {
         find_str: this.props.find_str,
-        deliver_status: state
-      }
+        deliver_status: state,
+      },
     })
   }
 
   disabledDate = (current) => {
-    return current && current > moment().endOf('day');
+    return current && current > moment().endOf('day')
   }
 
   callback = (key) => {
@@ -57,8 +57,8 @@ class Order extends React.Component {
         type: 'logistics/getDeliverList',
         payload: {
           find_str: value,
-          deliver_status: this.props.deliver_status
-        }
+          deliver_status: this.props.deliver_status,
+        },
       })
     } else {
       this.props.dispatch({
@@ -66,8 +66,8 @@ class Order extends React.Component {
         payload: {
           find_str: value,
           stime: this.props.stime,
-          etime: this.props.etime
-        }
+          etime: this.props.etime,
+        },
       })
     }
   }
@@ -79,8 +79,8 @@ class Order extends React.Component {
         page: 1,
         stime: dates[0],
         etime: dates[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
 
     this.props.dispatch({
@@ -89,15 +89,15 @@ class Order extends React.Component {
         page: 1,
         stime: dates[0],
         etime: dates[1],
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
   }
 
   render() {
-    const { currentLogistics} = this.props
+    const {currentLogistics} = this.props
     return (
-      <div>
+      <AnimatePage>
         {this.props.location.pathname === '/logistics/logisticsDetail' ?
           <LogisticsDetail/>
           :
@@ -108,7 +108,6 @@ class Order extends React.Component {
               <LogisticsBalance/>
               :
               <div>
-                <PageTitle>我的物流</PageTitle>
                 <div className='searchBox'>
                   {this.state.tableKey === '1' ? '' :
                     <span>
@@ -120,21 +119,23 @@ class Order extends React.Component {
                           onSearch={this.iptSearch}
                   />
                 </div>
-                <Card>
-                  <Tabs onChange={this.callback} activeKey={this.state.tableKey}>
-                    <TabPane tab="运费明细" key='2'>
+                <Tabs onChange={this.callback} activeKey={this.state.tableKey}>
+                  <TabPane tab="运费明细" key='2'>
+                    <Card style={{paddingTop: 30}}>
                       <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
                       <div className='toolBar'>
                         <ExportModal title='批量导出' type='logistics'>
                           <Button className='blueBorder' icon="export">批量导出</Button>
                         </ExportModal>
                       </div>
-                    </TabPane>
-                    <TabPane tab='物流对账' key='3'>
+                    </Card>
+                  </TabPane>
+                  <TabPane tab='物流对账' key='3'>
+                    <Card style={{paddingTop: 30}}>
                       <BalanceOfAccount/>
-                    </TabPane>
-                  </Tabs>
-                </Card>
+                    </Card>
+                  </TabPane>
+                </Tabs>
                 {/*{this.state.tableKey === '1' ?*/}
                 {/*<Card style={{marginTop: 5}}>*/}
                 {/*<LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>*/}
@@ -158,7 +159,7 @@ class Order extends React.Component {
 
               </div>
         }
-      </div>
+      </AnimatePage>
     )
   }
 }
@@ -173,7 +174,7 @@ function mapStateToProps(state) {
     stime,
     etime,
     currentLogistics,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.logistics,
   }
 }
 

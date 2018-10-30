@@ -1,10 +1,10 @@
-import {connect} from 'dva'
-import {Layout, Menu, Icon} from 'antd'
+import { connect } from 'dva'
+import { Layout, Menu, Icon } from 'antd'
 import styles from './index.css'
 
 const {Header} = Layout
 
-function MyHeader({dispatch, location, collapsed}) {
+function MyHeader({dispatch, location, currentPageName}) {
   // function toggle() {
   //   dispatch({
   //     type: 'collapsed/change',
@@ -20,13 +20,18 @@ function MyHeader({dispatch, location, collapsed}) {
     }
   }
 
+  function getCurrentPageName() {
+    return currentPageName
+  }
+
   return (
     <Header className={styles.header}>
       {/*<Icon*/}
-        {/*className={styles.trigger}*/}
-        {/*type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
-        {/*onClick={toggle}*/}
+      {/*className={styles.trigger}*/}
+      {/*type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
+      {/*onClick={toggle}*/}
       {/*/>*/}
+      <span style={{paddingLeft: 20, fontSize: 18, fontWeight: 600, color: '#545F76'}}>{getCurrentPageName()}</span>
       <Menu
         selectedKeys={[location.pathname]}
         mode="horizontal"
@@ -65,9 +70,10 @@ function MyHeader({dispatch, location, collapsed}) {
 
 
 function mapStateToProps(state) {
-  const {collapsed} = state.collapsed
+  const {collapsed, currentPageName} = state.collapsed
   return {
-    collapsed
+    collapsed,
+    currentPageName,
   }
 }
 
