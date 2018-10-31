@@ -3,7 +3,7 @@
 html, body, :global(#root) {
   height: 100%;
   overflow: hidden;
-  min-width: 1680px;
+  min-width: 1920px;
   font-family: PingFangHK-Regular;
 }
 
@@ -767,9 +767,9 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
 .map-title-item {
   display: inline-block;
   vertical-align: top;
-  margin: 0 7px;
   position: relative;
   height: 60px;
+  width: 100%;
 }
 
 .map-title-item > div {
@@ -777,7 +777,7 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   vertical-align: top;
 }
 
-.map-title-item:after {
+.needLine:after {
   content: '';
   height: 51px;
   width: 1px;
@@ -785,21 +785,22 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   display: inline-block;
   position: absolute;
   top: 5px;
-  right: -12px;
+  right: 0;
 }
 
 .map-title-item-status {
   display: inline-block;
+  text-align: center;
 }
 
 .map-title-item-status > div:first-child {
   color: #999999;
-  margin: 7px 8px 0 8px;
+  margin: 7px 0px 0px 0px;
 }
 
 .map-title-item-status > div:nth-child(2) {
   color: #5186F4;
-  margin: 2px 15px 0 15px;
+  margin: 2px 0px 0px 0px;
   font-size: 16px;
   font-weight: 600;
 }
