@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import { Card, Tabs, Button, Row, Col, Divider, Spin } from 'antd'
 import { connect } from 'dva'
 import OrderTableV2 from './components/OrderTableV2'
@@ -23,55 +24,63 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(({dispatch, location, loading, order_status, currentTab, list, find_str, order_type, statusNum, currentOrder}) => {
-    function createTabs() {
-      return orderTabs.map(item =>
-        <div onClick={changeOrderStatus.bind(null, item.name, item.status)}
-             className={currentTab === item.name ? styles.blueFont : styles.grayFont}
-             key={item.name}>
-          <IconFont type={item.name} style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>
-          <span>{item.value}</span>
-          <span style={{color: '#D0021B', marginLeft: 10}}>({statusNum[item.count]})</span>
-        </div>,
-      )
-    }
+class Order extends Component {
+  createTabs = () => {
+    return orderTabs.map(item =>
+      <div onClick={this.changeOrderStatus.bind(null, item.name, item.status)}
+           className={this.props.currentTab === item.name ? styles.blueFont : styles.grayFont}
+           key={item.name}>
+        <IconFont type={item.name} style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>
+        <span>{item.value}</span>
+        <span style={{color: '#D0021B', marginLeft: 10}}>({this.props.statusNum[item.count]})</span>
+      </div>,
+    )
+  }
 
-    function changeOrderStatus(type, state) {
-      if (loading) return false
-      dispatch({
-        type: 'order/save',
-        payload: {
-          currentTab: type,
-          currentIndex: 0,
-        },
-      })
-      dispatch({
-        type: 'order/fetch',
-        payload: {
-          order_status: state,
-          order_type,
-          find_str,
-        },
-      })
-    }
+  UNSAFE_componentWillMount() {
+    console.log('will')
+    this.props.dispatch({type: 'order/fetch', payload: {}})
+  }
 
-    function changeRadio(value) {
-      dispatch({
-        type: 'order/save',
-        payload: {
-          order_type: value,
-          currentIndex: 0,
-        },
-      })
-      dispatch({
-        type: 'order/fetch',
-        payload: {
-          order_type: value,
-          order_status,
-          find_str,
-        },
-      })
-    }
+  changeOrderStatus = (type, state) => {
+    if (this.props.loading) return false
+    this.props.dispatch({
+      type: 'order/save',
+      payload: {
+        currentTab: type,
+        currentIndex: 0,
+      },
+    })
+    this.props.dispatch({
+      type: 'order/fetch',
+      payload: {
+        order_status: state,
+        order_type: this.props.order_type,
+        find_str: this.props.find_str,
+      },
+    })
+  }
+
+  changeRadio = (value) => {
+    this.props.dispatch({
+      type: 'order/save',
+      payload: {
+        order_type: value,
+        currentIndex: 0,
+      },
+    })
+    this.props.dispatch({
+      type: 'order/fetch',
+      payload: {
+        order_type: value,
+        order_status: this.props.order_status,
+        find_str: this.props.find_str,
+      },
+    })
+  }
+
+  render() {
+    const {loading, list, order_type, currentOrder} = this.props
     return (
       <AnimatePage>
         <Tabs>
@@ -83,19 +92,19 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
             </div>
             <Card style={{borderRadius: 12}}>
               <div className='changeList'>
-                {createTabs()}
+                {this.createTabs()}
               </div>
               <Divider/>
               <div className={styles.radioGp}>
-                <div onClick={changeRadio.bind(null, '3')}
+                <div onClick={this.changeRadio.bind(null, '3')}
                      className={order_type === '3' ? styles.blueFont : styles.grayFont}>
                   <IconFont type='icon-icon-test11' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>全部订单
                 </div>
-                <div onClick={changeRadio.bind(null, '1')}
+                <div onClick={this.changeRadio.bind(null, '1')}
                      className={order_type === '1' ? styles.blueFont : styles.grayFont}>
                   <IconFont type='icon-xinyongqia' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>预付款订单
                 </div>
-                <div onClick={changeRadio.bind(null, '2')}
+                <div onClick={this.changeRadio.bind(null, '2')}
                      className={order_type === '2' ? styles.blueFont : styles.grayFont}>
                   <IconFont type='icon-icon-test10' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>赊销订单
                 </div>
@@ -131,5 +140,8 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
         </Tabs>
       </AnimatePage>
     )
-  },
-)
+  }
+
+}
+
+export default connect(mapStateToProps)(Order)
