@@ -53,6 +53,13 @@ export default {
             step: data.data.order.order_status,
           },
         })
+        yield put({
+          type: 'home/save',
+          payload: {
+            detailForm: data.data.order,
+            step: data.data.order.order_status,
+          },
+        })
       }
     },
     * modifyForm({payload}, {call, put, select}) {

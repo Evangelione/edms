@@ -16,6 +16,7 @@ export default {
     logMapData: {},
     orderMapData: {},
     homeMapData: [],
+    detailForm: '',
   },
 
   subscriptions: {
