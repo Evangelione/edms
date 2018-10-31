@@ -41,7 +41,7 @@ class OrderTableV2 extends PureComponent {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.dispatch({type: 'order/fetch', payload: {}})
   }
 

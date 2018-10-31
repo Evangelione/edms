@@ -35,8 +35,6 @@ export default {
           dispatch({type: 'supplierPer', payload: query})
           dispatch({type: 'logistics', payload: query})
           dispatch({type: 'trend', payload: query})
-          dispatch({type: 'order/fetch', payload: query})
-          dispatch({type: 'logistics/getDeliverList', payload: query})
         }
         dispatch({
           type: `${pathname.substr(1)}/fetch`,
