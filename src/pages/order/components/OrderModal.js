@@ -68,6 +68,7 @@ class OrderModal extends PureComponent {
       visible: true,
     })
     if (this.props.currentOrder) {
+      debugger
       const form = this.props.currentOrder
       this.setState({
         report: form.temperament_report,
@@ -194,6 +195,13 @@ class OrderModal extends PureComponent {
       //   return false
       // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
+    } else {
+      this.setState({
+        report: null,
+        suppbalance: 0,
+        custombalance: 0,
+        creditbalance: 0,
+      })
     }
   }
 

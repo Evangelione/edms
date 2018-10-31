@@ -16,6 +16,7 @@ class operateUser extends React.Component {
     this.state = {
       value: 1,
       editable: false,
+      fileList: [],
     }
   }
 
@@ -101,13 +102,26 @@ class operateUser extends React.Component {
   beforeUpload = (file) => {
     const isPDF = file.type === 'application/pdf'
     if (!isPDF) {
-      message.error('You can only upload JPG file!')
+      message.error('You can only upload PDF file!')
+      file.status = 'error'
     }
     const isLt20M = file.size / 1024 / 1024 < 20
     if (!isLt20M) {
-      message.error('Image must smaller than 2MB!')
+      message.error('PDF must smaller than 2MB!')
     }
     return isPDF && isLt20M
+  }
+
+  onFileChange = ({file, fileList}) => {
+    // if (file.status !== 'uploading') {
+    //   console.log(file, fileList)
+    // } else {
+    //
+    // }
+    fileList = fileList.slice(-1)
+    this.setState({
+      fileList,
+    })
   }
 
   render() {
@@ -235,8 +249,10 @@ class operateUser extends React.Component {
                           accept='.pdf'
                           name='SuppForm[pdf]'
                           action={`${IP}/admin/supplier/add-report`}
+                          fileList={this.state.fileList}
                           customRequest={this.customRequest}
                           beforeUpload={this.beforeUpload}
+                          onChange={this.onFileChange}
                         >
                           {this.props.editForm.temperament_report ?
                             <Button>

@@ -311,7 +311,8 @@ class OrderTableV2 extends PureComponent {
             </div>
             <div style={{display: 'inline-block', verticalAlign: 'top', float: 'right'}}>
               <div style={{color: '#4777E5', marginBottom: 25, textAlign: 'right'}}>
-                <IconFont type='icon-huoche' style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/>
+                {item.order_status === '3' && item.deliver_status - 0 > 2 ?
+                  <IconFont type='icon-huoche' style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/> : ''}
                 <span style={{fontWeight: 600, fontSize: 14, marginRight: 10}}>{item.car_head}</span>
                 <span style={{fontSize: 12}}>{item.recv_time}</span>
               </div>

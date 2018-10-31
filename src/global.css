@@ -881,3 +881,7 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
 button > i {
   vertical-align: middle !important;
 }
+
+.anticon {
+  vertical-align: middle;
+}
