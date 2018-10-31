@@ -802,7 +802,7 @@ class OrderTableV2 extends PureComponent {
 
 function mapStateToProps(state) {
   const {list, total, page, order_status, currentIndex, order_type} = state.order
-  const {detailForm, companyOption, carOption} = state.logisticsDetail
+  const {detailForm, companyOption, carOption} = state.home
   return {
     list,
     page,

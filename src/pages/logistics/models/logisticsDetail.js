@@ -36,6 +36,13 @@ export default {
             step: data.data.order.deliver_status
           }
         })
+        yield put({
+          type: 'home/save',
+          payload: {
+            detailForm: data.data.order,
+            step: data.data.order.deliver_status
+          }
+        })
       }
     },
     * getCompanyOption({payload: id}, {call, put}) {
@@ -47,6 +54,12 @@ export default {
             companyOption: data.data.list
           }
         })
+        yield put({
+          type: 'home/save',
+          payload: {
+            companyOption: data.data.list
+          }
+        })
       }
     },
     * getCarOption({payload: logistic_company}, {call, put}) {
@@ -54,6 +67,12 @@ export default {
       if (data.code === 1) {
         yield put({
           type: 'save',
+          payload: {
+            carOption: data.data,
+          }
+        })
+        yield put({
+          type: 'home/save',
           payload: {
             carOption: data.data,
           }

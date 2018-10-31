@@ -17,6 +17,8 @@ export default {
     orderMapData: {},
     homeMapData: [],
     detailForm: '',
+    companyOption: [],
+    carOption: [],
   },
 
   subscriptions: {
