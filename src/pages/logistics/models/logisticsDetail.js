@@ -14,7 +14,7 @@ export default {
       supercargo: [],
     },
     billLoading: false,
-    showMap: false
+    showMap: false,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -23,7 +23,7 @@ export default {
           dispatch({type: 'getDetail', payload: query})
         }
       })
-    }
+    },
   },
   effects: {
     * getDetail({payload: id}, {call, put}) {
@@ -33,15 +33,15 @@ export default {
           type: 'save',
           payload: {
             detailForm: data.data.order,
-            step: data.data.order.deliver_status
-          }
+            step: data.data.order.deliver_status,
+          },
         })
         yield put({
           type: 'home/save',
           payload: {
             detailForm: data.data.order,
-            step: data.data.order.deliver_status
-          }
+            step: data.data.order.deliver_status,
+          },
         })
       }
     },
@@ -51,14 +51,14 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            companyOption: data.data.list
-          }
+            companyOption: data.data.list,
+          },
         })
         yield put({
           type: 'home/save',
           payload: {
-            companyOption: data.data.list
-          }
+            companyOption: data.data.list,
+          },
         })
       }
     },
@@ -69,13 +69,13 @@ export default {
           type: 'save',
           payload: {
             carOption: data.data,
-          }
+          },
         })
         yield put({
           type: 'home/save',
           payload: {
             carOption: data.data,
-          }
+          },
         })
       }
     },
@@ -195,7 +195,7 @@ export default {
         type: 'save',
         payload: {
           billLoading: true,
-        }
+        },
       })
       const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
       const find_str = yield select(state => state.order.find_str)
@@ -214,7 +214,7 @@ export default {
         // })
         yield put({
           type: 'order/save',
-          payload: {currentTab: 'icon-icon-test2', currentIndex: 0}
+          payload: {currentTab: 'icon-icon-test2', currentIndex: 0},
         })
         yield put({
           type: 'order/fetch',
@@ -240,13 +240,13 @@ export default {
         type: 'save',
         payload: {
           billLoading: false,
-        }
+        },
       })
     },
   },
   reducers: {
     save(state, action) {
       return {...state, ...action.payload}
-    }
-  }
+    },
+  },
 }

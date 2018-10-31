@@ -367,7 +367,7 @@ class ResultModal extends Component {
 
 function mapStateToProps(state) {
   const {currentOrder} = state.order
-  const {detailForm} = state.home
+  const {detailForm} = state.orderDetail
   return {
     detailForm,
     currentOrder,

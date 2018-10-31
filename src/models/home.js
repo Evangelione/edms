@@ -17,8 +17,13 @@ export default {
     orderMapData: {},
     homeMapData: [],
     detailForm: '',
+    carOption: {
+      car_head: [],
+      car_body: [],
+      driver: [],
+      supercargo: [],
+    },
     companyOption: [],
-    carOption: [],
   },
 
   subscriptions: {
