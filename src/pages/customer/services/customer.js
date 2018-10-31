@@ -34,8 +34,8 @@ export function fetchOptions() {
 export function addCustomerContract({id, stime, etime}) {
   let formData = new FormData()
   formData.append('customer_id', id)
-  formData.append('start_date', stime ? stime.format('YYYY-MM-DD') : '')
-  formData.append('end_date', etime ? etime.format('YYYY-MM-DD') : '')
+  formData.append('start_date', stime)
+  formData.append('end_date', etime)
   return request(`${IP}/home/customer/add-contract`, {
     method: 'POST',
     body: formData

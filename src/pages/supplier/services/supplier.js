@@ -34,8 +34,8 @@ export function fetchOptions() {
 export function addSupplierContract({id, stime, etime}) {
   let formData = new FormData()
   formData.append('suppliers_id', id)
-  formData.append('start_date', stime ? stime.format('YYYY-MM-DD') : '')
-  formData.append('end_date', etime ? etime.format('YYYY-MM-DD') : '')
+  formData.append('start_date', stime)
+  formData.append('end_date', etime)
   return request(`${IP}/home/supplier/add-contract`, {
     method: 'POST',
     body: formData

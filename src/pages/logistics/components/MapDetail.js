@@ -66,10 +66,11 @@ class MapDetail extends PureComponent {
                 </div>
                 {currentLogistics.driver_name ?
                   <div style={{marginTop: 10, marginLeft: 15, color: '#000000', fontSize: 14}}>
-                    <div>{currentLogistics.car_head}</div>
-                    <div>{currentLogistics.driver_name} {currentLogistics.driver_mobile}</div>
+                    <div title={currentLogistics.car_head}>{currentLogistics.car_head}</div>
+                    <div
+                      title={currentLogistics.driver_name + ' ' + currentLogistics.driver_mobile}>{currentLogistics.driver_name} {currentLogistics.driver_mobile}</div>
                   </div> :
-                  <div style={{color: '#000', marginTop: 20, marginLeft: 15}}>暂无车辆信息（待调度）</div>
+                  <div style={{color: '#000', marginTop: 20, marginLeft: 12}}>暂无车辆信息（待调度）</div>
                 }
               </div>
             </Col>
