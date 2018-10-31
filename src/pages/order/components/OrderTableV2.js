@@ -41,6 +41,10 @@ class OrderTableV2 extends PureComponent {
     }
   }
 
+  componentWillMount() {
+    this.props.dispatch({type: 'order/fetch', payload: {}})
+  }
+
   clickItme = (item, index) => {
     this.props.dispatch({
       type: 'order/save',
