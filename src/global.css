@@ -770,6 +770,9 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   position: relative;
   height: 60px;
   width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .map-title-item > div {
@@ -791,9 +794,7 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
 .map-title-item-status {
   display: inline-block;
   text-align: center;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+
 }
 
 .map-title-item-status > div:first-child {
