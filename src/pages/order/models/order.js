@@ -28,6 +28,7 @@ export default {
   },
   effects: {
     * fetch({payload: {page = '1', order_type = '3', order_status = '', find_str = ''}}, {call, put, select}) {
+      console.log(111)
       const {data} = yield call(orderService.getOrderList, {page, order_type, order_status, find_str})
       const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {

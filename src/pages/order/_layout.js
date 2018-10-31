@@ -72,8 +72,6 @@ export default connect(mapStateToProps)(({dispatch, location, loading, order_sta
         },
       })
     }
-
-    console.log(order_type)
     return (
       <AnimatePage>
         <Tabs>
