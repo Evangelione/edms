@@ -40,6 +40,10 @@ class StatusModal extends React.Component {
   }
 
   rechargeHandler = () => {
+    this.props.dispatch({
+      type: 'balance/save',
+      payload: {accountKey: '1'},
+    })
     this.props.dispatch(routerRedux.push({
       pathname: '/account/balance',
     }))

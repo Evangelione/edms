@@ -82,10 +82,19 @@ class SalesContract extends React.Component {
       key: 'supp_type',
       align: 'center',
       render: (text, record, index) => {
-        if (record.supp_type === '1') {
-          return '终端用户'
-        } else if (record.supp_type === '2') {
+        // 0:没有类型 1贸易商 2 运贸商 3 液厂 4 接收站 5其他
+        if (record.supp_type === '0') {
+          return '没有类型'
+        } else if (record.supp_type === '1') {
           return '贸易商'
+        } else if (record.supp_type === '2') {
+          return '运贸商'
+        } else if (record.supp_type === '3') {
+          return '液厂'
+        } else if (record.supp_type === '4') {
+          return '接收站'
+        } else if (record.supp_type === '5') {
+          return '其他'
         }
       }
     }, {
