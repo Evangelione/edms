@@ -2,7 +2,8 @@ export default {
   namespace: 'collapsed',
   state: {
     currentKey: ['administrator'],
-    currentPageName: ''
+    currentPageName: '',
+    openKeys: [],
   },
 
   subscriptions: {
@@ -23,7 +24,7 @@ export default {
           dispatch({type: 'save', payload: {currentKey: ['logistics'], currentPageName: '我的物流'}})
           dispatch({type: 'logisticsDetail/save', payload: {showMap: false}})
         } else if (pathname.indexOf('/account/balance') === 0) {
-          dispatch({type: 'save', payload: {currentKey: ['balance'], currentPageName: '余额管理'}})
+          dispatch({type: 'save', payload: {currentKey: ['balance'], currentPageName: '余额管理', openKeys: ['sub1']}})
         } else if (pathname.indexOf('/account/analysis') === 0) {
           dispatch({type: 'save', payload: {currentKey: ['analysis'], currentPageName: '数据分析'}})
         } else if (pathname.indexOf('/customer') === 0) {
@@ -43,8 +44,8 @@ export default {
 
   reducers: {
     save(state, action) {
-      return {...state, ...action.payload};
+      return {...state, ...action.payload}
     },
   },
 
-};
+}

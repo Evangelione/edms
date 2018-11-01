@@ -149,7 +149,6 @@ class IndexPage extends React.Component {
   }
 
   goLogisticsList = () => {
-    console.log(11111)
     this.props.dispatch(routerRedux.push({
       pathname: '/logistics',
     }))

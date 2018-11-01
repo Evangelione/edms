@@ -177,7 +177,6 @@ class PoundModal extends React.Component {
 
   limitDecimals = value => {
     const reg = /^(\-)*(\d+)\.(\d\d\d).*$/
-    console.log(value)
     if (typeof value === 'string') {
       return !isNaN(Number(value)) ? value.replace(reg, '$1$2.$3') : ''
     } else if (typeof value === 'number') {

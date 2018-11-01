@@ -6,7 +6,7 @@ import styles from './index.css'
 import { withRouter } from 'react-router'
 import { LOGO } from '../constants'
 
-const {Sider} = Layout;
+const {Sider} = Layout
 const SubMenu = Menu.SubMenu
 
 class MySider extends React.Component {
@@ -14,27 +14,38 @@ class MySider extends React.Component {
     super(props)
     this.state = {
       openKeys: [],
-      currentKey: ['']
+      currentKey: [''],
     }
   }
 
   rootSubmenuKeys = ['sub1']
 
   onOpenChange = (openKeys) => {
-    const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1)
+    const latestOpenKey = openKeys.find(key => this.props.openKeys.indexOf(key) === -1)
     if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      this.setState({openKeys});
+      this.props.dispatch({
+        type: 'collapsed/save',
+        payload: {
+          openKeys,
+        },
+      })
     } else {
-      this.setState({
-        openKeys: latestOpenKey ? [latestOpenKey] : []
+      this.props.dispatch({
+        type: 'collapsed/save',
+        payload: {
+          openKeys: latestOpenKey ? [latestOpenKey] : [],
+        },
       })
     }
   }
 
   onSelect = ({key}) => {
     if (key !== 'balance' && key !== 'analysis') {
-      this.setState({
-        openKeys: []
+      this.props.dispatch({
+        type: 'collapsed/save',
+        payload: {
+          openKeys: [],
+        },
       })
     }
   }
@@ -87,7 +98,7 @@ class MySider extends React.Component {
                   defaultSelectedKeys={this.props.currentKey}
                   selectedKeys={this.props.currentKey}
                   mode="inline"
-                  openKeys={this.state.openKeys}
+                  openKeys={this.props.openKeys}
                   onSelect={this.onSelect}
                   onOpenChange={this.onOpenChange}>
               {((sessionStorage.getItem('backAuth') & 1) !== 0) ? <Menu.Item key="administrator">
@@ -108,7 +119,7 @@ class MySider extends React.Component {
                   defaultSelectedKeys={this.props.currentKey}
                   selectedKeys={this.props.currentKey}
                   mode="inline"
-                  openKeys={this.state.openKeys}
+                  openKeys={this.props.openKeys}
                   onSelect={this.onSelect}
                   onOpenChange={this.onOpenChange}>
               <Menu.Item key="home">
@@ -121,7 +132,7 @@ class MySider extends React.Component {
                 <Link to='/logistics'/><i className={'iconfont icon-wuliu'} style={{
                 fontSize: 22,
                 marginRight: 17,
-                marginLeft: '-3px'
+                marginLeft: '-3px',
               }}></i><span>我的物流</span>
               </Menu.Item> : ''}
               {((sessionStorage.getItem('loginAuth') & 4) !== 0) ? <SubMenu
@@ -154,9 +165,10 @@ class MySider extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {currentKey} = state.collapsed
+  const {currentKey, openKeys} = state.collapsed
   return {
-    currentKey
+    currentKey,
+    openKeys,
   }
 }
 

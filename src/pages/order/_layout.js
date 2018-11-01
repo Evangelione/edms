@@ -38,7 +38,6 @@ class Order extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    console.log('will')
     this.props.dispatch({type: 'order/fetch', payload: {}})
   }
 
