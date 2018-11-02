@@ -1,4 +1,6 @@
 import * as loginServices from '../services/home'
+import * as logisticsService from '../pages/logistics/services/logistics'
+import { message } from 'antd'
 
 export default {
   namespace: 'home',
@@ -158,6 +160,82 @@ export default {
             homeMapData: [],
           },
         })
+      }
+    },
+    * getDetail({payload: id}, {call, put}) {
+      const {data} = yield call(logisticsService.getDetail, id)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            detailForm: data.data.order,
+            step: data.data.order.deliver_status,
+          },
+        })
+        yield put({
+          type: 'logisticsDetail/save',
+          payload: {
+            detailForm: data.data.order,
+            step: data.data.order.deliver_status,
+          },
+        })
+      }
+    },
+    * getCompanyOption({payload: id}, {call, put}) {
+      const {data} = yield call(logisticsService.getCompanyOption, id)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            companyOption: data.data.list,
+          },
+        })
+        yield put({
+          type: 'logisticsDetail/save',
+          payload: {
+            companyOption: data.data.list,
+          },
+        })
+      }
+    },
+    * getCarOption({payload: logistic_company}, {call, put}) {
+      const {data} = yield call(logisticsService.getCarOption, logistic_company)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            carOption: data.data,
+          },
+        })
+        yield put({
+          type: 'logisticsDetail/save',
+          payload: {
+            carOption: data.data,
+          },
+        })
+      }
+    },
+    * doDispatch({payload: form}, {call, put, select}) {
+      const {data} = yield call(logisticsService.doDispatch, form)
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '3',
+            order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
       }
     },
   },

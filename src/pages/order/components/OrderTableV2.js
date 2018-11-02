@@ -75,6 +75,12 @@ class OrderTableV2 extends PureComponent {
     })
   }
 
+  showModal = () => {
+    this.setState({
+      visible: true,
+    })
+  }
+
   toggleExpand = (id) => {
     this.setState({
       [id]: !this.state[id],
@@ -82,23 +88,16 @@ class OrderTableV2 extends PureComponent {
   }
 
   scheduling = (id) => {
-    this.setState({
-      schedulingBtn: true,
-      id: id,
-    })
     this.props.dispatch({
-      type: 'logisticsDetail/getDetail',
+      type: 'home/getDetail',
       payload: {
         id: id,
       },
     }).then(() => {
       this.props.dispatch({
-        type: 'logisticsDetail/getCompanyOption',
+        type: 'home/getCompanyOption',
       }).then(() => {
-        this.setState({
-          visible: true,
-          schedulingBtn: false,
-        })
+        this.showModal()
         const detailForm = this.props.detailForm
         this.props.form.setFieldsValue({
           zhuanghuolianxiren: detailForm.cargo_contact,
@@ -137,7 +136,7 @@ class OrderTableV2 extends PureComponent {
         delete values.zhuanghuoxiangxidizhi
         values.id = this.state.id
         this.props.dispatch({
-          type: 'logisticsDetail/doDispatch',
+          type: 'home/doDispatch',
           payload: {
             form: values,
           },
@@ -158,7 +157,7 @@ class OrderTableV2 extends PureComponent {
 
   companyChange = (value, item) => {
     this.props.dispatch({
-      type: 'logisticsDetail/getCarOption',
+      type: 'home/getCarOption',
       payload: {
         logistic_company: value,
       },
@@ -467,326 +466,6 @@ class OrderTableV2 extends PureComponent {
                 </Col>
               </Row>
             </div>
-            <Modal
-              width={740}
-              title="调度"
-              visible={this.state.visible}
-              bodyStyle={{padding: 38, maxHeight: 540, overflow: 'auto'}}
-              footer={[
-                <Row key='row' type='flex' justify='center' style={{margin: '10px 0'}}>
-                  <Col key='col'>
-                    <Button key='submit' type='primary' onClick={this.submit} loading={loading}>确定调度</Button>
-                  </Col>
-                </Row>,
-              ]}
-              onCancel={this.handleCancel}
-              destroyOnClose={true}
-            >
-              <Form>
-                <div className={styles.pageName}>1.物流公司信息</div>
-                <FormItem
-                  label="选择物流公司"
-                  labelCol={{span: 4}}
-                  wrapperCol={{span: 9}}
-                >
-                  {getFieldDecorator('logistics_company', {
-                    rules: [{required: true, message: '此项为必选项！'}],
-                  })(
-                    <AutoComplete
-                      onSelect={this.companyChange}
-                      dataSource={companyOptions}
-                      placeholder="请填写物流公司全程（合同名称）"
-                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                    />,
-                    // <Select placeholder="请选择物流公司..." style={{marginLeft: 8}} onChange={this.companyChange}>
-                    //   {companyOptions}
-                    // </Select>
-                  )}
-                </FormItem>
-                <div className={styles.pageName}>2.车辆信息</div>
-                <Row>
-                  <Col span={12}>
-                    <FormItem
-                      label="车头牌照"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('car_head', {
-                        rules: [{required: true, message: '此项为必选项！'}],
-                      })(
-                        <AutoComplete
-                          dataSource={carHeadOptions}
-                          placeholder="请选车头牌照"
-                          filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12}>
-                    <FormItem
-                      label="车挂牌照"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('car_body', {
-                        rules: [{required: true, message: '此项为必选项！'}],
-                      })(
-                        <AutoComplete
-                          onChange={this.bodyChange}
-                          dataSource={carBodyOptions}
-                          placeholder="请选车挂牌照"
-                          filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row style={{display: 'none'}}>
-                  <Col span={12}>
-                    <FormItem
-                      label="额定载重"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('edingzaizhong', {
-                        rules: [{required: false, message: '此项为必选项！'}],
-                      })(
-                        <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <div className={styles.pageName}>3.司机信息</div>
-                <Row>
-                  <Col span={12}>
-                    <FormItem
-                      label="司机"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('driver_name', {
-                        rules: [{required: true, message: '此项为必选项！'}],
-                      })(
-                        <AutoComplete
-                          onChange={this.driverChange}
-                          dataSource={driverOptions}
-                          placeholder="请选择司机"
-                          filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12}>
-                    <FormItem
-                      label="联系电话"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('driver_mobile', {
-                        rules: [{
-                          required: true,
-                          message: '请填写正确联系电话！',
-                          max: 11,
-                          pattern: REGS.phone,
-                        }],
-                        validateTrigger: 'onBlur',
-                      })(
-                        <Input placeholder="填写司机电话"/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row style={{display: 'none'}}>
-                  <Col span={12}>
-                    <FormItem
-                      label="押运员"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('yayunyuan', {
-                        rules: [{required: false, message: '此项为必选项！'}],
-                      })(
-                        <Input/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12}>
-                    <FormItem
-                      label="联系电话"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('supercargo_mobile')(
-                        <Input placeholder="选择押运员后显示" disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <div className={styles.pageName}>4.装货信息</div>
-                <Row style={{display: 'none'}}>
-                  <Col span={12}>
-                    <FormItem
-                      label="装货联系人"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('zhuanghuolianxiren')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12}>
-                    <FormItem
-                      label="联系电话"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('zhuanghuolianxidianhua')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12}>
-                    <FormItem
-                      label="装货时间"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('expect_time', {
-                        initialValue: time,
-                        rules: [{required: true, message: '此项为必选项！'}],
-                      })(
-                        <DateRangePicker
-                          containerStyles={{width: 182}}
-                          startDate={this.state.etime}
-                          singleDatePicker={true}
-                          timePicker={true}
-                          timePicker24Hour={true}
-                          locale={locale}
-                          drops={'up'}
-                          onApply={this.handleApply}>
-                          <Input type="text" value={time} readOnly/>
-                        </DateRangePicker>,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12} style={{display: 'none'}}>
-                    <FormItem
-                      label="数量"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('zhuanghuoshuliang')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row style={{display: 'none'}}>
-                  <Col span={24}>
-                    <Col span={12} style={{padding: '0 10px'}}>
-                      <FormItem
-                        label="装货地址"
-                        labelCol={{span: 6}}
-                        wrapperCol={{span: 15}}
-                      >
-                        {getFieldDecorator('zhuanghuodizhi')(
-                          <Input disabled style={{marginLeft: 20}}/>,
-                        )}
-                      </FormItem>
-                    </Col>
-                    <Col span={12}>
-                      <FormItem
-                        label=""
-                        labelCol={{span: 0}}
-                        wrapperCol={{span: 20}}
-                      >
-                        {getFieldDecorator('zhuanghuoxiangxidizhi')(
-                          <Input disabled/>,
-                        )}
-                      </FormItem>
-                    </Col>
-                  </Col>
-                </Row>
-                <div className={styles.pageName} style={{display: 'none'}}>5.收货信息</div>
-                <Row style={{display: 'none'}}>
-                  <Col span={12}>
-                    <FormItem
-                      label="收货联系人"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('shouhuolianxiren')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12}>
-                    <FormItem
-                      label="联系电话"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('shouhuolianxidianhua')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row style={{display: 'none'}}>
-                  <Col span={12}>
-                    <FormItem
-                      label="收货时间"
-                      labelCol={{span: 7}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('shouhuoshijian')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                  <Col span={12}>
-                    <FormItem
-                      label="数量"
-                      labelCol={{span: 7, offset: 1}}
-                      wrapperCol={{span: 13, offset: 1}}
-                    >
-                      {getFieldDecorator('shouhuoshuliang')(
-                        <Input disabled/>,
-                      )}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row style={{display: 'none'}}>
-                  <Col span={24}>
-                    <Col span={12} style={{padding: '0 10px'}}>
-                      <FormItem
-                        label="收货地址"
-                        labelCol={{span: 6}}
-                        wrapperCol={{span: 15}}
-                      >
-                        {getFieldDecorator('shouhuodizhi')(
-                          <Input disabled style={{marginLeft: 20}}/>,
-                        )}
-                      </FormItem>
-                    </Col>
-                    <Col span={12}>
-                      <FormItem
-                        label=""
-                        labelCol={{span: 0}}
-                        wrapperCol={{span: 20}}
-                      >
-                        {getFieldDecorator('shouhuoxiangxidizhi')(
-                          <Input disabled/>,
-                        )}
-                      </FormItem>
-                    </Col>
-                  </Col>
-                </Row>
-              </Form>
-            </Modal>
           </Card>
         })}
         <Pagination
@@ -796,6 +475,326 @@ class OrderTableV2 extends PureComponent {
           pageSize={PAGE_SIZE}
           onChange={this.pageChangeHandler}
         />
+        <Modal
+          width={740}
+          title="调度"
+          visible={this.state.visible}
+          bodyStyle={{padding: 38, maxHeight: 540, overflow: 'auto'}}
+          footer={[
+            <Row key='row' type='flex' justify='center' style={{margin: '10px 0'}}>
+              <Col key='col'>
+                <Button key='submit' type='primary' onClick={this.submit} loading={loading}>确定调度</Button>
+              </Col>
+            </Row>,
+          ]}
+          onCancel={this.handleCancel}
+          destroyOnClose={true}
+        >
+          <Form>
+            <div className={styles.pageName}>1.物流公司信息</div>
+            <FormItem
+              label="选择物流公司"
+              labelCol={{span: 4}}
+              wrapperCol={{span: 9}}
+            >
+              {getFieldDecorator('logistics_company', {
+                rules: [{required: true, message: '此项为必选项！'}],
+              })(
+                <AutoComplete
+                  onSelect={this.companyChange}
+                  dataSource={companyOptions}
+                  placeholder="请填写物流公司全程（合同名称）"
+                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                />,
+                // <Select placeholder="请选择物流公司..." style={{marginLeft: 8}} onChange={this.companyChange}>
+                //   {companyOptions}
+                // </Select>
+              )}
+            </FormItem>
+            <div className={styles.pageName}>2.车辆信息</div>
+            <Row>
+              <Col span={12}>
+                <FormItem
+                  label="车头牌照"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('car_head', {
+                    rules: [{required: true, message: '此项为必选项！'}],
+                  })(
+                    <AutoComplete
+                      dataSource={carHeadOptions}
+                      placeholder="请选车头牌照"
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="车挂牌照"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('car_body', {
+                    rules: [{required: true, message: '此项为必选项！'}],
+                  })(
+                    <AutoComplete
+                      onChange={this.bodyChange}
+                      dataSource={carBodyOptions}
+                      placeholder="请选车挂牌照"
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row style={{display: 'none'}}>
+              <Col span={12}>
+                <FormItem
+                  label="额定载重"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('edingzaizhong', {
+                    rules: [{required: false, message: '此项为必选项！'}],
+                  })(
+                    <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <div className={styles.pageName}>3.司机信息</div>
+            <Row>
+              <Col span={12}>
+                <FormItem
+                  label="司机"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('driver_name', {
+                    rules: [{required: true, message: '此项为必选项！'}],
+                  })(
+                    <AutoComplete
+                      onChange={this.driverChange}
+                      dataSource={driverOptions}
+                      placeholder="请选择司机"
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="联系电话"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('driver_mobile', {
+                    rules: [{
+                      required: true,
+                      message: '请填写正确联系电话！',
+                      max: 11,
+                      pattern: REGS.phone,
+                    }],
+                    validateTrigger: 'onBlur',
+                  })(
+                    <Input placeholder="填写司机电话"/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row style={{display: 'none'}}>
+              <Col span={12}>
+                <FormItem
+                  label="押运员"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('yayunyuan', {
+                    rules: [{required: false, message: '此项为必选项！'}],
+                  })(
+                    <Input/>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="联系电话"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('supercargo_mobile')(
+                    <Input placeholder="选择押运员后显示" disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <div className={styles.pageName}>4.装货信息</div>
+            <Row style={{display: 'none'}}>
+              <Col span={12}>
+                <FormItem
+                  label="装货联系人"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('zhuanghuolianxiren')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="联系电话"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('zhuanghuolianxidianhua')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <FormItem
+                  label="装货时间"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('expect_time', {
+                    initialValue: time,
+                    rules: [{required: true, message: '此项为必选项！'}],
+                  })(
+                    <DateRangePicker
+                      containerStyles={{width: 182}}
+                      startDate={this.state.etime}
+                      singleDatePicker={true}
+                      timePicker={true}
+                      timePicker24Hour={true}
+                      locale={locale}
+                      drops={'up'}
+                      onApply={this.handleApply}>
+                      <Input type="text" value={time} readOnly/>
+                    </DateRangePicker>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12} style={{display: 'none'}}>
+                <FormItem
+                  label="数量"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('zhuanghuoshuliang')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row style={{display: 'none'}}>
+              <Col span={24}>
+                <Col span={12} style={{padding: '0 10px'}}>
+                  <FormItem
+                    label="装货地址"
+                    labelCol={{span: 6}}
+                    wrapperCol={{span: 15}}
+                  >
+                    {getFieldDecorator('zhuanghuodizhi')(
+                      <Input disabled style={{marginLeft: 20}}/>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem
+                    label=""
+                    labelCol={{span: 0}}
+                    wrapperCol={{span: 20}}
+                  >
+                    {getFieldDecorator('zhuanghuoxiangxidizhi')(
+                      <Input disabled/>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Col>
+            </Row>
+            <div className={styles.pageName} style={{display: 'none'}}>5.收货信息</div>
+            <Row style={{display: 'none'}}>
+              <Col span={12}>
+                <FormItem
+                  label="收货联系人"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('shouhuolianxiren')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="联系电话"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('shouhuolianxidianhua')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row style={{display: 'none'}}>
+              <Col span={12}>
+                <FormItem
+                  label="收货时间"
+                  labelCol={{span: 7}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('shouhuoshijian')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="数量"
+                  labelCol={{span: 7, offset: 1}}
+                  wrapperCol={{span: 13, offset: 1}}
+                >
+                  {getFieldDecorator('shouhuoshuliang')(
+                    <Input disabled/>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row style={{display: 'none'}}>
+              <Col span={24}>
+                <Col span={12} style={{padding: '0 10px'}}>
+                  <FormItem
+                    label="收货地址"
+                    labelCol={{span: 6}}
+                    wrapperCol={{span: 15}}
+                  >
+                    {getFieldDecorator('shouhuodizhi')(
+                      <Input disabled style={{marginLeft: 20}}/>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem
+                    label=""
+                    labelCol={{span: 0}}
+                    wrapperCol={{span: 20}}
+                  >
+                    {getFieldDecorator('shouhuoxiangxidizhi')(
+                      <Input disabled/>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Col>
+            </Row>
+          </Form>
+        </Modal>
       </>
     )
   }
