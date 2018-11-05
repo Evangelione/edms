@@ -191,15 +191,27 @@ export default {
       const order_status = yield select(state => state.order.order_status)
       if (data.code === -1) return false
       if (data.code === 1) {
-        message.success(data.msg)
-        yield put({
-          type: 'order/fetch',
-          payload: {
-            find_str,
-            order_status,
-            order_type,
-          },
-        })
+        if (data.msg === '恢复成功') {
+          message.success(data.msg)
+          yield put({
+            type: 'order/fetch',
+            payload: {
+              find_str,
+              order_status: data.flag,
+              order_type,
+            },
+          })
+        } else {
+          message.success(data.msg)
+          yield put({
+            type: 'order/fetch',
+            payload: {
+              find_str,
+              order_status,
+              order_type,
+            },
+          })
+        }
       } else {
         message.error(data.msg)
       }
