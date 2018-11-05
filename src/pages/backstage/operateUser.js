@@ -270,7 +270,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('contact', {
                       initialValue: this.props.editForm.contact ? this.props.editForm.contact : '',
-                      rules: [{required: true, message: '请填写联系人!'}],
+                      rules: [{required: true, pattern: REGS.name, message: '请填写联系人!'}],
                     })(
                       <Input placeholder="请填写联系人"/>,
                     )}

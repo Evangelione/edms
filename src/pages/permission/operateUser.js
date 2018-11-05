@@ -165,7 +165,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('name', {
                       initialValue: this.props.editForm.name ? this.props.editForm.name : '',
-                      rules: [{required: true, message: '请填写真实姓名!'}],
+                      rules: [{required: true, message: '请填写真实姓名!', pattern: REGS.name}],
                     })(
                       <Input placeholder="请填写真实姓名"/>,
                     )}

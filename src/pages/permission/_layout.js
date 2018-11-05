@@ -201,43 +201,43 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
                   <div onClick={changeClass.bind(null, 'quanbu', '')}
                        className={currentTab === 'quanbu' ? 'blueBG ' : 'grayBG'}>
                     <span className={currentTab === 'quanbu' ? 'quanbuBlue ' : 'quanbuGray'}></span>
-                    <span>全部</span>
+                    <span style={{paddingLeft: 8}}>全部</span>
                   </div>
                   <div onClick={changeClass.bind(null, 'wodedingdan', '1')}
                        className={currentTab === 'wodedingdan' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'wodedingdan' ? 'daizhifuBlue ' : 'daizhifuGray'}></span>
-                    <span>我的订单</span>
+                    <span style={{paddingLeft: 8}}>我的订单</span>
                   </div>
                   <div onClick={changeClass.bind(null, 'wodewuliu', '2')}
                        className={currentTab === 'wodewuliu' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'wodewuliu' ? 'daifahuoBlue ' : 'daifahuoGray'}></span>
-                    <span>我的物流</span>
+                    <span style={{paddingLeft: 8}}>我的物流</span>
                   </div>
                   <div onClick={changeClass.bind(null, 'wodezhangwu', '4')}
                        className={currentTab === 'wodezhangwu' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'wodezhangwu' ? 'daishouhuoBlue ' : 'daishouhuoGray'}></span>
-                    <span>我的账务</span>
+                    <span style={{paddingLeft: 8}}>我的账务</span>
                   </div>
                   <div onClick={changeClass.bind(null, 'wodekehu', '8')}
                        className={currentTab === 'wodekehu' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'wodekehu' ? 'daijiesuanBlue ' : 'daijiesuanGray'}></span>
-                    <span>我的客户</span>
+                    <span style={{paddingLeft: 8}}>我的客户</span>
                   </div>
                   <div onClick={changeClass.bind(null, 'wodegongyingshang', '16')}
                        className={currentTab === 'wodegongyingshang' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'wodegongyingshang' ? 'yijiesuanBlue ' : 'yijiesuanGray'}></span>
-                    <span>我的供应商</span>
+                    <span style={{paddingLeft: 8}}>我的供应商</span>
                   </div>
                   <div onClick={changeClass.bind(null, 'wodegongsi', '32')}
                        className={currentTab === 'wodegongsi' ? 'blueBG ' : 'grayBG'}>
                         <span
                           className={currentTab === 'wodegongsi' ? 'yijiesuanBlue ' : 'yijiesuanGray'}></span>
-                    <span>我的公司</span>
+                    <span style={{paddingLeft: 8}}>我的公司</span>
                   </div>
                 </div>
               </Card>
