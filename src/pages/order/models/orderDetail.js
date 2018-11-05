@@ -201,6 +201,10 @@ export default {
               order_type,
             },
           })
+          yield put({
+            type: 'order/save',
+            payload: {currentTab: 'icon-icon-test9', currentIndex: 0},
+          })
         } else {
           message.success(data.msg)
           yield put({
