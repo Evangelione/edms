@@ -119,6 +119,8 @@ class OrderTableV2 extends PureComponent {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(this.props)
+        debugger
         delete values.edingzaizhong
         delete values.shouhuodizhi
         delete values.shouhuolianxiren
@@ -134,7 +136,7 @@ class OrderTableV2 extends PureComponent {
         delete values.zhuanghuolianxidianhua
         delete values.zhuanghuoshuliang
         delete values.zhuanghuoxiangxidizhi
-        values.id = this.state.id
+        values.id = this.props.detailForm.id
         this.props.dispatch({
           type: 'home/doDispatch',
           payload: {
@@ -293,7 +295,7 @@ class OrderTableV2 extends PureComponent {
               <div style={{
                 color: '#9DA3A5',
                 fontSize: 12,
-              }}>{item.cargo_province}{item.cargo_city}-{item.delivery_province}{item.delivery_city}</div>
+              }}>{item.cargo_province ? item.cargo_province + item.cargo_city : '未选择气源'} - {item.delivery_province}{item.delivery_city}</div>
               <Divider/>
               <div style={{color: '#9096A3', marginBottom: 5}}><span
                 style={{
@@ -301,12 +303,16 @@ class OrderTableV2 extends PureComponent {
                   fontSize: 14,
                   marginRight: 16,
                   fontWeight: 600,
-                }}>{item.name_gas_source}</span>￥ {item.saler_price} * {item.saler_num}吨
+                }}>{item.name_gas_source ? item.name_gas_source : '未选择气源'}</span>￥ {item.saler_price ? item.saler_price : '--'} * {item.saler_num}吨
               </div>
               {item.order_status - 0 < 5 ?
-                <div>7.5%预付款：<span style={{color: '#D0021B', fontWeight: 600}}>￥ {item.yufukuan} </span> 合计：<span
-                  style={{color: '#D0021B', fontWeight: 600}}>￥ {item.final_money}</span></div> :
-                <div>合计：<span style={{color: '#D0021B', fontWeight: 600}}>￥ {item.final_money}</span></div>}
+                <div>7.5%预付款：<span
+                  style={{color: '#D0021B', fontWeight: 600}}>￥ {item.yufukuan ? item.yufukuan : '--'} </span> 合计：<span
+                  style={{color: '#D0021B', fontWeight: 600}}>￥ {item.final_money ? item.final_money : '--'}</span>
+                </div> :
+                <div>合计：<span
+                  style={{color: '#D0021B', fontWeight: 600}}>￥ {item.final_money ? item.final_money : '--'}</span>
+                </div>}
             </div>
             <div style={{display: 'inline-block', verticalAlign: 'top', float: 'right'}}>
               <div style={{color: '#4777E5', marginBottom: 25, textAlign: 'right'}}>
