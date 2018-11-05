@@ -13,11 +13,12 @@ import {
   DatePicker,
   message,
   InputNumber,
+  Tooltip,
 } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-import { REGS } from '../../../common/constants'
+import { IconFont, REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -51,6 +52,7 @@ class OrderModal extends PureComponent {
       suppbalance: 0,
       custombalance: 0,
       creditbalance: 0,
+      saler_price_modal: 0,
     }
   }
 
@@ -339,7 +341,8 @@ class OrderModal extends PureComponent {
     })
   }
 
-  calculation = () => {
+  calculation = (e) => {
+
     setTimeout(() => {
       let purchase_price = this.props.form.getFieldValue('purchase_price')
       let shuliang = this.props.form.getFieldValue('shuliang')
@@ -382,6 +385,19 @@ class OrderModal extends PureComponent {
       // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
     }, 100)
+    let value = e.target.value
+    setTimeout(() => {
+      this.props.dispatch({
+        type: 'order/getModalPrice',
+        payload: {
+          price: value,
+        },
+      }).then(() => {
+        this.setState({
+          saler_price_modal: this.props.modal_price,
+        })
+      })
+    }, 10)
   }
 
   renderOption = (item) => {
@@ -769,8 +785,22 @@ class OrderModal extends PureComponent {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={16}>
-                  <FormItem labelCol={{span: 5}} wrapperCol={{span: 7}} label="数量" hasFeedback
+                <Col span={9} style={{color: '#2978EE', fontSize: 16}}>
+                  <div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span
+                    style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨
+                    <Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">
+                      <IconFont type='icon-iconfontwenhao1' style={{
+                        fontSize: 18,
+                        marginLeft: 13,
+                        marginTop: '-2px',
+                        verticalAlign: 'middle',
+                        color: '#333',
+                      }}/>
+                    </Tooltip>
+                  </div>
+                </Col>
+                <Col span={7}>
+                  <FormItem labelCol={{span: 4}} wrapperCol={{span: 12}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num')(
                       <Input placeholder="请填写数量" addonAfter='吨' disabled/>,
@@ -932,7 +962,7 @@ class OrderModal extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {customOption, supplierOption, siteOption, goodsOption, currentTab, order_type} = state.order
+  const {customOption, supplierOption, siteOption, goodsOption, currentTab, order_type, modal_price} = state.order
   return {
     customOption,
     supplierOption,
@@ -940,6 +970,7 @@ function mapStateToProps(state) {
     goodsOption,
     currentTab,
     order_type,
+    modal_price,
     loading: state.loading.models.order,
   }
 }

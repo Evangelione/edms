@@ -124,3 +124,12 @@ export function delOrder({id}) {
     body: formData
   })
 }
+
+export function getModalPrice({price}) {
+  let formData = new FormData()
+  formData.append('saler_price', price)
+  return request(`${IP}/home/price/saler-price`, {
+    method: 'POST',
+    body: formData
+  })
+}

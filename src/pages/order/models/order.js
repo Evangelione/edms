@@ -18,6 +18,7 @@ export default {
     siteOption: [],
     supplierOption: [],
     goodsOption: [],
+    modal_price: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -112,6 +113,20 @@ export default {
             find_str,
             order_status,
             order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * getModalPrice({payload: {price}}, {call, put, select}) {
+      const {data} = yield call(orderService.getModalPrice, {price})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            modal_price: data.price,
           },
         })
       } else {
