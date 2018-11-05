@@ -438,23 +438,29 @@ class OrderTableV2 extends PureComponent {
               <Row>
                 <Col span={5} className={styles.listItem}>
                   <div>供应商信息</div>
-                  <div>{item.supp_name}</div>
-                  <div>{item.supp_contact}</div>
-                  <div>{item.supp_mobile}</div>
+                  {item.supp_name ?
+                    <>
+                      <div>{item.supp_name}</div>
+                      <div>{item.supp_contact}</div>
+                      <div>{item.supp_mobile}</div>
+                    </> : <div>未选择气源</div>}
                 </Col>
                 <Col span={7} className={styles.listItem} style={{position: 'relative', paddingRight: 30}}>
                   <div>装货信息</div>
-                  <div>{item.cargo_contact}</div>
-                  <div>{item.cargo_mobile}</div>
-                  <div>{item.cargo_province}/{item.cargo_city}/{item.cargo_area}/{item.detailed_address}</div>
-                  <div style={{
-                    width: 1,
-                    height: 160,
-                    backgroundColor: '#eee',
-                    position: 'absolute',
-                    top: 0,
-                    left: 210,
-                  }}></div>
+                  {item.cargo_contact ?
+                    <>
+                      <div>{item.cargo_contact}</div>
+                      <div>{item.cargo_mobile}</div>
+                      <div>{item.cargo_province}/{item.cargo_city}/{item.cargo_area}/{item.detailed_address}</div>
+                      <div style={{
+                        width: 1,
+                        height: 160,
+                        backgroundColor: '#eee',
+                        position: 'absolute',
+                        top: 0,
+                        left: 210,
+                      }}></div>
+                    </> : <div>未选择气源</div>}
                 </Col>
                 <Col span={6} className={styles.listItem}>
                   <div>客户信息</div>

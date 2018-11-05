@@ -23,7 +23,7 @@ class LogisticsStep extends PureComponent {
                 position: 'absolute',
                 top: '-50px',
                 left: 65,
-                display: (currentLogistics.deliver_status - 0) >= 0 ? 'block' : 'none',
+                display: (currentLogistics.deliver_status - 0) > 0 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.create_time ? currentLogistics.create_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.create_time ? currentLogistics.create_time.match(MatchTime) : ''}</div>
@@ -42,7 +42,7 @@ class LogisticsStep extends PureComponent {
             color: '#9DA6B1',
             fontSize: 13,
             fontWeight: 400,
-            display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+            display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
           }}>
             <div style={{marginTop: 10}}>调度：{currentLogistics.dispatch_name ? currentLogistics.dispatch_name : ''}</div>
             <div>电话：{currentLogistics.dispatch_mobile ? currentLogistics.dispatch_mobile : ''}</div>
@@ -52,7 +52,7 @@ class LogisticsStep extends PureComponent {
                 position: 'absolute',
                 top: '-50px',
                 left: 62,
-                display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+                display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.dispatch_time ? currentLogistics.dispatch_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.dispatch_time ? currentLogistics.dispatch_time.match(MatchTime) : ''}</div>
@@ -71,7 +71,7 @@ class LogisticsStep extends PureComponent {
             color: '#9DA6B1',
             fontSize: 13,
             fontWeight: 400,
-            display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+            display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
           }}>
             <div style={{marginTop: 10}}>司机：{currentLogistics.driver_name ? currentLogistics.driver_name : ''}</div>
             <div>电话：{currentLogistics.driver_mobile ? currentLogistics.driver_mobile : ''}</div>
@@ -81,7 +81,7 @@ class LogisticsStep extends PureComponent {
                 position: 'absolute',
                 top: '-50px',
                 left: 62,
-                display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+                display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.take_time ? currentLogistics.take_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.take_time ? currentLogistics.take_time.match(MatchTime) : ''}</div>
@@ -100,7 +100,7 @@ class LogisticsStep extends PureComponent {
             color: '#9DA6B1',
             fontSize: 13,
             fontWeight: 400,
-            display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+            display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
           }}>
             <div style={{marginTop: 10}}>装车量：{currentLogistics.load_num ? currentLogistics.load_num : ''}</div>
             <div>{currentLogistics.load_url ?
@@ -113,7 +113,7 @@ class LogisticsStep extends PureComponent {
                 position: 'absolute',
                 top: '-50px',
                 left: 62,
-                display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+                display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.load_time ? currentLogistics.load_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.load_time ? currentLogistics.load_time.match(MatchTime) : ''}</div>
@@ -132,7 +132,7 @@ class LogisticsStep extends PureComponent {
             color: '#9DA6B1',
             fontSize: 13,
             fontWeight: 400,
-            display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+            display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
           }}>
             <div style={{marginTop: 10}}>卸车量：{currentLogistics.unload_num ? currentLogistics.unload_num : ''}</div>
             <div>{currentLogistics.unload_url ?
@@ -145,7 +145,7 @@ class LogisticsStep extends PureComponent {
                 position: 'absolute',
                 top: '-50px',
                 left: 62,
-                display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+                display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.unload_time ? currentLogistics.unload_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.unload_time ? currentLogistics.unload_time.match(MatchTime) : ''}</div>
@@ -164,7 +164,7 @@ class LogisticsStep extends PureComponent {
             color: '#9DA6B1',
             fontSize: 13,
             fontWeight: 400,
-            display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+            display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
           }}>
             <div style={{marginTop: 10}}>调度：{currentLogistics.dispatch_name ? currentLogistics.dispatch_name : ''}</div>
             <div>电话：{currentLogistics.dispatch_mobile ? currentLogistics.dispatch_mobile : ''}</div>
@@ -174,7 +174,7 @@ class LogisticsStep extends PureComponent {
                 position: 'absolute',
                 top: '-50px',
                 left: 62,
-                display: (currentLogistics.deliver_status - 0) >= 1 ? 'block' : 'none',
+                display: (currentLogistics.deliver_status - 0) > 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.finish_time ? currentLogistics.finish_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.finish_time ? currentLogistics.finish_time.match(MatchTime) : ''}</div>

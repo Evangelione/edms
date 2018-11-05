@@ -145,7 +145,7 @@ class operateUser extends React.Component {
     return (
       <div>
         <div>
-          <PageTitle>{title}用户</PageTitle>
+          <PageTitle>{title}客户</PageTitle>
           <Card>
             <Form>
               <div className='itemTitle'>1.客户信息</div>

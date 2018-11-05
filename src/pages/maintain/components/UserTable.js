@@ -223,7 +223,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     <div>
       <div className='toolBar'>
         <Button type='primary' icon="plus"
-                onClick={editUser.bind(null, 'insert', '')}>新增用户</Button>
+                onClick={editUser.bind(null, 'insert', '')}>新增客户</Button>
         <Upload
           name='CustomerForm[excel]'
           showUploadList={false}
