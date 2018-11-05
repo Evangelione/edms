@@ -271,7 +271,6 @@ class OrderTableV2 extends PureComponent {
             <div style={{
               width: 44,
               height: 44,
-              backgroundColor: 'red',
               display: 'inline-block',
               verticalAlign: 'top',
               marginRight: 20,
