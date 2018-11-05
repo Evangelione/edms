@@ -306,6 +306,80 @@ export default {
         message.error(data.msg)
       }
     },
+    * uploadPound({payload: {file, id, load_type, num, load_time}}, {call, put, select}) {
+      const {data} = yield call(logisticsService.uploadPound, {file, id, load_type, num, load_time})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put({
+        //   type: 'logistics/getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '4'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'yunshuzhong',
+        //     currentIndex: 0
+        //   }
+        // })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '3',
+            order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * uploadUnPound({payload: {file, id, load_type, num, unload_time}}, {call, put, select}) {
+      const {data} = yield call(logisticsService.uploadUnPound, {file, id, load_type, num, unload_time})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put({
+        //   type: 'logistics/getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '5'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'yixieche',
+        //     currentIndex: 0
+        //   }
+        // })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '3',
+            order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
   },
 
   reducers: {

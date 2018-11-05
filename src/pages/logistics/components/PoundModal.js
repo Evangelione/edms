@@ -109,7 +109,7 @@ class PoundModal extends React.Component {
     type === 'load' ? num = this.state.load_num : num = this.state.unload_num
     if (type === 'load') {
       this.props.dispatch({
-        type: 'logisticsDetail/uploadPound',
+        type: 'home/uploadPound',
         payload: {
           file: this.state.file,
           id,
@@ -127,7 +127,7 @@ class PoundModal extends React.Component {
       })
     } else {
       this.props.dispatch({
-        type: 'logisticsDetail/uploadUnPound',
+        type: 'home/uploadUnPound',
         payload: {
           file: this.state.file,
           id,
