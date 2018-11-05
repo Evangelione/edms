@@ -60,6 +60,16 @@ class OrderModal extends PureComponent {
     this.props.dispatch({
       type: 'order/fetchSelect',
     })
+    this.props.dispatch({
+      type: 'order/getModalPrice',
+      payload: {
+        price: 0,
+      },
+    }).then(() => {
+      this.setState({
+        saler_price_modal: this.props.modal_price,
+      })
+    })
   }
 
   showModal = (e) => {
@@ -342,7 +352,6 @@ class OrderModal extends PureComponent {
   }
 
   calculation = (e) => {
-
     setTimeout(() => {
       let purchase_price = this.props.form.getFieldValue('purchase_price')
       let shuliang = this.props.form.getFieldValue('shuliang')
