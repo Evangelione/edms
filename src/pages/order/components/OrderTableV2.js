@@ -418,7 +418,7 @@ class OrderTableV2 extends PureComponent {
                                 <Button type='primary' style={{width: 88}}>再来一单</Button>
                               </OrderModal>
                             </div> : <div style={{textAlign: 'right'}}>
-                              <OrderModal modify={true} currentOrder={item}>
+                              <OrderModal modify={true} currentOrder={item} style={{marginRight: 10}}>
                                 <Button type='primary' style={{
                                   width: 88,
                                   backgroundColor: '#FF6913',

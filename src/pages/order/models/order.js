@@ -98,11 +98,22 @@ export default {
         message.error(data.msg)
       }
     },
-    * delOrder({payload: {id}}, {call, put}) {
+    * delOrder({payload: {id}}, {call, put, select}) {
       const {data} = yield call(orderService.delOrder, {id})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      const order_status = yield select(state => state.order.order_status)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status,
+            order_type,
+          },
+        })
       } else {
         message.error(data.msg)
       }
