@@ -191,7 +191,7 @@ class OrderTableV2 extends PureComponent {
       acceptBtn: true,
     })
     this.props.dispatch({
-      type: 'logistics/acceptOrder',
+      type: 'home/acceptOrder',
       payload: {
         id: id,
       },
@@ -208,7 +208,7 @@ class OrderTableV2 extends PureComponent {
       refuseBtn: true,
     })
     this.props.dispatch({
-      type: 'logistics/refuseOrder',
+      type: 'home/refuseOrder',
       payload: {
         id: id,
       },

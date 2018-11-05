@@ -26,6 +26,8 @@ export default {
       supercargo: [],
     },
     companyOption: [],
+    find_str: '',
+    order_type: '3',
   },
 
   subscriptions: {
@@ -222,6 +224,72 @@ export default {
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '3',
+            order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * acceptOrder({payload: id}, {call, put, select}) {
+      const {data} = yield call(logisticsService.acceptOrder, id)
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put({
+        //   type: 'getDeliverList',
+        //   payload: {
+        //     page: 1,
+        //     deliver_status: '3'
+        //   }
+        // })
+        // yield put({
+        //   type: 'logistics/save',
+        //   payload: {
+        //     currentTab: 'yijiedan',
+        //     currentIndex: 0
+        //   }
+        // })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '3',
+            order_type,
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * refuseOrder({payload: id}, {call, put, select}) {
+      const {data} = yield call(logisticsService.refuseOrder, id)
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put({
+        //   type: 'getDeliverList',
+        //   payload: {
+        //     page: 1
+        //   }
+        // })
         yield put({
           type: 'order/save',
           payload: {currentTab: 'icon-icon-test', currentIndex: 0},

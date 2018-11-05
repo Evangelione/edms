@@ -48,6 +48,8 @@ export default {
           type: 'home/save',
           payload: {
             currentOrder: data.data.list[currentIndex] ? data.data.list[currentIndex] : {},
+            order_type,
+            find_str,
           },
         })
       }
