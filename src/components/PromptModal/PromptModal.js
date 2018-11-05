@@ -133,7 +133,7 @@ class PromptModal extends React.Component {
 
   confirmLogisticsHandler = () => {
     this.props.dispatch({
-      type: 'logisticsDetail/confirmBill',
+      type: 'home/confirmBill',
       payload: {
         id: this.props.billID,
         load_num: this.props.load_num,

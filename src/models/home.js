@@ -1,6 +1,6 @@
 import * as loginServices from '../services/home'
 import * as logisticsService from '../pages/logistics/services/logistics'
-import { message } from 'antd'
+import { message, notification } from 'antd'
 
 export default {
   namespace: 'home',
@@ -378,6 +378,47 @@ export default {
         })
       } else {
         message.error(data.msg)
+      }
+    },
+    * confirmBill({payload: {id, load_num, unload_num}}, {call, put, select}) {
+      const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
+      const find_str = yield select(state => state.order.find_str)
+      const order_type = yield select(state => state.order.order_type)
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        // yield put(routerRedux.push({
+        //   pathname: '/order',
+        // }))
+        // yield put({
+        //   type: 'order/fetch',
+        //   payload: {
+        //     order_status: '4',
+        //     order_type: '1'
+        //   }
+        // })
+        yield put({
+          type: 'order/save',
+          payload: {currentTab: 'icon-icon-test2', currentIndex: 0},
+        })
+        yield put({
+          type: 'order/fetch',
+          payload: {
+            find_str,
+            order_status: '4',
+            order_type,
+          },
+        })
+        notification.success({
+          message: '温馨提示',
+          description: '调度已完成，请前往 我的订单 确认结算',
+          duration: 6,
+        })
+      } else {
+        notification.error({
+          message: '温馨提示',
+          description: data.msg,
+          duration: 6,
+        })
       }
     },
   },
