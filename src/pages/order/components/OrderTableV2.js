@@ -417,7 +417,22 @@ class OrderTableV2 extends PureComponent {
                               <OrderModal currentOrder={item}>
                                 <Button type='primary' style={{width: 88}}>再来一单</Button>
                               </OrderModal>
-                            </div> : ''}
+                            </div> : <div style={{textAlign: 'right'}}>
+                              <OrderModal modify={true} currentOrder={item}>
+                                <Button type='primary' style={{
+                                  width: 88,
+                                  backgroundColor: '#FF6913',
+                                  borderColor: '#FF6913',
+                                }}>恢复订单</Button>
+                              </OrderModal>
+                              <PromptModal state='deleteOrder' delOrderId={item.id}>
+                                <Button type='primary' style={{
+                                  width: 88,
+                                  backgroundColor: '#9096A3',
+                                  borderColor: '#9096A3',
+                                }}>删除订单</Button>
+                              </PromptModal>
+                            </div>}
               </div>
               <div style={{textAlign: 'right', cursor: 'pointer'}}>
                 <span onClick={this.toggleExpand.bind(null, item.id)}>展开查看详情</span>

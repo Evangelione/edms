@@ -115,3 +115,12 @@ export function doResult(form) {
     body: formData
   })
 }
+
+export function delOrder({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/order/delete-order`, {
+    method: 'POST',
+    body: formData
+  })
+}

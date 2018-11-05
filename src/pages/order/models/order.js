@@ -98,6 +98,15 @@ export default {
         message.error(data.msg)
       }
     },
+    * delOrder({payload: {id}}, {call, put}) {
+      const {data} = yield call(orderService.delOrder, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
   },
   reducers: {
     save(state, action) {

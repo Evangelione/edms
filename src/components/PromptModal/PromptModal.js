@@ -1,7 +1,7 @@
 import React from 'react'
-import {Modal, Button, Row, Col} from 'antd'
-import {connect} from 'dva'
-import {routerRedux} from 'dva/router'
+import { Modal, Button, Row, Col } from 'antd'
+import { connect } from 'dva'
+import { routerRedux } from 'dva/router'
 import images from '../../utils/images'
 
 class PromptModal extends React.Component {
@@ -16,61 +16,76 @@ class PromptModal extends React.Component {
           cancelText: '离开',
           text: '恭喜您支付成功，订单已提交！',
           okHandler: this.successHandler,
-          cancelHandler: this.goOrder
+          cancelHandler: this.goOrder,
         },
         error: {
           icon: 'error',
           okText: '去充值',
           cancelText: '取消',
           text: '支付失败，当前账户余额不足！',
-          okHandler: this.errorHandler
+          okHandler: this.errorHandler,
         },
         cancelOrder: {
           icon: 'cancel',
           okText: '确定取消',
           cancelText: '再想想',
           text: '取消后订单将被删除，确认取消订单吗？',
-          okHandler: this.orderCancelHandler
+          okHandler: this.orderCancelHandler,
         },
         cancelEdit: {
           icon: 'cancel',
           okText: '离开',
           cancelText: '取消',
           text: '您还有信息未保存，确定离开当前页面吗？',
-          okHandler: this.editCancelHandler
+          okHandler: this.editCancelHandler,
         },
         cancelLogistics: {
           icon: 'cancel',
           okText: '确定取消',
           cancelText: '再想想',
           text: '取消后运单将被重新调度，确认取消吗？',
-          okHandler: this.cancelLogisticsHandler
+          okHandler: this.cancelLogisticsHandler,
         },
         confirmLogistics: {
           icon: 'cancel',
           okText: '确定磅单',
           cancelText: '再想想',
           text: '确定磅单后不可再次更改哦 :）',
-          okHandler: this.confirmLogisticsHandler
+          okHandler: this.confirmLogisticsHandler,
         },
         disableAccount: {
           icon: 'cancel',
           okText: '确定',
           cancelText: '取消',
           text: `确定${this.props.type}当前账号吗？`,
-          okHandler: this.disableAccount
+          okHandler: this.disableAccount,
         },
         deleteOne: {
           icon: 'error',
           okText: '确定',
           cancelText: '取消',
           text: `如此数据有误，您可以编辑修改，但删除此数据后需要重新录入，确定删除吗？`,
-          okHandler: this.deleteOne
+          okHandler: this.deleteOne,
         },
-      }
+        deleteOrder: {
+          icon: 'error',
+          okText: '确定',
+          cancelText: '取消',
+          text: `此操作会彻底删除订单，确定删除吗？`,
+          okHandler: this.deleteOrder,
+        },
+      },
     }
   }
 
+  deleteOrder = () => {
+    this.props.dispatch({
+      type: 'order/delOrder',
+      payload: {
+        id: this.props.delOrderId,
+      },
+    })
+  }
   successHandler = () => {
     this.props.dispatch(routerRedux.push({
       pathname: '/order/doOrder',
@@ -78,8 +93,8 @@ class PromptModal extends React.Component {
     this.props.dispatch({
       type: 'orderDetail/changeOpenState',
       payload: {
-        openState: false
-      }
+        openState: false,
+      },
     })
   }
 
@@ -88,7 +103,7 @@ class PromptModal extends React.Component {
       pathname: '/order',
     })).then(() => {
       this.setState({
-        visible: false
+        visible: false,
       })
     })
   }
@@ -97,11 +112,11 @@ class PromptModal extends React.Component {
     this.props.dispatch({
       type: 'orderDetail/cancelOrder',
       payload: {
-        id: this.props.cancelId
-      }
+        id: this.props.cancelId,
+      },
     }).then(() => {
       this.setState({
-        visible: false
+        visible: false,
       })
     })
   }
@@ -113,8 +128,8 @@ class PromptModal extends React.Component {
     this.props.dispatch({
       type: 'orderDetail/changeState',
       payload: {
-        editable: false
-      }
+        editable: false,
+      },
     })
   }
 
@@ -122,11 +137,11 @@ class PromptModal extends React.Component {
     this.props.dispatch({
       type: 'logistics/cancelDispatch',
       payload: {
-        id: this.props.cancelID
-      }
+        id: this.props.cancelID,
+      },
     }).then(() => {
       this.setState({
-        visible: false
+        visible: false,
       })
     })
   }
@@ -137,12 +152,12 @@ class PromptModal extends React.Component {
       payload: {
         id: this.props.billID,
         load_num: this.props.load_num,
-        unload_num: this.props.unload_num
-      }
+        unload_num: this.props.unload_num,
+      },
     }).then(() => {
       this.props.doClose()
       this.setState({
-        visible: false
+        visible: false,
       })
     })
   }
@@ -150,21 +165,21 @@ class PromptModal extends React.Component {
   disableAccount = (e) => {
     if (e) e.stopPropagation()
     this.setState({
-      visible: false
+      visible: false,
     })
     if (this.props.foruser) {
       this.props.dispatch({
         type: 'permission/forbiddenControl',
         payload: {
-          id: this.props.id
-        }
+          id: this.props.id,
+        },
       })
     } else {
       this.props.dispatch({
         type: 'backstage/forbiddenControl',
         payload: {
-          id: this.props.id
-        }
+          id: this.props.id,
+        },
       })
     }
 
@@ -177,49 +192,49 @@ class PromptModal extends React.Component {
     this.props.dispatch({
       type: 'orderDetail/save',
       payload: {
-        openState: false
-      }
+        openState: false,
+      },
     })
   }
 
   showModelHandler = (e) => {
-    if (e) e.stopPropagation();
+    if (e) e.stopPropagation()
     this.setState({
-      visible: true
+      visible: true,
     })
-  };
+  }
 
   hideModelHandler = (e) => {
-    if (e) e.stopPropagation();
+    if (e) e.stopPropagation()
     this.props.openState ?
       this.props.dispatch({
         type: 'orderDetail/save',
         payload: {
-          openState: false
-        }
+          openState: false,
+        },
       })
       :
       this.setState({
-        visible: false
+        visible: false,
       })
-  };
+  }
 
   deleteOne = (e) => {
-    if (e) e.stopPropagation();
+    if (e) e.stopPropagation()
     if (this.props.delType === 'user') {
       this.props.dispatch({
         type: 'maintain/deleteCustomer',
-        payload: {id: this.props.delID}
+        payload: {id: this.props.delID},
       })
     } else if (this.props.delType === 'supplier') {
       this.props.dispatch({
         type: 'maintain/deleteSupplier',
-        payload: {id: this.props.delID}
+        payload: {id: this.props.delID},
       })
     } else if (this.props.delType === 'vehicle') {
       this.props.dispatch({
         type: 'maintain/deleteCar',
-        payload: {id: this.props.delID}
+        payload: {id: this.props.delID},
       })
     }
   }
@@ -253,7 +268,7 @@ class PromptModal extends React.Component {
           </Row>
         </Modal>
       </div>
-    );
+    )
   }
 }
 
@@ -261,7 +276,7 @@ function mapStateToProps(state) {
   // const {openState} = state.orderDetail
   // const {billLoading} = state.logisticsDetail
   return {
-    loading: state.loading.models.logisticsDetail
+    loading: state.loading.models.logisticsDetail,
   }
 }
 
