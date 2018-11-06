@@ -351,7 +351,7 @@ class OrderModal extends PureComponent {
     })
   }
 
-  calculation = (e) => {
+  calculationSaler = (e) => {
     setTimeout(() => {
       let purchase_price = this.props.form.getFieldValue('purchase_price')
       let shuliang = this.props.form.getFieldValue('shuliang')
@@ -407,6 +407,51 @@ class OrderModal extends PureComponent {
         })
       })
     }, 10)
+  }
+
+  calculation = (e) => {
+    setTimeout(() => {
+      let purchase_price = this.props.form.getFieldValue('purchase_price')
+      let shuliang = this.props.form.getFieldValue('shuliang')
+      let distance = this.props.form.getFieldValue('distance')
+      let deliver_price = this.props.form.getFieldValue('deliver_price')
+      let saler_price = this.props.form.getFieldValue('saler_price')
+      // this.setState({
+      //   yunfei: ((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0)).toFixed(2),
+      //   huofei: ((xiaoshoujiage - 0) * (shuliang - 0)).toFixed(2),
+      //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
+      // })
+      let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
+      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
+      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
+      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
+      this.setState({
+        purchaseCost: purcost.toFixed(2),
+        logisticsCost: logcost.toFixed(2),
+        sales: sales.toFixed(2),
+        diffInSales: diffSales.toFixed(2),
+        total: (total * 1.075).toFixed(2),
+        yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+        xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+      }, () => {
+        if ((this.state.xinyongPay - 0) > 0) {
+          this.setState({
+            payType: '赊销',
+          })
+        } else {
+          this.setState({
+            payType: '预付款',
+          })
+        }
+      })
+
+      // if (this.props.location.pathname === '/order/doOrder') {
+      //   return false
+      // }
+      // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
+    }, 100)
   }
 
   renderOption = (item) => {
@@ -790,7 +835,7 @@ class OrderModal extends PureComponent {
                         max: 10,
                       }],
                     })(
-                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>,
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculationSaler}/>,
                     )}
                   </FormItem>
                 </Col>
