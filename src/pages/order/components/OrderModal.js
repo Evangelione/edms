@@ -60,16 +60,16 @@ class OrderModal extends PureComponent {
     this.props.dispatch({
       type: 'order/fetchSelect',
     })
-    this.props.dispatch({
-      type: 'order/getModalPrice',
-      payload: {
-        price: 0,
-      },
-    }).then(() => {
-      this.setState({
-        saler_price_modal: this.props.modal_price,
-      })
-    })
+    // this.props.dispatch({
+    //   type: 'order/getModalPrice',
+    //   payload: {
+    //     price: 0,
+    //   },
+    // }).then(() => {
+    //   this.setState({
+    //     saler_price_modal: this.props.modal_price,
+    //   })
+    // })
   }
 
   showModal = (e) => {
@@ -80,7 +80,6 @@ class OrderModal extends PureComponent {
       visible: true,
     })
     if (this.props.currentOrder) {
-      debugger
       const form = this.props.currentOrder
       this.setState({
         report: form.temperament_report,
@@ -835,26 +834,26 @@ class OrderModal extends PureComponent {
                         max: 10,
                       }],
                     })(
-                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculationSaler}/>,
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>,
                     )}
                   </FormItem>
                 </Col>
-                <Col span={9} style={{color: '#2978EE', fontSize: 16}}>
-                  <div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span
-                    style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨
-                    <Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">
-                      <IconFont type='icon-iconfontwenhao1' style={{
-                        fontSize: 18,
-                        marginLeft: 13,
-                        marginTop: '-2px',
-                        verticalAlign: 'middle',
-                        color: '#333',
-                      }}/>
-                    </Tooltip>
-                  </div>
-                </Col>
-                <Col span={7}>
-                  <FormItem labelCol={{span: 4}} wrapperCol={{span: 12}} label="数量" hasFeedback
+                {/*<Col span={9} style={{color: '#2978EE', fontSize: 16}}>*/}
+                  {/*<div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span*/}
+                    {/*style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨*/}
+                    {/*<Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">*/}
+                      {/*<IconFont type='icon-iconfontwenhao1' style={{*/}
+                        {/*fontSize: 18,*/}
+                        {/*marginLeft: 13,*/}
+                        {/*marginTop: '-2px',*/}
+                        {/*verticalAlign: 'middle',*/}
+                        {/*color: '#333',*/}
+                      {/*}}/>*/}
+                    {/*</Tooltip>*/}
+                  {/*</div>*/}
+                {/*</Col>*/}
+                <Col span={10}>
+                  <FormItem labelCol={{span: 6}} wrapperCol={{span: 12}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num')(
                       <Input placeholder="请填写数量" addonAfter='吨' disabled/>,

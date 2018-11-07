@@ -120,7 +120,6 @@ class OrderTableV2 extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(this.props)
-        debugger
         delete values.edingzaizhong
         delete values.shouhuodizhi
         delete values.shouhuolianxiren
