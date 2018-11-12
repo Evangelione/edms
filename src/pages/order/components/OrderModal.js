@@ -13,12 +13,11 @@ import {
   DatePicker,
   message,
   InputNumber,
-  Tooltip,
 } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-import { IconFont, REGS } from '../../../common/constants'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
