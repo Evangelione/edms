@@ -280,7 +280,7 @@ class OrderTableV2 extends PureComponent {
             </div>
             <div style={{display: 'inline-block', verticalAlign: 'top', minWidth: 290}}>
               <div style={{color: '#4777E5', fontSize: 16, position: 'relative', marginBottom: 4, fontWeight: 600}}>
-                {item.customer_name}
+                {item.site_name}
                 {item.order_type === '2' ? <IconFont type='icon-xinyongqia'
                                                      style={{
                                                        fontSize: 24,
