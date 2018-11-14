@@ -189,6 +189,7 @@ class OrderModal extends PureComponent {
             total: (total * 1.075).toFixed(2),
             yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
             xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+            maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2),
           }, () => {
             if ((this.state.xinyongPay - 0) > 0) {
               this.setState({
@@ -382,7 +383,7 @@ class OrderModal extends PureComponent {
         total: (total * 1.075).toFixed(2),
         yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
         xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
-        maoli: this.state.sales - this.state.purchaseCost - this.state.logisticsCost
+        maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2)
       }, () => {
         if ((this.state.xinyongPay - 0) > 0) {
           this.setState({
@@ -441,7 +442,7 @@ class OrderModal extends PureComponent {
         total: (total * 1.075).toFixed(2),
         yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
         xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
-        maoli: this.state.sales - this.state.purchaseCost - this.state.logisticsCost
+        maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2)
 
       }, () => {
         if ((this.state.xinyongPay - 0) > 0) {
