@@ -177,10 +177,10 @@ class OrderModal extends PureComponent {
           let deliver_price = this.props.form.getFieldValue('deliver_price')
           let saler_price = this.props.form.getFieldValue('saler_price')
           let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-          let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-          let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-          let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-          let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+          let logcost = isNaN((distance - 0) * (deliver_price - 0)) ? 0 : ((distance - 0) * (deliver_price - 0))
+          let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+          let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+          let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
           this.setState({
             purchaseCost: purcost.toFixed(2),
             logisticsCost: logcost.toFixed(2),
@@ -369,10 +369,10 @@ class OrderModal extends PureComponent {
       //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
       // })
       let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let logcost = isNaN((distance - 0) * (deliver_price - 0)) ? 0 : ((distance - 0) * (deliver_price - 0))
+      let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+      let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+      let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
       // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
       this.setState({
         purchaseCost: purcost.toFixed(2),
@@ -428,10 +428,10 @@ class OrderModal extends PureComponent {
       //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
       // })
       let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let logcost = isNaN((distance - 0) * (deliver_price - 0)) ? 0 : ((distance - 0) * (deliver_price - 0))
+      let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+      let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+      let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
       // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
       this.setState({
         purchaseCost: purcost.toFixed(2),
