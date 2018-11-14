@@ -64,7 +64,11 @@ class OrderModal extends PureComponent {
     this.props.dispatch({
       type: 'order/getModalPrice',
       payload: {
+        purchase_price: 0,
+        deliver_price: 0,
         price: 0,
+        distance: 0,
+        saler_num: 0
       },
     }).then(() => {
       this.setState({
@@ -407,7 +411,11 @@ class OrderModal extends PureComponent {
       this.props.dispatch({
         type: 'order/getModalPrice',
         payload: {
+          purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
+          deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
           price: value,
+          distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
+          saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0
         },
       }).then(() => {
         this.setState({
