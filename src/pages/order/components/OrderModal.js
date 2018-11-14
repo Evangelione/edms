@@ -150,6 +150,7 @@ class OrderModal extends PureComponent {
             cust_id3: form.customer_mobile,
             saler_price: form.saler_price,
             saler_num: form.saler_num,
+            saler_num2: form.saler_num,
             deliver_type: form.deliver_type,
             distance: form.distance,
             deliver_price: form.deliver_price,
@@ -177,7 +178,7 @@ class OrderModal extends PureComponent {
           let deliver_price = this.props.form.getFieldValue('deliver_price')
           let saler_price = this.props.form.getFieldValue('saler_price')
           let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-          let logcost = isNaN((distance - 0) * (deliver_price - 0)) ? 0 : ((distance - 0) * (deliver_price - 0))
+          let logcost = isNaN(((distance - 0) * (deliver_price - 0)) * shuliang) ? 0 : (((distance - 0) * (deliver_price - 0)) * shuliang)
           let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
           let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
           let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
@@ -370,7 +371,7 @@ class OrderModal extends PureComponent {
       //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
       // })
       let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-      let logcost = isNaN((distance - 0) * (deliver_price - 0)) ? 0 : ((distance - 0) * (deliver_price - 0))
+      let logcost = isNaN(((distance - 0) * (deliver_price - 0)) * shuliang) ? 0 : (((distance - 0) * (deliver_price - 0)) * shuliang)
       let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
       let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
       let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
@@ -418,6 +419,9 @@ class OrderModal extends PureComponent {
 
   calculation = (e) => {
     setTimeout(() => {
+      this.props.form.setFieldsValue({
+        saler_num2: this.props.form.getFieldValue('shuliang')
+      })
       let purchase_price = this.props.form.getFieldValue('purchase_price')
       let shuliang = this.props.form.getFieldValue('shuliang')
       let distance = this.props.form.getFieldValue('distance')
@@ -429,7 +433,7 @@ class OrderModal extends PureComponent {
       //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
       // })
       let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-      let logcost = isNaN((distance - 0) * (deliver_price - 0)) ? 0 : ((distance - 0) * (deliver_price - 0))
+      let logcost = isNaN(((distance - 0) * (deliver_price - 0)) * shuliang) ? 0 : (((distance - 0) * (deliver_price - 0)) * shuliang)
       let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
       let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
       let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
@@ -772,7 +776,7 @@ class OrderModal extends PureComponent {
               <Divider dashed={true}/>
               <Row>
                 <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>物流信息</Col>
-                <Col span={8}>
+                <Col span={6}>
                   <FormItem {...formItemLayout} label="运距" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('distance', {
                       rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
@@ -781,13 +785,21 @@ class OrderModal extends PureComponent {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={10}>
+                <Col span={9}>
                   <FormItem {...formItemLayout} label="运费单价" hasFeedback
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
                       rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                     })(
                       <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={6}>
+                  <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px'}}>
+                    {getFieldDecorator('saler_num2')(
+                      <Input placeholder="请填写数量" addonAfter='吨' disabled/>,
                     )}
                   </FormItem>
                 </Col>
