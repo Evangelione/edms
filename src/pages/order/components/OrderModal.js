@@ -785,7 +785,7 @@ class OrderModal extends PureComponent {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={9}>
+                <Col span={8}>
                   <FormItem {...formItemLayout} label="运费单价" hasFeedback
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
