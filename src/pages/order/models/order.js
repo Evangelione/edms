@@ -126,7 +126,7 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            modal_price: data.price,
+            modal_price: data.model_price,
           },
         })
       } else {

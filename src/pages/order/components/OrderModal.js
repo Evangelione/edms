@@ -61,20 +61,6 @@ class OrderModal extends PureComponent {
     this.props.dispatch({
       type: 'order/fetchSelect',
     })
-    this.props.dispatch({
-      type: 'order/getModalPrice',
-      payload: {
-        purchase_price: 0,
-        deliver_price: 0,
-        price: 0,
-        distance: 0,
-        saler_num: 0
-      },
-    }).then(() => {
-      this.setState({
-        saler_price_modal: this.props.modal_price,
-      })
-    })
   }
 
   showModal = (e) => {
@@ -208,12 +194,39 @@ class OrderModal extends PureComponent {
           })
         })
       })
-
+      this.props.dispatch({
+        type: 'order/getModalPrice',
+        payload: {
+          purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
+          deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
+          price: this.props.form.getFieldValue('saler_price') ? this.props.form.getFieldValue('saler_price') : 0,
+          distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
+          saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0
+        },
+      }).then(() => {
+        this.setState({
+          saler_price_modal: this.props.modal_price,
+        })
+      })
       // if (this.props.location.pathname === '/order/doOrder') {
       //   return false
       // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
     } else {
+      this.props.dispatch({
+        type: 'order/getModalPrice',
+        payload: {
+          purchase_price: 0,
+          deliver_price: 0,
+          price: 0,
+          distance: 0,
+          saler_num: 0
+        },
+      }).then(() => {
+        this.setState({
+          saler_price_modal: this.props.modal_price,
+        })
+      })
       this.setState({
         report: null,
         suppbalance: 0,
@@ -413,7 +426,7 @@ class OrderModal extends PureComponent {
         payload: {
           purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
           deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
-          price: value,
+          price: value? value: 0,
           distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
           saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0
         },
