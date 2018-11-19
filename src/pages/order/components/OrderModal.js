@@ -426,7 +426,7 @@ class OrderModal extends PureComponent {
         payload: {
           purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
           deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
-          price: value? value: 0,
+          price: value ? value : 0,
           distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
           saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0
         },
@@ -820,7 +820,7 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num2')(
-                      <Input placeholder="请填写数量" addonAfter='吨' disabled/>,
+                      <Input placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled/>,
                     )}
                   </FormItem>
                 </Col>
