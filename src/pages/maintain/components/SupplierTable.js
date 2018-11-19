@@ -155,7 +155,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
       align: 'center',
       render: (text, record, index) => {
         return (
-          <div className='operating'>
+          <div>
             {record.temperament_report ?
               <Button className={'blueBorder'} size={'small'} onClick={openPDF.bind(null, text)}>查看</Button>
               :
@@ -167,7 +167,7 @@ export default connect(mapStateToProps)(({dispatch, loading, supplierlist, suppl
                 beforeUpload={beforeUpload}
                 showUploadList={false}
               >
-                <Button size='small' type='primary'>上传</Button>
+                <Button type='primary'>上传</Button>
               </Upload>
             }
           </div>

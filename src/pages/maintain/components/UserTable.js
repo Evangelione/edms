@@ -199,6 +199,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
     title: '操作',
     align: 'center',
     key: 'createdAt',
+    width: 180,
     render: (text, record, index) => {
       return (
         <div className='operating'>
@@ -242,7 +243,7 @@ export default connect(mapStateToProps)(({dispatch, loading, customerlist, custo
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-      ></Table>
+      />
       <Pagination
         className='ant-table-pagination'
         current={customerpage}
