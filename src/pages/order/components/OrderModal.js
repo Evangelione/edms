@@ -820,8 +820,20 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num2')(
-                      <Input placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled/>,
+                      <InputNumber placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled style={{width: 150}}/>,
                     )}
+                    <div style={{
+                      position: 'absolute',
+                      border: '1px solid #d9d9d9',
+                      backgroundColor: '#fafafa',
+                      top: '-7px',
+                      right: 0,
+                      padding: '0 11px',
+                      height: 32,
+                      lineHeight: '30px',
+                      borderRadius: '0 3px 3px 0',
+                    }}>吨
+                    </div>
                   </FormItem>
                 </Col>
                 <Col style={{fontSize: 16, marginTop: 6, float: 'right'}}>
