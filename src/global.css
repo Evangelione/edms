@@ -114,6 +114,10 @@ a:hover {
   border-color: #3477ED;
 }
 
+.operating {
+  width: 180px;
+}
+
 /*分页器样式*/
 
 .ant-pagination-item-active {
@@ -526,8 +530,9 @@ a:hover {
 
 .searchBox {
   position: absolute;
-  top: 0px;
+  top: 12px;
   right: 0px;
+  z-index: 9999;
 }
 
 .searchBox input {

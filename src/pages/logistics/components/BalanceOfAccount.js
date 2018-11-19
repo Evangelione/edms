@@ -83,25 +83,25 @@ class BalanceOfAccount extends PureComponent {
       align: 'center',
     }, {
       title: '公里数',
-      dataIndex: 'wl_distance',
-      key: 'wl_distance',
+      dataIndex: 'distance',
+      key: 'distance',
       align: 'center',
     }, {
       title: '吨公里(元)',
-      dataIndex: 'wl_deliver_price',
-      key: 'wl_deliver_price',
+      dataIndex: 'deliver_price',
+      key: 'deliver_price',
       align: 'center',
     }, {
       title: '额外费用(元)',
-      dataIndex: 'wl_extra_fee',
-      key: 'wl_extra_fee',
+      dataIndex: 'extra_fee',
+      key: 'extra_fee',
       align: 'center',
     }, {
       title: '运费总计(元)',
       key: 'zj',
       align: 'center',
       render: (text, record, index) => {
-        let num = (record.wl_final_num - 0) * (record.wl_distance - 0) * (record.wl_deliver_price - 0) + (record.wl_extra_fee - 0)
+        let num = (record.wl_final_num - 0) * (record.distance - 0) * (record.deliver_price - 0) + (record.extra_fee - 0)
         return <div>
           {num.toFixed(2)}
         </div>

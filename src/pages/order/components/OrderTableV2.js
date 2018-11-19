@@ -347,7 +347,7 @@ class OrderTableV2 extends PureComponent {
                                 style={{backgroundColor: '#9096A2', borderColor: '#9096A2'}}>取消订单</Button>
                       </PromptModal>
                     </div> : item.order_status === '2' ?
-                      <div style={{textAlign: 'right', marginRight: 10}}>
+                      <div style={{textAlign: 'right'}}>
                         <Button onClick={this.scheduling.bind(null, item.id)} type='primary'
                                 style={{width: 88}}>调度</Button>
                         {/*马上去调度*/}

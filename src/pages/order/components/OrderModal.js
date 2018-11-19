@@ -13,11 +13,12 @@ import {
   DatePicker,
   message,
   InputNumber,
+  Tooltip
 } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-import { REGS } from '../../../common/constants'
+import { REGS, IconFont } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -52,6 +53,7 @@ class OrderModal extends PureComponent {
       custombalance: 0,
       creditbalance: 0,
       saler_price_modal: 0,
+      maoli: 0,
     }
   }
 
@@ -59,16 +61,6 @@ class OrderModal extends PureComponent {
     this.props.dispatch({
       type: 'order/fetchSelect',
     })
-    // this.props.dispatch({
-    //   type: 'order/getModalPrice',
-    //   payload: {
-    //     price: 0,
-    //   },
-    // }).then(() => {
-    //   this.setState({
-    //     saler_price_modal: this.props.modal_price,
-    //   })
-    // })
   }
 
   showModal = (e) => {
@@ -148,6 +140,7 @@ class OrderModal extends PureComponent {
             cust_id3: form.customer_mobile,
             saler_price: form.saler_price,
             saler_num: form.saler_num,
+            saler_num2: form.saler_num,
             deliver_type: form.deliver_type,
             distance: form.distance,
             deliver_price: form.deliver_price,
@@ -175,10 +168,10 @@ class OrderModal extends PureComponent {
           let deliver_price = this.props.form.getFieldValue('deliver_price')
           let saler_price = this.props.form.getFieldValue('saler_price')
           let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-          let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-          let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-          let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-          let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+          let logcost = isNaN(((distance - 0) * (deliver_price - 0)) * shuliang) ? 0 : (((distance - 0) * (deliver_price - 0)) * shuliang)
+          let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+          let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+          let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
           this.setState({
             purchaseCost: purcost.toFixed(2),
             logisticsCost: logcost.toFixed(2),
@@ -187,6 +180,7 @@ class OrderModal extends PureComponent {
             total: (total * 1.075).toFixed(2),
             yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
             xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+            maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2),
           }, () => {
             if ((this.state.xinyongPay - 0) > 0) {
               this.setState({
@@ -200,17 +194,47 @@ class OrderModal extends PureComponent {
           })
         })
       })
-
+      this.props.dispatch({
+        type: 'order/getModalPrice',
+        payload: {
+          purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
+          deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
+          price: this.props.form.getFieldValue('saler_price') ? this.props.form.getFieldValue('saler_price') : 0,
+          distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
+          saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0
+        },
+      }).then(() => {
+        this.setState({
+          saler_price_modal: this.props.modal_price,
+        })
+      })
       // if (this.props.location.pathname === '/order/doOrder') {
       //   return false
       // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
     } else {
+      this.props.dispatch({
+        type: 'order/getModalPrice',
+        payload: {
+          purchase_price: 0,
+          deliver_price: 0,
+          price: 0,
+          distance: 0,
+          saler_num: 0
+        },
+      }).then(() => {
+        this.setState({
+          saler_price_modal: this.props.modal_price,
+        })
+      })
       this.setState({
         report: null,
         suppbalance: 0,
         custombalance: 0,
+        logisticsCost: 0,
         creditbalance: 0,
+        diffInSales: 0,
+        maoli: 0
       })
     }
   }
@@ -307,6 +331,8 @@ class OrderModal extends PureComponent {
     this.setState({
       custombalance: item.props.balance,
       creditbalance: (item.props.credit - item.props.credit_used).toFixed(2),
+      maoli: 0,
+      diffInSales: 0,
     })
     this.props.dispatch({
       type: 'order/fetchSite',
@@ -362,10 +388,10 @@ class OrderModal extends PureComponent {
       //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
       // })
       let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let logcost = isNaN(((distance - 0) * (deliver_price - 0)) * shuliang) ? 0 : (((distance - 0) * (deliver_price - 0)) * shuliang)
+      let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+      let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+      let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
       // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
       this.setState({
         purchaseCost: purcost.toFixed(2),
@@ -375,6 +401,7 @@ class OrderModal extends PureComponent {
         total: (total * 1.075).toFixed(2),
         yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
         xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+        maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2)
       }, () => {
         if ((this.state.xinyongPay - 0) > 0) {
           this.setState({
@@ -397,7 +424,11 @@ class OrderModal extends PureComponent {
       this.props.dispatch({
         type: 'order/getModalPrice',
         payload: {
-          price: value,
+          purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
+          deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
+          price: value? value: 0,
+          distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
+          saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0
         },
       }).then(() => {
         this.setState({
@@ -409,6 +440,9 @@ class OrderModal extends PureComponent {
 
   calculation = (e) => {
     setTimeout(() => {
+      this.props.form.setFieldsValue({
+        saler_num2: this.props.form.getFieldValue('shuliang')
+      })
       let purchase_price = this.props.form.getFieldValue('purchase_price')
       let shuliang = this.props.form.getFieldValue('shuliang')
       let distance = this.props.form.getFieldValue('distance')
@@ -420,10 +454,10 @@ class OrderModal extends PureComponent {
       //   heji: (((yunju - 0) * (yunfeidanjia - 0) * (shuliang - 0) + (xiaoshoujiage - 0) * (shuliang - 0)) * 1.075).toFixed(2)
       // })
       let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-      let logcost = isNaN((distance - 0) * (deliver_price - 0) * (shuliang - 0)) ? 0 : ((distance - 0) * (deliver_price - 0) * (shuliang - 0))
-      let sales = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
-      let diffSales = isNaN((saler_price - 0) - (purchase_price - 0)) ? 0 : ((saler_price - 0) - (purchase_price - 0))
-      let total = isNaN((saler_price - 0) * (shuliang - 0) + logcost) ? 0 : (saler_price - 0) * (shuliang - 0) + logcost
+      let logcost = isNaN(((distance - 0) * (deliver_price - 0)) * shuliang) ? 0 : (((distance - 0) * (deliver_price - 0)) * shuliang)
+      let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+      let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+      let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
       // let a = ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0))
       this.setState({
         purchaseCost: purcost.toFixed(2),
@@ -433,6 +467,8 @@ class OrderModal extends PureComponent {
         total: (total * 1.075).toFixed(2),
         yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
         xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+        maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2)
+
       }, () => {
         if ((this.state.xinyongPay - 0) > 0) {
           this.setState({
@@ -450,6 +486,10 @@ class OrderModal extends PureComponent {
       // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
     }, 100)
+  }
+
+  calculationDeliver = () => {
+
   }
 
   renderOption = (item) => {
@@ -676,14 +716,14 @@ class OrderModal extends PureComponent {
                       rules: [{required: true, message: '请填写数字！'}],
                     })(
                       <InputNumber placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
-                                   disabled={this.props.confirm ? true : false} max={24} min={0} step={0.001}
+                                   disabled={this.props.confirm ? true : false} max={22} min={0} step={0.001}
                                    precision={3} style={{width: 150}}/>,
                     )}
                     <div style={{
                       position: 'absolute',
                       border: '1px solid #d9d9d9',
                       backgroundColor: '#fafafa',
-                      top: '-6px',
+                      top: '-7px',
                       right: 0,
                       padding: '0 11px',
                       height: 32,
@@ -754,29 +794,38 @@ class OrderModal extends PureComponent {
                   </FormItem>
                 </Col>
               </Row>
-              {/*<Divider dashed={true}/>*/}
-              <Row style={{display: 'none'}}>
+              <Divider dashed={true}/>
+              <Row>
                 <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>物流信息</Col>
-                <Col span={8}>
+                <Col span={6}>
                   <FormItem {...formItemLayout} label="运距" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('distance', {
-                      initialValue: '0',
                       rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                     })(
                       <Input placeholder="请填写运距" addonAfter='公里' onChange={this.calculation}/>,
                     )}
                   </FormItem>
                 </Col>
-                <Col span={10}>
+                <Col span={8}>
                   <FormItem {...formItemLayout} label="运费单价" hasFeedback
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
-                      initialValue: '0',
                       rules: [{required: true, message: '请填写数字！', pattern: REGS.number, max: 10}],
                     })(
                       <Input placeholder="请填写运费单价" addonAfter='元 / 吨 / 公里' onChange={this.calculation}/>,
                     )}
                   </FormItem>
+                </Col>
+                <Col span={6}>
+                  <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
+                            style={{display: 'block', marginLeft: '-5px'}}>
+                    {getFieldDecorator('saler_num2')(
+                      <Input placeholder="请填写数量" addonAfter='吨' disabled/>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col style={{fontSize: 16, marginTop: 6, float: 'right'}}>
+                  <span>物流成本：<span style={{color: 'red', marginRight: 5}}>{this.state.logisticsCost}</span>元</span>
                 </Col>
               </Row>
             </div>
@@ -833,26 +882,26 @@ class OrderModal extends PureComponent {
                         max: 10,
                       }],
                     })(
-                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculation}/>,
+                      <Input placeholder='请填写销售价' addonAfter='元 / 吨' onChange={this.calculationSaler}/>,
                     )}
                   </FormItem>
                 </Col>
-                {/*<Col span={9} style={{color: '#2978EE', fontSize: 16}}>*/}
-                  {/*<div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span*/}
-                    {/*style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨*/}
-                    {/*<Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">*/}
-                      {/*<IconFont type='icon-iconfontwenhao1' style={{*/}
-                        {/*fontSize: 18,*/}
-                        {/*marginLeft: 13,*/}
-                        {/*marginTop: '-2px',*/}
-                        {/*verticalAlign: 'middle',*/}
-                        {/*color: '#333',*/}
-                      {/*}}/>*/}
-                    {/*</Tooltip>*/}
-                  {/*</div>*/}
-                {/*</Col>*/}
-                <Col span={10}>
-                  <FormItem labelCol={{span: 6}} wrapperCol={{span: 12}} label="数量" hasFeedback
+                <Col span={9} style={{color: '#2978EE', fontSize: 16}}>
+                  <div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span
+                    style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨
+                    <Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">
+                      <IconFont type='icon-iconfontwenhao1' style={{
+                        fontSize: 18,
+                        marginLeft: 13,
+                        marginTop: '-2px',
+                        verticalAlign: 'middle',
+                        color: '#333',
+                      }}/>
+                    </Tooltip>
+                  </div>
+                </Col>
+                <Col span={6}>
+                  <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num')(
                       <Input placeholder="请填写数量" addonAfter='吨' disabled/>,
@@ -958,7 +1007,14 @@ class OrderModal extends PureComponent {
               </Row>
               <Divider dashed={true}/>
               <div style={{textAlign: 'right'}}>
-                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 16}}>付款方式：{this.state.payType}</div>
+                <div style={{color: '#A1A9B3', fontSize: 18, marginBottom: 16}}>
+
+                  <span style={{marginRight: 25}}>毛利润：<span
+                    style={{color: 'rgb(255, 66, 65)'}}>{this.state.maoli}</span>元</span>
+                  <span style={{marginRight: 25}}>进销差：<span
+                    style={{color: 'rgb(255, 66, 65)'}}>{this.state.diffInSales}</span>元/吨</span>
+                  <span>付款方式：{this.state.payType}</span>
+                </div>
                 <div style={{color: '#545F76', fontSize: 20, marginBottom: 8, fontWeight: 600}}>合计金额：
                   <span style={{color: '#FF4241', fontSize: 22}}>￥{this.state.total}</span>&nbsp;&nbsp;
                   <span style={{fontSize: 18}}>

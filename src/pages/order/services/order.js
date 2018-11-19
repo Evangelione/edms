@@ -125,10 +125,14 @@ export function delOrder({id}) {
   })
 }
 
-export function getModalPrice({price}) {
+export function getModalPrice({purchase_price,deliver_price,price,distance,saler_num}) {
   let formData = new FormData()
+  formData.append('purchase_price', purchase_price)
+  formData.append('deliver_price', deliver_price)
   formData.append('saler_price', price)
-  return request(`${IP}/home/price/saler-price`, {
+  formData.append('distance', distance)
+  formData.append('saler_num', saler_num)
+  return request(`${IP}/home/order/saler-model`, {
     method: 'POST',
     body: formData
   })

@@ -77,10 +77,10 @@ class ResultModal extends Component {
     setTimeout(() => {
       const saler_price = this.props.form.getFieldValue('saler_price')
       const xs_final_num = this.props.form.getFieldValue('xs_final_num')
-      const deliver_price = this.props.form.getFieldValue('deliver_price')
-      const distance = this.props.form.getFieldValue('distance')
-      const extra_fee = this.props.form.getFieldValue('extra_fee')
-      let result = isNaN((saler_price - 0) * (xs_final_num - 0) + (deliver_price - 0) * (distance - 0) * (xs_final_num - 0) + (extra_fee - 0)) ? 0 : (saler_price - 0) * (xs_final_num - 0) + (deliver_price - 0) * (distance - 0) * (xs_final_num - 0) + (extra_fee - 0)
+      // const deliver_price = this.props.form.getFieldValue('deliver_price')
+      // const distance = this.props.form.getFieldValue('distance')
+      // const extra_fee = this.props.form.getFieldValue('extra_fee')
+      let result = isNaN((saler_price - 0) * (xs_final_num - 0)) ? 0 : (saler_price - 0) * (xs_final_num - 0)
       this.setState({
         xiaoshou: result.toFixed(2),
       })
@@ -89,10 +89,10 @@ class ResultModal extends Component {
 
   wuliuCalculation = () => {
     setTimeout(() => {
-      const wl_deliver_price = this.props.form.getFieldValue('wl_deliver_price')
-      const wl_distance = this.props.form.getFieldValue('wl_distance')
+      const wl_deliver_price = this.props.form.getFieldValue('deliver_price')
+      const wl_distance = this.props.form.getFieldValue('distance')
       const wl_final_num = this.props.form.getFieldValue('wl_final_num')
-      const wl_extra_fee = this.props.form.getFieldValue('wl_extra_fee')
+      const wl_extra_fee = this.props.form.getFieldValue('extra_fee')
       let result = isNaN((wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)
       this.setState({
         wuliu: result.toFixed(2),
@@ -254,7 +254,7 @@ class ResultModal extends Component {
                     {...formItemLayout}
                     label="运费单价"
                   >
-                    {getFieldDecorator('deliver_price', {
+                    {getFieldDecorator('wl_deliver_price', {
                       ...config,
                       initialValue: 0,
                     })(
@@ -267,7 +267,7 @@ class ResultModal extends Component {
                     {...formItemLayout}
                     label="运距"
                   >
-                    {getFieldDecorator('distance', {
+                    {getFieldDecorator('wl_distance', {
                       ...config,
                       initialValue: 0,
                     })(
@@ -275,7 +275,7 @@ class ResultModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={8}>
+                <Col span={8} style={{display: 'none'}}>
                   <FormItem
                     {...formItemLayout}
                     label="额外费用"
@@ -301,9 +301,9 @@ class ResultModal extends Component {
                     {...formItemLayout}
                     label="运费单价"
                   >
-                    {getFieldDecorator('wl_deliver_price', {
+                    {getFieldDecorator('deliver_price', {
                       ...config,
-                      initialValue: 0,
+                      initialValue:  this.props.detailForm.deliver_price,
                     })(
                       <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
                                    style={{marginLeft: 8}}/>,
@@ -315,7 +315,7 @@ class ResultModal extends Component {
                     {...formItemLayout}
                     label="运距"
                   >
-                    {getFieldDecorator('wl_distance', {
+                    {getFieldDecorator('distance', {
                       ...config,
                       initialValue: this.props.detailForm.distance,
                     })(
@@ -343,9 +343,9 @@ class ResultModal extends Component {
                     {...formItemLayout}
                     label="额外费用"
                   >
-                    {getFieldDecorator('wl_extra_fee', {
+                    {getFieldDecorator('extra_fee', {
                       ...config,
-                      initialValue: 0,
+                      initialValue: this.props.detailForm.extra_fee,
                     })(
                       <InputNumber step={0.01} onChange={this.wuliuCalculation}/>,
                     )}

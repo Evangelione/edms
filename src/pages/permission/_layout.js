@@ -154,7 +154,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     key: 'createdAt',
     render: (text, record, index) => {
       return (
-        <div className={'operating'}>
+        <div>
           <Button className={'blueBorder'} onClick={editUser.bind(null, 'edit', record)}
                   size={'small'}>编辑</Button>
         </div>
@@ -166,7 +166,7 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
     key: 'status1',
     render: (text, record, index) => {
       return (
-        <div className={'operating'}>
+        <div>
           {record.forbidden === '1' ?
             <PromptModal state='disableAccount' id={record.id} type='禁用' foruser={true}>
               <Button style={{background: '#EA7878', borderColor: '#EA7878', height: 28, padding: '0 15px'}}

@@ -105,17 +105,48 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
       dataIndex: 'supercargo',
       key: 'supercargo',
       align: 'center',
+      render: (text, record, index) => {
+        if(text) {
+          return (
+            <div>
+              {text}
+            </div>
+          )
+        } else {
+          return (
+            <div>
+              --
+            </div>
+          )
+        }
+      }
     },
     {
       title: '联系电话',
       dataIndex: 'supercargo_mobile',
       key: 'supercargo_mobile',
       align: 'center',
+      render: (text, record, index) => {
+        if(text) {
+          return (
+            <div>
+              {text}
+            </div>
+          )
+        } else {
+          return (
+            <div>
+              --
+            </div>
+          )
+        }
+      }
     },
     {
       title: '操作',
       align: 'center',
       key: 'createdAt',
+      width: 180,
       render: (text, record, index) => {
         return (
           <div className='operating'>
@@ -159,7 +190,7 @@ export default connect(mapStateToProps)(({dispatch, loading, carlist, carpage, c
         rowKey={record => record.id}
         pagination={false}
         loading={loading}
-      ></Table>
+      />
       <Pagination
         className='ant-table-pagination'
         current={carpage}

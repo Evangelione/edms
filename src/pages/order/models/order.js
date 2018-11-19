@@ -119,14 +119,14 @@ export default {
         message.error(data.msg)
       }
     },
-    * getModalPrice({payload: {price}}, {call, put, select}) {
-      const {data} = yield call(orderService.getModalPrice, {price})
+    * getModalPrice({payload: {purchase_price, deliver_price, price, distance, saler_num}}, {call, put, select}) {
+      const {data} = yield call(orderService.getModalPrice, {purchase_price, deliver_price, price, distance, saler_num})
       if (data.code === -1) return false
       if (data.code === 1) {
         yield put({
           type: 'save',
           payload: {
-            modal_price: data.price,
+            modal_price: data.model_price,
           },
         })
       } else {
