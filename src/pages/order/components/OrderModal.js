@@ -716,7 +716,7 @@ class OrderModal extends PureComponent {
                       rules: [{required: true, message: '请填写数字！'}],
                     })(
                       <InputNumber placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
-                                   disabled={this.props.confirm ? true : false} max={20} min={0} step={0.001}
+                                   disabled={this.props.confirm ? true : false} max={22} min={0} step={0.001}
                                    precision={3} style={{width: 150}}/>,
                     )}
                     <div style={{
