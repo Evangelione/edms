@@ -1,13 +1,15 @@
 import request from '../../../utils/request'
-import { IP } from "../../../constants"
+import { IP } from '../../../constants'
 
-export function getOrderList({page, order_status, find_str, order_type}) {
+export function getOrderList({page, order_status, find_str, order_type, stime, etime}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', 8)
   formData.append('order_status', order_status)
   formData.append('find_str', find_str)
   formData.append('order_type', order_type)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
   return request(`${IP}/home/order/order-list`, {
     method: 'POST',
     body: formData
@@ -47,7 +49,7 @@ export function fetchGoods({supplier_id}) {
 export function addOrder({values}) {
   let formData = new FormData()
   Object.keys(values).forEach((key, i) => {
-    formData.append(key, values[key]);
+    formData.append(key, values[key])
   })
   return request(`${IP}/home/order/add-order`, {
     method: 'POST',
@@ -68,7 +70,7 @@ export function orderInfo({id}) {
 export function modifyOrder({form}) {
   let formData = new FormData()
   Object.keys(form).forEach((key, i) => {
-    formData.append(key, form[key]);
+    formData.append(key, form[key])
   })
   return request(`${IP}/home/order/modify-order`, {
     method: 'POST',
@@ -79,7 +81,7 @@ export function modifyOrder({form}) {
 export function confirmOrder({form}) {
   let formData = new FormData()
   Object.keys(form).forEach((key, i) => {
-    formData.append(key, form[key]);
+    formData.append(key, form[key])
   })
   return request(`${IP}/home/order/confirm-order`, {
     method: 'POST',
@@ -108,7 +110,7 @@ export function cancelOrder({id}) {
 export function doResult(form) {
   let formData = new FormData()
   Object.keys(form).forEach((key, i) => {
-    formData.append(key, form[key]);
+    formData.append(key, form[key])
   })
   return request(`${IP}/home/order/settled`, {
     method: 'POST',
@@ -125,7 +127,7 @@ export function delOrder({id}) {
   })
 }
 
-export function getModalPrice({purchase_price,deliver_price,price,distance,saler_num}) {
+export function getModalPrice({purchase_price, deliver_price, price, distance, saler_num}) {
   let formData = new FormData()
   formData.append('purchase_price', purchase_price)
   formData.append('deliver_price', deliver_price)

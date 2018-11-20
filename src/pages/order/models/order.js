@@ -19,6 +19,8 @@ export default {
     supplierOption: [],
     goodsOption: [],
     modal_price: 0,
+    stime: '',
+    etime: ''
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -28,8 +30,8 @@ export default {
     },
   },
   effects: {
-    * fetch({payload: {page = '1', order_type = '3', order_status = '', find_str = ''}}, {call, put, select}) {
-      const {data} = yield call(orderService.getOrderList, {page, order_type, order_status, find_str})
+    * fetch({payload: {page = '1', order_type = '3', order_status = '', find_str = '', stime='', etime=''}}, {call, put, select}) {
+      const {data} = yield call(orderService.getOrderList, {page, order_type, order_status, find_str,stime,etime})
       const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {
         yield put({

@@ -1,18 +1,24 @@
 import React, { Component } from 'react'
-import { Card, Tabs, Button, Row, Col, Divider, Spin } from 'antd'
+import { Card, Tabs, Button, Row, Col, Divider, Spin, DatePicker, Input } from 'antd'
 import { connect } from 'dva'
 import OrderTableV2 from './components/OrderTableV2'
 import LogisticsMap from '../logistics/components/LogisticsMap'
 import OrderModal from './components/OrderModal'
 import AnimatePage from '../../components/AnimatePage/AnimatePage'
+import locale from 'antd/lib/date-picker/locale/zh_CN'
 import { IconFont, orderTabs } from '../../common/constants'
 import styles from './order.css'
 
 const TabPane = Tabs.TabPane
+const {RangePicker} = DatePicker
+const {Search} = Input
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, order_status, statusNum, currentOrder, order_type, list} = state.order
+  const {currentTab, find_str, order_status, statusNum, currentOrder, order_type, list, page, stime, etime} = state.order
   return {
+    page,
+    stime,
+    etime,
     list,
     currentTab,
     find_str,
@@ -54,6 +60,8 @@ class Order extends Component {
       type: 'order/fetch',
       payload: {
         order_status: state,
+        stime: this.props.stime,
+        etime: this.props.etime,
         order_type: this.props.order_type,
         find_str: this.props.find_str,
       },
@@ -72,8 +80,38 @@ class Order extends Component {
       type: 'order/fetch',
       payload: {
         order_type: value,
+        stime: this.props.stime,
+        etime: this.props.etime,
         order_status: this.props.order_status,
         find_str: this.props.find_str,
+      },
+    })
+  }
+
+  rangeChange = (date, dateString) => {
+    this.props.dispatch({
+      type: 'order/fetch',
+      payload: {
+        page: 1,
+        order_type: this.props.order_type,
+        order_status: this.props.order_status,
+        stime: dateString[0],
+        etime: dateString[1],
+        find_str: this.props.find_str,
+      },
+    })
+  }
+
+  iptSearch = (value) => {
+    this.props.dispatch({
+      type: 'order/fetch',
+      payload: {
+        page: 1,
+        order_type: this.props.order_type,
+        order_status: this.props.order_status,
+        stime: this.props.stime,
+        etime: this.props.etime,
+        find_str: value,
       },
     })
   }
@@ -82,6 +120,11 @@ class Order extends Component {
     const {loading, list, order_type, currentOrder} = this.props
     return (
       <AnimatePage>
+        <div className='searchBox' style={{right: 158}}>
+          <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
+          <Search style={{width: 260, marginLeft: 10}} placeholder='输入关键字进行查询'
+                  onSearch={this.iptSearch}/>
+        </div>
         <Tabs>
           <TabPane tab="订单管理" key="1">
             <div className={'toolBar'} style={{top: 0, right: 0}}>
@@ -108,7 +151,6 @@ class Order extends Component {
                   <IconFont type='icon-icon-test10' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>赊销订单
                 </div>
               </div>
-
             </Card>
             <Row gutter={10} style={{marginTop: 10}}>
               <Col span={12}>
