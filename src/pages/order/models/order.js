@@ -30,8 +30,8 @@ export default {
     },
   },
   effects: {
-    * fetch({payload: {page = '1', order_type = '3', order_status = '', find_str = '', stime='', etime=''}}, {call, put, select}) {
-      const {data} = yield call(orderService.getOrderList, {page, order_type, order_status, find_str,stime,etime})
+    * fetch({payload: {page = '1', order_type = '3', order_status = '', find_str = '', stime = '', etime = ''}}, {call, put, select}) {
+      const {data} = yield call(orderService.getOrderList, {page, order_type, order_status, find_str, stime, etime})
       const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {
         yield put({
@@ -45,6 +45,8 @@ export default {
             total: parseInt(data.data.count, 10),
             currentOrder: data.data.list[currentIndex] ? data.data.list[currentIndex] : {},
             statusNum: data.data.status_num,
+            stime,
+            etime,
           },
         })
         yield put({
@@ -53,6 +55,8 @@ export default {
             currentOrder: data.data.list[currentIndex] ? data.data.list[currentIndex] : {},
             order_type,
             find_str,
+            stime,
+            etime,
           },
         })
       }

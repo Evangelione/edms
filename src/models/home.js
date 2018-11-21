@@ -28,6 +28,8 @@ export default {
     companyOption: [],
     find_str: '',
     order_type: '3',
+    stime: '',
+    etime: ''
   },
 
   subscriptions: {
@@ -221,6 +223,8 @@ export default {
       const {data} = yield call(logisticsService.doDispatch, form)
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
+      const stime = yield select(state => state.order.stime)
+      const etime = yield select(state => state.order.etime)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -234,6 +238,8 @@ export default {
             find_str,
             order_status: '3',
             order_type,
+            stime,
+            etime
           },
         })
       } else {
@@ -244,6 +250,8 @@ export default {
       const {data} = yield call(logisticsService.acceptOrder, id)
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
+      const stime = yield select(state => state.order.stime)
+      const etime = yield select(state => state.order.etime)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -271,6 +279,8 @@ export default {
             find_str,
             order_status: '3',
             order_type,
+            stime,
+            etime
           },
         })
       } else {
@@ -281,6 +291,8 @@ export default {
       const {data} = yield call(logisticsService.refuseOrder, id)
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
+      const stime = yield select(state => state.order.stime)
+      const etime = yield select(state => state.order.etime)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -300,6 +312,8 @@ export default {
             find_str,
             order_status: '3',
             order_type,
+            stime,
+            etime
           },
         })
       } else {
@@ -310,6 +324,8 @@ export default {
       const {data} = yield call(logisticsService.uploadPound, {file, id, load_type, num, load_time})
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
+      const stime = yield select(state => state.order.stime)
+      const etime = yield select(state => state.order.etime)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -337,6 +353,8 @@ export default {
             find_str,
             order_status: '3',
             order_type,
+            stime,
+            etime
           },
         })
       } else {
@@ -347,6 +365,8 @@ export default {
       const {data} = yield call(logisticsService.uploadUnPound, {file, id, load_type, num, unload_time})
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
+      const stime = yield select(state => state.order.stime)
+      const etime = yield select(state => state.order.etime)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -374,6 +394,8 @@ export default {
             find_str,
             order_status: '3',
             order_type,
+            stime,
+            etime
           },
         })
       } else {
@@ -384,6 +406,8 @@ export default {
       const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
+      const stime = yield select(state => state.order.stime)
+      const etime = yield select(state => state.order.etime)
       if (data.code === -1) return false
       if (data.code === 1) {
         // yield put(routerRedux.push({
@@ -406,6 +430,8 @@ export default {
             find_str,
             order_status: '4',
             order_type,
+            stime,
+            etime
           },
         })
         notification.success({
