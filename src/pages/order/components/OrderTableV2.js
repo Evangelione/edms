@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Card, Pagination, Button, Divider, Row, Col, Form, AutoComplete, Modal, Input } from 'antd'
 import { connect } from 'dva'
-import { PAGE_SIZE } from '../../../constants'
 import { IconFont, REGS } from '../../../common/constants'
 import StatusModal from './StatusModal'
 import OrderModal from './OrderModal'
@@ -531,7 +530,7 @@ class OrderTableV2 extends PureComponent {
           className="ant-table-pagination"
           total={total}
           current={page}
-          pageSize={PAGE_SIZE}
+          pageSize={8}
           onChange={this.pageChangeHandler}
         />
         <Modal
