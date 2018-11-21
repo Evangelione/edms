@@ -861,7 +861,7 @@ class OrderTableV2 extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {list, total, page, order_status, currentIndex, order_type, stime, etime} = state.order
+  const {list, total, page, order_status, currentIndex, order_type, stime, etime, find_str} = state.order
   const {detailForm, companyOption, carOption} = state.home
   return {
     list,
@@ -869,6 +869,7 @@ function mapStateToProps(state) {
     total,
     stime,
     etime,
+    find_str,
     order_status,
     currentIndex,
     order_type,
