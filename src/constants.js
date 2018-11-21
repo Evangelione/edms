@@ -18,6 +18,10 @@ export const LOGO = {
     name: '实华',
     logo: require('./assets/image/Group.png')
   },
+  ht: {
+    name: '珠海金石',
+    logo: require('./assets/image/logo_xny.png')
+  },
   chenchen: {
     name: '蓝采和',
     logo: require('./assets/image/Group.png')

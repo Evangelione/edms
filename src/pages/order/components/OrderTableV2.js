@@ -350,6 +350,15 @@ class OrderTableV2 extends PureComponent {
                       <div style={{textAlign: 'right'}}>
                         <Button onClick={this.scheduling.bind(null, item.id)} type='primary'
                                 style={{width: 88}}>调度</Button>
+                        <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
+                          <Button style={{
+                            height: 32,
+                            marginLeft: 10,
+                            backgroundColor: '#9096A3',
+                            borderColor: '#9096A3',
+                            color: '#fff',
+                          }}>取消订单</Button>
+                        </PromptModal>
                         {/*马上去调度*/}
                       </div> : item.order_status === '3' ?
                         <div style={{textAlign: 'right'}}>
@@ -367,9 +376,15 @@ class OrderTableV2 extends PureComponent {
                                         color: '#fff',
                                       }}
                                       loading={this.state.refuseBtn}>拒绝</Button>
-                              {/*<PromptModal state='cancelLogistics' cancelID={item.id} txt={item}>*/}
-                              {/*<Button>取消运单</Button>*/}
-                              {/*</PromptModal>*/}
+                              <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
+                                <Button style={{
+                                  height: 32,
+                                  marginLeft: 10,
+                                  backgroundColor: '#9096A3',
+                                  borderColor: '#9096A3',
+                                  color: '#fff',
+                                }}>取消订单</Button>
+                              </PromptModal>
                             </div> : item.deliver_status === '3' ?
                               <div>
                                 <PoundModal title='上传装车磅单' load_num={item.load_num}
@@ -377,6 +392,15 @@ class OrderTableV2 extends PureComponent {
                                             hidden={'load'} id={item.id}>
                                   <Button type='primary'>上传装车磅单</Button>
                                 </PoundModal>
+                                <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
+                                  <Button style={{
+                                    height: 32,
+                                    marginLeft: 10,
+                                    backgroundColor: '#9096A3',
+                                    borderColor: '#9096A3',
+                                    color: '#fff',
+                                  }}>取消订单</Button>
+                                </PromptModal>
                               </div> : item.deliver_status === '4' ?
                                 <div>
                                   <PoundModal title='上传卸车磅单' unload_num={item.unload_num}
@@ -384,6 +408,15 @@ class OrderTableV2 extends PureComponent {
                                               id={item.id}>
                                     <Button type='primary'>上传卸车磅单</Button>
                                   </PoundModal>
+                                  <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
+                                    <Button style={{
+                                      height: 32,
+                                      marginLeft: 10,
+                                      backgroundColor: '#9096A3',
+                                      borderColor: '#9096A3',
+                                      color: '#fff',
+                                    }}>取消订单</Button>
+                                  </PromptModal>
                                 </div> : item.deliver_status === '5' ?
                                   <div>
                                     <PoundModal title='确认磅单' hidden='all' load_num={item.load_num}

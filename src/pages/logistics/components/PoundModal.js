@@ -210,7 +210,7 @@ class PoundModal extends React.Component {
       'firstDay': 1,
     }
     return (
-      <div onClick={this.showModalHandler}>
+      <div onClick={this.showModalHandler} style={{display:'inline-block'}}>
         {this.props.children}
         <Modal
           width={600}
