@@ -38,14 +38,14 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     if ((this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0)) {
-      if (!sessionStorage.getItem('backAuth')) {
+      if (!localStorage.getItem('backAuth')) {
         this.props.dispatch(routerRedux.push({
           pathname: '/admin',
         }))
         return false
       }
     } else {
-      if (!sessionStorage.getItem('loginAuth')) {
+      if (!localStorage.getItem('loginAuth')) {
         this.props.dispatch(routerRedux.push({
           pathname: '/login',
         }))

@@ -60,6 +60,7 @@ class OperateUser extends React.Component {
         values.wdkh === true ? auth += 8 : auth += 0
         values.wdgys === true ? auth += 16 : auth += 0
         values.wdgs === true ? auth += 32 : auth += 0
+        values.app === true ? auth += 64 : auth += 0
         if (this.state.fileList.length === 0) {
           values.head_img = ''
         } else {
@@ -71,6 +72,7 @@ class OperateUser extends React.Component {
         delete values.wdkh
         delete values.wdgys
         delete values.wdgs
+        delete values.app
         values.auth = auth.toString()
         if (values.pwd === undefined) values.pwd = ''
         if (this.props.location.query.type === 'insert') {
@@ -317,6 +319,21 @@ class OperateUser extends React.Component {
                     {getFieldDecorator('wdgs', {
                       valuePropName: 'checked',
                       initialValue: (((this.props.editForm.auth - 0) & 32) !== 0) ? true : false,
+                    })(
+                      <Switch/>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row style={{marginTop: 35}}>
+                <Col span={5}>
+                  <FormItem
+                    label="app运营数据"
+                    {...formItemLayout2}
+                  >
+                    {getFieldDecorator('app', {
+                      valuePropName: 'checked',
+                      initialValue: (((this.props.editForm.auth - 0) & 64) !== 0) ? true : false,
                     })(
                       <Switch/>,
                     )}

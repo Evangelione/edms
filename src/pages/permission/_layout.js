@@ -25,7 +25,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(({dispatch, location, list, page, total, loading, currentTab, find_auth, find_str}) => {
-
   function changeClass(type, auth) {
     if (loading) return false
     dispatch({
@@ -126,6 +125,9 @@ export default connect(mapStateToProps)(({dispatch, location, list, page, total,
       }
       if (((text - 0) & 32) !== 0) {
         txt = txt + '我的公司,'
+      }
+      if (((text - 0) & 64) !== 0) {
+        txt = txt + 'app运营数据,'
       }
       if (txt.endsWith(',')) {
         txt = txt.slice(0, txt.length - 1)

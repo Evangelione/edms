@@ -37,7 +37,7 @@ class orderDetail extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.detailForm.order_status === 1) {
       if (!this.state.flag) return false
-      if ((sessionStorage.getItem('loginAuth') & 2) === 0) return false
+      if ((localStorage.getItem('loginAuth') & 2) === 0) return false
       this.setState({
         flag: false
       })

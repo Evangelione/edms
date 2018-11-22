@@ -47,20 +47,20 @@ function MyHeader({dispatch, location, currentPageName}) {
         <div className={styles.user}>
           <div className={styles.avatar}>
             <img
-              src={JSON.parse(sessionStorage.getItem('adminData')) ? JSON.parse(sessionStorage.getItem('adminData')).head_img : ''}
+              src={JSON.parse(localStorage.getItem('adminData')) ? JSON.parse(localStorage.getItem('adminData')).head_img : ''}
               alt=""/>
           </div>
           <div
-            style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('adminData')) ? JSON.parse(sessionStorage.getItem('adminData')).name : ''}</div>
+            style={{display: 'inline-block'}}>{JSON.parse(localStorage.getItem('adminData')) ? JSON.parse(localStorage.getItem('adminData')).name : ''}</div>
         </div> :
         <div className={styles.user}>
           <div className={styles.avatar}>
             <img
-              src={JSON.parse(sessionStorage.getItem('userData')) ? JSON.parse(sessionStorage.getItem('userData')).head_img : ''}
+              src={JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).head_img : ''}
               alt=""/>
           </div>
           <div
-            style={{display: 'inline-block'}}>{JSON.parse(sessionStorage.getItem('userData')) ? JSON.parse(sessionStorage.getItem('userData')).name : ''}</div>
+            style={{display: 'inline-block'}}>{JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).name : ''}</div>
         </div>
       }
     </Header>

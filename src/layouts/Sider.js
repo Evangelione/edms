@@ -101,13 +101,13 @@ class MySider extends React.Component {
                   openKeys={this.props.openKeys}
                   onSelect={this.onSelect}
                   onOpenChange={this.onOpenChange}>
-              {((sessionStorage.getItem('backAuth') & 1) !== 0) ? <Menu.Item key="administrator">
+              {((localStorage.getItem('backAuth') & 1) !== 0) ? <Menu.Item key="administrator">
                 <Link to='/backstage'/><i className={'iconfont icon-shouye'}></i><span>企业管理</span>
               </Menu.Item> : ''}
-              {((sessionStorage.getItem('backAuth') & 2) !== 0) ? <Menu.Item key="permission">
+              {((localStorage.getItem('backAuth') & 2) !== 0) ? <Menu.Item key="permission">
                 <Link to='/permission'/><Icon type="file-text" style={{marginRight: 20}}/><span>用户列表</span>
               </Menu.Item> : ''}
-              {((sessionStorage.getItem('backAuth') & 4) !== 0) ? <Menu.Item key="maintain">
+              {((localStorage.getItem('backAuth') & 4) !== 0) ? <Menu.Item key="maintain">
                 <Link to='/maintain'/><i className={'iconfont icon-iconfont31quanbushangpin'}></i><span>数据维护</span>
               </Menu.Item> : ''}
             </Menu>
@@ -125,17 +125,17 @@ class MySider extends React.Component {
               <Menu.Item key="home">
                 <Link to='/'/><i className={'iconfont icon-shouye'}></i><span>首页</span>
               </Menu.Item>
-              {((sessionStorage.getItem('loginAuth') & 1) !== 0) ? <Menu.Item key="order">
+              {((localStorage.getItem('loginAuth') & 1) !== 0) ? <Menu.Item key="order">
                 <Link to='/order'/><i className={'iconfont icon-tijindingdan'}></i><span>我的订单</span>
               </Menu.Item> : ''}
-              {((sessionStorage.getItem('loginAuth') & 2) !== 0) ? <Menu.Item key="logistics">
+              {((localStorage.getItem('loginAuth') & 2) !== 0) ? <Menu.Item key="logistics">
                 <Link to='/logistics'/><i className={'iconfont icon-wuliu'} style={{
                 fontSize: 22,
                 marginRight: 17,
                 marginLeft: '-3px',
               }}></i><span>我的物流</span>
               </Menu.Item> : ''}
-              {((sessionStorage.getItem('loginAuth') & 4) !== 0) ? <SubMenu
+              {((localStorage.getItem('loginAuth') & 4) !== 0) ? <SubMenu
                 key="sub1"
                 title={<span><i className={'iconfont icon-zhangdan'}></i><span>我的账务</span></span>}
                 style={{marginBottom: 8}}
@@ -147,13 +147,13 @@ class MySider extends React.Component {
                   <Link to='/account/analysis'/>数据分析
                 </Menu.Item>
               </SubMenu> : ''}
-              {((sessionStorage.getItem('loginAuth') & 8) !== 0) ? <Menu.Item key="customer">
+              {((localStorage.getItem('loginAuth') & 8) !== 0) ? <Menu.Item key="customer">
                 <Link to='/customer'/><i className={'iconfont icon-kehuguanli'}></i><span>我的客户</span>
               </Menu.Item> : ''}
-              {((sessionStorage.getItem('loginAuth') & 16) !== 0) ? <Menu.Item key="supplier">
+              {((localStorage.getItem('loginAuth') & 16) !== 0) ? <Menu.Item key="supplier">
                 <Link to='/supplier'/><i className={'iconfont icon-iconfont31quanbushangpin'}></i><span>我的供应商</span>
               </Menu.Item> : ''}
-              {((sessionStorage.getItem('loginAuth') & 32) !== 0) ? <Menu.Item key="company">
+              {((localStorage.getItem('loginAuth') & 32) !== 0) ? <Menu.Item key="company">
                 <Link to='/company'/><i className={'iconfont icon-gongsi'}></i><span>我的公司</span>
               </Menu.Item> : ''}
             </Menu>
