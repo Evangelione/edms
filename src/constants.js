@@ -1,5 +1,5 @@
 // 全局接口
-export const IP = '/xtw'
+export const IP = '/api'
 
 // 全局表格
 export const PAGE_SIZE = 10
@@ -8,7 +8,7 @@ export const PAGE_SIZE = 10
 export const LOGO = {
   lch: {
     name: '蓝采和',
-    logo: require('./assets/image/WechatIMG18.png')
+    logo: require('./assets/image/Group.png')
   },
   xny: {
     name: '鑫能源',
