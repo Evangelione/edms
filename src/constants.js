@@ -1,5 +1,5 @@
 // 全局接口
-export const IP = '/api'
+export const IP = '/xtw'
 
 // 全局表格
 export const PAGE_SIZE = 10
@@ -8,7 +8,7 @@ export const PAGE_SIZE = 10
 export const LOGO = {
   lch: {
     name: '蓝采和',
-    logo: require('./assets/image/Group.png')
+    logo: require('./assets/image/WechatIMG18.png')
   },
   xny: {
     name: '鑫能源',
@@ -20,11 +20,11 @@ export const LOGO = {
   },
   ht: {
     name: '珠海金石',
-    logo: require('./assets/image/logo_xny.png')
+    logo: require('./assets/image/zhjs.jpg')
   },
   chenchen: {
     name: '蓝采和',
-    logo: require('./assets/image/Group.png')
+    logo: require('./assets/image/WechatIMG18.png')
   },
   localhost: {
     name: '蓝采和',
