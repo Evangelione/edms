@@ -20,7 +20,7 @@ export const LOGO = {
   },
   ht: {
     name: '珠海金石',
-    logo: require('./assets/image/zhht_s.png')
+    logo: require('./assets/image/ht2.png')
   },
   chenchen: {
     name: '蓝采和',
