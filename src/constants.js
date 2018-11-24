@@ -19,7 +19,7 @@ export const LOGO = {
     logo: require('./assets/image/Group.png')
   },
   ht: {
-    name: '珠海金石',
+    name: '珠海海通',
     logo: require('./assets/image/ht2.png')
   },
   chenchen: {
