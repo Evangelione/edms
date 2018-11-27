@@ -31,6 +31,14 @@ export function fetchOptions() {
   })
 }
 
+export function fetchGoods() {
+  return request(`${IP}/home/select/goods`, {
+    method: 'POST'
+  })
+}
+
+
+
 export function addSupplierContract({id, stime, etime}) {
   let formData = new FormData()
   formData.append('suppliers_id', id)
@@ -92,9 +100,10 @@ export function getCustomerCompany() {
   })
 }
 
-export function accountNum({find_str, stime, etime}) {
+export function accountNum({find_str, stime, etime,gas_id}) {
   let formData = new FormData()
   formData.append('id', find_str)
+  formData.append('gas_id', gas_id)
   formData.append('start_date', stime ? stime.format('YYYY-MM-DD') : '')
   formData.append('end_date', etime ? etime.format('YYYY-MM-DD') : '')
   return request(`${IP}/home/supplier/supplier-account-num`, {

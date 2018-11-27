@@ -1,11 +1,19 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { Table, Button, Pagination } from 'antd'
-import { PAGE_SIZE } from '../../../constants'
+import { Table, Button, Pagination, message } from 'antd'
+import { IP, PAGE_SIZE } from '../../../constants'
 import { routerRedux } from 'dva/router'
 import ExportModal from './ExportModal'
+import * as dateUtils from '../../../utils/getTime'
 
 class BalanceOfAccount extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state={
+      selectedRowKeys: []
+    }
+  }
+
   UNSAFE_componentWillMount() {
     this.props.dispatch({
       type: 'supplier/balanceFetch',
@@ -29,8 +37,37 @@ class BalanceOfAccount extends PureComponent {
     }))
   }
 
+  selectRow = (record) => {
+    const selectedRowKeys = [...this.state.selectedRowKeys]
+    if (selectedRowKeys.indexOf(record.id) >= 0) {
+      selectedRowKeys.splice(selectedRowKeys.indexOf(record.id), 1)
+    } else {
+      selectedRowKeys.push(record.id)
+    }
+    console.log(selectedRowKeys)
+    this.setState({selectedRowKeys})
+  }
+
+  onSelectedRowKeysChange = (selectedRowKeys) => {
+    this.setState({selectedRowKeys})
+  }
+
+  export = () => {
+    if (this.state.selectedRowKeys.length) {
+      let ids = this.state.selectedRowKeys.join(',')
+      window.location.href = `${IP}/home/supplier/excel-supplier-account?ids=${ids}`
+    } else {
+      message.error('请勾选需要导出的信息')
+    }
+  }
+
   render() {
     const {balanceList, balancePage, balanceTotal, loading} = this.props
+    const {selectedRowKeys} = this.state
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectedRowKeysChange,
+    }
     const columns = [{
       title: '订单编号',
       dataIndex: 'order_code',
@@ -40,7 +77,23 @@ class BalanceOfAccount extends PureComponent {
       title: '装车日期',
       dataIndex: 'load_time',
       key: 'load_time',
-      align: 'center'
+      align: 'center',
+      render: (text, record, index) => {
+        if (text) {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        }  else {
+          return (
+            <div>--</div>
+          )
+        }
+      }
     }, {
       title: '供应商名称',
       dataIndex: 'supp_name',
@@ -90,6 +143,7 @@ class BalanceOfAccount extends PureComponent {
     return (
       <div>
         <div className='toolBar'>
+          <Button type='primary' style={{width: 110,height: 28, marginRight: 6}} onClick={this.export}>导出</Button>
           <ExportModal>
             <Button type='primary' icon='export' style={{height: 28}}>批量对账</Button>
           </ExportModal>
@@ -98,11 +152,17 @@ class BalanceOfAccount extends PureComponent {
         </div>
         <Table
           columns={columns}
+          rowSelection={rowSelection}
           dataSource={balanceList}
-          rowKey={record => record.order_code}
+          rowKey={record => record.id}
           pagination={false}
           loading={loading}
-        ></Table>
+          onRow={(record) => ({
+            onClick: () => {
+              this.selectRow(record)
+            },
+          })}
+        />
         <Pagination
           className='ant-table-pagination'
           current={balancePage}
