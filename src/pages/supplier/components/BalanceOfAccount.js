@@ -100,9 +100,9 @@ class BalanceOfAccount extends PureComponent {
       key: 'supp_name',
       align: 'center',
     }, {
-      title: '气源产地',
-      dataIndex: 'origin_gas_source',
-      key: 'origin_gas_source',
+      title: '气源名称',
+      dataIndex: 'name_gas_source',
+      key: 'name_gas_source',
       align: 'center',
     }, {
       title: '车牌照',
