@@ -486,7 +486,7 @@ class DetailForm extends React.Component {
                   rules: [{required: true, message: '请填写收货联系人姓名!'}],
                 })(
                   <AutoComplete
-                    onChange={this.autoSelect}
+                    onSelect={this.autoSelect}
                     dataSource={this.state.dataSource}
                     placeholder="请填写收货联系人姓名"
                     disabled={!editable}

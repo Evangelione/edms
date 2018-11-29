@@ -70,7 +70,7 @@ class ResultModal extends Component {
       this.setState({
         caigou: result.toFixed(2),
       })
-    }, 100)
+    }, 200)
   }
 
   xiaoshouCalculation = () => {
@@ -84,7 +84,7 @@ class ResultModal extends Component {
       this.setState({
         xiaoshou: result.toFixed(2),
       })
-    }, 100)
+    }, 250)
   }
 
   wuliuCalculation = () => {
@@ -98,16 +98,16 @@ class ResultModal extends Component {
         this.setState({
           wuliu: result.toFixed(2),
         })
-      }, 100)
+      }, 300)
     } else if (this.props.detailForm.deliver_type === '3') {
       setTimeout(() => {
-        const wl_deliver_price = this.props.form.getFieldValue('deliver_price')
+        const wl_deliver_fee = this.props.form.getFieldValue('deliver_fee')
         const wl_extra_fee = this.props.form.getFieldValue('extra_fee')
-        let result = isNaN((wl_deliver_price - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) + (wl_extra_fee - 0)
+        let result = isNaN((wl_deliver_fee - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_fee - 0) + (wl_extra_fee - 0)
         this.setState({
           wuliu: result.toFixed(2),
         })
-      }, 100)
+      }, 350)
     }
 
   }
@@ -261,45 +261,6 @@ class ResultModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={8} style={{display: 'none'}}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="运费单价"
-                  >
-                    {getFieldDecorator('wl_deliver_price', {
-                      ...config,
-                      initialValue: 0,
-                    })(
-                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={13} style={{display: 'none'}}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="运距"
-                  >
-                    {getFieldDecorator('wl_distance', {
-                      ...config,
-                      initialValue: 0,
-                    })(
-                      <InputNumber min={0} step={0.01} onChange={this.xiaoshouCalculation} style={{marginLeft: 8}}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={8} style={{display: 'none'}}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="额外费用"
-                  >
-                    {getFieldDecorator('extra_fee', {
-                      ...config,
-                      initialValue: 0,
-                    })(
-                      <InputNumber step={0.01} onChange={this.xiaoshouCalculation}/>,
-                    )}
-                  </FormItem>
-                </Col>
               </Row>
               {this.props.detailForm.deliver_type === '1' ? <>
                 <div className={'itemTitle'}>
@@ -377,11 +338,11 @@ class ResultModal extends Component {
                   <Col span={8}>
                     <FormItem
                       {...formItemLayout}
-                      label="运费单价"
+                      label="运费"
                     >
-                      {getFieldDecorator('deliver_price', {
+                      {getFieldDecorator('deliver_fee', {
                         ...config,
-                        initialValue: this.props.detailForm.deliver_price,
+                        initialValue: this.props.detailForm.deliver_fee,
                       })(
                         <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
                                      style={{marginLeft: 8}}/>,

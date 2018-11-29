@@ -96,7 +96,7 @@ class ExportModal extends PureComponent {
   }
 
   handleCancel = (e) => {
-    e.stopPropagation()
+    e && e.stopPropagation()
     this.setState({
       visible: false,
       visible2: false,
@@ -120,9 +120,7 @@ class ExportModal extends PureComponent {
       this.setState({
         visible2: false,
       }, () => {
-        this.setState({
-          visible: false,
-        })
+        this.handleCancel()
       })
     } else {
       message.error('请填写完整信息')
@@ -132,6 +130,7 @@ class ExportModal extends PureComponent {
   render() {
     const {getFieldDecorator} = this.props.form
     const {children, companyOption, stime, etime, companyDetail} = this.props
+    console.log(stime)
     const {startValue, endValue} = this.state;
     const formItemLayout = {
       labelCol: {

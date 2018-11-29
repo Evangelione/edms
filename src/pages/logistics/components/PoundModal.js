@@ -248,7 +248,8 @@ class PoundModal extends React.Component {
                     <div style={{lineHeight: '28px'}}>{(this.state.load_num - 0).toFixed(3)} 吨</div>
                     :
                     <div>
-                      <InputNumber addonAfter='吨' defaultValue={this.state.load_num} precision={3} style={{width: 161}}
+                      <InputNumber addonAfter='吨' defaultValue={this.state.load_num} precision={3} max={22} step={0.001}
+                                   style={{width: 161}}
                                    onChange={this.loadChange} formatter={this.limitDecimals}
                                    parser={this.limitDecimals}/>
                       <div style={{
@@ -287,7 +288,8 @@ class PoundModal extends React.Component {
                     <div style={{lineHeight: '28px'}}>{(this.state.unload_num - 0).toFixed(3)} 吨</div>
                     :
                     <div>
-                      <InputNumber addonAfter='吨' defaultValue={this.state.unload_num} precision={3}
+                      <InputNumber addonAfter='吨' defaultValue={this.state.unload_num} precision={3} max={22}
+                                   step={0.001}
                                    style={{width: 161}} onChange={this.unloadChange} formatter={this.limitDecimals}
                                    parser={this.limitDecimals}/>
                       <div style={{
@@ -329,7 +331,8 @@ class PoundModal extends React.Component {
                       <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                       :
                       <div>
-                        <InputNumber addonAfter='吨' precision={3} style={{width: 161}} onChange={this.loadChange}
+                        <InputNumber addonAfter='吨' precision={3} style={{width: 161}} max={22} step={0.001}
+                                     onChange={this.loadChange}
                                      defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals}/>
                         <div style={{
                           position: 'absolute',
@@ -389,7 +392,8 @@ class PoundModal extends React.Component {
                       <div style={{lineHeight: '28px'}}>{this.state.unload_num} 吨</div>
                       :
                       <div>
-                        <InputNumber addonAfter='吨' precision={3} style={{width: 161}} onChange={this.unloadChange}
+                        <InputNumber addonAfter='吨' precision={3} max={22} step={0.001} style={{width: 161}}
+                                     onChange={this.unloadChange}
                                      defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals}/>
                         <div style={{
                           position: 'absolute',

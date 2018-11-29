@@ -4,13 +4,13 @@ import { Card, Tabs, Button, Input, DatePicker, Table, Pagination } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
-import { PAGE_SIZE } from "../../constants"
-import { routerRedux } from "dva/router"
+import { PAGE_SIZE } from '../../constants'
+import { routerRedux } from 'dva/router'
 import withRouter from 'umi/withRouter'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
-const {RangePicker} = DatePicker;
+const {RangePicker} = DatePicker
 
 class logisticsBalance extends React.Component {
 
@@ -23,13 +23,13 @@ class logisticsBalance extends React.Component {
         stime: this.props.location.query.stime,
         etime: this.props.location.query.etime,
         conversion: true,
-        id: this.props.location.query.id
-      }
+        id: this.props.location.query.id,
+      },
     })
   }
 
   disabledDate = (current) => {
-    return current && current > moment().endOf('day');
+    return current && current > moment().endOf('day')
   }
 
   iptSearch = (value) => {
@@ -39,8 +39,8 @@ class logisticsBalance extends React.Component {
         find_str: value,
         stime: this.props.stime,
         etime: this.props.etime,
-        id: this.props.location.query.id
-      }
+        id: this.props.location.query.id,
+      },
     })
   }
 
@@ -52,8 +52,8 @@ class logisticsBalance extends React.Component {
         stime: dates[0],
         etime: dates[1],
         find_str: this.props.find_str,
-        id: this.props.location.query.id
-      }
+        id: this.props.location.query.id,
+      },
     })
   }
 
@@ -71,8 +71,8 @@ class logisticsBalance extends React.Component {
         stime: this.props.stime,
         etime: this.props.etime,
         find_str: this.props.find_str,
-        page
-      }
+        page,
+      },
     })
   }
 
@@ -82,12 +82,12 @@ class logisticsBalance extends React.Component {
       title: '订单编号',
       dataIndex: 'deliver_code',
       key: 'deliver_code',
-      align: 'center'
+      align: 'center',
     }, {
       title: '装车日期',
       dataIndex: 'load_time',
       key: 'load_time',
-      align: 'center'
+      align: 'center',
     }, {
       title: '站点简称',
       dataIndex: 'site_name',
@@ -102,12 +102,12 @@ class logisticsBalance extends React.Component {
         return <div>
           {record.cargo_province + record.cargo_city + record.cargo_area}
         </div>
-      }
+      },
     }, {
       title: '车牌照',
       dataIndex: 'car_head',
       key: 'car_head',
-      align: 'center'
+      align: 'center',
     }, {
       title: '物流公司',
       dataIndex: 'logistics_company',
@@ -129,30 +129,23 @@ class logisticsBalance extends React.Component {
       key: 'wl_final_num',
       align: 'center',
     }, {
-      title: '公里数',
-      dataIndex: 'wl_distance',
-      key: 'wl_distance',
+      title: '配送方式',
+      dataIndex: 'deliver_type',
+      key: 'deliver_type2',
+      width: 100,
       align: 'center',
-    }, {
-      title: '吨公里(元)',
-      dataIndex: 'wl_deliver_price',
-      key: 'wl_deliver_price',
-      align: 'center',
-    }, {
-      title: '额外费用(元)',
-      dataIndex: 'wl_extra_fee',
-      key: 'wl_extra_fee',
-      align: 'center',
+      render: (text) => {
+        if (text === '1' || text === '3') {
+          return <div>配送</div>
+        } else {
+          return <div>自提</div>
+        }
+      },
     }, {
       title: '运费总计(元)',
-      key: 'zj',
+      key: 'final_deliver_fee',
+      dataIndex: 'final_deliver_fee',
       align: 'center',
-      render: (text, record, index) => {
-        let num = (record.wl_final_num - 0) * (record.wl_distance - 0) * (record.wl_deliver_price - 0) + (record.wl_extra_fee - 0)
-        return <div>
-          {num.toFixed(2)}
-        </div>
-      }
     }]
     return (
       <div>
@@ -202,7 +195,7 @@ function mapStateToProps(state) {
     balanceDetailedList,
     balanceDetailedPage,
     balanceDetailedTotal,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.logistics,
   }
 }
 

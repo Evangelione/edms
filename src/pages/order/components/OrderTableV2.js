@@ -608,7 +608,7 @@ class OrderTableV2 extends PureComponent {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
                     <AutoComplete
-                      onChange={this.bodyChange}
+                      onSelect={this.bodyChange}
                       dataSource={carBodyOptions}
                       placeholder="请选车挂牌照"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
@@ -644,7 +644,7 @@ class OrderTableV2 extends PureComponent {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
                     <AutoComplete
-                      onChange={this.driverChange}
+                      onSelect={this.driverChange}
                       dataSource={driverOptions}
                       placeholder="请选择司机"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}

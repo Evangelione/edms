@@ -94,9 +94,22 @@ class Analysis extends React.Component {
       key: 'caigou_cost',
       align: 'center',
     }, {
+      title: '配送方式',
+      dataIndex: 'deliver_type',
+      key: 'deliver_type2',
+      width: 100,
+      align: 'center',
+      render: (text) => {
+        if (text === '1' || text === '3') {
+          return <div>配送</div>
+        } else {
+          return <div>自提</div>
+        }
+      },
+    }, {
       title: '物流成本（元）',
-      dataIndex: 'deliver_fee',
-      key: 'deliver_fee',
+      dataIndex: 'final_deliver_fee',
+      key: 'final_deliver_fee',
       align: 'center',
     }, {
       title: '结算量（吨）',

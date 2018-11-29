@@ -143,7 +143,7 @@ class OrderModal extends PureComponent {
             saler_price: form.saler_price,
             saler_num: form.saler_num,
             saler_num2: form.saler_num,
-            deliver_type: form.deliver_type,
+            deliver_type: form.deliver_type === '3' ? '1' : form.deliver_type,
             distance: form.distance,
             deliver_price: form.deliver_price,
             site_id: form.site_id,
@@ -163,7 +163,7 @@ class OrderModal extends PureComponent {
             goods_contact: form.cargo_contact,
             goods_mobile: form.cargo_mobile,
             deliver_fee: form.deliver_fee,
-            cus_deliver_type: form.deliver_type,
+            cus_deliver_type: form.deliver_type === '2' ? undefined : form.deliver_type,
             goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
           })
           let purchase_price = this.props.form.getFieldValue('purchase_price')
@@ -977,7 +977,7 @@ class OrderModal extends PureComponent {
                     ],
                   })(
                     <AutoComplete
-                      onChange={this.autoSelect}
+                      onSelect={this.autoSelect}
                       disabled={this.props.confirm ? true : false}
                       dataSource={this.state.dataSource}
                       placeholder="请填写收货联系人姓名"
@@ -1035,7 +1035,7 @@ class OrderModal extends PureComponent {
               </Col>
             </Row>
             <Divider dashed={true}/>
-            <Row>
+            <Row style={{display: this.state.currType === '2' ? 'none' : 'block'}}>
               <Col style={{color: '#1C86F6', fontSize: 18, marginBottom: 20, fontWeight: 600}}>物流信息</Col>
               <Col span={24}>
                 <Col span={6}>
@@ -1064,7 +1064,7 @@ class OrderModal extends PureComponent {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={8}>
+                <Col span={10}>
                   <FormItem {...formItemLayout} label="运费单价" hasFeedback
                             style={{display: 'block', marginLeft: '-55px'}}>
                     {getFieldDecorator('deliver_price', {
@@ -1074,7 +1074,7 @@ class OrderModal extends PureComponent {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={6}>
+                <Col span={7}>
                   <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num2')(
@@ -1095,7 +1095,7 @@ class OrderModal extends PureComponent {
                     </div>
                   </FormItem>
                 </Col>
-                <Col style={{fontSize: 16, marginTop: 6, float: 'right'}}>
+                <Col span={24} style={{fontSize: 16, marginTop: 6, textAlign: 'right', marginBottom: 4}}>
                   <span>物流成本：<span style={{color: 'red', marginRight: 5}}>{this.state.logisticsCost}</span>元</span>
                 </Col>
               </Row>
@@ -1112,7 +1112,7 @@ class OrderModal extends PureComponent {
                 </Col>
                 <Col span={6}>
                 </Col>
-                <Col style={{fontSize: 16, marginTop: 6, float: 'right'}}>
+                <Col span={24} style={{fontSize: 16, marginTop: 6, textAlign: 'right', marginBottom: 4}}>
                   <span>物流成本：<span style={{color: 'red', marginRight: 5}}>{this.state.logisticsCost}</span>元</span>
                 </Col>
               </Row>
