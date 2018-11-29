@@ -158,6 +158,14 @@ class CreditModal extends React.Component {
           destroyOnClose={true}
           footer={null}
         >
+          <Row style={{marginBottom: 28}}>
+            <Col span={8} offset={1} style={{paddingLeft: 8, paddingTop: 4}}>当前总额度：</Col>
+            <Col span={12} style={{paddingTop: 4}}>{this.props.credit}元</Col>
+          </Row>
+          <Row style={{marginBottom: 32}}>
+            <Col span={8} offset={1} style={{paddingLeft: 8, paddingTop: 4}}>当前剩余额度：</Col>
+            <Col span={12} style={{paddingTop: 4}}>{this.props.credit_surplus}元</Col>
+          </Row>
           <Form style={{margin: '10px 0 50px'}}>
             <FormItem
               {...formItemLayout}
@@ -169,10 +177,6 @@ class CreditModal extends React.Component {
                 <Input placeholder='请输入公司名称' disabled/>
               )}
             </FormItem>
-            <Row style={{marginBottom: 28}}>
-              <Col span={4} offset={1} style={{paddingLeft: 8, paddingTop: 4}}>当前额度：</Col>
-              <Col span={12} style={{paddingTop: 4}}>{this.props.credit}元</Col>
-            </Row>
             <FormItem
               {...formItemLayout}
               label="设置额度"

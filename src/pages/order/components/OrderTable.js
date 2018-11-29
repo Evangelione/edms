@@ -93,14 +93,20 @@ function OrderTable({dispatch, list, total, page, loading, order_status}) {
       align: 'center',
       width: 120,
       render: (text, record, index) => {
-        let time = dateUtils.getTime(text)
-        let date = dateUtils.getYear(text)
-        return (
-          <div>
-            <div>{date}</div>
-            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-          </div>
-        )
+        if (text) {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        }  else {
+          return (
+            <div>--</div>
+          )
+        }
       }
     },
     {
@@ -110,14 +116,20 @@ function OrderTable({dispatch, list, total, page, loading, order_status}) {
       align: 'center',
       width: 120,
       render: (text, record, index) => {
-        let time = dateUtils.getTime(text)
-        let date = dateUtils.getYear(text)
-        return (
-          <div>
-            <div>{date}</div>
-            <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-          </div>
-        )
+        if (text) {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        }  else {
+          return (
+            <div>--</div>
+          )
+        }
       }
     },
     {

@@ -88,20 +88,34 @@ class ResultModal extends Component {
   }
 
   wuliuCalculation = () => {
-    setTimeout(() => {
-      const wl_deliver_price = this.props.form.getFieldValue('deliver_price')
-      const wl_distance = this.props.form.getFieldValue('distance')
-      const wl_final_num = this.props.form.getFieldValue('wl_final_num')
-      const wl_extra_fee = this.props.form.getFieldValue('extra_fee')
-      let result = isNaN((wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)
-      this.setState({
-        wuliu: result.toFixed(2),
-      })
-    }, 100)
+    if (this.props.detailForm.deliver_type === '1') {
+      setTimeout(() => {
+        const wl_deliver_price = this.props.form.getFieldValue('deliver_price')
+        const wl_distance = this.props.form.getFieldValue('distance')
+        const wl_final_num = this.props.form.getFieldValue('wl_final_num')
+        const wl_extra_fee = this.props.form.getFieldValue('extra_fee')
+        let result = isNaN((wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) * (wl_distance - 0) * (wl_final_num - 0) + (wl_extra_fee - 0)
+        this.setState({
+          wuliu: result.toFixed(2),
+        })
+      }, 100)
+    } else if (this.props.detailForm.deliver_type === '3') {
+      setTimeout(() => {
+        const wl_deliver_price = this.props.form.getFieldValue('deliver_price')
+        const wl_extra_fee = this.props.form.getFieldValue('extra_fee')
+        let result = isNaN((wl_deliver_price - 0) + (wl_extra_fee - 0)) ? 0 : (wl_deliver_price - 0) + (wl_extra_fee - 0)
+        this.setState({
+          wuliu: result.toFixed(2),
+        })
+      }, 100)
+    }
+
   }
 
   render() {
     const {children} = this.props
+    console.log(this.props.currentOrder)
+    console.log(this.props.detailForm)
     const {getFieldDecorator} = this.props.form
     const formItemLayout = {
       labelCol: {
@@ -289,69 +303,107 @@ class ResultModal extends Component {
                   </FormItem>
                 </Col>
               </Row>
-              <div className={'itemTitle'}>
-                4.确认物流费用（与物流公司结算）
-                <div style={{float: 'right', fontSize: 16}}>物流费用：<span style={{color: 'red'}}>{this.state.wuliu}元</span>
+              {this.props.detailForm.deliver_type === '1' ? <>
+                <div className={'itemTitle'}>
+                  4.确认物流费用（与物流公司结算）
+                  <div style={{float: 'right', fontSize: 16}}>物流费用：<span
+                    style={{color: 'red'}}>{this.state.wuliu}元</span>
+                  </div>
                 </div>
-              </div>
-              <Divider dashed={true}></Divider>
-              <Row>
-                <Col span={8}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="运费单价"
-                  >
-                    {getFieldDecorator('deliver_price', {
-                      ...config,
-                      initialValue:  this.props.detailForm.deliver_price,
-                    })(
-                      <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
-                                   style={{marginLeft: 8}}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={13}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="运距"
-                  >
-                    {getFieldDecorator('distance', {
-                      ...config,
-                      initialValue: this.props.detailForm.distance,
-                    })(
-                      <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
-                                   style={{marginLeft: 8}}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={8}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="结算吨位"
-                  >
-                    {getFieldDecorator('wl_final_num', {
-                      ...config,
-                      initialValue: this.props.detailForm.load_num,
-                    })(
-                      <InputNumber style={{marginLeft: 8}} min={0} step={0.001}
-                                   onChange={this.wuliuCalculation}/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={13}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="额外费用"
-                  >
-                    {getFieldDecorator('extra_fee', {
-                      ...config,
-                      initialValue: this.props.detailForm.extra_fee,
-                    })(
-                      <InputNumber step={0.01} onChange={this.wuliuCalculation}/>,
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
+                <Divider dashed={true}/>
+                <Row>
+                  <Col span={8}>
+                    <FormItem
+                      {...formItemLayout}
+                      label="运费单价"
+                    >
+                      {getFieldDecorator('deliver_price', {
+                        ...config,
+                        initialValue: this.props.detailForm.deliver_price,
+                      })(
+                        <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
+                                     style={{marginLeft: 8}}/>,
+                      )}
+                    </FormItem>
+                  </Col>
+                  <Col span={13}>
+                    <FormItem
+                      {...formItemLayout}
+                      label="运距"
+                    >
+                      {getFieldDecorator('distance', {
+                        ...config,
+                        initialValue: this.props.detailForm.distance,
+                      })(
+                        <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
+                                     style={{marginLeft: 8}}/>,
+                      )}
+                    </FormItem>
+                  </Col>
+                  <Col span={8}>
+                    <FormItem
+                      {...formItemLayout}
+                      label="结算吨位"
+                    >
+                      {getFieldDecorator('wl_final_num', {
+                        ...config,
+                        initialValue: this.props.detailForm.load_num,
+                      })(
+                        <InputNumber style={{marginLeft: 8}} min={0} step={0.001}
+                                     onChange={this.wuliuCalculation}/>,
+                      )}
+                    </FormItem>
+                  </Col>
+                  <Col span={13}>
+                    <FormItem
+                      {...formItemLayout}
+                      label="额外费用"
+                    >
+                      {getFieldDecorator('extra_fee', {
+                        ...config,
+                        initialValue: this.props.detailForm.extra_fee,
+                      })(
+                        <InputNumber step={0.01} onChange={this.wuliuCalculation}/>,
+                      )}
+                    </FormItem>
+                  </Col>
+                </Row></> : this.props.detailForm.deliver_type === '2' ? null : <>
+                <div className={'itemTitle'}>
+                  4.确认物流费用（与物流公司结算）
+                  <div style={{float: 'right', fontSize: 16}}>物流费用：<span
+                    style={{color: 'red'}}>{this.state.wuliu}元</span>
+                  </div>
+                </div>
+                <Divider dashed={true}/>
+                <Row>
+                  <Col span={8}>
+                    <FormItem
+                      {...formItemLayout}
+                      label="运费单价"
+                    >
+                      {getFieldDecorator('deliver_price', {
+                        ...config,
+                        initialValue: this.props.detailForm.deliver_price,
+                      })(
+                        <InputNumber min={0} step={0.01} onChange={this.wuliuCalculation}
+                                     style={{marginLeft: 8}}/>,
+                      )}
+                    </FormItem>
+                  </Col>
+                  <Col span={13}>
+                    <FormItem
+                      {...formItemLayout}
+                      label="额外费用"
+                    >
+                      {getFieldDecorator('extra_fee', {
+                        ...config,
+                        initialValue: this.props.detailForm.extra_fee,
+                      })(
+                        <InputNumber step={0.01} onChange={this.wuliuCalculation}/>,
+                      )}
+                    </FormItem>
+                  </Col>
+                </Row></>}
             </Form>
           </Card>
           <Row type='flex' justify='end' style={{marginTop: 20}}>

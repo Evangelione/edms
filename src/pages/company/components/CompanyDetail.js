@@ -156,7 +156,7 @@ class CompanyDetail extends React.Component {
         >
           {getFieldDecorator('certificate', {
             initialValue: ['http://lch-img.oss-cn-beijing.aliyuncs.com/lch-bill20180801094752u0.png'],
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请上传证件照!'}],
           })(
             <div>
               <div className="clearfix">
@@ -188,7 +188,7 @@ class CompanyDetail extends React.Component {
           label="公司全称"
         >
           {getFieldDecorator('full_name', {
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请填写公司全称!'}],
             initialValue: this.props.companyDetail.full_name,
           })(
             <Input placeholder="请填写公司全称（合同名称）" disabled={!this.state.editable}/>,
@@ -199,7 +199,7 @@ class CompanyDetail extends React.Component {
           label="法定代表人"
         >
           {getFieldDecorator('corporation', {
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请填写法定代表人!'}],
             initialValue: this.props.companyDetail.corporation,
           })(
             <Input placeholder="请填写法定代表人姓名" disabled={!this.state.editable}/>,
@@ -210,7 +210,7 @@ class CompanyDetail extends React.Component {
           label="办公地址"
         >
           {getFieldDecorator('addr', {
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请填写详细办公地址!'}],
             initialValue: this.props.companyDetail.addr,
           })(
             <Input placeholder="请填写详细办公地址" disabled={!this.state.editable}/>,
@@ -221,7 +221,7 @@ class CompanyDetail extends React.Component {
           label="公司固话"
         >
           {getFieldDecorator('fixed_telephone', {
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请填写公司固话!'}],
             initialValue: this.props.companyDetail.fixed_telephone,
           })(
             <Input placeholder="请填写公司固话" disabled={!this.state.editable}/>,
@@ -233,7 +233,7 @@ class CompanyDetail extends React.Component {
           label="联系人"
         >
           {getFieldDecorator('contact', {
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请填写联系人姓名!'}],
             initialValue: this.props.companyDetail.contact,
           })(
             <Input placeholder="请填写联系人姓名" disabled={!this.state.editable}/>,
@@ -244,7 +244,7 @@ class CompanyDetail extends React.Component {
           label="手机号"
         >
           {getFieldDecorator('contact_mobile', {
-            rules: [{required: true, message: 'Please input your note!'}],
+            rules: [{required: true, message: '请填写手机号!'}],
             initialValue: this.props.companyDetail.contact_mobile,
           })(
             <Input placeholder="请填写手机号" disabled={!this.state.editable}/>,

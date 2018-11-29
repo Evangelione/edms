@@ -210,7 +210,7 @@ class PoundModal extends React.Component {
       'firstDay': 1,
     }
     return (
-      <div onClick={this.showModalHandler} style={{display:'inline-block'}}>
+      <div onClick={this.showModalHandler} style={{display: 'inline-block'}}>
         {this.props.children}
         <Modal
           width={600}
@@ -441,7 +441,9 @@ class PoundModal extends React.Component {
           }
         </Modal>
         <Modal visible={this.state.previewVisible} footer={null} onCancel={this.closePreView}>
-          <img alt="example" style={{width: '100%'}} src={this.state.previewImage}/>
+          <img alt="example"
+               style={{width: '100%'}}
+               src={this.state.previewImage}/>
         </Modal>
       </div>
     )

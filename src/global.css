@@ -895,3 +895,7 @@ button > i {
 .anticon {
   vertical-align: middle;
 }
+
+.transparents > .ant-modal-content {
+  background-color: transparent;
+}

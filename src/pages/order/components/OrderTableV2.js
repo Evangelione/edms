@@ -71,7 +71,7 @@ class OrderTableV2 extends PureComponent {
         order_type: this.props.order_type,
         find_str: this.props.find_str,
         stime: this.props.stime,
-        etime: this.props.etime
+        etime: this.props.etime,
       },
     })
   }
@@ -120,7 +120,6 @@ class OrderTableV2 extends PureComponent {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(this.props)
         delete values.edingzaizhong
         delete values.shouhuodizhi
         delete values.shouhuolianxiren
@@ -314,12 +313,21 @@ class OrderTableV2 extends PureComponent {
                 </div>}
             </div>
             <div style={{display: 'inline-block', verticalAlign: 'top', float: 'right'}}>
-              <div style={{color: '#4777E5', marginBottom: 25, textAlign: 'right'}}>
-                {item.order_status === '3' && item.deliver_status - 0 > 2 ?
-                  <IconFont type='icon-huoche' style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/> : ''}
-                <span style={{fontWeight: 600, fontSize: 14, marginRight: 10}}>{item.car_head}</span>
-                <span style={{fontSize: 12}}>{item.recv_time}</span>
-              </div>
+              {item.deliver_status >= 5 ? <div style={{color: '#4777E5', marginBottom: 10, textAlign: 'right'}}>
+                  <div style={{fontSize: 12}}>实际装车：{item.load_time}</div>
+                  {item.order_status === '3' && item.deliver_status - 0 > 2 ?
+                    <IconFont type='icon-huoche'
+                              style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/> : ''}
+                  <span style={{fontWeight: 600, fontSize: 14, marginRight: 10}}>{item.car_head}</span>
+                  <span style={{fontSize: 12}}>预计到达：{item.recv_time}</span>
+                </div> :
+                <div style={{color: '#4777E5', marginBottom: 25, textAlign: 'right'}}>
+                  {item.order_status === '3' && item.deliver_status - 0 > 2 ?
+                    <IconFont type='icon-huoche'
+                              style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/> : ''}
+                  <span style={{fontWeight: 600, fontSize: 14, marginRight: 10}}>{item.car_head}</span>
+                  <span style={{fontSize: 12}}>预计到达：{item.recv_time}</span>
+                </div>}
               <div style={{marginBottom: 20}}>
                 {item.order_status === '0' ?
                   <div>

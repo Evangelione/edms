@@ -29,7 +29,8 @@ export default {
     find_str: '',
     order_type: '3',
     stime: '',
-    etime: ''
+    etime: '',
+    time_type: '1',
   },
 
   subscriptions: {
@@ -225,6 +226,7 @@ export default {
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
       const etime = yield select(state => state.order.etime)
+      const time_type = yield select(state => state.order.time_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -239,7 +241,8 @@ export default {
             order_status: '3',
             order_type,
             stime,
-            etime
+            etime,
+            time_type,
           },
         })
       } else {
@@ -252,6 +255,7 @@ export default {
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
       const etime = yield select(state => state.order.etime)
+      const time_type = yield select(state => state.order.time_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -280,7 +284,8 @@ export default {
             order_status: '3',
             order_type,
             stime,
-            etime
+            etime,
+            time_type,
           },
         })
       } else {
@@ -293,6 +298,7 @@ export default {
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
       const etime = yield select(state => state.order.etime)
+      const time_type = yield select(state => state.order.time_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -313,7 +319,8 @@ export default {
             order_status: '3',
             order_type,
             stime,
-            etime
+            etime,
+            time_type,
           },
         })
       } else {
@@ -326,6 +333,7 @@ export default {
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
       const etime = yield select(state => state.order.etime)
+      const time_type = yield select(state => state.order.time_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -354,7 +362,8 @@ export default {
             order_status: '3',
             order_type,
             stime,
-            etime
+            etime,
+            time_type,
           },
         })
       } else {
@@ -367,6 +376,7 @@ export default {
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
       const etime = yield select(state => state.order.etime)
+      const time_type = yield select(state => state.order.time_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         message.success(data.msg)
@@ -395,7 +405,8 @@ export default {
             order_status: '3',
             order_type,
             stime,
-            etime
+            etime,
+            time_type,
           },
         })
       } else {
@@ -408,6 +419,7 @@ export default {
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
       const etime = yield select(state => state.order.etime)
+      const time_type = yield select(state => state.order.time_type)
       if (data.code === -1) return false
       if (data.code === 1) {
         // yield put(routerRedux.push({
@@ -431,7 +443,8 @@ export default {
             order_status: '4',
             order_type,
             stime,
-            etime
+            etime,
+            time_type,
           },
         })
         notification.success({

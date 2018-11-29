@@ -450,7 +450,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('site_id2', {
-                  rules: [{required: true, message: 'Please input your note!'}],
+                  rules: [{required: true, message: '请选择站点类型!'}],
                 })(
                   <Select placeholder="请选择站点类型" style={{width: 150}} disabled>
                     <Option value="1">加气站</Option>
@@ -466,7 +466,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('site_id3', {
-                  rules: [{required: true, message: 'Please input your note!'}],
+                  rules: [{required: true, message: '请选择用户类型!'}],
                 })(
                   <Select placeholder="请选择用户类型" style={{width: 150}} disabled>
 
@@ -483,7 +483,7 @@ class DetailForm extends React.Component {
                 wrapperCol={{span: 13, offset: 1}}
               >
                 {getFieldDecorator('recv_contact', {
-                  rules: [{required: true, message: 'Please input your note!'}],
+                  rules: [{required: true, message: '请填写收货联系人姓名!'}],
                 })(
                   <AutoComplete
                     onSelect={this.autoSelect}

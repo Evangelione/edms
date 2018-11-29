@@ -44,7 +44,6 @@ class BalanceOfAccount extends PureComponent {
     } else {
       selectedRowKeys.push(record.id)
     }
-    console.log(selectedRowKeys)
     this.setState({selectedRowKeys})
   }
 
