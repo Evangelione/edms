@@ -713,7 +713,7 @@ class Logistics extends React.Component {
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
                 <AutoComplete
-                  onSelect={this.companyChange}
+                  onChange={this.companyChange}
                   dataSource={companyOptions}
                   placeholder="请填写物流公司全程（合同名称）"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}

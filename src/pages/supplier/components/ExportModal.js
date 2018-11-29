@@ -108,6 +108,7 @@ class ExportModal extends PureComponent {
       visible2: false,
       startValue: null,
       endValue: null,
+      goodName: ''
     })
   }
 
@@ -195,7 +196,7 @@ class ExportModal extends PureComponent {
                 rules: [{require: false, message: '此项必填'}],
               })(
                 <AutoComplete
-                  onSelect={this.companyChange}
+                  onChange={this.companyChange}
                   dataSource={companyOptions}
                   placeholder="请选择需要导出的供应商名称"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
@@ -211,7 +212,7 @@ class ExportModal extends PureComponent {
                 rules: [{require: false, message: '此项必填'}],
               })(
                 <AutoComplete
-                  onSelect={this.goodsChange}
+                  onChange={this.goodsChange}
                   dataSource={goodsOptions}
                   placeholder="请选择需要导出的气源名称"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}

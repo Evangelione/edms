@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { Modal, Row, Col, Button, Form, AutoComplete, DatePicker, message } from 'antd'
-import { IP } from "../../../constants"
+import { IP } from '../../../constants'
 
 const FormItem = Form.Item
 const Option = AutoComplete.Option
@@ -16,30 +16,34 @@ class ExportModal extends PureComponent {
       endValue: null,
       endOpen: false,
       modalLoading: false,
-      companyName: ''
+      companyName: '',
+      goodName: '',
     }
   }
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
-      type: 'customer/getCustomerCompany'
+      type: 'customer/getCustomerCompany',
+    })
+    this.props.dispatch({
+      type: 'customer/fetchGoods',
     })
   }
 
   disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue;
+    const endValue = this.state.endValue
     if (!startValue || !endValue) {
-      return false;
+      return false
     }
-    return startValue.valueOf() > endValue.valueOf();
+    return startValue.valueOf() > endValue.valueOf()
   }
 
   disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue;
+    const startValue = this.state.startValue
     if (!endValue || !startValue) {
-      return false;
+      return false
     }
-    return endValue.valueOf() <= startValue.valueOf();
+    return endValue.valueOf() <= startValue.valueOf()
   }
 
   onChange = (field, value) => {
@@ -49,45 +53,46 @@ class ExportModal extends PureComponent {
   }
 
   onStartChange = (value) => {
-    this.onChange('startValue', value);
+    this.onChange('startValue', value)
   }
 
   onEndChange = (value) => {
-    this.onChange('endValue', value);
+    this.onChange('endValue', value)
   }
 
   handleStartOpenChange = (open) => {
     if (!open) {
-      this.setState({endOpen: true});
+      this.setState({endOpen: true})
     }
   }
 
   handleEndOpenChange = (open) => {
-    this.setState({endOpen: open});
+    this.setState({endOpen: open})
   }
 
   showModal = () => {
     this.setState({
-      visible: true
+      visible: true,
     })
   }
 
   showModal2 = () => {
-    if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime') && this.props.form.getFieldValue('company')) {
+    if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime')) {
       this.setState({
-        modalLoading: true
+        modalLoading: true,
       })
       this.props.dispatch({
         type: 'customer/accountNum',
         payload: {
+          gas_id: this.props.form.getFieldValue('gas_id'),
           find_str: this.props.form.getFieldValue('company'),
           stime: this.props.form.getFieldValue('stime'),
-          etime: this.props.form.getFieldValue('etime')
-        }
+          etime: this.props.form.getFieldValue('etime'),
+        },
       }).then(() => {
         this.setState({
           modalLoading: false,
-          visible2: true
+          visible2: true,
         })
       })
     } else {
@@ -103,6 +108,7 @@ class ExportModal extends PureComponent {
       visible2: false,
       startValue: null,
       endValue: null,
+      goodName: ''
     })
   }
 
@@ -132,14 +138,20 @@ class ExportModal extends PureComponent {
 
   companyChange = (val, item) => {
     this.setState({
-      companyName: item.props.children
+      companyName: item.props.children,
+    })
+  }
+
+  goodsChange = (val, item) => {
+    this.setState({
+      goodName: item.props.children,
     })
   }
 
   render() {
     const {getFieldDecorator} = this.props.form
-    const {children, companyOption, stime, etime, companyDetail} = this.props
-    const {startValue, endValue} = this.state;
+    const {children, companyOption, stime, etime, companyDetail, goodsOption} = this.props
+    const {startValue, endValue} = this.state
     const formItemLayout = {
       labelCol: {
         xs: {span: 4, offset: 1},
@@ -154,6 +166,17 @@ class ExportModal extends PureComponent {
       <Option key={option.id} value={option.id}>
         {option.customer_name}
       </Option>)
+    const goodsOptions = goodsOption.map((option, index) => {
+      return <Option key={option.id} source={option.origin_gas_source}
+                     contact={option.cargo_contact}
+                     mobile={option.cargo_mobile}
+                     province={option.cargo_province}
+                     city={option.cargo_city}
+                     area={option.cargo_area}
+                     address={option.detailed_address}
+                     report={option.temperament_report}
+                     value={option.id}>{option.name_gas_source}</Option>
+    })
     return (
       <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
@@ -174,11 +197,27 @@ class ExportModal extends PureComponent {
                 rules: [{require: true, message: '此项必填'}],
               })(
                 <AutoComplete
-                  onSelect={this.companyChange}
+                  onChange={this.companyChange}
                   dataSource={companyOptions}
                   placeholder="请选择需要导出的数据"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                />
+                />,
+              )}
+            </FormItem>
+            <FormItem
+              style={{marginBottom: 10}}
+              {...formItemLayout}
+              label="气源名称"
+            >
+              {getFieldDecorator('gas_id', {
+                rules: [{require: false, message: '此项必填'}],
+              })(
+                <AutoComplete
+                  onChange={this.goodsChange}
+                  dataSource={goodsOptions}
+                  placeholder="请选择需要导出的气源名称"
+                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                />,
               )}
             </FormItem>
             <FormItem
@@ -195,7 +234,7 @@ class ExportModal extends PureComponent {
                   placeholder="请选择开始时间"
                   onChange={this.onStartChange}
                   onOpenChange={this.handleStartOpenChange}
-                />
+                />,
               )}
             </FormItem>
             <FormItem
@@ -212,7 +251,7 @@ class ExportModal extends PureComponent {
                   placeholder="请选择结束时间"
                   onChange={this.onEndChange}
                   onOpenChange={this.handleEndOpenChange}
-                />
+                />,
               )}
             </FormItem>
           </Form>
@@ -243,6 +282,10 @@ class ExportModal extends PureComponent {
               <span>{this.state.companyName}</span>
             </div>
             <div style={{margin: '5px 0'}}>
+              <span>气源名称：</span>
+              <span>{this.state.goodName}</span>
+            </div>
+            <div style={{margin: '5px 0'}}>
               <span>订单周期：</span>
               <span>{this.state.startValue ? this.state.startValue.format('YYYY/MM/DD') : this.props.stime ? this.props.stime.format('YYYY/MM/DD') : ''} - {this.state.endValue ? this.state.endValue.format('YYYY/MM/DD') : this.props.etime ? this.props.etime.format('YYYY/MM/DD') : ''}</span>
             </div>
@@ -271,13 +314,14 @@ class ExportModal extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {stime, etime, companyOption, companyDetail} = state.customer
+  const {stime, etime, companyOption, companyDetail, goodsOption} = state.customer
   return {
     stime,
     etime,
     companyOption,
     companyDetail,
-    loading: state.loading.models.customer
+    goodsOption,
+    loading: state.loading.models.customer,
   }
 }
 

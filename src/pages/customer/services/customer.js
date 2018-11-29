@@ -31,6 +31,12 @@ export function fetchOptions() {
   })
 }
 
+export function fetchGoods() {
+  return request(`${IP}/home/select/goods`, {
+    method: 'POST'
+  })
+}
+
 export function addCustomerContract({id, stime, etime}) {
   let formData = new FormData()
   formData.append('customer_id', id)

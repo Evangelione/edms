@@ -23,7 +23,8 @@ export default {
     balanceDetailedTotal: 0,
     companyOption: [],
     companyDetail: {},
-    currentKey: '1'
+    currentKey: '1',
+    goodsOption: []
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -156,6 +157,17 @@ export default {
             balanceHistoryTotal: parseInt(data.data.count, 10),
             find_str
           }
+        })
+      }
+    },
+    * fetchGoods({payload}, {call, put}) {
+      const {data} = yield call(customerServices.fetchGoods)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            goodsOption: data.data.list,
+          },
         })
       }
     },

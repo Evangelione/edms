@@ -114,8 +114,6 @@ class ResultModal extends Component {
 
   render() {
     const {children} = this.props
-    console.log(this.props.currentOrder)
-    console.log(this.props.detailForm)
     const {getFieldDecorator} = this.props.form
     const formItemLayout = {
       labelCol: {

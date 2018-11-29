@@ -106,6 +106,11 @@ class BalanceOfAccount extends PureComponent {
       key: 'site_name',
       align: 'center',
     }, {
+      title: '气源名称',
+      dataIndex: 'name_gas_source',
+      key: 'name_gas_source',
+      align: 'center',
+    }, {
       title: '车牌照',
       dataIndex: 'car_head',
       key: 'car_head',

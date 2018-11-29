@@ -167,7 +167,7 @@ class ExportModal extends PureComponent {
                 rules: [{require: true, message: '此项必填'}],
               })(
                 <AutoComplete
-                  onSelect={this.companyChange}
+                  onChange={this.companyChange}
                   dataSource={companyOptions}
                   placeholder="请选择需要导出的物流公司"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}

@@ -977,7 +977,7 @@ class OrderModal extends PureComponent {
                     ],
                   })(
                     <AutoComplete
-                      onSelect={this.autoSelect}
+                      onChange={this.autoSelect}
                       disabled={this.props.confirm ? true : false}
                       dataSource={this.state.dataSource}
                       placeholder="请填写收货联系人姓名"
