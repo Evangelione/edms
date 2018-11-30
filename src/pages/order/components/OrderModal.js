@@ -617,6 +617,7 @@ class OrderModal extends PureComponent {
         //   message.error(`请检查${key}字段是否填写正确`)
         // })
         message.error(`请检查字段是否全部填写正确`)
+        console.log(err)
       }
     })
   }
@@ -1041,7 +1042,7 @@ class OrderModal extends PureComponent {
                 <Col span={6}>
                   <FormItem {...formItemLayout} label="定价方式" hasFeedback style={{display: 'block', marginBottom: 10}}>
                     {getFieldDecorator('cus_deliver_type', {
-                      rules: [{required: true, message: '选择计价方式！'}],
+                      rules: [{required: this.state.currType !== '2', message: '选择计价方式！'}],
                     })(
                       <Select placeholder="请选择计价方式" style={{width: 150}} onChange={this.typeChange}>
                         <Option value="1">自动计算</Option>

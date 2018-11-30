@@ -17,9 +17,12 @@ class PoundModal extends React.Component {
       previewVisible: false,
       previewImage: '',
       fileList: [],
+      fileList1: [],
+      fileList2: [],
       file: null,
       uploading: false,
       time: moment(),
+      rotate: 0,
     }
   }
 
@@ -29,12 +32,32 @@ class PoundModal extends React.Component {
     })
   }
 
+  handleApplyConfirm = (str, event, picker) => {
+    this.setState({
+      [str]: picker.startDate.format('YYYY-MM-DD HH:mm:00'),
+    })
+  }
+
   UNSAFE_componentWillMount() {
     this.setState({
       load_num: this.props.load_num,
       unload_num: this.props.unload_num,
       load_time: this.props.load_time,
       unload_time: this.props.unload_time,
+      load_bill: this.props.load_bill,
+      unload_bill: this.props.unload_bill,
+      fileList1: [{
+        uid: '1',
+        name: 'xxx.png',
+        status: 'done',
+        url: this.props.load_url,
+      }],
+      fileList2: [{
+        uid: '2',
+        name: 'xxx.png',
+        status: 'done',
+        url: this.props.unload_url,
+      }],
     })
   }
 
@@ -44,12 +67,30 @@ class PoundModal extends React.Component {
     this.setState({
       visible: true,
     })
+    this.setState({
+      time: moment(),
+    })
     if (this.props.title === '确认磅单') {
+      console.log(this.props.load_bill)
       this.setState({
         load_num: this.props.load_num,
         unload_num: this.props.unload_num,
         load_time: this.props.load_time,
         unload_time: this.props.unload_time,
+        load_bill: this.props.load_url,
+        unload_bill: this.props.unload_url,
+        fileList1: [{
+          uid: '1',
+          name: 'xxx.png',
+          status: 'done',
+          url: this.props.load_url,
+        }],
+        fileList2: [{
+          uid: '2',
+          name: 'xxx.png',
+          status: 'done',
+          url: this.props.unload_url,
+        }],
       })
     }
   }
@@ -88,6 +129,8 @@ class PoundModal extends React.Component {
   }
 
   handleChange = ({fileList}) => this.setState({fileList})
+  handleChange1 = ({fileList}) => this.setState({fileList1: fileList})
+  handleChange2 = ({fileList}) => this.setState({fileList2: fileList})
 
   saveFile = (file) => {
     this.setState({
@@ -146,6 +189,48 @@ class PoundModal extends React.Component {
     }
   }
 
+  customRequest1 = (file) => {
+    this.props.dispatch({
+      type: 'home/UpLoadBill',
+      payload: file,
+    }).then(() => {
+      debugger
+      this.setState({
+        load_bill: this.props.load_bill,
+        fileList1: [{
+          uid: '1',
+          name: 'xxx.png',
+          status: 'done',
+          url: this.props.load_bill,
+        }],
+      })
+    })
+  }
+
+  customRequest2 = (file) => {
+    this.props.dispatch({
+      type: 'home/UpUnLoadBill',
+      payload: file,
+    }).then(() => {
+      this.setState({
+        unload_bill: this.props.unload_bill,
+        fileList2: [{
+          uid: '1',
+          name: 'xxx.png',
+          status: 'done',
+          url: this.props.unload_bill,
+        }],
+      })
+    })
+  }
+
+  rotateImage = () => {
+    let rotate = this.state.rotate + 90
+    this.setState({
+      rotate: rotate,
+    })
+  }
+
   beforeUpload = (file) => {
     const isJPG = file.type === 'image/jpeg'
     const isPNG = file.type === 'image/png'
@@ -168,10 +253,25 @@ class PoundModal extends React.Component {
     return false
   }
 
+  beforeUpload1 = (file) => {
+    const isJPG = file.type === 'image/jpeg'
+    const isPNG = file.type === 'image/png'
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
+      return false
+    }
+    if (!isJPG && !isPNG) {
+      message.error('仅支持JPG、PNG格式，文件小于2MB!')
+      return false
+    }
+  }
+
   closePreView = (e) => {
     e.stopPropagation()
     this.setState({
       previewVisible: false,
+      rotate: 0,
     })
   }
 
@@ -188,7 +288,7 @@ class PoundModal extends React.Component {
 
   render() {
     const {hidden, id} = this.props
-    const {fileList} = this.state
+    const {fileList, fileList1, fileList2} = this.state
     let time = this.state.time.format('YYYY-MM-DD HH:mm:00')
     const uploadButton = (
       <div>
@@ -227,7 +327,10 @@ class PoundModal extends React.Component {
                   :
                   this.props.hidden === 'all' ?
                     <PromptModal state={'confirmLogistics'} load_num={this.state.load_num}
-                                 unload_num={this.state.unload_num} billID={this.props.id} doClose={this.doClose}>
+                                 unload_num={this.state.unload_num} billID={this.props.id}
+                                 load_time={this.state.load_time} unload_time={this.state.unload_time}
+                                 load_bill={this.state.load_bill} unload_bill={this.state.unload_bill}
+                                 doClose={this.doClose}>
                       <Button key='confirm' type='primary'>确定磅单</Button>
                     </PromptModal>
                     :
@@ -271,13 +374,44 @@ class PoundModal extends React.Component {
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车时间：</div>
                 </Col>
                 <Col span={8}>
-                  <div style={{lineHeight: '28px'}}>{this.state.load_time}</div>
+                  {this.props.type === 'look' ?
+                    <div style={{lineHeight: '28px'}}>{this.state.load_time}</div>
+                    :
+                    <div>
+                      <DateRangePicker
+                        containerStyles={{width: '100%'}}
+                        startDate={this.state.load_time}
+                        singleDatePicker={true}
+                        timePicker={true}
+                        timePicker24Hour={true}
+                        locale={locale}
+                        onApply={this.handleApplyConfirm.bind(null, 'load_time')}>
+                        <Input type="text" value={this.state.load_time} readOnly/>
+                      </DateRangePicker>
+                    </div>}
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2', marginBottom: 10}}>
-                <ImageModal imgUrl={this.props.load_url}>
-                  <img src={this.props.load_url} alt="" width='100%' height='100%'/>
-                </ImageModal>
+                {this.props.type === 'look' ?
+                  <ImageModal imgUrl={this.props.load_url}>
+                    <img src={this.props.load_url} alt="" width='100%' height='100%'/>
+                  </ImageModal>
+                  :
+                  <div>
+                    <Upload
+                      accept='.jpg,.png'
+                      name='DeliverForm[bill_img]'
+                      action={`${IP}/home/logistics/upload-bill`}
+                      listType="picture-card"
+                      fileList={fileList1}
+                      onPreview={this.handlePreview}
+                      onChange={this.handleChange1}
+                      beforeUpload={this.beforeUpload1}
+                      customRequest={this.customRequest1}
+                    >
+                      {fileList1.length >= 1 ? null : uploadButton}
+                    </Upload>
+                  </div>}
               </Card>
               <Row style={{marginBottom: 10}}>
                 <Col span={4}>
@@ -311,13 +445,43 @@ class PoundModal extends React.Component {
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
                 </Col>
                 <Col span={8}>
-                  <div style={{lineHeight: '28px'}}>{this.state.unload_time}</div>
+                  {this.props.type === 'look' ?
+                    <div style={{lineHeight: '28px'}}>{this.state.unload_time}</div>
+                    :
+                    <div>
+                      <DateRangePicker
+                        containerStyles={{width: '100%'}}
+                        startDate={this.state.unload_time}
+                        singleDatePicker={true}
+                        timePicker={true}
+                        timePicker24Hour={true}
+                        locale={locale}
+                        onApply={this.handleApplyConfirm.bind(null, 'unload_time')}>
+                        <Input type="text" value={this.state.unload_time} readOnly/>
+                      </DateRangePicker>
+                    </div>}
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2'}}>
-                <ImageModal imgUrl={this.props.unload_url}>
-                  <img src={this.props.unload_url} alt="" width='100%' height='100%'/>
-                </ImageModal>
+                {this.props.type === 'look' ? <ImageModal imgUrl={this.props.unload_url}>
+                    <img src={this.props.unload_url} alt="" width='100%' height='100%'/>
+                  </ImageModal>
+                  :
+                  <div>
+                    <Upload
+                      accept='.jpg,.png'
+                      name='DeliverForm[bill_img]'
+                      action={`${IP}/home/logistics/upload-bill`}
+                      listType="picture-card"
+                      fileList={fileList2}
+                      onPreview={this.handlePreview}
+                      onChange={this.handleChange2}
+                      beforeUpload={this.beforeUpload1}
+                      customRequest={this.customRequest2}
+                    >
+                      {fileList2.length >= 1 ? null : uploadButton}
+                    </Upload>
+                  </div>}
               </Card>
             </div> :
             hidden === 'load' ?
@@ -434,8 +598,8 @@ class PoundModal extends React.Component {
                     action={`${IP}/home/logistics/load-bill`}
                     listType="picture-card"
                     fileList={fileList}
-                    onChange={this.handleChange}
                     onPreview={this.handlePreview}
+                    onChange={this.handleChange}
                     beforeUpload={this.beforeUpload}
                   >
                     {fileList.length >= 1 ? null : uploadButton}
@@ -444,14 +608,33 @@ class PoundModal extends React.Component {
               </div>
           }
         </Modal>
-        <Modal visible={this.state.previewVisible} footer={null} onCancel={this.closePreView}>
-          <img alt="example"
-               style={{width: '100%'}}
-               src={this.state.previewImage}/>
+        <Modal
+          visible={this.state.previewVisible}
+          style={{top: 200}}
+          width={800}
+          className='transparents'
+          onCancel={this.closePreView}
+          bodyStyle={{
+            padding: 0,
+            transform: `rotate(${this.state.rotate}deg)`,
+            transition: 'all 0.5s',
+            cursor: 'pointer',
+          }}
+          footer={null}>
+          <img alt='' width='100%' height='100%' onClick={this.rotateImage} src={this.state.previewImage}/>
         </Modal>
       </div>
     )
   }
 }
 
-export default connect()(PoundModal)
+function mapStateToProps(state) {
+  const {load_bill, unload_bill} = state.home
+  return {
+    load_bill,
+    unload_bill,
+    loading: state.loading.models.home,
+  }
+}
+
+export default connect(mapStateToProps)(PoundModal)

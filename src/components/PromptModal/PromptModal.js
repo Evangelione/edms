@@ -153,6 +153,10 @@ class PromptModal extends React.Component {
         id: this.props.billID,
         load_num: this.props.load_num,
         unload_num: this.props.unload_num,
+        load_time: this.props.load_time,
+        unload_time: this.props.unload_time,
+        load_bill: this.props.load_bill,
+        unload_bill: this.props.unload_bill,
       },
     }).then(() => {
       this.props.doClose()

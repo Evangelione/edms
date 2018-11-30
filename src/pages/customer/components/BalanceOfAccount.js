@@ -56,7 +56,7 @@ class BalanceOfAccount extends PureComponent {
   export = () => {
     if (this.state.selectedRowKeys.length) {
       let ids = this.state.selectedRowKeys.join(',')
-      window.location.href = `${IP}/home/supplier/excel-supplier-account?ids=${ids}`
+      window.location.href = `${IP}/home/customer/excel-customer-account?ids=${ids}`
     } else {
       message.error('请勾选需要导出的信息')
     }

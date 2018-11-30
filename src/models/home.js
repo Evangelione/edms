@@ -31,6 +31,8 @@ export default {
     stime: '',
     etime: '',
     time_type: '1',
+    load_bill: '',
+    unload_bill: '',
   },
 
   subscriptions: {
@@ -413,8 +415,16 @@ export default {
         message.error(data.msg)
       }
     },
-    * confirmBill({payload: {id, load_num, unload_num}}, {call, put, select}) {
-      const {data} = yield call(logisticsService.confirmBill, {id, load_num, unload_num})
+    * confirmBill({payload: {id, load_num, unload_num, load_time, unload_time, load_bill, unload_bill}}, {call, put, select}) {
+      const {data} = yield call(logisticsService.confirmBill, {
+        id,
+        load_num,
+        unload_num,
+        load_time,
+        unload_time,
+        load_bill,
+        unload_bill,
+      })
       const find_str = yield select(state => state.order.find_str)
       const order_type = yield select(state => state.order.order_type)
       const stime = yield select(state => state.order.stime)
@@ -457,6 +467,28 @@ export default {
           message: '温馨提示',
           description: data.msg,
           duration: 6,
+        })
+      }
+    },
+    * UpLoadBill({payload: file}, {call, put}) {
+      const {data} = yield call(logisticsService.UpLoadBill, file)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            load_bill: data.load_url,
+          },
+        })
+      }
+    },
+    * UpUnLoadBill({payload: file}, {call, put}) {
+      const {data} = yield call(logisticsService.UpUnLoadBill, file)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            unload_bill: data.load_url,
+          },
         })
       }
     },
