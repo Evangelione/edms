@@ -899,3 +899,8 @@ button > i {
 .transparents > .ant-modal-content {
   background-color: transparent;
 }
+
+.gary-row {
+  background-color: #E6F2F6 ;
+  color: #282D32;
+}

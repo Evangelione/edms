@@ -2,20 +2,20 @@ import React from 'react'
 import { connect } from 'dva'
 import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
-import { routerRedux } from "dva/router"
-import { IP } from "../../constants";
+import { routerRedux } from 'dva/router'
+import { IP } from '../../constants'
 
 const Option = Select.Option
-const FormItem = Form.Item;
-const EditableContext = React.createContext();
+const FormItem = Form.Item
+const EditableContext = React.createContext()
 
 const EditableRow = ({form, index, ...props}) => (
   <EditableContext.Provider value={form}>
     <tr {...props} />
   </EditableContext.Provider>
-);
+)
 
-const EditableFormRow = Form.create()(EditableRow);
+const EditableFormRow = Form.create()(EditableRow)
 
 
 class EditableCell extends React.PureComponent {
@@ -25,43 +25,43 @@ class EditableCell extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.editable) {
-      document.addEventListener('click', this.handleClickOutside, true);
+      document.addEventListener('click', this.handleClickOutside, true)
     }
   }
 
   componentWillUnmount() {
     if (this.props.editable) {
-      document.removeEventListener('click', this.handleClickOutside, true);
+      document.removeEventListener('click', this.handleClickOutside, true)
     }
   }
 
   toggleEdit = () => {
-    const editing = !this.state.editing;
+    const editing = !this.state.editing
     this.setState({editing}, () => {
       if (editing) {
-        this.input.focus();
+        this.input.focus()
       }
-    });
+    })
   }
 
   handleClickOutside = (e) => {
-    const {editing} = this.state;
+    const {editing} = this.state
     if (e.target.className === 'ant-cascader-menu-item ant-cascader-menu-item-expand') return false
     if (editing && this.cell !== e.target && !this.cell.contains(e.target)) {
-      this.save();
+      this.save()
     }
   }
 
   save = () => {
-    const {record, handleSave} = this.props;
+    const {record, handleSave} = this.props
     setTimeout(() => {
       this.form.validateFields((error, values) => {
         if (error) {
-          return;
+          return
         }
-        this.toggleEdit();
-        handleSave({...record, ...values});
-      });
+        this.toggleEdit()
+        handleSave({...record, ...values})
+      })
     }, 200)
   }
 
@@ -72,13 +72,13 @@ class EditableCell extends React.PureComponent {
       type: 'maintain/fetchOptions',
       payload: {
         name: targetOption.value,
-        targetOption
-      }
+        targetOption,
+      },
     })
   }
 
   render() {
-    const {editing} = this.state;
+    const {editing} = this.state
     const {
       editable,
       dataIndex,
@@ -89,14 +89,14 @@ class EditableCell extends React.PureComponent {
       dispatch,
       CascaderOptions,
       ...restProps
-    } = this.props;
+    } = this.props
 
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
         {editable ? (
           <EditableContext.Consumer>
             {(form) => {
-              this.form = form;
+              this.form = form
               return (
                 editing ? (
                   dataIndex === 'supp_type' ?
@@ -110,7 +110,7 @@ class EditableCell extends React.PureComponent {
                           <Option value="2">运贸商</Option>
                           <Option value="3">液厂</Option>
                           <Option value="4">接收站</Option>
-                        </Select>
+                        </Select>,
                       )}
                     </FormItem>
                     :
@@ -123,7 +123,7 @@ class EditableCell extends React.PureComponent {
                                     placeholder="请选择收货地址"
                                     onChange={this.onChange}
                             // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
-                          />
+                          />,
                         )}
                       </FormItem>
                       :
@@ -134,7 +134,7 @@ class EditableCell extends React.PureComponent {
                           <Input
                             ref={node => (this.input = node)}
                             onPressEnter={this.save}
-                          />
+                          />,
                         )}
                       </FormItem>
                 ) : (
@@ -145,20 +145,20 @@ class EditableCell extends React.PureComponent {
                     {restProps.children}
                   </div>
                 )
-              );
+              )
             }}
           </EditableContext.Consumer>
         ) : restProps.children}
       </td>
-    );
+    )
   }
 }
 
 class EditableTable extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      dataSource: []
+      dataSource: [],
     }
   }
 
@@ -170,13 +170,13 @@ class EditableTable extends React.Component {
       return
     }
     this.setState({
-      dataSource: [...this.props.supplierChecking.data.err_arr]
+      dataSource: [...this.props.supplierChecking.data.err_arr, ...this.props.supplierChecking.data.repeat_arr],
     })
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        name: ''
-      }
+        name: '',
+      },
     })
   }
 
@@ -187,25 +187,28 @@ class EditableTable extends React.Component {
       row.cargo_area = row.address[2] ? row.address[2] : ''
       delete row.address
     }
-    const newData = [...this.state.dataSource];
-    const index = newData.findIndex(item => row.key === item.key);
-    const item = newData[index];
+    const newData = [...this.state.dataSource]
+    const index = newData.findIndex(item => row.key === item.key)
+    const item = newData[index]
+    console.log(newData)
+    console.log(index)
+    console.log(item)
     newData.splice(index, 1, {
       ...item,
       ...row,
-    });
-    this.setState({dataSource: newData});
+    })
+    this.setState({dataSource: newData})
   }
 
   recommit = () => {
     this.props.dispatch({
       type: 'maintain/batchSupplier',
       payload: {
-        form: this.state.dataSource
-      }
+        form: this.state.dataSource,
+      },
     }).then(() => {
       this.setState({
-        dataSource: [...this.props.supplierChecking.data.err_arr]
+        dataSource: [...this.props.supplierChecking.data.err_arr, ...this.props.supplierChecking.data.repeat_arr],
       })
     })
   }
@@ -217,16 +220,16 @@ class EditableTable extends React.Component {
   }
 
   handleDelete = (key) => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({dataSource: dataSource.filter(item => item.key !== key)});
+    const dataSource = [...this.state.dataSource]
+    this.setState({dataSource: dataSource.filter(item => item.key !== key)})
   }
 
   export = () => {
     this.props.dispatch({
       type: 'maintain/exportSupp',
       payload: {
-        json: this.state.dataSource
-      }
+        json: this.state.dataSource,
+      },
     }).then(() => {
       window.location.href = `${IP}/admin/supplier/batch-down-supplier-get`
     })
@@ -234,13 +237,13 @@ class EditableTable extends React.Component {
   }
 
   render() {
-    const {dataSource} = this.state;
+    const {dataSource} = this.state
     const components = {
       body: {
         row: EditableFormRow,
         cell: EditableCell,
       },
-    };
+    }
     const columns = [{
       title: '供应商名称',
       dataIndex: 'supp_name',
@@ -384,7 +387,7 @@ class EditableTable extends React.Component {
         title: '收货地址',
         handleSave: this.handleSave,
         CascaderOptions: this.props.CascaderOptions,
-        dispatch: this.props.dispatch
+        dispatch: this.props.dispatch,
       }),
     }, {
       title: '详细地址',
@@ -462,12 +465,12 @@ class EditableTable extends React.Component {
                             borderColor: '#EA7878',
                             marginLeft: 10,
                             height: 28,
-                            padding: '0 15px'
+                            padding: '0 15px',
                           }}>删除</Button>
                 </Popconfirm>
               </div>
             ) : null
-        );
+        )
       },
     }]
 
@@ -476,18 +479,28 @@ class EditableTable extends React.Component {
         <PageTitle>问题数据处理</PageTitle>
         <div style={{backgroundColor: '#fff'}}>
           <Row type='flex' align='middle' style={{height: 60, padding: 20}}>
-            <Col span={12}>本次导入结果： 共导入 <span
-              style={{color: '#22DD48'}}>{this.props.supplierChecking.num ? this.props.supplierChecking.num.success_num : ''}</span> 条数据； <span
-              style={{color: '#EE113D'}}>{this.props.supplierChecking.num ? this.props.supplierChecking.num.err_num : ''}</span> 条数据有误，请修改后上传</Col>
+            <Col span={12}>本次导入结果： 共导入
+              <span
+                style={{color: '#22DD48'}}>{this.props.supplierChecking.num ? this.props.supplierChecking.num.success_num : ''}</span> 条数据;&nbsp;&nbsp;
+              <span
+                style={{color: '#777'}}>{this.props.supplierChecking.num ? this.props.supplierChecking.num.repeat_num : ''}</span> 条数据重复,&nbsp;&nbsp;
+              <span
+                style={{color: '#EE113D'}}>{this.props.supplierChecking.num ? this.props.supplierChecking.num.err_num : ''}</span> 条数据有误,请修改后上传</Col>
             <Col span={12}>
               <div style={{float: 'right'}}>
-                <Button type='primary' style={{width: 120}} onClick={this.export}>导出错误数据</Button>
+                <Button type='primary' style={{width: 120}} onClick={this.export}>导出问题数据</Button>
               </div>
             </Col>
           </Row>
           <Table
             components={components}
-            rowClassName={() => 'editable-row'}
+            rowClassName={(record) => {
+              if (record.repeat) {
+                return 'gary-row'
+              } else {
+                return 'editable-row'
+              }
+            }}
             rowKey={record => {
               return record.key + ''
             }}
@@ -498,7 +511,7 @@ class EditableTable extends React.Component {
           />
           <Row type="flex" justify="space-around" align="middle" style={{height: 80}}>
             <Col>
-              {this.props.supplierChecking.num ? this.props.supplierChecking.num.err_num === 0 ?
+              {this.props.supplierChecking.num ? this.props.supplierChecking.num.err_num === 0 && this.props.supplierChecking.num.repeat_num === 0 ?
                 <Button type='primary' onClick={this.goback}>返回数据维护列表</Button> :
                 <Button type='primary' onClick={this.recommit}>重新导入</Button> : ''
               }
@@ -506,7 +519,7 @@ class EditableTable extends React.Component {
           </Row>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -515,7 +528,7 @@ function mapStateToProps(state) {
   return {
     supplierChecking,
     CascaderOptions,
-    loading: state.loading.models.maintain
+    loading: state.loading.models.maintain,
   }
 }
 

@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm, Tabs } from 'antd'
+import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import { routerRedux } from 'dva/router'
 import { IP } from '../../constants'
 
 const Option = Select.Option
 const FormItem = Form.Item
-const TabPane = Tabs.TabPane
 const EditableContext = React.createContext()
 
 const EditableRow = ({form, index, ...props}) => (
@@ -200,8 +199,6 @@ class EditableTable extends React.Component {
     super(props)
     this.state = {
       dataSource: [],
-      dataSource2: [],
-
     }
   }
 
@@ -213,8 +210,7 @@ class EditableTable extends React.Component {
       return
     }
     this.setState({
-      dataSource: [...this.props.userChecking.data.err_arr],
-      dataSource2: [...this.props.userChecking.data.repeat_arr],
+      dataSource: [...this.props.userChecking.data.err_arr,...this.props.userChecking.data.repeat_arr],
     })
     this.props.dispatch({
       type: 'maintain/fetchOptions',
@@ -246,12 +242,11 @@ class EditableTable extends React.Component {
     this.props.dispatch({
       type: 'maintain/batchCustomer',
       payload: {
-        form: [...this.state.dataSource, ...this.state.dataSource2],
+        form: [...this.state.dataSource],
       },
     }).then(() => {
       this.setState({
-        dataSource: [...this.props.userChecking.data.err_arr],
-        dataSource2: [...this.props.userChecking.data.repeat_arr],
+        dataSource: [...this.props.userChecking.data.err_arr,...this.props.userChecking.data.repeat_arr],
       })
     })
 
@@ -281,7 +276,7 @@ class EditableTable extends React.Component {
   }
 
   render() {
-    const {dataSource, dataSource2} = this.state
+    const {dataSource} = this.state
     const components = {
       body: {
         row: EditableFormRow,
@@ -648,45 +643,33 @@ class EditableTable extends React.Component {
                 style={{color: '#EE113D'}}>{this.props.userChecking.num ? this.props.userChecking.num.err_num : ''}</span> 条数据有误,请修改后上传</Col>
             <Col span={12}>
               <div style={{float: 'right'}}>
-                <Button type='primary' style={{width: 120}} onClick={this.export}>导出错误数据</Button>
+                <Button type='primary' style={{width: 120}} onClick={this.export}>导出问题数据</Button>
               </div>
             </Col>
           </Row>
-          <Tabs style={{paddingLeft: 20}}>
-            <TabPane tab="错误数据" key="1">
-              <Table
-                components={components}
-                rowClassName={() => 'editable-row'}
-                rowKey={record => {
-                  return record.key + ''
-                }}
-                bordered
-                pagination={false}
-                dataSource={dataSource}
-                columns={columns}
-                scroll={{x: 2600}}
-              />
-            </TabPane>
-            <TabPane tab="重复数据" key="2">
-              <Table
-                components={components}
-                rowClassName={() => 'editable-row'}
-                rowKey={record => {
-                  return record.key + ''
-                }}
-                bordered
-                pagination={false}
-                dataSource={dataSource2}
-                columns={columns}
-                scroll={{x: 2600}}
-              />
-            </TabPane>
-          </Tabs>
+          <Table
+            components={components}
+            rowClassName={(record) => {
+              if (record.repeat) {
+                return 'gary-row'
+              } else {
+                return 'editable-row'
+              }
+            }}
+            rowKey={record => {
+              return record.key + ''
+            }}
+            bordered
+            pagination={false}
+            dataSource={dataSource}
+            columns={columns}
+            scroll={{x: 2600}}
+          />
           <Row type="flex" justify="space-around" align="middle" style={{height: 80}}>
             <Col>
-              {this.props.userChecking.num ? this.props.userChecking.num.err_num === 0 ?
+              {this.props.userChecking.num ? this.props.userChecking.num.err_num === 0 && this.props.userChecking.num.repeat_num === 0 ?
                 <Button type='primary' onClick={this.goback}>返回数据维护列表</Button> :
-                <Button type='primary' onClick={this.recommit}>重新导入错误数据</Button> : ''
+                <Button type='primary' onClick={this.recommit}>重新导入</Button> : ''
               }
             </Col>
           </Row>
