@@ -194,7 +194,6 @@ class PoundModal extends React.Component {
       type: 'home/UpLoadBill',
       payload: file,
     }).then(() => {
-      debugger
       this.setState({
         load_bill: this.props.load_bill,
         fileList1: [{
