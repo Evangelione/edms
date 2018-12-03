@@ -4,6 +4,7 @@ import { Table, Input, Form, Button, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
 import { routerRedux } from 'dva/router'
 import { IP } from '../../constants'
+import { REGS } from '../../common/constants'
 
 const FormItem = Form.Item
 const EditableContext = React.createContext()
@@ -226,7 +227,7 @@ class EditableTable extends React.Component {
       key: 'logistic_mobile',
       align: 'center',
       render: (text, record, index) => {
-        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+        if (text === '' || text === undefined || !text.match(REGS.phone)) {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
@@ -316,7 +317,7 @@ class EditableTable extends React.Component {
       key: 'driver_mobile',
       align: 'center',
       render: (text, record, index) => {
-        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+        if (text === '' || text === undefined || !text.match(REGS.phone)) {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
@@ -352,7 +353,7 @@ class EditableTable extends React.Component {
       key: 'supercargo_mobile',
       align: 'center',
       render: (text, record, index) => {
-        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+        if (text === '' || text === undefined || !text.match(REGS.phone)) {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
