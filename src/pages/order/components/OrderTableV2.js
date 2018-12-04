@@ -72,6 +72,7 @@ class OrderTableV2 extends PureComponent {
         find_str: this.props.find_str,
         stime: this.props.stime,
         etime: this.props.etime,
+        time_type: this.props.time_type,
       },
     })
   }
@@ -869,7 +870,7 @@ class OrderTableV2 extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {list, total, page, order_status, currentIndex, order_type, stime, etime, find_str} = state.order
+  const {list, total, page, order_status, currentIndex, order_type, stime, etime, find_str,time_type} = state.order
   const {detailForm, companyOption, carOption} = state.home
   return {
     list,
@@ -883,6 +884,7 @@ function mapStateToProps(state) {
     order_type,
     detailForm,
     companyOption,
+    time_type,
     carOption,
     loading: state.loading.models.order,
   }
