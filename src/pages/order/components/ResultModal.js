@@ -1,8 +1,9 @@
 import { Component } from 'react'
 import { connect } from 'dva'
 import withRouter from 'umi/withRouter'
-import { Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber } from 'antd'
+import { Modal, Card, Row, Col, Button, Icon, Form, Divider, InputNumber, Tooltip } from 'antd'
 import ImageModal from '../../../components/ImageModal/ImageModal'
+import { IconFont } from '../../../common/constants'
 
 const FormItem = Form.Item
 
@@ -187,9 +188,25 @@ class ResultModal extends Component {
                   display: 'inline-block',
                   margin: '0px 10px 30px 10px',
                 }}>磅差：<span style={{
-                  color: '#FF4241',
+                  color: (((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)) < 0.2 ? 'rgba(0,0,0,0,65)' : '#FF4241',
                   fontWeight: 600,
-                }}>{((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)}</span> 吨
+                }}>{((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)}</span> 吨{(((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)) < 0.2 ? '(正常范围)' : ''}
+                  <Tooltip title={<>
+                    <div>
+                      磅差在±0.2吨以内，以装车榜票为准
+                    </div>
+                    <div>
+                      磅差超出0.2吨，以双方协商结果为准
+                    </div>
+                  </>} placement="bottomLeft">
+                    <IconFont type='icon-iconfontwenhao1' style={{
+                      fontSize: 18,
+                      marginLeft: 13,
+                      marginTop: '-2px',
+                      verticalAlign: 'middle',
+                      color: '#333',
+                    }}/>
+                  </Tooltip>
                 </div>
               </Col>
             </Row>

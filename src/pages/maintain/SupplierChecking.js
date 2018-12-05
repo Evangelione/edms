@@ -121,7 +121,7 @@ class EditableCell extends React.PureComponent {
                           <Cascader ref={node => (this.input = node)}
                                     options={CascaderOptions}
                                     loadData={this.loadData}
-                                    placeholder="请选择收货地址"
+                                    placeholder="请选择装货地址"
                                     onChange={this.onChange}
                             // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
                           />,
@@ -367,7 +367,7 @@ class EditableTable extends React.Component {
         handleSave: this.handleSave,
       }),
     }, {
-      title: '收货地址',
+      title: '装货地址',
       dataIndex: 'address',
       key: 'address',
       align: 'center',
@@ -385,7 +385,7 @@ class EditableTable extends React.Component {
         record,
         editable: true,
         dataIndex: 'address',
-        title: '收货地址',
+        title: '装货地址',
         handleSave: this.handleSave,
         CascaderOptions: this.props.CascaderOptions,
         dispatch: this.props.dispatch,
