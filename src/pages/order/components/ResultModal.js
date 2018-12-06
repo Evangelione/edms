@@ -191,12 +191,12 @@ class ResultModal extends Component {
                   color: (((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)) < 0.2 ? 'rgba(0,0,0,0,65)' : '#FF4241',
                   fontWeight: 600,
                 }}>{((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)}</span> 吨{(((this.props.detailForm.unload_num - 0) - (this.props.detailForm.load_num - 0)).toFixed(3)) < 0.2 ? '(正常范围)' : ''}
-                  <Tooltip title={<>
+                  <Tooltip overlayStyle={{fontSize: 12}} title={<>
                     <div>
                       磅差在±0.2吨以内，以装车榜票为准
                     </div>
                     <div>
-                      磅差超出0.2吨，以双方协商结果为准
+                      磅差超出±0.2吨，以双方协商结果为准
                     </div>
                   </>} placement="bottomLeft">
                     <IconFont type='icon-iconfontwenhao1' style={{
