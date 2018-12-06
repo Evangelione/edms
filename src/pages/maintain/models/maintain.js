@@ -1,6 +1,6 @@
 import * as maintainService from '../services/maintain'
 import { message } from 'antd'
-import { routerRedux } from "dva/router"
+import { routerRedux } from 'dva/router'
 
 export default {
   namespace: 'maintain',
@@ -21,7 +21,22 @@ export default {
     CascaderOptions: [],
     userChecking: {},
     supplierChecking: {},
-    vehicleChecking: {}
+    vehicleChecking: {},
+    sitelist: [],
+    sitepage: 1,
+    sitetotal: 0,
+    carbodylist: [],
+    carbodypage: 1,
+    carbodytotal: 0,
+    carheadlist: [],
+    carheadpage: 1,
+    carheadtotal: 0,
+    dirverlist: [],
+    dirverpage: 1,
+    dirvertotal: 0,
+    gaslist: [],
+    gaspage: 1,
+    gastotal: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -32,7 +47,7 @@ export default {
           dispatch({type: 'fetchCar', payload: query})
         }
       })
-    }
+    },
   },
   effects: {
     * postReport({payload: file}, {call, put}) {
@@ -65,8 +80,8 @@ export default {
             customerlist: data.data.list,
             customerpage: parseInt(page, 10),
             customertotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -78,8 +93,8 @@ export default {
             supplierlist: data.data.list,
             supplierpage: parseInt(page, 10),
             suppliertotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -91,8 +106,8 @@ export default {
             carlist: data.data.list,
             carpage: parseInt(page, 10),
             cartotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -214,8 +229,8 @@ export default {
           const CascaderOptions = yield select(state => state.maintain.CascaderOptions)
           yield put({
             type: 'save', payload: {
-              CascaderOptions: [...CascaderOptions]
-            }
+              CascaderOptions: [...CascaderOptions],
+            },
           })
         }
       } else {
@@ -224,8 +239,8 @@ export default {
         if (data.code === 1) {
           yield put({
             type: 'save', payload: {
-              CascaderOptions: data.data.list
-            }
+              CascaderOptions: data.data.list,
+            },
           })
         }
       }
@@ -242,8 +257,8 @@ export default {
         file.onSuccess()
         yield put({
           type: 'save', payload: {
-            userChecking: data
-          }
+            userChecking: data,
+          },
         })
       } else if (data.code === 2) {
         message.error('全部导入成功')
@@ -262,8 +277,8 @@ export default {
         file.onSuccess()
         yield put({
           type: 'save', payload: {
-            supplierChecking: data
-          }
+            supplierChecking: data,
+          },
         })
       } else if (data.code === 2) {
         message.error('全部导入成功')
@@ -281,8 +296,8 @@ export default {
         file.onSuccess()
         yield put({
           type: 'save', payload: {
-            vehicleChecking: data
-          }
+            vehicleChecking: data,
+          },
         })
       } else if (data.code === 2) {
         message.success('全部导入成功')
@@ -299,15 +314,15 @@ export default {
         }
         yield put({
           type: 'save', payload: {
-            userChecking: data
-          }
+            userChecking: data,
+          },
         })
       } else if (data.code === 2) {
         message.success('全部导入成功')
         yield put({
           type: 'save', payload: {
-            userChecking: data
-          }
+            userChecking: data,
+          },
         })
       }
     },
@@ -322,15 +337,15 @@ export default {
         }
         yield put({
           type: 'save', payload: {
-            supplierChecking: data
-          }
+            supplierChecking: data,
+          },
         })
       } else if (data.code === 2) {
         message.success('全部导入成功')
         yield put({
           type: 'save', payload: {
-            supplierChecking: data
-          }
+            supplierChecking: data,
+          },
         })
       }
     },
@@ -345,15 +360,15 @@ export default {
         }
         yield put({
           type: 'save', payload: {
-            vehicleChecking: data
-          }
+            vehicleChecking: data,
+          },
         })
       } else if (data.code === 2) {
         message.success('全部导入成功')
         yield put({
           type: 'save', payload: {
-            vehicleChecking: data
-          }
+            vehicleChecking: data,
+          },
         })
       }
     },
@@ -389,6 +404,6 @@ export default {
   reducers: {
     save(state, action) {
       return {...state, ...action.payload}
-    }
-  }
+    },
+  },
 }

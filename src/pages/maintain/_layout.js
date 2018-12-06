@@ -3,6 +3,11 @@ import { Card, Tabs, Input } from 'antd'
 import UserTable from './components/UserTable'
 import SupplierTable from './components/SupplierTable'
 import VehicleTable from './components/VehicleTable'
+import SiteTable from './components/SiteTable'
+import GasSource from './components/GasSource'
+import CarHead from './components/CarHead'
+import CarBody from './components/CarBody'
+import Dirver from './components/Dirver'
 import OperateUser from './operateUser'
 import OperateSupplier from './operateSupplier'
 import OperateVehicle from './operateVehicle'
@@ -62,19 +67,44 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
                     onSearch={iptSearch}/>
           </div>
           <Tabs activeKey={currentTab} onChange={callback}>
-            <TabPane tab="我的客户" key="1">
+            <TabPane tab="客户" key="1">
               <Card style={{paddingTop: 30}}>
                 <UserTable/>
               </Card>
             </TabPane>
-            <TabPane tab="我的供应商" key="2">
+            <TabPane tab="站点" key="2">
+              <Card style={{paddingTop: 30}}>
+                <SiteTable/>
+              </Card>
+            </TabPane>
+            <TabPane tab="供应商" key="3">
               <Card style={{paddingTop: 30}}>
                 <SupplierTable/>
               </Card>
             </TabPane>
-            <TabPane tab="我的物流" key="3">
+            <TabPane tab="气源" key="4">
+              <Card style={{paddingTop: 30}}>
+                <GasSource/>
+              </Card>
+            </TabPane>
+            <TabPane tab="物流" key="5">
               <Card style={{paddingTop: 30}}>
                 <VehicleTable/>
+              </Card>
+            </TabPane>
+            <TabPane tab="司机" key="6">
+              <Card style={{paddingTop: 30}}>
+                <Dirver/>
+              </Card>
+            </TabPane>
+            <TabPane tab="车头" key="7">
+              <Card style={{paddingTop: 30}}>
+                <CarHead/>
+              </Card>
+            </TabPane>
+            <TabPane tab="车挂" key="8">
+              <Card style={{paddingTop: 30}}>
+                <CarBody/>
               </Card>
             </TabPane>
           </Tabs>
