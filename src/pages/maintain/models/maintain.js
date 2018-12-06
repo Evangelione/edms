@@ -307,7 +307,7 @@ export default {
       const {data} = yield call(maintainService.batchCustomer, {form})
       if (data.code === -2) return false
       if (data.code === 1) {
-        if (data.num.err_num === 0) {
+        if (data.num.err_num === 0 && data.num.repeat_num === 0) {
           message.success('全部导入成功')
         } else {
           message.warning('请修改数据后重新导入')
@@ -330,7 +330,7 @@ export default {
       const {data} = yield call(maintainService.batchSupplier, {form})
       if (data.code === -2) return false
       if (data.code === 1) {
-        if (data.num.err_num === 0) {
+        if (data.num.err_num === 0 && data.num.repeat_num === 0) {
           message.success('全部导入成功')
         } else {
           message.warning('请修改数据后重新导入')
@@ -353,7 +353,7 @@ export default {
       const {data} = yield call(maintainService.batchVehicle, {form})
       if (data.code === -2) return false
       if (data.code === 1) {
-        if (data.num.err_num === 0) {
+        if (data.num.err_num === 0 && data.num.repeat_num === 0) {
           message.success('全部导入成功')
         } else {
           message.warning('请修改数据后重新导入')

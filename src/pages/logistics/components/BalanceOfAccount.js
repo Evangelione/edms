@@ -9,7 +9,7 @@ class BalanceOfAccount extends PureComponent {
   UNSAFE_componentWillMount() {
     this.props.dispatch({
       type: 'logistics/balanceFetch',
-      payload: {page: 1, find_str: '', stime: '', etime: ''}
+      payload: {page: 1, find_str: '', stime: '', etime: ''},
     })
   }
 
@@ -18,8 +18,8 @@ class BalanceOfAccount extends PureComponent {
       type: 'logistics/balanceFetch',
       payload: {
         page,
-        find_str: this.props.find_str
-      }
+        find_str: this.props.find_str,
+      },
     })
   }
 
@@ -35,12 +35,12 @@ class BalanceOfAccount extends PureComponent {
       title: '订单编号',
       dataIndex: 'deliver_code',
       key: 'deliver_code',
-      align: 'center'
+      align: 'center',
     }, {
       title: '装车日期',
       dataIndex: 'load_time',
       key: 'load_time',
-      align: 'center'
+      align: 'center',
     }, {
       title: '站点简称',
       dataIndex: 'site_name',
@@ -55,12 +55,12 @@ class BalanceOfAccount extends PureComponent {
         return <div>
           {record.cargo_province + record.cargo_city + record.cargo_area}
         </div>
-      }
+      },
     }, {
       title: '车牌照',
       dataIndex: 'car_head',
       key: 'car_head',
-      align: 'center'
+      align: 'center',
     }, {
       title: '物流公司',
       dataIndex: 'logistics_company',
@@ -77,35 +77,23 @@ class BalanceOfAccount extends PureComponent {
       key: 'unload_num',
       align: 'center',
     }, {
-      title: '结算量(吨)',
-      dataIndex: 'wl_final_num',
-      key: 'wl_final_num',
+      title: '配送方式',
+      dataIndex: 'deliver_type',
+      key: 'deliver_type2',
+      width: 100,
       align: 'center',
-    }, {
-      title: '公里数',
-      dataIndex: 'distance',
-      key: 'distance',
-      align: 'center',
-    }, {
-      title: '吨公里(元)',
-      dataIndex: 'deliver_price',
-      key: 'deliver_price',
-      align: 'center',
-    }, {
-      title: '额外费用(元)',
-      dataIndex: 'extra_fee',
-      key: 'extra_fee',
-      align: 'center',
+      render: (text) => {
+        if (text === '1' || text === '3') {
+          return <div>配送</div>
+        } else {
+          return <div>自提</div>
+        }
+      },
     }, {
       title: '运费总计(元)',
-      key: 'zj',
+      key: 'final_deliver_fee',
+      dataIndex: 'final_deliver_fee',
       align: 'center',
-      render: (text, record, index) => {
-        let num = (record.wl_final_num - 0) * (record.distance - 0) * (record.deliver_price - 0) + (record.extra_fee - 0)
-        return <div>
-          {num.toFixed(2)}
-        </div>
-      }
     }]
     return (
       <div>
@@ -144,7 +132,7 @@ function mapStateToProps(state) {
     find_str,
     stime,
     etime,
-    loading: state.loading.models.logistics
+    loading: state.loading.models.logistics,
   }
 }
 

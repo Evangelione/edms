@@ -22,6 +22,7 @@ export default {
     balanceDetailedPage: 1,
     balanceDetailedTotal: 0,
     companyOption: [],
+    goodsOption: [],
     companyDetail: {},
     currentKey: '1'
   },
@@ -73,6 +74,17 @@ export default {
           payload: {
             supplierOption: data.data.list,
           }
+        })
+      }
+    },
+    * fetchGoods({payload}, {call, put}) {
+      const {data} = yield call(supplierServices.fetchGoods)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            goodsOption: data.data.list,
+          },
         })
       }
     },
@@ -136,8 +148,8 @@ export default {
         })
       }
     },
-    * accountNum({payload: {find_str = '', stime, etime}}, {call, put}) {
-      const {data} = yield call(supplierServices.accountNum, {find_str, stime, etime})
+    * accountNum({payload: {find_str = '', stime, etime,gas_id=''}}, {call, put}) {
+      const {data} = yield call(supplierServices.accountNum, {find_str, stime, etime,gas_id})
       if (data.code === -1) return false
       if (data.code === 1) {
         yield put({

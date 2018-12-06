@@ -2,7 +2,7 @@
 
 html, body, :global(#root) {
   height: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
   min-width: 1920px;
   font-family: PingFangHK-Regular;
 }
@@ -894,4 +894,13 @@ button > i {
 
 .anticon {
   vertical-align: middle;
+}
+
+.transparents > .ant-modal-content {
+  background-color: transparent;
+}
+
+.gary-row {
+  background-color: #E6F2F6 ;
+  color: #282D32;
 }

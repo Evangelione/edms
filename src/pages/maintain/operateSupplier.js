@@ -43,6 +43,9 @@ class operateUser extends React.Component {
         let cargo_province = values.delivery[0]
         let cargo_city = values.delivery[1]
         let cargo_area = values.delivery[2]
+        if (cargo_area === undefined) {
+          cargo_area = ''
+        }
         values.cargo_province = cargo_province
         values.cargo_city = cargo_city
         values.cargo_area = cargo_area

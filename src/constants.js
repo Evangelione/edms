@@ -19,12 +19,12 @@ export const LOGO = {
     logo: require('./assets/image/Group.png')
   },
   ht: {
-    name: '珠海金石',
-    logo: require('./assets/image/logo_xny.png')
+    name: '珠海海通 商+',
+    logo: require('./assets/image/ht2.png')
   },
   chenchen: {
     name: '蓝采和',
-    logo: require('./assets/image/Group.png')
+    logo: require('./assets/image/WechatIMG18.png')
   },
   localhost: {
     name: '蓝采和',

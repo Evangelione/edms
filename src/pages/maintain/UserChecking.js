@@ -2,20 +2,22 @@ import React from 'react'
 import { connect } from 'dva'
 import { Table, Input, Form, Button, Select, Cascader, Row, Col, Popconfirm } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
-import { routerRedux } from "dva/router"
-import { IP } from "../../constants";
+import { routerRedux } from 'dva/router'
+import { IP } from '../../constants'
+import { REGS } from '../../common/constants'
+
 
 const Option = Select.Option
-const FormItem = Form.Item;
-const EditableContext = React.createContext();
+const FormItem = Form.Item
+const EditableContext = React.createContext()
 
 const EditableRow = ({form, index, ...props}) => (
   <EditableContext.Provider value={form}>
     <tr {...props} />
   </EditableContext.Provider>
-);
+)
 
-const EditableFormRow = Form.create()(EditableRow);
+const EditableFormRow = Form.create()(EditableRow)
 
 
 class EditableCell extends React.PureComponent {
@@ -23,53 +25,53 @@ class EditableCell extends React.PureComponent {
     editing: false,
     userType1: ['LNG加气站', 'L-CNG加气站', 'LNG L-CNG合建站', 'LNG CNG合建站', 'LNG 汽柴油合建站', 'LNG泵船', '其他'],
     userType2: ['电厂', '城市居民', '城市商服', '城市供暖', '工业燃料', '工业原料', '其他', '分布式项目'],
-    selectOption: '1'
+    selectOption: '1',
   }
 
   componentDidMount() {
     if (this.props.editable) {
-      document.addEventListener('click', this.handleClickOutside, true);
+      document.addEventListener('click', this.handleClickOutside, true)
     }
   }
 
   componentWillUnmount() {
     if (this.props.editable) {
-      document.removeEventListener('click', this.handleClickOutside, true);
+      document.removeEventListener('click', this.handleClickOutside, true)
     }
   }
 
   toggleEdit = () => {
-    const editing = !this.state.editing;
+    const editing = !this.state.editing
     this.setState({editing}, () => {
       if (editing) {
-        this.input.focus();
+        this.input.focus()
       }
-    });
+    })
   }
 
   handleClickOutside = (e) => {
-    const {editing} = this.state;
+    const {editing} = this.state
     if (e.target.className === 'ant-cascader-menu-item ant-cascader-menu-item-expand') return false
     if (editing && this.cell !== e.target && !this.cell.contains(e.target)) {
-      this.save();
+      this.save()
     }
   }
 
   save = () => {
-    const {record, handleSave} = this.props;
+    const {record, handleSave} = this.props
     setTimeout(() => {
       this.form.validateFields((error, values) => {
         if (error) {
-          return;
+          return
         }
-        this.toggleEdit();
+        this.toggleEdit()
         if (values.site_type) {
-          handleSave({...record, ...values, user_type: '1'});
+          handleSave({...record, ...values, user_type: '1'})
         } else {
-          handleSave({...record, ...values});
+          handleSave({...record, ...values})
         }
 
-      });
+      })
     }, 200)
   }
 
@@ -80,18 +82,18 @@ class EditableCell extends React.PureComponent {
       type: 'maintain/fetchOptions',
       payload: {
         name: targetOption.value,
-        targetOption
-      }
+        targetOption,
+      },
     })
   }
 
   selectChange = (value) => {
-    const {record, handleSave} = this.props;
-    handleSave({...record, site_type: value, user_type: '1'});
+    const {record, handleSave} = this.props
+    handleSave({...record, site_type: value, user_type: '1'})
   }
 
   render() {
-    const {editing} = this.state;
+    const {editing} = this.state
     const {
       editable,
       dataIndex,
@@ -102,7 +104,7 @@ class EditableCell extends React.PureComponent {
       dispatch,
       CascaderOptions,
       ...restProps
-    } = this.props;
+    } = this.props
     const typeList1 = this.state.userType1.map((type, index) => <Option key={type}
                                                                         value={index + 1 + ''}>{type}</Option>)
     const typeList2 = this.state.userType2.map((type, index) => <Option key={type}
@@ -112,7 +114,7 @@ class EditableCell extends React.PureComponent {
         {editable ? (
           <EditableContext.Consumer>
             {(form) => {
-              this.form = form;
+              this.form = form
               return (
                 editing ? (
                   dataIndex === 'customer_type' ?
@@ -124,7 +126,7 @@ class EditableCell extends React.PureComponent {
                                 style={{width: '100%'}}>
                           <Option value="1">终端用户</Option>
                           <Option value="2">贸易商</Option>
-                        </Select>
+                        </Select>,
                       )}
                     </FormItem>
                     :
@@ -137,7 +139,7 @@ class EditableCell extends React.PureComponent {
                                     placeholder="请选择收货地址"
                                     onChange={this.onChange}
                             // displayRender={(labels, selectedOptions) => this.displayRender(labels, selectedOptions, [this.props.editForm.delivery_province.name, this.props.editForm.delivery_city.name, this.props.editForm.delivery_area.name])}
-                          />
+                          />,
                         )}
                       </FormItem>
                       :
@@ -150,7 +152,7 @@ class EditableCell extends React.PureComponent {
                                     onChange={this.selectChange} style={{width: '100%'}}>
                               <Option value="1">加气站</Option>
                               <Option value="2">气化站</Option>
-                            </Select>
+                            </Select>,
                           )}
                         </FormItem>
                         :
@@ -163,7 +165,7 @@ class EditableCell extends React.PureComponent {
                                 {record.site_type === '1' ?
                                   typeList1 : typeList2
                                 }
-                              </Select>
+                              </Select>,
                             )}
                           </FormItem>
                           :
@@ -174,7 +176,7 @@ class EditableCell extends React.PureComponent {
                               <Input
                                 ref={node => (this.input = node)}
                                 onPressEnter={this.save}
-                              />
+                              />,
                             )}
                           </FormItem>
                 ) : (
@@ -185,20 +187,20 @@ class EditableCell extends React.PureComponent {
                     {restProps.children}
                   </div>
                 )
-              );
+              )
             }}
           </EditableContext.Consumer>
         ) : restProps.children}
       </td>
-    );
+    )
   }
 }
 
 class EditableTable extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      dataSource: []
+      dataSource: [],
     }
   }
 
@@ -210,13 +212,13 @@ class EditableTable extends React.Component {
       return
     }
     this.setState({
-      dataSource: [...this.props.userChecking.data.err_arr]
+      dataSource: [...this.props.userChecking.data.err_arr,...this.props.userChecking.data.repeat_arr],
     })
     this.props.dispatch({
       type: 'maintain/fetchOptions',
       payload: {
-        name: ''
-      }
+        name: '',
+      },
     })
   }
 
@@ -227,27 +229,29 @@ class EditableTable extends React.Component {
       row.delivery_area = row.address[2] ? row.address[2] : ''
       delete row.address
     }
-    const newData = [...this.state.dataSource];
-    const index = newData.findIndex(item => row.key === item.key);
-    const item = newData[index];
+    const newData = [...this.state.dataSource]
+    const index = newData.findIndex(item => row.key === item.key)
+    const item = newData[index]
     newData.splice(index, 1, {
       ...item,
       ...row,
-    });
-    this.setState({dataSource: newData});
+    })
+    this.setState({dataSource: newData})
   }
 
   recommit = () => {
+
     this.props.dispatch({
       type: 'maintain/batchCustomer',
       payload: {
-        form: this.state.dataSource
-      }
+        form: [...this.state.dataSource],
+      },
     }).then(() => {
       this.setState({
-        dataSource: [...this.props.userChecking.data.err_arr]
+        dataSource: [...this.props.userChecking.data.err_arr,...this.props.userChecking.data.repeat_arr],
       })
     })
+
   }
 
   goback = () => {
@@ -257,16 +261,16 @@ class EditableTable extends React.Component {
   }
 
   handleDelete = (key) => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({dataSource: dataSource.filter(item => item.key !== key)});
+    const dataSource = [...this.state.dataSource]
+    this.setState({dataSource: dataSource.filter(item => item.key !== key)})
   }
 
   export = () => {
     this.props.dispatch({
       type: 'maintain/exportUser',
       payload: {
-        json: this.state.dataSource
-      }
+        json: this.state.dataSource,
+      },
     }).then(() => {
       window.location.href = `${IP}/admin/customer/batch-down-customer-get`
     })
@@ -274,13 +278,13 @@ class EditableTable extends React.Component {
   }
 
   render() {
-    const {dataSource} = this.state;
+    const {dataSource} = this.state
     const components = {
       body: {
         row: EditableFormRow,
         cell: EditableCell,
       },
-    };
+    }
     const columns = [{
       title: '客户名称',
       dataIndex: 'customer_name',
@@ -349,7 +353,7 @@ class EditableTable extends React.Component {
       align: 'center',
       width: 150,
       render: (text, record, index) => {
-        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+        if (text === '' || text === undefined || !text.match(REGS.phone)) {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
@@ -425,7 +429,7 @@ class EditableTable extends React.Component {
       align: 'center',
       width: 150,
       render: (text, record, index) => {
-        if (text === '' || !text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+        if (text === '' || text === undefined || !text.match(REGS.phone)) {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
@@ -463,9 +467,9 @@ class EditableTable extends React.Component {
       align: 'center',
       width: 150,
       render: (text, record, index) => {
-        if (text === '' || text === null) {
+        if (text === '' || text === null || text === undefined) {
           return '--'
-        } else if (!text.match('^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$')) {
+        } else if (!text.match(REGS.phone)) {
           return <div style={{border: '1px solid #EE113D', width: '100%', height: 21}}>{text}</div>
         }
         return text
@@ -499,7 +503,7 @@ class EditableTable extends React.Component {
         title: '收货地址',
         handleSave: this.handleSave,
         CascaderOptions: this.props.CascaderOptions,
-        dispatch: this.props.dispatch
+        dispatch: this.props.dispatch,
       }),
     }, {
       title: '详细地址',
@@ -618,12 +622,12 @@ class EditableTable extends React.Component {
                             borderColor: '#EA7878',
                             marginLeft: 10,
                             height: 28,
-                            padding: '0 15px'
+                            padding: '0 15px',
                           }}>删除</Button>
                 </Popconfirm>
               </div>
             ) : null
-        );
+        )
       },
     }]
 
@@ -632,18 +636,28 @@ class EditableTable extends React.Component {
         <PageTitle>问题数据处理</PageTitle>
         <div style={{backgroundColor: '#fff'}}>
           <Row type='flex' align='middle' style={{height: 60, padding: 20}}>
-            <Col span={12}>本次导入结果： 共导入 <span
-              style={{color: '#22DD48'}}>{this.props.userChecking.num ? this.props.userChecking.num.success_num : ''}</span> 条数据； <span
-              style={{color: '#EE113D'}}>{this.props.userChecking.num ? this.props.userChecking.num.err_num : ''}</span> 条数据有误，请修改后上传</Col>
+            <Col span={12}>本次导入结果: 共导入
+              <span
+                style={{color: '#22DD48'}}>{this.props.userChecking.num ? this.props.userChecking.num.success_num : ''}</span> 条数据;&nbsp;&nbsp;
+              <span
+                style={{color: '#777'}}>{this.props.userChecking.num ? this.props.userChecking.num.repeat_num : ''}</span> 条数据重复,&nbsp;&nbsp;
+              <span
+                style={{color: '#EE113D'}}>{this.props.userChecking.num ? this.props.userChecking.num.err_num : ''}</span> 条数据有误,请修改后上传</Col>
             <Col span={12}>
               <div style={{float: 'right'}}>
-                <Button type='primary' style={{width: 120}} onClick={this.export}>导出错误数据</Button>
+                <Button type='primary' style={{width: 120}} onClick={this.export}>导出问题数据</Button>
               </div>
             </Col>
           </Row>
           <Table
             components={components}
-            rowClassName={() => 'editable-row'}
+            rowClassName={(record) => {
+              if (record.repeat) {
+                return 'gary-row'
+              } else {
+                return 'editable-row'
+              }
+            }}
             rowKey={record => {
               return record.key + ''
             }}
@@ -655,7 +669,7 @@ class EditableTable extends React.Component {
           />
           <Row type="flex" justify="space-around" align="middle" style={{height: 80}}>
             <Col>
-              {this.props.userChecking.num ? this.props.userChecking.num.err_num === 0 ?
+              {this.props.userChecking.num ? this.props.userChecking.num.err_num === 0 && this.props.userChecking.num.repeat_num === 0 ?
                 <Button type='primary' onClick={this.goback}>返回数据维护列表</Button> :
                 <Button type='primary' onClick={this.recommit}>重新导入</Button> : ''
               }
@@ -663,7 +677,7 @@ class EditableTable extends React.Component {
           </Row>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -672,7 +686,7 @@ function mapStateToProps(state) {
   return {
     userChecking,
     CascaderOptions,
-    loading: state.loading.models.maintain
+    loading: state.loading.models.maintain,
   }
 }
 

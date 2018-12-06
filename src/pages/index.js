@@ -38,14 +38,14 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     if ((this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0)) {
-      if (!sessionStorage.getItem('backAuth')) {
+      if (!localStorage.getItem('backAuth')) {
         this.props.dispatch(routerRedux.push({
           pathname: '/admin',
         }))
         return false
       }
     } else {
-      if (!sessionStorage.getItem('loginAuth')) {
+      if (!localStorage.getItem('loginAuth')) {
         this.props.dispatch(routerRedux.push({
           pathname: '/login',
         }))
@@ -57,7 +57,6 @@ class IndexPage extends React.Component {
     }).then(() => {
       this.initBmp()
     })
-
   }
 
   topRadioChange = (e) => {
@@ -134,18 +133,18 @@ class IndexPage extends React.Component {
 
   initChart = (chartOption) => {
     if (!Object.keys(this.props.trend).length || !Object.keys(this.refs).length) return false
-    if (this.state.flag) {
-      this.setState({
-        flag: false,
-      })
-      let myChart = echarts.init(this.refs.echart) //初始化echarts
-      //设置options
-      myChart.setOption(chartOption)
-      window.onresize = function() {
-        myChart.resize()
-      }
+    // if (this.state.flag) {
+    //   this.setState({
+    //     flag: false,
+    //   })
+    let myChart = echarts.init(this.refs.echart) //初始化echarts
+    //设置options
+    myChart.setOption(chartOption)
+    window.onresize = function () {
       myChart.resize()
     }
+    myChart.resize()
+    // }
   }
 
   goLogisticsList = () => {
@@ -358,10 +357,10 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles['dashImg-xiaoshoue']}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}销售额 ({count.saler_money > 1000000 ? '万元' : '元'})
+              <div className={styles.dashTitle}>{this.state.topTip}销售额 ({count.saler_money > 10000 ? '万元' : '元'})
               </div>
               <div className={styles.dashCount}>
-                <CountUp start={0} end={count.saler_money > 1000000 ? count.saler_money / 1000000 : count.saler_money}
+                <CountUp start={0} end={count.saler_money > 10000 ? count.saler_money / 10000 : count.saler_money}
                          decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
@@ -380,11 +379,11 @@ class IndexPage extends React.Component {
           <Col className={styles.topBox}>
             <div>
               <div className={styles['dashImg-caigoue']}></div>
-              <div className={styles.dashTitle}>{this.state.topTip}采购额 ({count.purchase_money > 1000000 ? '万元' : '元'})
+              <div className={styles.dashTitle}>{this.state.topTip}采购额 ({count.purchase_money > 10000 ? '万元' : '元'})
               </div>
               <div className={styles.dashCount}>
                 <CountUp start={0}
-                         end={count.purchase_money > 1000000 ? count.purchase_money / 1000000 : count.purchase_money}
+                         end={count.purchase_money > 10000 ? count.purchase_money / 10000 : count.purchase_money}
                          decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>
@@ -405,11 +404,11 @@ class IndexPage extends React.Component {
               <div className={styles['dashImg-yingkui']}>
                 <img src={images.default.yingkui} alt="" width='62' height='62'/>
               </div>
-              <div className={styles.dashTitle}>{this.state.topTip}盈亏 ({count.profit_and_loss > 1000000 ? '万元' : '元'})
+              <div className={styles.dashTitle}>{this.state.topTip}盈亏 ({count.profit_and_loss > 10000 ? '万元' : '元'})
               </div>
               <div className={styles.dashCount}>
                 <CountUp start={0}
-                         end={count.profit_and_loss > 1000000 ? count.profit_and_loss / 1000000 : count.profit_and_loss}
+                         end={count.profit_and_loss > 10000 ? count.profit_and_loss / 10000 : count.profit_and_loss}
                          decimals={2} duration={3}/>
                 {/*<div className={styles.wan}>万</div>*/}
               </div>

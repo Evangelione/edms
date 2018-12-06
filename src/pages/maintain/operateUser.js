@@ -50,7 +50,7 @@ class operateUser extends React.Component {
         let delivery_city = values.delivery[1]
         let delivery_area = values.delivery[2]
         if (delivery_area === undefined) {
-          values.delivery_area = ''
+          delivery_area = ''
         }
         values.delivery_province = delivery_province
         values.delivery_city = delivery_city

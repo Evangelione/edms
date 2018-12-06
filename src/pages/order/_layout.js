@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Tabs, Button, Row, Col, Divider, Spin, DatePicker, Input } from 'antd'
+import { Card, Tabs, Button, Row, Col, Divider, Spin, DatePicker, Input, Select } from 'antd'
 import { connect } from 'dva'
 import OrderTableV2 from './components/OrderTableV2'
 import LogisticsMap from '../logistics/components/LogisticsMap'
@@ -12,9 +12,11 @@ import styles from './order.css'
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
 const {Search} = Input
+const {Option} = Select
+let timer = null
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, order_status, statusNum, currentOrder, order_type, list, page, stime, etime} = state.order
+  const {currentTab, find_str, order_status, statusNum, currentOrder, order_type, list, page, stime, etime, time_type} = state.order
   return {
     page,
     stime,
@@ -26,6 +28,7 @@ function mapStateToProps(state) {
     statusNum,
     currentOrder,
     order_type,
+    time_type,
     loading: state.loading.models.order,
   }
 }
@@ -64,6 +67,8 @@ class Order extends Component {
         etime: this.props.etime,
         order_type: this.props.order_type,
         find_str: this.props.find_str,
+        time_type: this.props.time_type,
+
       },
     })
   }
@@ -84,6 +89,7 @@ class Order extends Component {
         etime: this.props.etime,
         order_status: this.props.order_status,
         find_str: this.props.find_str,
+        time_type: this.props.time_type,
       },
     })
   }
@@ -98,8 +104,19 @@ class Order extends Component {
         stime: dateString[0],
         etime: dateString[1],
         find_str: this.props.find_str,
+        time_type: this.props.time_type,
       },
     })
+  }
+
+  debounce = (e) => {
+    let val = e.target.value
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      this.iptSearch(val)
+    }, 800)
   }
 
   iptSearch = (value) => {
@@ -112,6 +129,22 @@ class Order extends Component {
         stime: this.props.stime,
         etime: this.props.etime,
         find_str: value,
+        time_type: this.props.time_type,
+      },
+    })
+  }
+
+  handleChange = (value) => {
+    this.props.dispatch({
+      type: 'order/fetch',
+      payload: {
+        page: 1,
+        order_type: this.props.order_type,
+        order_status: this.props.order_status,
+        stime: this.props.stime,
+        etime: this.props.etime,
+        find_str: this.props.find_str,
+        time_type: value,
       },
     })
   }
@@ -121,9 +154,13 @@ class Order extends Component {
     return (
       <AnimatePage>
         <div className='searchBox' style={{right: 158}}>
+          <Select defaultValue="1" style={{width: 140, marginRight: 10}} onChange={this.handleChange}>
+            <Option value="1">预计到达时间</Option>
+            <Option value="2">实际装车时间</Option>
+          </Select>
           <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
           <Search style={{width: 260, marginLeft: 10}} placeholder='输入关键字进行查询'
-                  onSearch={this.iptSearch}/>
+                  onChange={this.debounce} onSearch={this.iptSearch}/>
         </div>
         <Tabs>
           <TabPane tab="订单管理" key="1">

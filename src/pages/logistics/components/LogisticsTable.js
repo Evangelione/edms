@@ -35,7 +35,7 @@ class Logistics extends React.Component {
         '待接单': '#F17C40',
         '已接单': '#54A8FD',
         '已完成': '#00B763',
-        '已卸车': '#416AFF'
+        '已卸车': '#416AFF',
       },
       tabColorOpacity: {
         '待确认': 'rgb(102,102,102,0.1)',
@@ -45,7 +45,7 @@ class Logistics extends React.Component {
         '已接单': 'rgb(84,168,253,0.1)',
         '已完成': 'rgb(0,183,99,0.1)',
         '已卸车': 'rgb(65,106,255,0.1)',
-      }
+      },
     }
   }
 
@@ -59,28 +59,28 @@ class Logistics extends React.Component {
     this.props.dispatch(routerRedux.push({
       pathname: '/logistics/logisticsDetail',
       query: {
-        id: id
-      }
+        id: id,
+      },
     }))
   }
 
   scheduling = (id) => {
     this.setState({
       schedulingBtn: true,
-      id: id
+      id: id,
     })
     this.props.dispatch({
       type: 'logisticsDetail/getDetail',
       payload: {
-        id: id
-      }
+        id: id,
+      },
     }).then(() => {
       this.props.dispatch({
-        type: 'logisticsDetail/getCompanyOption'
+        type: 'logisticsDetail/getCompanyOption',
       }).then(() => {
         this.setState({
           visible: true,
-          schedulingBtn: false
+          schedulingBtn: false,
         })
         const detailForm = this.props.detailForm
         this.props.form.setFieldsValue({
@@ -103,7 +103,7 @@ class Logistics extends React.Component {
   handleCancel = () => {
     this.setState({
       visible: false,
-    });
+    })
   }
 
   submit = () => {
@@ -128,11 +128,11 @@ class Logistics extends React.Component {
         this.props.dispatch({
           type: 'logisticsDetail/doDispatch',
           payload: {
-            form: values
-          }
+            form: values,
+          },
         }).then(() => {
           this.setState({
-            visible: false
+            visible: false,
           })
         })
       }
@@ -145,24 +145,24 @@ class Logistics extends React.Component {
       pathname: '/logistics',
       query: {
         page,
-        deliver_status: this.props.deliver_status
-      }
+        deliver_status: this.props.deliver_status,
+      },
     }))
   }
 
   acceptOrder = (id, e) => {
     e.stopPropagation()
     this.setState({
-      acceptBtn: true
+      acceptBtn: true,
     })
     this.props.dispatch({
       type: 'logistics/acceptOrder',
       payload: {
-        id: id
-      }
+        id: id,
+      },
     }).then(() => {
       this.setState({
-        acceptBtn: false
+        acceptBtn: false,
       })
     })
   }
@@ -170,16 +170,16 @@ class Logistics extends React.Component {
   refuseOrder = (id, e) => {
     e.stopPropagation()
     this.setState({
-      refuseBtn: true
+      refuseBtn: true,
     })
     this.props.dispatch({
       type: 'logistics/refuseOrder',
       payload: {
-        id: id
-      }
+        id: id,
+      },
     }).then(() => {
       this.setState({
-        refuseBtn: false
+        refuseBtn: false,
       })
     })
   }
@@ -204,18 +204,18 @@ class Logistics extends React.Component {
 
   customRequest = (id, type, file) => {
     this.setState({
-      uploading: true
+      uploading: true,
     })
     this.props.dispatch({
       type: 'logisticsDetail/uploadPound',
       payload: {
         file,
         id,
-        load_type: type
-      }
+        load_type: type,
+      },
     }).then(() => {
       this.setState({
-        uploading: false
+        uploading: false,
       })
     })
   }
@@ -224,8 +224,8 @@ class Logistics extends React.Component {
     this.props.dispatch({
       type: 'logisticsDetail/getCarOption',
       payload: {
-        logistic_company: value
-      }
+        logistic_company: value,
+      },
     })
     this.props.form.resetFields('chetoupaizhao')
   }
@@ -243,20 +243,20 @@ class Logistics extends React.Component {
       type: 'logistics/save',
       payload: {
         currentLogistics: item,
-        currentIndex: index
-      }
+        currentIndex: index,
+      },
     })
     this.props.dispatch({
       type: 'home/save',
       payload: {
         currentLogistics: item,
-      }
+      },
     })
     this.props.dispatch({
       type: 'logisticsDetail/save',
       payload: {
-        showMap: false
-      }
+        showMap: false,
+      },
     })
   }
 
@@ -268,13 +268,13 @@ class Logistics extends React.Component {
         {option.logistic_company}
       </Option>)
     const carHeadOptions = carOption.car_head.map((option, index) =>
-      <Option key={index} value={option.car_head}>{option.car_head}</Option>
+      <Option key={index} value={option.car_head}>{option.car_head}</Option>,
     )
     const carBodyOptions = carOption.car_body.map((option, index) =>
-      <Option key={index} value={option.car_body} load={option.rated_load}>{option.car_body}</Option>
+      <Option key={index} value={option.car_body} load={option.rated_load}>{option.car_body}</Option>,
     )
     const driverOptions = carOption.driver.map((option, index) =>
-      <Option key={index} value={option.driver} phone={option.driver_mobile}>{option.driver}</Option>
+      <Option key={index} value={option.driver} phone={option.driver_mobile}>{option.driver}</Option>,
     )
     // const columns = [
     //   {
@@ -451,14 +451,13 @@ class Logistics extends React.Component {
         key: 'deliver_code',
         width: 140,
         align: 'center',
-        fixed: 'left'
       },
       {
         title: '物流公司',
         dataIndex: 'logistics_company',
         key: 'logistics_company',
         width: 120,
-        align: 'center'
+        align: 'center',
       },
       {
         title: '车头牌照',
@@ -474,7 +473,7 @@ class Logistics extends React.Component {
         align: 'center',
         render: (text, record, index) => {
           return record.cargo_province + (record.cargo_city ? record.cargo_city : '') + (record.cargo_area ? record.cargo_area : '') + record.detailed_address
-        }
+        },
       },
       {
         title: '装车时间',
@@ -483,15 +482,21 @@ class Logistics extends React.Component {
         width: 120,
         align: 'center',
         render: (text, record, index) => {
-          let time = dateUtils.getTime(text)
-          let date = dateUtils.getYear(text)
-          return (
-            <div>
-              <div>{date}</div>
-              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-            </div>
-          )
-        }
+          if (text) {
+            let time = dateUtils.getTime(text)
+            let date = dateUtils.getYear(text)
+            return (
+              <div>
+                <div>{date}</div>
+                <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+              </div>
+            )
+          } else {
+            return (
+              <div>--</div>
+            )
+          }
+        },
       },
       {
         title: '卸车时间',
@@ -500,22 +505,28 @@ class Logistics extends React.Component {
         width: 120,
         align: 'center',
         render: (text, record, index) => {
-          let time = dateUtils.getTime(text)
-          let date = dateUtils.getYear(text)
-          return (
-            <div>
-              <div>{date}</div>
-              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
-            </div>
-          )
-        }
+          if (text) {
+            let time = dateUtils.getTime(text)
+            let date = dateUtils.getYear(text)
+            return (
+              <div>
+                <div>{date}</div>
+                <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+              </div>
+            )
+          } else {
+            return (
+              <div>--</div>
+            )
+          }
+        },
       },
       {
         title: '供货商名称',
         dataIndex: 'supp_name',
         key: 'supp_name',
         width: 120,
-        align: 'center'
+        align: 'center',
       },
       {
         title: '客户名称',
@@ -546,56 +557,40 @@ class Logistics extends React.Component {
         align: 'center',
       },
       {
-        title: '结算吨位',
-        dataIndex: 'wl_final_num',
-        key: 'wl_final_num',
+        title: '配送方式',
+        dataIndex: 'deliver_type',
+        key: 'deliver_type2',
         width: 100,
         align: 'center',
-      },
-      {
-        title: '公里数',
-        dataIndex: 'distance',
-        key: 'distance',
-        width: 80,
-        align: 'center',
-      },
-      {
-        title: '吨公里（元）',
-        dataIndex: 'deliver_price',
-        key: 'deliver_price',
-        width: 140,
-        align: 'center',
-      },
-      {
-        title: '额外费用（元）',
-        dataIndex: 'extra_fee',
-        key: 'extra_fee',
-        width: 160,
-        align: 'center',
+        render: (text) => {
+          if (text === '1' || text === '3') {
+            return <div>配送</div>
+          } else {
+            return <div>自提</div>
+          }
+        },
       },
       {
         title: '运费总计（元）',
-        key: 'total',
+        key: 'final_deliver_fee',
+        dataIndex: 'final_deliver_fee',
         width: 160,
         align: 'center',
-        render: (text, record, index) => {
-          return ((record.distance - 0) * (record.deliver_price - 0) * (record.wl_final_num - 0) + (record.extra_fee - 0)).toFixed(2)
-        }
-      }
+      },
     ]
     let time = this.state.etime.format('YYYY-MM-DD HH:mm:00')
     let locale = {
-      "format": 'YYYY-MM-DD',
-      "separator": " - ",
-      "applyLabel": "确定",
-      "cancelLabel": "取消",
-      "fromLabel": "起始时间",
-      "toLabel": "结束时间'",
-      "customRangeLabel": "自定义",
-      "weekLabel": "W",
-      "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
-      "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      "firstDay": 1
+      'format': 'YYYY-MM-DD',
+      'separator': ' - ',
+      'applyLabel': '确定',
+      'cancelLabel': '取消',
+      'fromLabel': '起始时间',
+      'toLabel': '结束时间\'',
+      'customRangeLabel': '自定义',
+      'weekLabel': 'W',
+      'daysOfWeek': ['日', '一', '二', '三', '四', '五', '六'],
+      'monthNames': ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+      'firstDay': 1,
     }
     return (
       <div>
@@ -620,7 +615,7 @@ class Logistics extends React.Component {
                           color: this.state.tabColor[item.status_name],
                           background: this.state.tabColorOpacity[item.status_name],
                           padding: '0px 10px',
-                          fontWeight: 400
+                          fontWeight: 400,
                         }}><span
                           style={{
                             backgroundColor: this.state.tabColor[item.status_name],
@@ -630,7 +625,7 @@ class Logistics extends React.Component {
                             display: 'inline-block',
                             verticalAlign: 'middle',
                             marginTop: '-3px',
-                            marginRight: 5
+                            marginRight: 5,
                           }}/>{item.status_name}</span>
                       </div>
                     }
@@ -639,7 +634,7 @@ class Logistics extends React.Component {
                         <span style={{float: 'right', marginRight: 25}}>{item.recv_time}</span>
                         <span style={{
                           float: 'right',
-                          marginRight: 40
+                          marginRight: 40,
                         }}>{item.cargo_province + item.cargo_city}--{item.delivery_province + item.delivery_city}</span>
                       </div>
                     }
@@ -685,7 +680,7 @@ class Logistics extends React.Component {
               <Col key='col'>
                 <Button key='submit' type='primary' onClick={this.submit} loading={loading}>确定调度</Button>
               </Col>
-            </Row>
+            </Row>,
           ]}
           onCancel={this.handleCancel}
           destroyOnClose={true}
@@ -701,11 +696,11 @@ class Logistics extends React.Component {
                 rules: [{required: true, message: '此项为必选项！'}],
               })(
                 <AutoComplete
-                  onSelect={this.companyChange}
+                  onChange={this.companyChange}
                   dataSource={companyOptions}
                   placeholder="请填写物流公司全程（合同名称）"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                />
+                />,
                 // <Select placeholder="请选择物流公司..." style={{marginLeft: 8}} onChange={this.companyChange}>
                 //   {companyOptions}
                 // </Select>
@@ -726,7 +721,7 @@ class Logistics extends React.Component {
                       dataSource={carHeadOptions}
                       placeholder="请选车头牌照"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                    />
+                    />,
                   )}
                 </FormItem>
               </Col>
@@ -740,11 +735,11 @@ class Logistics extends React.Component {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
                     <AutoComplete
-                      onChange={this.bodyChange}
+                      onSelect={this.bodyChange}
                       dataSource={carBodyOptions}
                       placeholder="请选车挂牌照"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                    />
+                    />,
                   )}
                 </FormItem>
               </Col>
@@ -759,7 +754,7 @@ class Logistics extends React.Component {
                   {getFieldDecorator('edingzaizhong', {
                     rules: [{required: false, message: '此项为必选项！'}],
                   })(
-                    <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>
+                    <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>,
                   )}
                 </FormItem>
               </Col>
@@ -776,11 +771,11 @@ class Logistics extends React.Component {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
                     <AutoComplete
-                      onChange={this.driverChange}
+                      onSelect={this.driverChange}
                       dataSource={driverOptions}
                       placeholder="请选择司机"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                    />
+                    />,
                   )}
                 </FormItem>
               </Col>
@@ -795,11 +790,11 @@ class Logistics extends React.Component {
                       required: true,
                       message: '请填写正确联系电话！',
                       max: 11,
-                      pattern: REGS.phone
+                      pattern: REGS.phone,
                     }],
                     validateTrigger: 'onBlur',
                   })(
-                    <Input placeholder="填写司机电话"/>
+                    <Input placeholder="填写司机电话"/>,
                   )}
                 </FormItem>
               </Col>
@@ -814,7 +809,7 @@ class Logistics extends React.Component {
                   {getFieldDecorator('yayunyuan', {
                     rules: [{required: false, message: '此项为必选项！'}],
                   })(
-                    <Input/>
+                    <Input/>,
                   )}
                 </FormItem>
               </Col>
@@ -825,7 +820,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('supercargo_mobile')(
-                    <Input placeholder="选择押运员后显示" disabled/>
+                    <Input placeholder="选择押运员后显示" disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -839,7 +834,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('zhuanghuolianxiren')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -850,7 +845,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('zhuanghuolianxidianhua')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -876,7 +871,7 @@ class Logistics extends React.Component {
                       drops={'up'}
                       onApply={this.handleApply}>
                       <Input type="text" value={time} readOnly/>
-                    </DateRangePicker>
+                    </DateRangePicker>,
                   )}
                 </FormItem>
               </Col>
@@ -887,7 +882,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('zhuanghuoshuliang')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -901,7 +896,7 @@ class Logistics extends React.Component {
                     wrapperCol={{span: 15}}
                   >
                     {getFieldDecorator('zhuanghuodizhi')(
-                      <Input disabled style={{marginLeft: 20}}/>
+                      <Input disabled style={{marginLeft: 20}}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -912,7 +907,7 @@ class Logistics extends React.Component {
                     wrapperCol={{span: 20}}
                   >
                     {getFieldDecorator('zhuanghuoxiangxidizhi')(
-                      <Input disabled/>
+                      <Input disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -927,7 +922,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuolianxiren')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -938,7 +933,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuolianxidianhua')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -951,7 +946,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuoshijian')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -962,7 +957,7 @@ class Logistics extends React.Component {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuoshuliang')(
-                    <Input disabled/>
+                    <Input disabled/>,
                   )}
                 </FormItem>
               </Col>
@@ -976,7 +971,7 @@ class Logistics extends React.Component {
                     wrapperCol={{span: 15}}
                   >
                     {getFieldDecorator('shouhuodizhi')(
-                      <Input disabled style={{marginLeft: 20}}/>
+                      <Input disabled style={{marginLeft: 20}}/>,
                     )}
                   </FormItem>
                 </Col>
@@ -987,7 +982,7 @@ class Logistics extends React.Component {
                     wrapperCol={{span: 20}}
                   >
                     {getFieldDecorator('shouhuoxiangxidizhi')(
-                      <Input disabled/>
+                      <Input disabled/>,
                     )}
                   </FormItem>
                 </Col>
@@ -1016,7 +1011,7 @@ function mapStateToProps(state) {
     carOption,
     currentLogistics,
     currentIndex,
-    loading: state.loading.models.logisticsDetail
+    loading: state.loading.models.logisticsDetail,
   }
 }
 

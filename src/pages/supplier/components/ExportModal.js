@@ -16,13 +16,17 @@ class ExportModal extends PureComponent {
       endValue: null,
       endOpen: false,
       modalLoading: false,
-      companyName: ''
+      companyName: '',
+      goodName: ''
     }
   }
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
       type: 'supplier/getSupplierCompany'
+    })
+    this.props.dispatch({
+      type: 'supplier/fetchGoods'
     })
   }
 
@@ -73,13 +77,14 @@ class ExportModal extends PureComponent {
   }
 
   showModal2 = () => {
-    if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime') && this.props.form.getFieldValue('company')) {
+    if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime')) {
       this.setState({
         modalLoading: true
       })
       this.props.dispatch({
         type: 'supplier/accountNum',
         payload: {
+          gas_id: this.props.form.getFieldValue('gas_id'),
           find_str: this.props.form.getFieldValue('company'),
           stime: this.props.form.getFieldValue('stime'),
           etime: this.props.form.getFieldValue('etime')
@@ -103,6 +108,7 @@ class ExportModal extends PureComponent {
       visible2: false,
       startValue: null,
       endValue: null,
+      goodName: ''
     })
   }
 
@@ -114,7 +120,7 @@ class ExportModal extends PureComponent {
   }
 
   export = () => {
-    if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime') && this.props.form.getFieldValue('company')) {
+    if (this.props.form.getFieldValue('stime') && this.props.form.getFieldValue('etime')) {
       let stime = this.props.form.getFieldValue('stime').format('YYYY-MM-DD')
       let etime = this.props.form.getFieldValue('etime').format('YYYY-MM-DD')
       window.location.href = `${IP}/home/supplier/excel-supplier-account?id=${this.props.form.getFieldValue('company')}&start_date=${stime}&end_date=${etime}`
@@ -136,9 +142,15 @@ class ExportModal extends PureComponent {
     })
   }
 
+  goodsChange = (val, item )=> {
+    this.setState({
+      goodName: item.props.children
+    })
+  }
+
   render() {
     const {getFieldDecorator} = this.props.form
-    const {children, companyOption, stime, etime, companyDetail} = this.props
+    const {children, companyOption, goodsOption,stime, etime, companyDetail} = this.props
     const {startValue, endValue} = this.state;
     const formItemLayout = {
       labelCol: {
@@ -154,6 +166,16 @@ class ExportModal extends PureComponent {
       <Option key={option.id} value={option.id}>
         {option.supp_name}
       </Option>)
+    const goodsOptions = goodsOption.map((option, index) =>{
+    return <Option key={option.id} source={option.origin_gas_source}
+                   contact={option.cargo_contact}
+                   mobile={option.cargo_mobile}
+                   province={option.cargo_province}
+                   city={option.cargo_city}
+                   area={option.cargo_area}
+                   address={option.detailed_address}
+                   report={option.temperament_report}
+                   value={option.id}>{option.name_gas_source}</Option>})
     return (
       <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
@@ -171,12 +193,28 @@ class ExportModal extends PureComponent {
               label="供应商名称"
             >
               {getFieldDecorator('company', {
-                rules: [{require: true, message: '此项必填'}],
+                rules: [{require: false, message: '此项必填'}],
               })(
                 <AutoComplete
-                  onSelect={this.companyChange}
+                  onChange={this.companyChange}
                   dataSource={companyOptions}
-                  placeholder="请选择需要导出的数据"
+                  placeholder="请选择需要导出的供应商名称"
+                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                />
+              )}
+            </FormItem>
+            <FormItem
+              style={{marginBottom: 10}}
+              {...formItemLayout}
+              label="气源名称"
+            >
+              {getFieldDecorator('gas_id', {
+                rules: [{require: false, message: '此项必填'}],
+              })(
+                <AutoComplete
+                  onChange={this.goodsChange}
+                  dataSource={goodsOptions}
+                  placeholder="请选择需要导出的气源名称"
                   filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                 />
               )}
@@ -243,6 +281,10 @@ class ExportModal extends PureComponent {
               <span>{this.state.companyName}</span>
             </div>
             <div style={{margin: '5px 0'}}>
+              <span>气源名称：</span>
+              <span>{this.state.goodName}</span>
+            </div>
+            <div style={{margin: '5px 0'}}>
               <span>订单周期：</span>
               <span>{this.state.startValue ? this.state.startValue.format('YYYY/MM/DD') : this.props.stime ? this.props.stime.format('YYYY/MM/DD') : ''} - {this.state.endValue ? this.state.endValue.format('YYYY/MM/DD') : this.props.etime ? this.props.etime.format('YYYY/MM/DD') : ''}</span>
             </div>
@@ -271,11 +313,12 @@ class ExportModal extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {stime, etime, companyOption, companyDetail} = state.supplier
+  const {stime, etime, companyOption, companyDetail,goodsOption} = state.supplier
   return {
     stime,
     etime,
     companyOption,
+    goodsOption,
     companyDetail,
     loading: state.loading.models.supplier
   }

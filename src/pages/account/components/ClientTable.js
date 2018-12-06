@@ -91,7 +91,7 @@ class ClientTable extends React.Component {
       render: (text, record, index) => {
         return (
           <CreditModal title='设置信用额度' id={record.id} name={record.customer_name} credit={record.credit}
-                       credit_notice={record.credit_notice} phones={record.phones}>
+                       credit_notice={record.credit_notice} phones={record.phones} credit_surplus={record.credit_surplus}>
             <Button type='primary' style={{width: 104, height: 28, padding: '0px 14px 0 10px'}}>设置</Button>
           </CreditModal>
         )
@@ -116,7 +116,7 @@ class ClientTable extends React.Component {
           rowKey={record => record.id}
           pagination={false}
           loading={loading}
-        ></Table>
+        />
         <Pagination
           className='ant-table-pagination'
           current={clientPage}

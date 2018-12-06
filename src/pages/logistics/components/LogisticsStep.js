@@ -22,10 +22,10 @@ class LogisticsStep extends PureComponent {
               description={<div style={{
                 position: 'absolute',
                 top: '-50px',
-                left: 65,
+                left: 50,
                 display: (currentLogistics.deliver_status - 1) >= 0 ? 'block' : 'none',
               }}>
-                <div>{currentLogistics.create_time ? currentLogistics.create_time.match(MatchYear) : ''}</div>
+                <div style={{width: 85}}>{currentLogistics.create_time ? currentLogistics.create_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.create_time ? currentLogistics.create_time.match(MatchTime) : ''}</div>
               </div>}/>
 
@@ -51,10 +51,10 @@ class LogisticsStep extends PureComponent {
               description={<div style={{
                 position: 'absolute',
                 top: '-50px',
-                left: 62,
+                left: 40,
                 display: (currentLogistics.deliver_status - 1) >= 1 ? 'block' : 'none',
               }}>
-                <div>{currentLogistics.dispatch_time ? currentLogistics.dispatch_time.match(MatchYear) : ''}</div>
+                <div style={{width: 85}}>{currentLogistics.dispatch_time ? currentLogistics.dispatch_time.match(MatchYear) : ''}</div>
                 <div>{currentLogistics.dispatch_time ? currentLogistics.dispatch_time.match(MatchTime) : ''}</div>
               </div>}/>
 
@@ -80,7 +80,7 @@ class LogisticsStep extends PureComponent {
               description={<div style={{
                 position: 'absolute',
                 top: '-50px',
-                left: 62,
+                left: 40,
                 display: (currentLogistics.deliver_status - 1) >= 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.take_time ? currentLogistics.take_time.match(MatchYear) : ''}</div>
@@ -112,7 +112,7 @@ class LogisticsStep extends PureComponent {
               description={<div style={{
                 position: 'absolute',
                 top: '-50px',
-                left: 62,
+                left: 40,
                 display: (currentLogistics.deliver_status - 1) >= 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.load_time ? currentLogistics.load_time.match(MatchYear) : ''}</div>
@@ -144,7 +144,7 @@ class LogisticsStep extends PureComponent {
               description={<div style={{
                 position: 'absolute',
                 top: '-50px',
-                left: 62,
+                left: 40,
                 display: (currentLogistics.deliver_status - 1) >= 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.unload_time ? currentLogistics.unload_time.match(MatchYear) : ''}</div>
@@ -173,7 +173,7 @@ class LogisticsStep extends PureComponent {
               description={<div style={{
                 position: 'absolute',
                 top: '-50px',
-                left: 62,
+                left: 40,
                 display: (currentLogistics.deliver_status - 1) >= 1 ? 'block' : 'none',
               }}>
                 <div>{currentLogistics.finish_time ? currentLogistics.finish_time.match(MatchYear) : ''}</div>

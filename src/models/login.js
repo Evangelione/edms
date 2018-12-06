@@ -16,8 +16,8 @@ export default {
       const {data} = yield call(loginServices.login, form)
       if (data.code === 1) {
         message.success(data.msg)
-        sessionStorage.setItem('loginAuth', data.user.auth)
-        sessionStorage.setItem('userData', JSON.stringify(data.user))
+        localStorage.setItem('loginAuth', data.user.auth)
+        localStorage.setItem('userData', JSON.stringify(data.user))
         yield put(routerRedux.push({
           pathname: '/',
         }))
@@ -30,8 +30,8 @@ export default {
       const {data} = yield call(loginServices.logout)
       if (data.code === 1) {
         message.success(data.msg)
-        sessionStorage.removeItem('loginAuth')
-        sessionStorage.removeItem('userData')
+        localStorage.removeItem('loginAuth')
+        localStorage.removeItem('userData')
         yield put(routerRedux.push({
           pathname: '/login',
         }))
@@ -43,8 +43,8 @@ export default {
       const {data} = yield call(loginServices.backlogin, form)
       if (data.code === 1) {
         message.success(data.msg)
-        sessionStorage.setItem('backAuth', data.admin.auth)
-        sessionStorage.setItem('adminData', JSON.stringify(data.admin))
+        localStorage.setItem('backAuth', data.admin.auth)
+        localStorage.setItem('adminData', JSON.stringify(data.admin))
         if ((data.admin.auth - 0) === 6) {
           yield put(routerRedux.push({
             pathname: '/permission',
@@ -62,8 +62,8 @@ export default {
     * backlogout({payload}, {call, put}) {
       const {data} = yield call(loginServices.backlogout)
       if (data.code === 1) {
-        sessionStorage.removeItem('backAuth')
-        sessionStorage.removeItem('adminData')
+        localStorage.removeItem('backAuth')
+        localStorage.removeItem('adminData')
         // message.success(data.msg)
         yield put(routerRedux.push({
           pathname: '/admin',
@@ -74,8 +74,8 @@ export default {
       const {data} = yield call(loginServices.checkLogin)
       if (data.code === 1) {
         message.success(data.msg)
-        sessionStorage.setItem('loginAuth', data.user.auth)
-        sessionStorage.setItem('userData', JSON.stringify(data.user))
+        localStorage.setItem('loginAuth', data.user.auth)
+        localStorage.setItem('userData', JSON.stringify(data.user))
         yield put(routerRedux.push({
           pathname: '/',
         }))
@@ -85,9 +85,9 @@ export default {
       const {data} = yield call(loginServices.checkAdminLogin)
       if (data.code === 1) {
         message.success(data.msg)
-        sessionStorage.setItem('backAuth', data.admin.auth)
-        sessionStorage.setItem('adminData', JSON.stringify(data.admin))
-        if ((sessionStorage.getItem('backAuth') - 0) === 6) {
+        localStorage.setItem('backAuth', data.admin.auth)
+        localStorage.setItem('adminData', JSON.stringify(data.admin))
+        if ((localStorage.getItem('backAuth') - 0) === 6) {
           yield put(routerRedux.push({
             pathname: '/permission',
           }))

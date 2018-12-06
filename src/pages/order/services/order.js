@@ -1,7 +1,7 @@
 import request from '../../../utils/request'
 import { IP } from '../../../constants'
 
-export function getOrderList({page, order_status, find_str, order_type, stime, etime}) {
+export function getOrderList({page, order_status, find_str, order_type, stime, etime, time_type}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', 8)
@@ -10,15 +10,16 @@ export function getOrderList({page, order_status, find_str, order_type, stime, e
   formData.append('order_type', order_type)
   formData.append('stime', stime)
   formData.append('etime', etime)
+  formData.append('time_type', time_type)
   return request(`${IP}/home/order/order-list`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
 export function fetchCustom() {
   return request(`${IP}/home/select/customer`, {
-    method: 'POST'
+    method: 'POST',
   })
 }
 
@@ -27,13 +28,13 @@ export function fetchSite({customer_id}) {
   formData.append('customer_id', customer_id)
   return request(`${IP}/home/select/site`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
 export function fetchSupplier() {
   return request(`${IP}/home/select/supplier`, {
-    method: 'POST'
+    method: 'POST',
   })
 }
 
@@ -42,7 +43,7 @@ export function fetchGoods({supplier_id}) {
   formData.append('supplier_id', supplier_id)
   return request(`${IP}/home/select/goods`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -53,7 +54,7 @@ export function addOrder({values}) {
   })
   return request(`${IP}/home/order/add-order`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -62,7 +63,7 @@ export function orderInfo({id}) {
   formData.append('id', id)
   return request(`${IP}/home/order/order-info`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -74,7 +75,7 @@ export function modifyOrder({form}) {
   })
   return request(`${IP}/home/order/modify-order`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -85,7 +86,7 @@ export function confirmOrder({form}) {
   })
   return request(`${IP}/home/order/confirm-order`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -94,7 +95,7 @@ export function doPay({id}) {
   formData.append('id', id)
   return request(`${IP}/home/order/pay`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -103,7 +104,7 @@ export function cancelOrder({id}) {
   formData.append('id', id)
   return request(`${IP}/home/order/cancel-order`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -114,7 +115,7 @@ export function doResult(form) {
   })
   return request(`${IP}/home/order/settled`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -123,7 +124,7 @@ export function delOrder({id}) {
   formData.append('id', id)
   return request(`${IP}/home/order/delete-order`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
 
@@ -136,6 +137,6 @@ export function getModalPrice({purchase_price, deliver_price, price, distance, s
   formData.append('saler_num', saler_num)
   return request(`${IP}/home/order/saler-model`, {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 }
