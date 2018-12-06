@@ -37,6 +37,11 @@ export default {
     gaslist: [],
     gaspage: 1,
     gastotal: 0,
+    vehiclelist: [],
+    vehiclepage: 1,
+    vehicletotal: 0,
+    customerHead: '',
+    supplierHead: '',
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -111,26 +116,30 @@ export default {
         })
       }
     },
-    * insertCustomer({payload: form}, {call, put}) {
+    * insertCustomer({payload: {form}}, {call, put, select}) {
       const {data} = yield call(maintainService.insertCustomer, {form})
+      const find_str = yield select(state => state.maintain.find_str)
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/maintain',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchCustomer', payload: {find_str}})
       } else {
         message.error(data.msg)
       }
     },
-    * modifyCustomer({payload: form}, {call, put}) {
+    * modifyCustomer({payload: {form}}, {call, put, select}) {
       const {data} = yield call(maintainService.modifyCustomer, {form})
+      const find_str = yield select(state => state.maintain.find_str)
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/maintain',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchCustomer', payload: {find_str}})
       } else {
         message.error(data.msg)
       }
@@ -147,26 +156,30 @@ export default {
         message.error(data.msg)
       }
     },
-    * insertSupplier({payload: form}, {call, put}) {
+    * insertSupplier({payload: {form}}, {call, put, select}) {
       const {data} = yield call(maintainService.insertSupplier, {form})
+      const find_str = yield select(state => state.maintain.find_str)
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/maintain',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchSupplier', payload: {find_str}})
       } else {
         message.error(data.msg)
       }
     },
-    * modifySupplier({payload: form}, {call, put}) {
+    * modifySupplier({payload: {form}}, {call, put, select}) {
       const {data} = yield call(maintainService.modifySupplier, {form})
+      const find_str = yield select(state => state.maintain.find_str)
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/maintain',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchSupplier', payload: {find_str}})
       } else {
         message.error(data.msg)
       }
@@ -391,13 +404,34 @@ export default {
         // window.location.href = `${IP}/admin/supplier/batch-down-supplier-get`
       }
     },
-
     * exportVehicle({payload: {json}}, {call, put, select}) {
       const {data} = yield call(maintainService.exportVehicle, {json})
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success('正在导出文件...')
         // window.location.href = `${IP}/admin/car/batch-down-car-get`
+      }
+    },
+    * postCustomerHead({payload: file}, {call, put, select}) {
+      const {data} = yield call(maintainService.postmMintainHead, {file})
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        yield put({
+          type: 'save', payload: {
+            customerHead: data.data.img,
+          },
+        })
+      }
+    },
+    * postSupplierHead({payload: file}, {call, put, select}) {
+      const {data} = yield call(maintainService.postmMintainHead, {file})
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        yield put({
+          type: 'save', payload: {
+            supplierHead: data.data.img,
+          },
+        })
       }
     },
   },

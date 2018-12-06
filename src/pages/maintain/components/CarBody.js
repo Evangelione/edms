@@ -52,7 +52,7 @@ class CarBody extends PureComponent {
       key: 'createdAt',
       render: (text, record, index) => {
         return (
-          <div className='operating'>
+          <div>
             <Button className='blueBorder' onClick={this.toggleModal.bind(null, '编辑')}
                     size='small'>编辑</Button>
             {/*<PromptModal state='deleteOne' delType='user' delID={record.id}>*/}

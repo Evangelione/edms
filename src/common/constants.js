@@ -175,3 +175,5 @@ export const logisticsTabs = [{
   value: '已完成',
   status: '6',
 }]
+
+export const company_type = ['--', '生产商', '储存商', '贸易商', '零售商', '物流商', '服务平台', '监管机构', '资金机构']

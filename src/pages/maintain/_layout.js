@@ -1,9 +1,12 @@
 import { connect } from 'dva'
 import { Card, Tabs, Input } from 'antd'
-import UserTable from './components/UserTable'
-import SupplierTable from './components/SupplierTable'
-import VehicleTable from './components/VehicleTable'
+// import UserTable from './components/UserTable'
+// import SupplierTable from './components/SupplierTable'
+// import VehicleTable from './components/VehicleTable'
 import SiteTable from './components/SiteTable'
+import Customer from './components/Customer'
+import Supplier from './components/Supplier'
+import Vehicle from './components/Vehicle'
 import GasSource from './components/GasSource'
 import CarHead from './components/CarHead'
 import CarBody from './components/CarBody'
@@ -69,7 +72,7 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
           <Tabs activeKey={currentTab} onChange={callback}>
             <TabPane tab="客户" key="1">
               <Card style={{paddingTop: 30}}>
-                <UserTable/>
+                <Customer/>
               </Card>
             </TabPane>
             <TabPane tab="站点" key="2">
@@ -79,7 +82,7 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
             </TabPane>
             <TabPane tab="供应商" key="3">
               <Card style={{paddingTop: 30}}>
-                <SupplierTable/>
+                <Supplier/>
               </Card>
             </TabPane>
             <TabPane tab="气源" key="4">
@@ -89,7 +92,7 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
             </TabPane>
             <TabPane tab="物流" key="5">
               <Card style={{paddingTop: 30}}>
-                <VehicleTable/>
+                <Vehicle/>
               </Card>
             </TabPane>
             <TabPane tab="司机" key="6">

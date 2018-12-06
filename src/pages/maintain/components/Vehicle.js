@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import { PAGE_SIZE } from '../../../constants'
 
 
-class Dirver extends PureComponent {
+class Vehicle extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -29,20 +29,45 @@ class Dirver extends PureComponent {
   }
 
   render() {
-    const {dirverlist, dirverpage, dirvertotal, loading} = this.props
+    const {vehiclelist, vehiclepage, vehicletotal, loading} = this.props
     const {visible, modaltype} = this.state
     const columns = [{
-      title: '姓名',
+      title: '企业ID',
       dataIndex: 'customer_name',
       key: 'customer_name',
       align: 'center',
     }, {
-      title: '手机',
+      title: '企业类型',
       dataIndex: 'customer_type',
       key: 'customer_type',
       align: 'center',
     }, {
-      title: '相关物流公司',
+      title: '物流全称',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact2',
+      align: 'center',
+    }, {
+      title: '物流简称',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact3',
+      align: 'center',
+    }, {
+      title: '联系人',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact4',
+      align: 'center',
+    }, {
+      title: '联系方式',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact5',
+      align: 'center',
+    }, {
+      title: '所处地区',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact',
+      align: 'center',
+    }, {
+      title: '详细地址',
       dataIndex: 'customer_contact',
       key: 'customer_contact',
       align: 'center',
@@ -73,24 +98,24 @@ class Dirver extends PureComponent {
     return (
       <div>
         <div className='toolBar'>
-          <Button type='primary' icon="plus" onClick={this.toggleModal.bind(null, '新增')}>新增司机</Button>
+          <Button type='primary' icon="plus" onClick={this.toggleModal.bind(null, '新增')}>新增物流</Button>
         </div>
         <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
           columns={columns}
-          dataSource={dirverlist}
+          dataSource={vehiclelist}
           rowKey={record => record.id}
           pagination={false}
           loading={loading}
         />
         <Pagination
           className='ant-table-pagination'
-          current={dirverpage}
-          total={dirvertotal}
+          current={vehiclepage}
+          total={vehicletotal}
           pageSize={PAGE_SIZE}
           onChange={this.pageChangeHandler}
         />
-        <Modal title={`${modaltype}司机`}
+        <Modal title={`${modaltype}物流`}
                cancelText='取消'
                okText='提交'
                visible={visible}
@@ -104,13 +129,13 @@ class Dirver extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {dirverlist, dirverpage, dirvertotal} = state.maintain
+  const {vehiclelist, vehiclepage, vehicletotal} = state.maintain
   return {
-    dirverlist,
-    dirverpage,
-    dirvertotal,
+    vehiclelist,
+    vehiclepage,
+    vehicletotal,
     loading: state.loading.models.maintain,
   }
 }
 
-export default connect(mapStateToProps)(Dirver)
+export default connect(mapStateToProps)(Vehicle)
