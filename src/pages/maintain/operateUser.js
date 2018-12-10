@@ -203,8 +203,8 @@ class operateUser extends React.Component {
                       rules: [{
                         required: true,
                         message: '请填写正确联系电话！',
-                        max: 11,
-                        pattern: REGS.phone,
+                        // max: 11,
+                        // pattern: REGS.phone,
                       }],
                       validateTrigger: 'onBlur',
                     })(
