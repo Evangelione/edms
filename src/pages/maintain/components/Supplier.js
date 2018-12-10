@@ -1,9 +1,9 @@
 import { PureComponent } from 'react'
-import { Table, Button, Pagination, Modal, Form, Input, Select, Cascader, Upload, Icon, message } from 'antd'
+import { Table, Button, Pagination, Modal, Form, Input, Upload, Icon, message, Select } from 'antd'
 import { connect } from 'dva'
 // import PromptModal from '../../../components/PromptModal/PromptModal'
 import { IP, PAGE_SIZE } from '../../../constants'
-import { company_type, REGS } from '../../../common/constants'
+import { supp_type, REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -58,19 +58,16 @@ class Supplier extends PureComponent {
       current: record,
     })
     this.props.form.setFieldsValue({
-      company_type: record.company_type,
-      supplier_full_name: record.supplier_full_name,
+      supp_type: record.supp_type,
       supp_name: record.supp_name,
       supp_contact: record.supp_contact,
       supp_mobile: record.supp_mobile,
-      area: [record.supplier_province.name, record.supplier_city.name, record.supplier_area.name],
-      supplier_detailed_address: record.supplier_detailed_address,
     })
   }
 
   pageChangeHandler = (page) => {
     this.props.dispatch({
-      type: 'maintain/fetchCustomer',
+      type: 'maintain/fetchSupplier',
       payload: {page},
     })
   }
@@ -78,15 +75,8 @@ class Supplier extends PureComponent {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let province = values.area[0]
-        let city = values.area[1]
-        let area = values.area[2] || ''
         let url = ''
-        values.supplier_province = province
-        values.supplier_city = city
-        values.supplier_area = area
         values.supp_head = this.state.fileList.length ? this.state.fileList[0].url : ''
-        delete values.area
         console.log('Received values of form: ', values)
         if (this.state.modaltype === '新增') {
           url = 'insertSupplier'
@@ -173,7 +163,7 @@ class Supplier extends PureComponent {
   handleChange = ({fileList}) => this.setState({fileList})
 
   render() {
-    const {supplierlist, supplierpage, supplertotal, CascaderOptions, loading} = this.props
+    const {supplierlist, supplierpage, supplertotal, loading} = this.props
     const {getFieldDecorator} = this.props.form
     const {visible, modaltype, fileList} = this.state
     const uploadButton = (
@@ -183,22 +173,9 @@ class Supplier extends PureComponent {
       </div>
     )
     const columns = [{
-      title: '企业ID',
-      dataIndex: 'id',
-      key: 'id',
-      align: 'center',
-    }, {
-      title: '企业类型',
-      dataIndex: 'company_type',
-      key: 'company_type',
-      align: 'center',
-      render: (text) => {
-        return <div>{company_type[text]}</div>
-      },
-    }, {
-      title: '供应商全称',
-      dataIndex: 'supplier_full_name',
-      key: 'supplier_full_name',
+      title: '供应商名称',
+      dataIndex: 'supp_name',
+      key: 'supp_name',
       align: 'center',
       render: (text) => {
         if (text) {
@@ -208,10 +185,13 @@ class Supplier extends PureComponent {
         }
       },
     }, {
-      title: '供应商简称',
-      dataIndex: 'supp_name',
-      key: 'supp_name',
+      title: '供应商类型',
+      dataIndex: 'supp_type',
+      key: 'supp_type',
       align: 'center',
+      render: (text) => {
+        return <div>{supp_type[text]}</div>
+      },
     }, {
       title: '联系人',
       dataIndex: 'supp_contact',
@@ -222,30 +202,6 @@ class Supplier extends PureComponent {
       dataIndex: 'supp_mobile',
       key: 'supp_mobile',
       align: 'center',
-    }, {
-      title: '所处地区',
-      key: 'area',
-      align: 'center',
-      render: (text, record) => {
-        if (!record.supplier_province) {
-          return <div>--</div>
-        } else {
-          let area = record.supplier_province.name + record.supplier_city.name || '' + record.supplier_area.name || ''
-          return <div>{area}</div>
-        }
-      },
-    }, {
-      title: '详细地址',
-      dataIndex: 'supplier_detailed_address',
-      key: 'supplier_detailed_address',
-      align: 'center',
-      render: (text) => {
-        if (text) {
-          return <div>{text}</div>
-        } else {
-          return <div>--</div>
-        }
-      },
     }, {
       title: '操作',
       align: 'center',
@@ -308,9 +264,9 @@ class Supplier extends PureComponent {
             >
               {getFieldDecorator('supp_head')(
                 <Upload
-                  action={`${IP}/admin/customer/upload-img`}
+                  action={`${IP}/admin/supplier/upload-img`}
                   listType="picture-card"
-                  name='CustomerForm[img]'
+                  name='SuppForm[img]'
                   fileList={fileList}
                   onPreview={this.handlePreview}
                   onChange={this.handleChange}
@@ -322,44 +278,29 @@ class Supplier extends PureComponent {
               )}
             </FormItem>
             <FormItem
-              label="企业类型"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('company_type', {
-                rules: [{required: true, message: '请选择企业类型'}],
-              })(
-                <Select placeholder="请选择企业类型">
-                  {company_type.map((value, index) => {
-                    if (index === 0) {
-                      return null
-                    } else {
-                      return <Option key={index} value={index + ''}>{value}</Option>
-                    }
-                  })}
-                </Select>,
-              )}
-            </FormItem>
-            <FormItem
-              label="供应商全称"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('supplier_full_name', {
-                rules: [{required: true, message: '请输入供应商全称', pattern: REGS.name}],
-              })(
-                <Input placeholder='请输入供应商全称'/>,
-              )}
-            </FormItem>
-            <FormItem
-              label="供应商简称"
+              label="供应商名称"
               labelCol={{span: 5}}
               wrapperCol={{span: 12}}
             >
               {getFieldDecorator('supp_name', {
-                rules: [{required: true, message: '请输入供应商简称', pattern: REGS.name}],
+                rules: [{required: true, message: '请输入供应商名称', pattern: REGS.name}],
               })(
-                <Input placeholder='请输入供应商简称'/>,
+                <Input placeholder='请输入供应商名称'/>,
+              )}
+            </FormItem>
+            <FormItem
+              label="供应商类型"
+              labelCol={{span: 5}}
+              wrapperCol={{span: 12}}
+            >
+              {getFieldDecorator('supp_type', {
+                rules: [{required: true, message: '请选择供应商类型'}],
+              })(
+                <Select placeholder="请选择供应商类型">
+                  {supp_type.map((value, index) => {
+                    return <Option value={index + 1 + ''}>{value}</Option>
+                  })}
+                </Select>,
               )}
             </FormItem>
             <FormItem
@@ -382,28 +323,6 @@ class Supplier extends PureComponent {
                 rules: [{required: true, message: '请输入联系方式', pattern: REGS.phone}],
               })(
                 <Input placeholder='请输入联系方式'/>,
-              )}
-            </FormItem>
-            <FormItem
-              label="所处地区"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('area', {
-                rules: [{required: true, message: '请选择所处地区'}],
-              })(
-                <Cascader placeholder='请选择所处地区' options={CascaderOptions} loadData={this.loadData}/>,
-              )}
-            </FormItem>
-            <FormItem
-              label="详细地址"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('supplier_detailed_address', {
-                rules: [{required: true, message: '请输入详细地址'}],
-              })(
-                <Input placeholder='请输入详细地址'/>,
               )}
             </FormItem>
           </Form>
@@ -429,13 +348,12 @@ class Supplier extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {supplierlist, supplierpage, supplertotal, supplierHead, CascaderOptions} = state.maintain
+  const {supplierlist, supplierpage, supplertotal, supplierHead} = state.maintain
   return {
     supplierlist,
     supplierpage,
     supplertotal,
     supplierHead,
-    CascaderOptions,
     loading: state.loading.models.maintain,
   }
 }

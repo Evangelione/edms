@@ -78,47 +78,47 @@ class OrderModal extends PureComponent {
         dataSource: form.shouhuo.map(this.renderOption),
         currType: form.deliver_type,
       })
-      let text = form.user_type
-      let result_type = ''
-      if (form.site_type === '1') {
-        if (text === '1') {
-          result_type = 'LNG加气站'
-        } else if (text === '2') {
-          result_type = 'L-CNG加气站'
-        } else if (text === '3') {
-          result_type = 'LNG L-CNG合建站'
-        } else if (text === '4') {
-          result_type = 'LNG CNG合建站'
-        } else if (text === '5') {
-          result_type = 'LNG 汽柴油合建站'
-        } else if (text === '6') {
-          result_type = 'LNG泵船'
-        } else if (text === '7') {
-          result_type = '其他'
-        } else if (text === '0') {
-          result_type = '--'
-        }
-      } else if (form.site_type === '2') {
-        if (text === '1') {
-          result_type = '电厂'
-        } else if (text === '2') {
-          result_type = '城市居民'
-        } else if (text === '3') {
-          result_type = '城市商服'
-        } else if (text === '4') {
-          result_type = '城市供暖'
-        } else if (text === '5') {
-          result_type = '工业燃料'
-        } else if (text === '6') {
-          result_type = '工业原料'
-        } else if (text === '7') {
-          result_type = '其他'
-        } else if (text === '8') {
-          result_type = '分布式项目'
-        } else if (text === '0') {
-          result_type = '--'
-        }
-      }
+      // let text = form.user_type
+      // let result_type = ''
+      // if (form.site_type === '1') {
+      //   if (text === '1') {
+      //     result_type = 'LNG加气站'
+      //   } else if (text === '2') {
+      //     result_type = 'L-CNG加气站'
+      //   } else if (text === '3') {
+      //     result_type = 'LNG L-CNG合建站'
+      //   } else if (text === '4') {
+      //     result_type = 'LNG CNG合建站'
+      //   } else if (text === '5') {
+      //     result_type = 'LNG 汽柴油合建站'
+      //   } else if (text === '6') {
+      //     result_type = 'LNG泵船'
+      //   } else if (text === '7') {
+      //     result_type = '其他'
+      //   } else if (text === '0') {
+      //     result_type = '--'
+      //   }
+      // } else if (form.site_type === '2') {
+      //   if (text === '1') {
+      //     result_type = '电厂'
+      //   } else if (text === '2') {
+      //     result_type = '城市居民'
+      //   } else if (text === '3') {
+      //     result_type = '城市商服'
+      //   } else if (text === '4') {
+      //     result_type = '城市供暖'
+      //   } else if (text === '5') {
+      //     result_type = '工业燃料'
+      //   } else if (text === '6') {
+      //     result_type = '工业原料'
+      //   } else if (text === '7') {
+      //     result_type = '其他'
+      //   } else if (text === '8') {
+      //     result_type = '分布式项目'
+      //   } else if (text === '0') {
+      //     result_type = '--'
+      //   }
+      // }
       this.props.dispatch({
         type: 'order/fetchGoods',
         payload: {
@@ -148,7 +148,7 @@ class OrderModal extends PureComponent {
             deliver_price: form.deliver_price,
             site_id: form.site_id,
             site_id2: form.site_type,
-            site_id3: result_type,
+            // site_id3: result_type,
             recv_contact: form.recv_contact,
             recv_phone: form.recv_phone,
             recv_time: moment(form.recv_time),
@@ -365,7 +365,7 @@ class OrderModal extends PureComponent {
       saler_price: undefined,
       site_id: undefined,
       site_id2: undefined,
-      site_id3: undefined,
+      // site_id3: undefined,
       delivery: undefined,
       recv_contact: undefined,
       recv_phone: undefined,
@@ -377,7 +377,7 @@ class OrderModal extends PureComponent {
   siteChange = (value, item) => {
     this.props.form.setFieldsValue({
       site_id2: item.props.sitetype,
-      site_id3: item.props.usertype,
+      // site_id3: item.props.usertype,
       delivery: item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address,
       recv_contact: undefined,
       recv_phone: undefined,
@@ -670,35 +670,35 @@ class OrderModal extends PureComponent {
     const {children, customOption, siteOption, supplierOption, goodsOption} = this.props
     const {getFieldDecorator} = this.props.form
     const customOptions = customOption.map(option => {
-      return <Option key={option.id} value={option.id} mobile={option.customer_mobile}
-                     contact={option.customer_contact} balance={option.balance} credit={option.credit}
-                     credit_used={option.credit_used}>{option.customer_name}</Option>
+      return <Option2 key={option.id} value={option.id} mobile={option.customer_mobile}
+                      contact={option.customer_contact} balance={option.balance} credit={option.credit}
+                      credit_used={option.credit_used}>{option.customer_name}</Option2>
     })
     const siteOptions = siteOption.map(option => {
-      return <Option key={option.id}
-                     sitetype={option.site_type}
-                     usertype={option.user_type_name}
-                     province={option.delivery_province}
-                     city={option.delivery_city}
-                     area={option.delivery_area}
-                     address={option.detailed_address}
-                     shouhuo={option.shouhuo}
-                     value={option.id}>{option.site_name}</Option>
+      return <Option2 key={option.id}
+                      sitetype={option.site_type}
+                      usertype={option.user_type_name}
+                      province={option.delivery_province}
+                      city={option.delivery_city}
+                      area={option.delivery_area}
+                      address={option.detailed_address}
+                      shouhuo={option.shouhuo}
+                      value={option.id}>{option.site_name}</Option2>
     })
     const supplierOptions = supplierOption.map(option => {
-      return <Option key={option.id} contact={option.supp_contact} mobile={option.supp_mobile} balance={option.balance}
-                     value={option.id}>{option.supp_name}</Option>
+      return <Option2 key={option.id} contact={option.supp_contact} mobile={option.supp_mobile} balance={option.balance}
+                      value={option.id}>{option.supp_name}</Option2>
     })
     const goodsOptions = goodsOption.map(option => {
-      return <Option key={option.id} source={option.origin_gas_source}
-                     contact={option.cargo_contact}
-                     mobile={option.cargo_mobile}
-                     province={option.cargo_province}
-                     city={option.cargo_city}
-                     area={option.cargo_area}
-                     address={option.detailed_address}
-                     report={option.temperament_report}
-                     value={option.id}>{option.name_gas_source}</Option>
+      return <Option2 key={option.id} source={option.origin_gas_source}
+                      contact={option.cargo_contact}
+                      mobile={option.cargo_mobile}
+                      province={option.cargo_province}
+                      city={option.cargo_city}
+                      area={option.cargo_area}
+                      address={option.detailed_address}
+                      report={option.temperament_report}
+                      value={option.id}>{option.name_gas_source}</Option2>
     })
     return (
       <div onClick={this.showModal} style={{display: 'inline-block'}}>
@@ -735,9 +735,9 @@ class OrderModal extends PureComponent {
                       message: '此项为必选项！',
                     }],
                   })(
-                    <Select placeholder="请选择供应商名称" style={{width: 185}} onChange={this.suppChange}>
+                    <AutoComplete placeholder="请选择供应商名称" style={{width: 185}} onSelect={this.suppChange}>
                       {supplierOptions}
-                    </Select>,
+                    </AutoComplete>,
                   )}
                 </FormItem>
               </Col>
@@ -801,9 +801,9 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('goods_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择气源名称" style={{width: 185}} onChange={this.goodsChange}>
+                    <AutoComplete placeholder="请选择气源名称" style={{width: 185}} onSelect={this.goodsChange}>
                       {goodsOptions}
-                    </Select>,
+                    </AutoComplete>,
                   )}
                 </FormItem>
               </Col>
@@ -879,10 +879,10 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('cust_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}
-                            disabled={this.props.confirm ? true : false}>
+                    <AutoComplete placeholder="请选择客户名称" style={{width: 185}} onSelect={this.customerChange}
+                                  disabled={this.props.confirm ? true : false}>
                       {customOptions}
-                    </Select>,
+                    </AutoComplete>,
                   )}
                 </FormItem>
               </Col>
@@ -946,10 +946,10 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('site_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}
-                            disabled={this.props.confirm ? true : false}>
+                    <AutoComplete placeholder="请选择站点名称" style={{width: 185}} onSelect={this.siteChange}
+                                  disabled={this.props.confirm ? true : false}>
                       {siteOptions}
-                    </Select>,
+                    </AutoComplete>,
                   )}
                 </FormItem>
               </Col>
@@ -963,13 +963,13 @@ class OrderModal extends PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label="用户类型" hasFeedback style={{display: 'block', marginBottom: 10}}>
-                  {getFieldDecorator('site_id3')(
-                    <Select placeholder="自动生成，非手填" style={{width: 185}} disabled></Select>,
-                  )}
-                </FormItem>
-              </Col>
+              {/*<Col span={8}>*/}
+                {/*<FormItem {...formItemLayout} label="用户类型" hasFeedback style={{display: 'block', marginBottom: 10}}>*/}
+                  {/*{getFieldDecorator('site_id3')(*/}
+                    {/*<Select placeholder="自动生成，非手填" style={{width: 185}} disabled></Select>,*/}
+                  {/*)}*/}
+                {/*</FormItem>*/}
+              {/*</Col>*/}
               <Col span={8}>
                 <FormItem {...formItemLayout} label="收货联系人" hasFeedback style={{display: 'block', marginBottom: 10}}>
                   {getFieldDecorator('recv_contact', {

@@ -1,13 +1,14 @@
 import { PureComponent } from 'react'
-import { Table, Button, Pagination, Modal, Upload, message, Form, Input, Cascader } from 'antd'
+import { Table, Button, Pagination, Modal, Input, Form, Select, Cascader } from 'antd'
 import { connect } from 'dva'
 // import PromptModal from '../../../components/PromptModal/PromptModal'
-import { IP, PAGE_SIZE } from '../../../constants'
+import { PAGE_SIZE } from '../../../constants'
 import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
+const Option = Select.Option
 
-class GasSource extends PureComponent {
+class Site extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -44,72 +45,13 @@ class GasSource extends PureComponent {
       current: record,
     })
     this.props.form.setFieldsValue({
-      name_gas_source: record.name_gas_source,
-      origin_gas_source: record.origin_gas_source,
-      cargo_contact: record.cargo_contact,
-      cargo_mobile: record.cargo_mobile,
-      area: [record.cargo_province, record.cargo_city, record.cargo_area],
+      site_type: record.site_type,
+      site_name: record.site_name,
+      full_site_name: record.full_site_name,
+      delivery_contact1: record.delivery_contact1,
+      delivery_mobile1: record.delivery_mobile1,
+      area: [record.delivery_province, record.delivery_city, record.delivery_area],
       detailed_address: record.detailed_address,
-    })
-  }
-
-  submit = () => {
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        let province = values.area[0]
-        let city = values.area[1]
-        let area = values.area[2] || ''
-        let url = ''
-        values.cargo_province = province
-        values.cargo_city = city
-        values.cargo_area = area
-        delete values.area
-        console.log('Received values of form: ', values)
-        if (this.state.modaltype === '新增') {
-          url = 'insertGas'
-        } else {
-          url = 'modifyGas'
-          values.id = this.state.current.id
-        }
-        this.props.dispatch({
-          type: 'maintain/' + url,
-          payload: {
-            form: values,
-          },
-        }).then(() => {
-          this.toggleModal()
-        })
-      }
-    })
-  }
-
-  upLoadReport = (id, file) => {
-    this.props.dispatch({
-      type: 'maintain/uploadSingle',
-      payload: {id, file},
-    })
-  }
-
-  openPDF = (text) => {
-    window.open(text)
-  }
-
-  beforeUpload = (file) => {
-    const isPDF = file.type === 'application/pdf'
-    if (!isPDF) {
-      message.error('You can only upload PDF file!')
-    }
-    const isLt20M = file.size / 1024 / 1024 < 20
-    if (!isLt20M) {
-      message.error('PDF must smaller than 2MB!')
-    }
-    return isPDF && isLt20M
-  }
-
-  pageChangeHandler = (page) => {
-    this.props.dispatch({
-      type: 'maintain/fetchGas',
-      payload: {page},
     })
   }
 
@@ -125,29 +67,78 @@ class GasSource extends PureComponent {
     })
   }
 
+  submit = () => {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let province = values.area[0]
+        let city = values.area[1]
+        let area = values.area[2] || ''
+        let url = ''
+        values.delivery_province = province
+        values.delivery_city = city
+        values.delivery_area = area
+        delete values.area
+        console.log('Received values of form: ', values)
+        if (this.state.modaltype === '新增') {
+          url = 'insertSite'
+        } else {
+          url = 'modifySite'
+          values.id = this.state.current.id
+        }
+        this.props.dispatch({
+          type: 'maintain/' + url,
+          payload: {
+            form: values,
+          },
+        }).then(() => {
+          this.toggleModal()
+        })
+      }
+    })
+  }
+
+  pageChangeHandler = (page) => {
+    this.props.dispatch({
+      type: 'maintain/fetchSite',
+      payload: {page},
+    })
+  }
+
   render() {
-    const {gaslist, gaspage, gastotal, loading, CascaderOptions} = this.props
+    const {sitelist, sitepage, sitetotal, CascaderOptions, loading} = this.props
     const {getFieldDecorator} = this.props.form
     const {visible, modaltype} = this.state
     const columns = [{
-      title: '气源名称',
-      dataIndex: 'name_gas_source',
-      key: 'name_gas_source',
+      title: '站点简称',
+      dataIndex: 'site_name',
+      key: 'site_name',
       align: 'center',
     }, {
-      title: '气源产地',
-      dataIndex: 'origin_gas_source',
-      key: 'origin_gas_source',
+      title: '站点全称',
+      dataIndex: 'full_site_name',
+      key: 'full_site_name',
       align: 'center',
+    }, {
+      title: '站点类型',
+      dataIndex: 'site_type',
+      key: 'site_type',
+      align: 'center',
+      render: (text) => {
+        if (text === '1') {
+          return <div>加气站</div>
+        } else if (text === '2') {
+          return <div>气化站</div>
+        }
+      },
     }, {
       title: '联系人',
-      dataIndex: 'cargo_contact',
-      key: 'cargo_contact',
+      dataIndex: 'delivery_contact1',
+      key: 'delivery_contact1',
       align: 'center',
     }, {
       title: '联系方式',
-      dataIndex: 'cargo_mobile',
-      key: 'cargo_mobile',
+      dataIndex: 'delivery_mobile1',
+      key: 'delivery_mobile1',
       align: 'center',
     }, {
       title: '所处地区',
@@ -155,10 +146,10 @@ class GasSource extends PureComponent {
       key: 'area',
       align: 'center',
       render: (text, record) => {
-        if (!record.cargo_province) {
+        if (!record.delivery_province) {
           return <div>--</div>
         } else {
-          let area = record.cargo_province + record.cargo_city || '' + record.cargo_area || ''
+          let area = record.delivery_province + record.delivery_city || '' + record.delivery_area || ''
           return <div>{area}</div>
         }
       },
@@ -167,31 +158,6 @@ class GasSource extends PureComponent {
       dataIndex: 'detailed_address',
       key: 'detailed_address',
       align: 'center',
-    }, {
-      title: '气质报告',
-      dataIndex: 'temperament_report',
-      key: 'temperament_report',
-      align: 'center',
-      render: (text, record, index) => {
-        return (
-          <div>
-            {record.temperament_report ?
-              <Button className={'blueBorder'} size={'small'} onClick={this.openPDF.bind(null, text)}>查看</Button>
-              :
-              <Upload
-                accept='.pdf'
-                name='GoodsForm[pdf]'
-                action={`${IP}/admin/goods/modify-report`}
-                customRequest={this.upLoadReport.bind(null, record.id)}
-                beforeUpload={this.beforeUpload}
-                showUploadList={false}
-              >
-                <Button type='primary'>上传</Button>
-              </Upload>
-            }
-          </div>
-        )
-      },
     }, {
       title: '操作',
       align: 'center',
@@ -219,24 +185,24 @@ class GasSource extends PureComponent {
     return (
       <div>
         <div className='toolBar'>
-          <Button type='primary' icon="plus" onClick={this.insertModal}>新增气源</Button>
+          <Button type='primary' icon="plus" onClick={this.insertModal}>新增站点</Button>
         </div>
         <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
           columns={columns}
-          dataSource={gaslist}
+          dataSource={sitelist}
           rowKey={record => record.id}
           pagination={false}
           loading={loading}
         />
         <Pagination
           className='ant-table-pagination'
-          current={gaspage}
-          total={gastotal}
+          current={sitepage}
+          total={sitetotal}
           pageSize={PAGE_SIZE}
           onChange={this.pageChangeHandler}
         />
-        <Modal title={`${modaltype}气源`}
+        <Modal title={`${modaltype}站点`}
                cancelText='取消'
                okText='提交'
                visible={visible}
@@ -246,25 +212,39 @@ class GasSource extends PureComponent {
                maskClosable={false}>
           <Form>
             <FormItem
-              label="气源名称"
+              label="站点简称"
               labelCol={{span: 5}}
               wrapperCol={{span: 12}}
             >
-              {getFieldDecorator('name_gas_source', {
-                rules: [{required: true, message: '请输入气源名称', pattern: REGS.name}],
+              {getFieldDecorator('site_name', {
+                rules: [{required: true, message: '请输入站点简称', pattern: REGS.name}],
               })(
-                <Input placeholder='请输入气源名称'/>,
+                <Input placeholder='请输入站点简称'/>,
               )}
             </FormItem>
             <FormItem
-              label="气源产地"
+              label="站点全称"
               labelCol={{span: 5}}
               wrapperCol={{span: 12}}
             >
-              {getFieldDecorator('origin_gas_source', {
-                rules: [{required: true, message: '请输入气源产地', pattern: REGS.name}],
+              {getFieldDecorator('full_site_name', {
+                rules: [{required: true, message: '请输入站点全称', pattern: REGS.name}],
               })(
-                <Input placeholder='请输入气源产地'/>,
+                <Input placeholder='请输入站点全称'/>,
+              )}
+            </FormItem>
+            <FormItem
+              label="站点类型"
+              labelCol={{span: 5}}
+              wrapperCol={{span: 12}}
+            >
+              {getFieldDecorator('site_type', {
+                rules: [{required: true, message: '请选择站点类型'}],
+              })(
+                <Select placeholder="请选择站点类型">
+                  <Option value='1'>加气站</Option>
+                  <Option value='2'>气化站</Option>
+                </Select>,
               )}
             </FormItem>
             <FormItem
@@ -272,10 +252,10 @@ class GasSource extends PureComponent {
               labelCol={{span: 5}}
               wrapperCol={{span: 12}}
             >
-              {getFieldDecorator('cargo_contact', {
+              {getFieldDecorator('delivery_contact1', {
                 rules: [{required: true, message: '请输入联系人', pattern: REGS.name}],
               })(
-                <Input placeholder='请输入联系人'/>,
+                <Input placeholder='请输入联系方式'/>,
               )}
             </FormItem>
             <FormItem
@@ -283,7 +263,7 @@ class GasSource extends PureComponent {
               labelCol={{span: 5}}
               wrapperCol={{span: 12}}
             >
-              {getFieldDecorator('cargo_mobile', {
+              {getFieldDecorator('delivery_mobile1', {
                 rules: [{required: true, message: '请输入联系方式', pattern: REGS.phone}],
               })(
                 <Input placeholder='请输入联系方式'/>,
@@ -319,14 +299,14 @@ class GasSource extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {gaslist, gaspage, gastotal, CascaderOptions} = state.maintain
+  const {sitelist, sitepage, sitetotal, CascaderOptions} = state.maintain
   return {
-    gaslist,
-    gaspage,
-    gastotal,
+    sitelist,
+    sitepage,
+    sitetotal,
     CascaderOptions,
     loading: state.loading.models.maintain,
   }
 }
 
-export default Form.create()(connect(mapStateToProps)(GasSource))
+export default Form.create()(connect(mapStateToProps)(Site))

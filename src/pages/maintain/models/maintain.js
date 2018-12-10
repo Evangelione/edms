@@ -1,6 +1,6 @@
 import * as maintainService from '../services/maintain'
 import { message } from 'antd'
-import { routerRedux } from 'dva/router'
+// import { routerRedux } from 'dva/router'
 
 export default {
   namespace: 'maintain',
@@ -48,8 +48,13 @@ export default {
       return history.listen(({pathname, query}) => {
         if (pathname === '/maintain') {
           dispatch({type: 'fetchCustomer', payload: query})
+          dispatch({type: 'fetchSite', payload: query})
           dispatch({type: 'fetchSupplier', payload: query})
-          dispatch({type: 'fetchCar', payload: query})
+          dispatch({type: 'fetchCar', payload: {car_type: '1'}})
+          dispatch({type: 'fetchCar', payload: {car_type: '2'}})
+          dispatch({type: 'fetchGas', payload: query})
+          dispatch({type: 'fetchVehicleList', payload: query})
+          dispatch({type: 'fetchDirverList', payload: query})
         }
       })
     },
@@ -68,9 +73,9 @@ export default {
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        const page = yield select(state => state.maintain.supplierpage)
+        const page = yield select(state => state.maintain.gaspage)
         const find_str = yield select(state => state.maintain.find_str)
-        yield put({type: 'fetchSupplier', payload: {page, find_str}})
+        yield put({type: 'fetchGas', payload: {page, find_str}})
       } else {
         message.error(data.msg)
       }
@@ -103,14 +108,78 @@ export default {
         })
       }
     },
-    * fetchCar({payload: {page = 1, find_str = ''}}, {call, put}) {
-      const {data} = yield call(maintainService.getCarList, {page, find_str})
+    * fetchSite({payload: {page = 1, find_str = ''}}, {call, put}) {
+      const {data} = yield call(maintainService.getSiteList, {page, find_str})
       if (data.code === 1) {
         yield put({
           type: 'save', payload: {
-            carlist: data.data.list,
-            carpage: parseInt(page, 10),
-            cartotal: parseInt(data.data.count, 10),
+            sitelist: data.data.list,
+            sitepage: parseInt(page, 10),
+            sitetotal: parseInt(data.data.count, 10),
+            find_str,
+          },
+        })
+      }
+    },
+    * fetchCar({payload: {page = 1, find_str = '', car_type = '1'}}, {call, put}) {
+      const {data} = yield call(maintainService.getCarList, {page, find_str, car_type})
+      if (data.code === 1) {
+        if (car_type === '1') {
+          yield put({
+            type: 'save', payload: {
+              carheadlist: data.data.list,
+              carheadpage: parseInt(page, 10),
+              carheadtotal: parseInt(data.data.count, 10),
+              find_str,
+            },
+          })
+        } else {
+          yield put({
+            type: 'save', payload: {
+              carbodylist: data.data.list,
+              carbodypage: parseInt(page, 10),
+              carbodytotal: parseInt(data.data.count, 10),
+              find_str,
+            },
+          })
+        }
+
+      }
+    },
+    * fetchGas({payload: {page = 1, find_str = ''}}, {call, put}) {
+      const {data} = yield call(maintainService.getGasList, {page, find_str})
+      if (data.code === 1) {
+        yield put({
+          type: 'save', payload: {
+            gaslist: data.data.list,
+            gaspage: parseInt(page, 10),
+            gastotal: parseInt(data.data.count, 10),
+            find_str,
+          },
+        })
+      }
+    },
+    * fetchVehicleList({payload: {page = 1, find_str = ''}}, {call, put}) {
+      const {data} = yield call(maintainService.getLogisticsList, {page, find_str})
+      if (data.code === 1) {
+        yield put({
+          type: 'save', payload: {
+            vehiclelist: data.data.list,
+            vehiclepage: parseInt(page, 10),
+            vehicletotal: parseInt(data.data.count, 10),
+            find_str,
+          },
+        })
+      }
+    },
+    * fetchDirverList({payload: {page = 1, find_str = ''}}, {call, put}) {
+      const {data} = yield call(maintainService.fetchDirverList, {page, find_str})
+      if (data.code === 1) {
+        yield put({
+          type: 'save', payload: {
+            dirverlist: data.data.list,
+            dirverpage: parseInt(page, 10),
+            dirvertotal: parseInt(data.data.count, 10),
             find_str,
           },
         })
@@ -196,26 +265,30 @@ export default {
         message.error(data.msg)
       }
     },
-    * insertCar({payload: form}, {call, put}) {
-      const {data} = yield call(maintainService.insertCar, {form})
+    * insertCar({payload: {form, car_type}}, {call, put, select}) {
+      const {data} = yield call(maintainService.insertCar, {form, car_type})
+      const find_str = yield select(state => state.maintain.find_str)
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/maintain',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchCar', payload: {find_str, car_type}})
       } else {
         message.error(data.msg)
       }
     },
-    * modifyCar({payload: form}, {call, put}) {
-      const {data} = yield call(maintainService.modifyCar, {form})
+    * modifyCar({payload: {form, car_type}}, {call, put, select}) {
+      const {data} = yield call(maintainService.modifyCar, {form, car_type})
+      const find_str = yield select(state => state.maintain.find_str)
       if (data.code === -2) return false
       if (data.code === 1) {
         message.success(data.msg)
-        yield put(routerRedux.push({
-          pathname: '/maintain',
-        }))
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchCar', payload: {find_str, car_type}})
       } else {
         message.error(data.msg)
       }
@@ -228,6 +301,74 @@ export default {
         const page = yield select(state => state.maintain.carpage)
         const find_str = yield select(state => state.maintain.find_str)
         yield put({type: 'fetchCar', payload: {page, find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * insertSite({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.insertSite, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({type: 'fetchSite', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * modifySite({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.modifySite, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({type: 'fetchSite', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteSite({payload: id}, {call, put, select}) {
+      const {data} = yield call(maintainService.deleteSite, id)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        const page = yield select(state => state.maintain.customerpage)
+        const find_str = yield select(state => state.maintain.find_str)
+        yield put({type: 'fetchSite', payload: {page, find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * insertGas({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.insertGas, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({type: 'fetchGas', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * modifyGas({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.modifyGas, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({type: 'fetchGas', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteGas({payload: id}, {call, put, select}) {
+      const {data} = yield call(maintainService.deleteGas, id)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        const page = yield select(state => state.maintain.customerpage)
+        const find_str = yield select(state => state.maintain.find_str)
+        yield put({type: 'fetchGas', payload: {page, find_str}})
       } else {
         message.error(data.msg)
       }
@@ -432,6 +573,86 @@ export default {
             supplierHead: data.data.img,
           },
         })
+      }
+    },
+    * insertVehicle({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.insertVehicle, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchVehicleList', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * modifyVehicle({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.modifyVehicle, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchVehicleList', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteVehicle({payload: id}, {call, put, select}) {
+      const {data} = yield call(maintainService.deleteCustomer, id)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        const page = yield select(state => state.maintain.customerpage)
+        const find_str = yield select(state => state.maintain.find_str)
+        yield put({type: 'fetchVehicleList', payload: {page, find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * insertDirver({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.insertDirver, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchDirverList', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * modifyDirver({payload: {form}}, {call, put, select}) {
+      const {data} = yield call(maintainService.modifyDirver, {form})
+      const find_str = yield select(state => state.maintain.find_str)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        // yield put(routerRedux.push({
+        //   pathname: '/maintain',
+        // }))
+        yield put({type: 'fetchDirverList', payload: {find_str}})
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteDirver({payload: id}, {call, put, select}) {
+      const {data} = yield call(maintainService.deleteDirver, id)
+      if (data.code === -2) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        const page = yield select(state => state.maintain.customerpage)
+        const find_str = yield select(state => state.maintain.find_str)
+        yield put({type: 'fetchDirverList', payload: {page, find_str}})
+      } else {
+        message.error(data.msg)
       }
     },
   },

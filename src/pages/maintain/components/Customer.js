@@ -1,9 +1,9 @@
 import { PureComponent } from 'react'
-import { Table, Button, Pagination, Modal, Form, Input, Select, Cascader, Upload, Icon, message } from 'antd'
+import { Table, Button, Pagination, Modal, Form, Input, Select, Upload, Icon, message } from 'antd'
 import { connect } from 'dva'
 // import PromptModal from '../../../components/PromptModal/PromptModal'
 import { IP, PAGE_SIZE } from '../../../constants'
-import { company_type, REGS } from '../../../common/constants'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -20,14 +20,6 @@ class Customer extends PureComponent {
       fileList: [],
       current: {},
     }
-  }
-
-
-  UNSAFE_componentWillMount() {
-    this.props.dispatch({
-      type: 'maintain/fetchOptions',
-      payload: {},
-    })
   }
 
   insertModal = () => {
@@ -58,13 +50,14 @@ class Customer extends PureComponent {
       current: record,
     })
     this.props.form.setFieldsValue({
-      company_type: record.company_type,
-      customer_full_name: record.customer_full_name,
+      // company_type: record.company_type,
+      customer_type: record.customer_type,
+      // customer_full_name: record.customer_full_name,
       customer_name: record.customer_name,
       customer_contact: record.customer_contact,
       customer_mobile: record.customer_mobile,
-      area: [record.customer_province.name, record.customer_city.name, record.customer_area.name],
-      customer_detailed_address: record.customer_detailed_address,
+      // area: [record.customer_province.name, record.customer_city.name, record.customer_area.name],
+      // customer_detailed_address: record.customer_detailed_address,
     })
   }
 
@@ -78,15 +71,15 @@ class Customer extends PureComponent {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let province = values.area[0]
-        let city = values.area[1]
-        let area = values.area[2] || ''
+        // let province = values.area[0]
+        // let city = values.area[1]
+        // let area = values.area[2] || ''
         let url = ''
-        values.customer_province = province
-        values.customer_city = city
-        values.customer_area = area
+        // values.customer_province = province
+        // values.customer_city = city
+        // values.customer_area = area
         values.cust_head = this.state.fileList.length ? this.state.fileList[0].url : ''
-        delete values.area
+        // delete values.area
         console.log('Received values of form: ', values)
         if (this.state.modaltype === '新增') {
           url = 'insertCustomer'
@@ -173,7 +166,7 @@ class Customer extends PureComponent {
   handleChange = ({fileList}) => this.setState({fileList})
 
   render() {
-    const {customerlist, customerpage, customertotal, CascaderOptions, loading} = this.props
+    const {customerlist, customerpage, customertotal, loading} = this.props
     const {getFieldDecorator} = this.props.form
     const {visible, modaltype, fileList} = this.state
     const uploadButton = (
@@ -183,35 +176,22 @@ class Customer extends PureComponent {
       </div>
     )
     const columns = [{
-      title: '企业ID',
-      dataIndex: 'id',
-      key: 'id',
-      align: 'center',
-    }, {
-      title: '企业类型',
-      dataIndex: 'company_type',
-      key: 'company_type',
-      align: 'center',
-      render: (text) => {
-        return <div>{company_type[text]}</div>
-      },
-    }, {
-      title: '客户全称',
-      dataIndex: 'customer_full_name',
-      key: 'customer_full_name',
-      align: 'center',
-      render: (text) => {
-        if (text) {
-          return <div>{text}</div>
-        } else {
-          return <div>--</div>
-        }
-      },
-    }, {
       title: '客户简称',
       dataIndex: 'customer_name',
       key: 'customer_name',
       align: 'center',
+    }, {
+      title: '客户类型',
+      dataIndex: 'customer_type',
+      key: 'customer_type',
+      align: 'center',
+      render: (text) => {
+        if (text === '1') {
+          return <div>终端用户</div>
+        } else if (text === '2') {
+          return <div>贸易商</div>
+        }
+      },
     }, {
       title: '联系人',
       dataIndex: 'customer_contact',
@@ -222,30 +202,6 @@ class Customer extends PureComponent {
       dataIndex: 'customer_mobile',
       key: 'customer_mobile',
       align: 'center',
-    }, {
-      title: '所处地区',
-      key: 'area',
-      align: 'center',
-      render: (text, record) => {
-        if (!record.customer_province) {
-          return <div>--</div>
-        } else {
-          let area = record.customer_province.name + record.customer_city.name || '' + record.customer_area.name || ''
-          return <div>{area}</div>
-        }
-      },
-    }, {
-      title: '详细地址',
-      dataIndex: 'customer_detailed_address',
-      key: 'customer_detailed_address',
-      align: 'center',
-      render: (text) => {
-        if (text) {
-          return <div>{text}</div>
-        } else {
-          return <div>--</div>
-        }
-      },
     }, {
       title: '操作',
       align: 'center',
@@ -321,36 +277,36 @@ class Customer extends PureComponent {
                 </Upload>,
               )}
             </FormItem>
-            <FormItem
-              label="企业类型"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('company_type', {
-                rules: [{required: true, message: '请选择企业类型'}],
-              })(
-                <Select placeholder="请选择企业类型">
-                  {company_type.map((value, index) => {
-                    if (index === 0) {
-                      return null
-                    } else {
-                      return <Option key={index} value={index + ''}>{value}</Option>
-                    }
-                  })}
-                </Select>,
-              )}
-            </FormItem>
-            <FormItem
-              label="客户全称"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('customer_full_name', {
-                rules: [{required: true, message: '请输入客户全称', pattern: REGS.name}],
-              })(
-                <Input placeholder='请输入客户全称'/>,
-              )}
-            </FormItem>
+            {/*<FormItem*/}
+            {/*label="企业类型"*/}
+            {/*labelCol={{span: 5}}*/}
+            {/*wrapperCol={{span: 12}}*/}
+            {/*>*/}
+            {/*{getFieldDecorator('company_type', {*/}
+            {/*rules: [{required: true, message: '请选择企业类型'}],*/}
+            {/*})(*/}
+            {/*<Select placeholder="请选择企业类型">*/}
+            {/*{company_type.map((value, index) => {*/}
+            {/*if (index === 0) {*/}
+            {/*return null*/}
+            {/*} else {*/}
+            {/*return <Option key={index} value={index + ''}>{value}</Option>*/}
+            {/*}*/}
+            {/*})}*/}
+            {/*</Select>,*/}
+            {/*)}*/}
+            {/*</FormItem>*/}
+            {/*<FormItem*/}
+            {/*label="客户全称"*/}
+            {/*labelCol={{span: 5}}*/}
+            {/*wrapperCol={{span: 12}}*/}
+            {/*>*/}
+            {/*{getFieldDecorator('customer_full_name', {*/}
+            {/*rules: [{required: true, message: '请输入客户全称', pattern: REGS.name}],*/}
+            {/*})(*/}
+            {/*<Input placeholder='请输入客户全称'/>,*/}
+            {/*)}*/}
+            {/*</FormItem>*/}
             <FormItem
               label="客户简称"
               labelCol={{span: 5}}
@@ -360,6 +316,20 @@ class Customer extends PureComponent {
                 rules: [{required: true, message: '请输入客户简称', pattern: REGS.name}],
               })(
                 <Input placeholder='请输入客户简称'/>,
+              )}
+            </FormItem>
+            <FormItem
+              label="客户类型"
+              labelCol={{span: 5}}
+              wrapperCol={{span: 12}}
+            >
+              {getFieldDecorator('customer_type', {
+                rules: [{required: true, message: '请选择客户类型'}],
+              })(
+                <Select placeholder="请选择客户类型">
+                  <Option value='1'>终端用户</Option>
+                  <Option value='2'>贸易商</Option>
+                </Select>,
               )}
             </FormItem>
             <FormItem
@@ -384,28 +354,28 @@ class Customer extends PureComponent {
                 <Input placeholder='请输入联系方式'/>,
               )}
             </FormItem>
-            <FormItem
-              label="所处地区"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('area', {
-                rules: [{required: true, message: '请选择所处地区'}],
-              })(
-                <Cascader placeholder='请选择所处地区' options={CascaderOptions} loadData={this.loadData}/>,
-              )}
-            </FormItem>
-            <FormItem
-              label="详细地址"
-              labelCol={{span: 5}}
-              wrapperCol={{span: 12}}
-            >
-              {getFieldDecorator('customer_detailed_address', {
-                rules: [{required: true, message: '请输入详细地址'}],
-              })(
-                <Input placeholder='请输入详细地址'/>,
-              )}
-            </FormItem>
+            {/*<FormItem*/}
+            {/*label="所处地区"*/}
+            {/*labelCol={{span: 5}}*/}
+            {/*wrapperCol={{span: 12}}*/}
+            {/*>*/}
+            {/*{getFieldDecorator('area', {*/}
+            {/*rules: [{required: true, message: '请选择所处地区'}],*/}
+            {/*})(*/}
+            {/*<Cascader placeholder='请选择所处地区' options={CascaderOptions} loadData={this.loadData}/>,*/}
+            {/*)}*/}
+            {/*</FormItem>*/}
+            {/*<FormItem*/}
+            {/*label="详细地址"*/}
+            {/*labelCol={{span: 5}}*/}
+            {/*wrapperCol={{span: 12}}*/}
+            {/*>*/}
+            {/*{getFieldDecorator('customer_detailed_address', {*/}
+            {/*rules: [{required: true, message: '请输入详细地址'}],*/}
+            {/*})(*/}
+            {/*<Input placeholder='请输入详细地址'/>,*/}
+            {/*)}*/}
+            {/*</FormItem>*/}
           </Form>
         </Modal>
         <Modal
@@ -429,13 +399,12 @@ class Customer extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {customerlist, customerpage, customertotal, customerHead, CascaderOptions} = state.maintain
+  const {customerlist, customerpage, customertotal, customerHead} = state.maintain
   return {
     customerlist,
     customerpage,
     customertotal,
     customerHead,
-    CascaderOptions,
     loading: state.loading.models.maintain,
   }
 }

@@ -1,9 +1,10 @@
 import { PureComponent } from 'react'
-import { Table, Button, Pagination, Modal } from 'antd'
+import { Table, Button, Pagination, Modal, Form, Input } from 'antd'
 import { connect } from 'dva'
 // import PromptModal from '../../../components/PromptModal/PromptModal'
 import { PAGE_SIZE } from '../../../constants'
 
+const FormItem = Form.Item
 
 class CarHead extends PureComponent {
   constructor(props) {
@@ -14,33 +15,85 @@ class CarHead extends PureComponent {
     }
   }
 
-  toggleModal = (type) => {
+  insertModal = () => {
     this.setState({
       visible: !this.state.visible,
-      modaltype: typeof type === 'object' ? '新增' : type,
+      modaltype: '新增',
+    })
+    this.props.form.resetFields()
+  }
+
+  toggleModal = () => {
+    this.setState({
+      visible: !this.state.visible,
+    })
+  }
+
+  editModal = (record) => {
+    this.setState({
+      visible: !this.state.visible,
+      modaltype: '编辑',
+      current: record,
+    })
+    this.props.form.setFieldsValue({
+      car_code: record.car_code,
+      imei: record.imei,
+    })
+  }
+
+  submit = () => {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let url = ''
+        values.imei = values.imei || ''
+        console.log('Received values of form: ', values)
+        if (this.state.modaltype === '新增') {
+          url = 'insertCar'
+        } else {
+          url = 'modifyCar'
+          values.id = this.state.current.id
+        }
+        this.props.dispatch({
+          type: 'maintain/' + url,
+          payload: {
+            form: values,
+            car_type: '1',
+          },
+        }).then(() => {
+          this.toggleModal()
+        })
+      }
     })
   }
 
   pageChangeHandler = (page) => {
     this.props.dispatch({
-      type: 'maintain/fetchCustomer',
-      payload: {page},
+      type: 'maintain/fetchCar',
+      payload: {page, car_type: '1'},
     })
   }
 
   render() {
     const {carheadlist, carheadpage, carheadtotal, loading} = this.props
+    const {getFieldDecorator} = this.props.form
     const {visible, modaltype} = this.state
     const columns = [{
       title: '车牌',
-      dataIndex: 'customer_name',
-      key: 'customer_name',
+      dataIndex: 'car_code',
+      key: 'car_code',
       align: 'center',
     }, {
-      title: '相关物流公司',
-      dataIndex: 'customer_contact',
-      key: 'customer_contact',
+      title: '串号',
+      dataIndex: 'imei',
+      key: 'imei',
       align: 'center',
+      render: (text) => {
+        if (text) {
+          return text
+        } else {
+          return '--'
+        }
+      },
     }, {
       title: '操作',
       align: 'center',
@@ -48,7 +101,7 @@ class CarHead extends PureComponent {
       render: (text, record, index) => {
         return (
           <div>
-            <Button className='blueBorder' onClick={this.toggleModal.bind(null, '编辑')}
+            <Button className='blueBorder' onClick={this.editModal.bind(null, record)}
                     size='small'>编辑</Button>
             {/*<PromptModal state='deleteOne' delType='user' delID={record.id}>*/}
             {/*<Button type='primary' size='small'*/}
@@ -68,7 +121,7 @@ class CarHead extends PureComponent {
     return (
       <div>
         <div className='toolBar'>
-          <Button type='primary' icon="plus" onClick={this.toggleModal.bind(null, '新增')}>新增车头</Button>
+          <Button type='primary' icon="plus" onClick={this.insertModal}>新增车头</Button>
         </div>
         <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
@@ -89,9 +142,32 @@ class CarHead extends PureComponent {
                cancelText='取消'
                okText='提交'
                visible={visible}
+               onOk={this.submit}
                onCancel={this.toggleModal}
                confirmLoading={loading}
                maskClosable={false}>
+          <Form>
+            <FormItem
+              label="车牌"
+              labelCol={{span: 5}}
+              wrapperCol={{span: 12}}
+            >
+              {getFieldDecorator('car_code', {
+                rules: [{required: true, message: '请输入车牌'}],
+              })(
+                <Input placeholder='请输入车牌'/>,
+              )}
+            </FormItem>
+            <FormItem
+              label="串号"
+              labelCol={{span: 5}}
+              wrapperCol={{span: 12}}
+            >
+              {getFieldDecorator('imei')(
+                <Input placeholder='请输入串号'/>,
+              )}
+            </FormItem>
+          </Form>
         </Modal>
       </div>
     )
@@ -108,4 +184,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(CarHead)
+export default Form.create()(connect(mapStateToProps)(CarHead))
