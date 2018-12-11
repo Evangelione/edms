@@ -711,6 +711,7 @@ class OrderModal extends PureComponent {
           footer={null}
           maskClosable={false}
           width={1100}
+          style={{top: 20}}
         >
           <Form layout='inline' style={{padding: '0 25px'}}>
             <Row>
