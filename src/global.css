@@ -839,7 +839,6 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  text-align: center;
 }
 
 .map-title-item > div {
