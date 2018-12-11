@@ -39,9 +39,9 @@ class Order extends Component {
       <div onClick={this.changeOrderStatus.bind(null, item.name, item.status)}
            className={this.props.currentTab === item.name ? styles.blueFont : styles.grayFont}
            key={item.name}>
-        <IconFont type={item.name} style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>
+        <IconFont type={item.name} style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>
         <span>{item.value}</span>
-        <span style={{color: '#D0021B', marginLeft: 10}}>({this.props.statusNum[item.count]})</span>
+        <span style={{color: '#D0021B', marginLeft: '0.714rem'}}>({this.props.statusNum[item.count]})</span>
       </div>,
     )
   }
@@ -154,19 +154,19 @@ class Order extends Component {
     return (
       <AnimatePage>
         <div className='searchBox' style={{right: 158}}>
-          <Select defaultValue="1" style={{width: 140, marginRight: 10}} onChange={this.handleChange}>
+          <Select defaultValue="1" style={{width: '10rem', marginRight: 10, fontSize: '1rem'}} onChange={this.handleChange}>
             <Option value="1">预计到达时间</Option>
             <Option value="2">实际装车时间</Option>
           </Select>
           <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
-          <Search style={{width: 260, marginLeft: 10}} placeholder='输入关键字进行查询'
+          <Search style={{width: '18rem', marginLeft: 10}} placeholder='输入关键字进行查询'
                   onChange={this.debounce} onSearch={this.iptSearch}/>
         </div>
         <Tabs>
           <TabPane tab="订单管理" key="1">
             <div className={'toolBar'} style={{top: 0, right: 0}}>
               <OrderModal>
-                <Button type='primary' style={{boxShadow: '0px 1px 10px #1890ff', width: 140, height: 47}}>新的订单</Button>
+                <Button type='primary' style={{boxShadow: '0px 1px 10px #1890ff', width: '10rem', height: 47}}>新的订单</Button>
               </OrderModal>
             </div>
             <Card style={{borderRadius: 12}}>
@@ -177,15 +177,15 @@ class Order extends Component {
               <div className={styles.radioGp}>
                 <div onClick={this.changeRadio.bind(null, '3')}
                      className={order_type === '3' ? styles.blueFont : styles.grayFont}>
-                  <IconFont type='icon-icon-test11' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>全部订单
+                  <IconFont type='icon-icon-test11' style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>全部订单
                 </div>
                 <div onClick={this.changeRadio.bind(null, '1')}
                      className={order_type === '1' ? styles.blueFont : styles.grayFont}>
-                  <IconFont type='icon-xinyongqia' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>预付款订单
+                  <IconFont type='icon-xinyongqia' style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>预付款订单
                 </div>
                 <div onClick={this.changeRadio.bind(null, '2')}
                      className={order_type === '2' ? styles.blueFont : styles.grayFont}>
-                  <IconFont type='icon-icon-test10' style={{fontSize: 24, verticalAlign: 'middle', marginRight: 8}}/>赊销订单
+                  <IconFont type='icon-icon-test10' style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>赊销订单
                 </div>
               </div>
             </Card>

@@ -3,8 +3,61 @@
 html, body, :global(#root) {
   height: 100%;
   /*overflow: hidden;*/
-  min-width: 1920px;
+  min-width: 1366px;
   font-family: PingFangHK-Regular;
+}
+
+@media screen and (min-width: 1600px) and (max-width: 1920px){
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1600px){
+  html {
+    font-size: 14px;
+  }
+  .wrapLine{
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1440px) {
+  html {
+    font-size: 12px;
+  }
+  .wrapLine{
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1280px) {
+  html {
+    font-size: 10px;
+  }
+  .wrapLine{
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+}
+
+.ant-btn {
+  font-size: 0.9rem;
+  padding: 5px 0.6rem;
 }
 
 a {
@@ -84,6 +137,7 @@ a:hover {
 /*card圆角*/
 .ant-card {
   border-radius: 4px;
+  font-size: 1rem;
 }
 
 .ant-card-wider-padding .ant-card-body {
@@ -294,8 +348,8 @@ a:hover {
 
 .changeList > div {
   display: inline-block;
-  padding: 10px;
-  margin-left: 10px;
+  padding: 0.6rem;
+  margin-left: 0.6rem;
   cursor: pointer;
 }
 
@@ -778,6 +832,7 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .map-title-item > div {
@@ -835,7 +890,8 @@ form .has-feedback .ant-calendar-picker-icon, form .has-feedback .ant-time-picke
   width: 11px;
   height: 8px;
   margin-top: 26px;
-  margin-left: 5px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   transition: all 0.5s;
 }
 
@@ -901,6 +957,6 @@ button > i {
 }
 
 .gary-row {
-  background-color: #E6F2F6 ;
+  background-color: #E6F2F6;
   color: #282D32;
 }

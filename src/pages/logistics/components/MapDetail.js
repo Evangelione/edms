@@ -26,14 +26,13 @@ class MapDetail extends PureComponent {
           <Row>
             <Col span={3} className='needLine'>
               <div className='map-title-item' style={{cursor: 'pointer'}} onClick={this.toggleMapDetail}>
-                <div className={currentLogistics.deliver_status >= 3 ? 'poitionBtn-B' : 'poitionBtn'}></div>
+                <div className='expendBtn' style={this.state.showDetail ? {transform: 'rotate(-180deg)'} : {}}></div>
                 <div style={{
                   color: '#777777',
-                  fontSize: 14,
+                  fontSize: '1rem',
                   marginTop: 19,
                   marginLeft: 2,
                 }}>{currentLogistics.status_name ? currentLogistics.status_name.substr(0, 3) : currentLogistics.status_name}</div>
-                <div className='expendBtn' style={this.state.showDetail ? {transform: 'rotate(-180deg)'} : {}}></div>
               </div>
             </Col>
             <Col span={7} className='needLine'>

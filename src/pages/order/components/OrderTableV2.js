@@ -269,38 +269,38 @@ class OrderTableV2 extends PureComponent {
               }}>{item.status_name}</span>
             </div>
             <div style={{
-              width: 44,
-              height: 44,
+              width: '3.142rem',
+              height: '3.142rem',
               display: 'inline-block',
               verticalAlign: 'top',
-              marginRight: 20,
+              marginRight: '1rem',
               borderRadius: 6,
               overflow: 'hidden',
             }}>
-              <img src={item.cust_head} width={44} height={44} alt=''/>
+              <img src={item.cust_head} style={{width: '3.142rem', height: '3.142rem'}} alt=''/>
             </div>
-            <div style={{display: 'inline-block', verticalAlign: 'top', minWidth: 290}}>
-              <div style={{color: '#4777E5', fontSize: 16, position: 'relative', marginBottom: 4, fontWeight: 600}}>
+            <div style={{display: 'inline-block', verticalAlign: 'top', minWidth: '12rem'}}>
+              <div style={{color: '#4777E5', fontSize: '1.142rem', position: 'relative', marginBottom: 4, fontWeight: 600}}>
                 {item.site_name}
                 {item.order_type === '2' ? <IconFont type='icon-xinyongqia'
                                                      style={{
-                                                       fontSize: 24,
+                                                       fontSize: '1.714rem',
                                                        verticalAlign: 'inherit',
                                                        position: 'absolute',
                                                        top: 1,
-                                                       right: 35,
+                                                       right: '2.5rem',
                                                      }}/> : ''}
               </div>
               <div style={{
                 color: '#9DA3A5',
-                fontSize: 12,
+                fontSize: '0.857rem',
               }}>{item.cargo_province ? item.cargo_province + item.cargo_city : '未选择气源'} - {item.delivery_province}{item.delivery_city}</div>
               <Divider/>
               <div style={{color: '#9096A3', marginBottom: 5}}><span
                 style={{
                   color: '#4777E5',
-                  fontSize: 14,
-                  marginRight: 16,
+                  fontSize: '1rem',
+                  marginRight: '0.875rem',
                   fontWeight: 600,
                 }}>{item.name_gas_source ? item.name_gas_source : '未选择气源'}</span>￥ {item.saler_price ? item.saler_price : '--'} * {item.saler_num}吨
               </div>
@@ -315,25 +315,25 @@ class OrderTableV2 extends PureComponent {
             </div>
             <div style={{display: 'inline-block', verticalAlign: 'top', float: 'right'}}>
               {item.deliver_status >= 5 ? <div style={{color: '#4777E5', marginBottom: 10, textAlign: 'right'}}>
-                  <div style={{fontSize: 12}}>实际装车：{item.load_time}</div>
+                  <div style={{fontSize: '0.857rem'}}>实际装车：{item.load_time}</div>
                   {item.order_status === '3' && item.deliver_status - 0 > 2 ?
                     <IconFont type='icon-huoche'
-                              style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/> : ''}
-                  <span style={{fontWeight: 600, fontSize: 14, marginRight: 10}}>{item.car_head}</span>
-                  <span style={{fontSize: 12}}>预计到达：{item.recv_time}</span>
+                              style={{fontSize: 16, marginRight: '0.714rem', verticalAlign: 'inherit'}}/> : ''}
+                  <span style={{fontWeight: 600, fontSize: '1rem', marginRight: '0.714rem'}}>{item.car_head}</span>
+                  <span style={{fontSize: '0.857rem'}}>预计到达：{item.recv_time}</span>
                 </div> :
                 <div style={{color: '#4777E5', marginBottom: 25, textAlign: 'right'}}>
                   {item.order_status === '3' && item.deliver_status - 0 > 2 ?
                     <IconFont type='icon-huoche'
-                              style={{fontSize: 16, marginRight: 10, verticalAlign: 'inherit'}}/> : ''}
-                  <span style={{fontWeight: 600, fontSize: 14, marginRight: 10}}>{item.car_head}</span>
+                              style={{fontSize: '1.142rem', marginRight: '0.714rem', verticalAlign: 'inherit'}}/> : ''}
+                  <span style={{fontWeight: 600, fontSize: '1rem', marginRight: '0.714rem'}}>{item.car_head}</span>
                   <span style={{fontSize: 12}}>预计到达：{item.recv_time}</span>
                 </div>}
               <div style={{marginBottom: 20}}>
                 {item.order_status === '0' ?
                   <div>
                     <OrderModal confirm={true} currentOrder={item}>
-                      <Button type='primary' style={{marginRight: 10}}>确认订单</Button>
+                      <Button type='primary' style={{marginRight: '0.714rem'}}>确认订单</Button>
                     </OrderModal>
                     <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
                       <Button style={{

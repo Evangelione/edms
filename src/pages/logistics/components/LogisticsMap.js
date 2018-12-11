@@ -239,14 +239,13 @@ class LogisticsMap extends PureComponent {
     return (
       <Card bodyStyle={{transition: 'all 0.5s', padding: 0}}
             style={{borderColor: '#e8e8e8', marginBottom: 10, borderRadius: 12, marginTop: 30, overflow: 'hidden'}}
-            title={<div style={{color: '#545F76'}} onClick={this.hideMap}>
+            title={<div style={{color: '#545F76', fontSize: '1.142rem'}} onClick={this.hideMap}>
               {char}单编号: {currentLogistics.order_code}&nbsp;&nbsp;&nbsp;
               <Button type='primary' size='small'
-                      onClick={this.copyCode.bind(null, currentLogistics.order_code)}>复制</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;运单编号：{currentLogistics.deliver_code}
+                      onClick={this.copyCode.bind(null, currentLogistics.order_code)}>复制</Button>
+              <span title={currentLogistics.deliver_code} className='wrapLine'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;运单编号：{currentLogistics.deliver_code}</span>
             </div>}
-            extra={<div><span
-              style={{color: '#545F76', fontSize: 15}}></span>
-            </div>}>
+            >
         <MapDetail currentLogistics={currentLogistics}
                    alreadyDriven={this.state.alreadyDriven}
                    stillNeedTime={this.state.stillNeedTime}
