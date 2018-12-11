@@ -260,7 +260,7 @@ class OrderTableV2 extends PureComponent {
             <div className={styles.order_title}>
               <span>NO.{index + 1}.</span>
               <span>创建时间：{item.order_date}</span>
-              <span>订单编号：{item.order_code}</span>
+              {/*<span>订单编号：{item.order_code}</span>*/}
               <span style={{
                 float: 'right',
                 fontWeight: 600,
@@ -358,8 +358,7 @@ class OrderTableV2 extends PureComponent {
                       </PromptModal>
                     </div> : item.order_status === '2' ?
                       <div style={{textAlign: 'right'}}>
-                        <Button onClick={this.scheduling.bind(null, item.id)} type='primary'
-                                style={{width: 88}}>调度</Button>
+                        <Button onClick={this.scheduling.bind(null, item.id)} type='primary'>调度</Button>
                         <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
                           <Button style={{
                             height: 32,
@@ -374,12 +373,11 @@ class OrderTableV2 extends PureComponent {
                         <div style={{textAlign: 'right'}}>
                           {item.deliver_status === '2' ?
                             <div>
-                              <Button type='primary' style={{width: 88}}
+                              <Button type='primary'
                                       onClick={this.acceptOrder.bind(null, item.id)}
                                       loading={this.state.acceptBtn}>接单</Button>
                               <Button onClick={this.refuseOrder.bind(null, item.id)}
                                       style={{
-                                        width: 88,
                                         background: '#D0021B',
                                         borderColor: '#D0021B',
                                         marginLeft: 10,
@@ -451,18 +449,17 @@ class OrderTableV2 extends PureComponent {
                                 {/*<Button type='primary'>查看磅单</Button>*/}
                                 {/*</PoundModal>*/}
                                 <ResultModal>
-                                  <Button type='primary' style={{width: 88}}>结算</Button>
+                                  <Button type='primary'>结算</Button>
                                 </ResultModal>
                               </div> : ''}
                           </div> : item.order_status === '5' ?
                             <div style={{textAlign: 'right'}}>
                               <OrderModal currentOrder={item}>
-                                <Button type='primary' style={{width: 88}}>再来一单</Button>
+                                <Button type='primary'>再来一单</Button>
                               </OrderModal>
                             </div> : <div style={{textAlign: 'right'}}>
                               <OrderModal modify={true} currentOrder={item}>
                                 <Button type='primary' style={{
-                                  width: 88,
                                   backgroundColor: '#FF6913',
                                   borderColor: '#FF6913',
                                   marginRight: 10,
@@ -470,7 +467,6 @@ class OrderTableV2 extends PureComponent {
                               </OrderModal>
                               <PromptModal state='deleteOrder' delOrderId={item.id}>
                                 <Button type='primary' style={{
-                                  width: 88,
                                   backgroundColor: '#9096A3',
                                   borderColor: '#9096A3',
                                 }}>删除订单</Button>
