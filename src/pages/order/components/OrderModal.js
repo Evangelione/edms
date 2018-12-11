@@ -315,13 +315,13 @@ class OrderModal extends PureComponent {
       supp_id3: item.props.mobile,
       purchase_price: undefined,
       shuliang: this.props.confirm ? this.props.currentOrder.saler_num : undefined,
-      goods_id: undefined,
-      goods_source: undefined,
-      goods_contact: undefined,
-      goods_mobile: undefined,
-      goods_delivery: undefined,
-      saler_num: undefined,
-      saler_num2: undefined,
+      // goods_id: undefined,
+      // goods_source: undefined,
+      // goods_contact: undefined,
+      // goods_mobile: undefined,
+      // goods_delivery: undefined,
+      // saler_num: undefined,
+      // saler_num2: undefined,
     })
     this.setState({
       purchaseCost: 0,
@@ -362,15 +362,15 @@ class OrderModal extends PureComponent {
     this.props.form.setFieldsValue({
       cust_id2: item.props.contact,
       cust_id3: item.props.mobile,
-      saler_price: undefined,
-      site_id: undefined,
-      site_id2: undefined,
-      site_id3: undefined,
-      delivery: undefined,
-      recv_contact: undefined,
-      recv_phone: undefined,
-      recv_time: undefined,
-      deliver_type: undefined,
+      // saler_price: undefined,
+      // site_id: undefined,
+      // site_id2: undefined,
+      // site_id3: undefined,
+      // delivery: undefined,
+      // recv_contact: undefined,
+      // recv_phone: undefined,
+      // recv_time: undefined,
+      // deliver_type: undefined,
     })
   }
 
@@ -771,7 +771,7 @@ class OrderModal extends PureComponent {
                     rules: [{required: true, message: '请填写数字！'}],
                   })(
                     <InputNumber placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
-                                 disabled={this.props.confirm ? true : false} max={22} min={0} step={0.001}
+                                 disabled={!!this.props.confirm} max={22} min={0} step={0.001}
                                  precision={3} style={{width: 150}}/>,
                   )}
                   <div style={{
@@ -879,8 +879,7 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('cust_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}
-                            disabled={this.props.confirm ? true : false}>
+                    <Select placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}>
                       {customOptions}
                     </Select>,
                   )}
@@ -947,7 +946,7 @@ class OrderModal extends PureComponent {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
                     <Select placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}
-                            disabled={this.props.confirm ? true : false}>
+                            disabled={!!this.props.confirm}>
                       {siteOptions}
                     </Select>,
                   )}
@@ -963,7 +962,7 @@ class OrderModal extends PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={8}>
+              <Col span={8} style={{visibility: 'hidden'}}>
                 <FormItem {...formItemLayout} label="用户类型" hasFeedback style={{display: 'block', marginBottom: 10}}>
                   {getFieldDecorator('site_id3')(
                     <Select placeholder="自动生成，非手填" style={{width: 185}} disabled></Select>,
@@ -979,7 +978,7 @@ class OrderModal extends PureComponent {
                   })(
                     <AutoComplete
                       onSelect={this.autoSelect}
-                      disabled={this.props.confirm ? true : false}
+                      disabled={!!this.props.confirm}
                       dataSource={this.state.dataSource}
                       placeholder="请填写收货联系人姓名"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
@@ -1008,7 +1007,7 @@ class OrderModal extends PureComponent {
                     rules: [{required: true, message: '请选择交货时间！'}],
                   })(
                     <DatePicker placeholder="请选择交货时间" format={'YYYY-MM-DD HH:00:00'} showTime={{format: 'HH'}}
-                                disabled={this.props.confirm ? true : false}
+                                disabled={!!this.props.confirm}
                                 locale={locale}/>,
                   )}
                 </FormItem>
@@ -1018,7 +1017,7 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('deliver_type', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <Select placeholder="请选择配送方式" style={{width: 150}} disabled={this.props.confirm ? true : false}
+                    <Select placeholder="请选择配送方式" style={{width: 150}}
                             onChange={this.typeChange}>
                       <Option value="1">配送</Option>
                       <Option value="2">自提</Option>
