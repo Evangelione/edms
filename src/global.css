@@ -25,6 +25,10 @@ html, body, :global(#root) {
     white-space: nowrap;
     vertical-align: bottom;
   }
+  .ant-btn {
+    font-size: 0.9rem;
+    padding: 5px 0.6rem;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1440px) {
@@ -38,6 +42,10 @@ html, body, :global(#root) {
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: bottom;
+  }
+  .ant-btn {
+    font-size: 0.9rem;
+    padding: 5px 0.6rem;
   }
 }
 
@@ -53,11 +61,10 @@ html, body, :global(#root) {
     white-space: nowrap;
     vertical-align: bottom;
   }
-}
-
-.ant-btn {
-  font-size: 0.9rem;
-  padding: 5px 0.6rem;
+  .ant-btn {
+    font-size: 0.9rem;
+    padding: 5px 0.6rem;
+  }
 }
 
 a {
