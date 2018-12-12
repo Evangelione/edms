@@ -251,7 +251,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('wddd', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 1) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 1) !== 0) : true,
                     })(
                       <Switch/>,
                     )}
@@ -264,7 +264,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('wdwl', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 2) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 2) !== 0) : true,
                     })(
                       <Switch/>,
                     )}
@@ -277,7 +277,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('wdzw', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 4) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 4) !== 0) : true,
                     })(
                       <Switch/>,
                     )}
@@ -292,7 +292,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('wdkh', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 8) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 8) !== 0) : true,
                     })(
                       <Switch/>,
                     )}
@@ -305,7 +305,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('wdgys', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 16) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 16) !== 0) : true,
                     })(
                       <Switch/>,
                     )}
@@ -318,7 +318,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('wdgs', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 32) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 32) !== 0) : true,
                     })(
                       <Switch/>,
                     )}
@@ -333,7 +333,7 @@ class OperateUser extends React.Component {
                   >
                     {getFieldDecorator('app', {
                       valuePropName: 'checked',
-                      initialValue: (((this.props.editForm.auth - 0) & 64) !== 0) ? true : false,
+                      initialValue: this.props.editForm.auth ? (((this.props.editForm.auth - 0) & 64) !== 0) : true,
                     })(
                       <Switch/>,
                     )}

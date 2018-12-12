@@ -349,7 +349,7 @@ class Customer extends PureComponent {
               wrapperCol={{span: 12}}
             >
               {getFieldDecorator('customer_mobile', {
-                rules: [{required: true, message: '请输入联系方式', pattern: REGS.phone}],
+                rules: [{required: true, message: '请输入联系方式'}],
               })(
                 <Input placeholder='请输入联系方式'/>,
               )}
