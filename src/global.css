@@ -13,9 +13,9 @@ html, body, :global(#root) {
   }
 }
 
-@media screen and (min-width: 1440px) and (max-width: 1600px){
+@media screen and (min-width: 1480px) and (max-width: 1600px){
   html {
-    font-size: 14px;
+    font-size: 12px;
   }
   .wrapLine{
     display: inline-block;
@@ -31,7 +31,7 @@ html, body, :global(#root) {
   }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1440px) {
+@media screen and (min-width: 1280px) and (max-width: 1480px) {
   html {
     font-size: 12px;
   }
