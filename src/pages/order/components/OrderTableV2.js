@@ -331,14 +331,13 @@ class OrderTableV2 extends PureComponent {
                 </div>}
               <div style={{marginBottom: 20}}>
                 {item.order_status === '0' ?
-                  <div>
+                  <div style={{textAlign: 'right'}}>
                     <OrderModal confirm={true} currentOrder={item}>
                       <Button type='primary' style={{marginRight: '0.714rem'}}>确认订单</Button>
                     </OrderModal>
                     <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
                       <Button style={{
                         height: 32,
-                        marginRight: 10,
                         backgroundColor: '#9096A3',
                         borderColor: '#9096A3',
                         color: '#fff',
