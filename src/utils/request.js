@@ -1,5 +1,6 @@
 import fetch from 'dva/fetch'
 import router from 'umi/router'
+import NProgress from 'nprogress'
 
 function parseJSON(response) {
   return response.json();
@@ -36,6 +37,7 @@ export default function request(url, options) {
     .then(checkStatus)
     .then(parseJSON)
     .then(data => {
+      NProgress.done()
       if (data.code === -1) {
         router.push({
           pathname: '/login',

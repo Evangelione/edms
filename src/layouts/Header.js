@@ -1,6 +1,7 @@
 import { connect } from 'dva'
 import { Layout, Menu, Icon } from 'antd'
 import styles from './index.css'
+import NProgress from 'nprogress'
 
 const {Header} = Layout
 
@@ -13,6 +14,8 @@ function MyHeader({dispatch, location, currentPageName}) {
   // }
 
   function logout() {
+    NProgress.start()
+    NProgress.set(0.2)
     if (location.pathname.indexOf('/backstage') === 0 || location.pathname.indexOf('/permission') === 0 || location.pathname.indexOf('/maintain') === 0) {
       dispatch({type: 'login/backlogout'})
     } else {

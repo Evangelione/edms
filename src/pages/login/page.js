@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Card, Form, Icon, Input, Button } from 'antd'
 import styles from './login.css'
 import { LOGO } from '../../constants'
+import NProgress from 'nprogress'
 
 const FormItem = Form.Item
 
@@ -23,6 +24,8 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    NProgress.start()
+    NProgress.set(0.2)
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.dispatch({

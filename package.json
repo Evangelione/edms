@@ -16,6 +16,7 @@
     "echarts": "^4.1.0",
     "echarts-for-react": "^2.0.13",
     "jquery": "^3.3.1",
+    "nprogress": "^0.2.0",
     "prop-types": "^15.6.2",
     "react-bmap": "^1.0.74",
     "react-bootstrap-daterangepicker": "^4.1.0",

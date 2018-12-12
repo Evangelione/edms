@@ -5,6 +5,7 @@ import Link from 'umi/link'
 import styles from './index.css'
 import { withRouter } from 'react-router'
 import { LOGO } from '../constants'
+import NProgress from 'nprogress'
 
 const {Sider} = Layout
 const SubMenu = Menu.SubMenu
@@ -40,6 +41,8 @@ class MySider extends React.Component {
   }
 
   onSelect = ({key}) => {
+    NProgress.start()
+    NProgress.set(0.2)
     if (key !== 'balance' && key !== 'analysis') {
       this.props.dispatch({
         type: 'collapsed/save',
