@@ -205,7 +205,7 @@ class OperateUser extends React.Component {
                       rules: [{required: true, message: '请填写正确账号！', max: 30, pattern: REGS.account}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="只支持英文/数字"/>,
+                      <Input placeholder="只支持英文/数字" autocomplete='off'/>,
                     )}
                   </FormItem>
                 </Col>
@@ -218,7 +218,7 @@ class OperateUser extends React.Component {
                       rules: [{required: false, message: '请填写正确密码！', min: 6, max: 16, pattern: REGS.password}],
                       validateTrigger: 'onBlur',
                     })(
-                      <Input placeholder="6-16位字母/数字/下划线" type='password'/>,
+                      <Input placeholder="6-16位字母/数字/下划线" type='password' autocomplete='off'/>,
                     )}
                   </FormItem>
                 </Col>
