@@ -16,67 +16,316 @@
   padding: 5px 0;
 }
 
-.dashImg-chudan {
-  position: absolute;
-  top: 36px;
-  left: 40px;
-  width: 62px;
-  height: 62px;
-  background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
+@media screen and (min-width: 1600px) and (max-width: 1920px) {
+  html {
+    font-size: 14px;
+  }
+
+  .dashImg-chudan {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshouliang {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshoue {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
+  }
+
+  .dashImg-caigoue {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
+  }
+
+  .dashImg-yingkui {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    width: 62px;
+    height: 62px;
+  }
+  .dashTitle {
+    position: absolute;
+    top: 35px;
+    left: 124px;
+    font-family: PingFangHK-Regular;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .dashCount {
+    position: absolute;
+    top: 64px;
+    left: 122px;
+    font-family: PingFangHK-Regular;
+    font-size: 30px;
+    color: #676767;
+  }
 }
 
-.dashImg-xiaoshouliang {
-  position: absolute;
-  top: 36px;
-  left: 40px;
-  width: 62px;
-  height: 62px;
-  background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
+@media screen and (min-width: 1440px) and (max-width: 1600px) {
+  html {
+    font-size: 14px;
+  }
+
+  .wrapLine {
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+
+  .ant-btn {
+    font-size: 0.9rem;
+    padding: 5px 0.6rem;
+  }
+
+  .dashImg-chudan {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshouliang {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshoue {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
+  }
+
+  .dashImg-caigoue {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
+  }
+
+  .dashImg-yingkui {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+  }
+  .dashTitle {
+    position: absolute;
+    top: 35px;
+    left: 91px;
+    font-family: PingFangHK-Regular;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .dashCount {
+    position: absolute;
+    top: 64px;
+    left: 95px;
+    font-family: PingFangHK-Regular;
+    font-size: 30px;
+    color: #676767;
+  }
 }
 
-.dashImg-xiaoshoue {
-  position: absolute;
-  top: 36px;
-  left: 40px;
-  width: 62px;
-  height: 62px;
-  background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
+@media screen and (min-width: 1280px) and (max-width: 1440px) {
+  html {
+    font-size: 12px;
+  }
+
+  .wrapLine {
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+
+  .ant-btn {
+    font-size: 0.9rem;
+    padding: 5px 0.6rem;
+  }
+
+  .dashImg-chudan {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshouliang {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshoue {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
+  }
+
+  .dashImg-caigoue {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
+  }
+
+  .dashImg-yingkui {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+  }
+  .dashTitle {
+    position: absolute;
+    top: 35px;
+    left: 91px;
+    font-family: PingFangHK-Regular;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .dashCount {
+    position: absolute;
+    top: 64px;
+    left: 95px;
+    font-family: PingFangHK-Regular;
+    font-size: 30px;
+    color: #676767;
+  }
 }
 
-.dashImg-caigoue {
-  position: absolute;
-  top: 36px;
-  left: 40px;
-  width: 62px;
-  height: 62px;
-  background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
+@media screen and (min-width: 0px) and (max-width: 1280px) {
+  html {
+    font-size: 10px;
+  }
+
+  .wrapLine {
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+
+  .ant-btn {
+    font-size: 0.9rem;
+    padding: 5px 0.6rem;
+  }
+
+  .dashImg-chudan {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) 0px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshouliang {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -138px 0px no-repeat;
+  }
+
+  .dashImg-xiaoshoue {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -278px 0px no-repeat;
+  }
+
+  .dashImg-caigoue {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+    background: url(../assets/image/shouye_icon.png) -416px 0px no-repeat;
+  }
+
+  .dashImg-yingkui {
+    position: absolute;
+    top: 36px;
+    left: 24px;
+    width: 62px;
+    height: 62px;
+  }
+  .dashTitle {
+    position: absolute;
+    top: 35px;
+    left: 91px;
+    font-family: PingFangHK-Regular;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .dashCount {
+    position: absolute;
+    top: 64px;
+    left: 95px;
+    font-family: PingFangHK-Regular;
+    font-size: 30px;
+    color: #676767;
+  }
 }
 
-.dashImg-yingkui {
-  position: absolute;
-  top: 36px;
-  left: 40px;
-  width: 62px;
-  height: 62px;
-}
-
-.dashTitle {
-  position: absolute;
-  top: 35px;
-  left: 124px;
-  font-family: PingFangHK-Regular;
-  font-size: 16px;
-  color: #929292;
-}
-
-.dashCount {
-  position: absolute;
-  top: 64px;
-  left: 122px;
-  font-family: PingFangHK-Regular;
-  font-size: 30px;
-  color: #676767;
-}
 
 .contentBox > div {
   padding: 20px;

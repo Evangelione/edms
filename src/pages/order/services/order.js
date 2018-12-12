@@ -23,12 +23,12 @@ export function fetchCustom() {
   })
 }
 
-export function fetchSite({customer_id}) {
-  let formData = new FormData()
-  formData.append('customer_id', customer_id)
+export function fetchSite() {
+  // let formData = new FormData()
+  // formData.append('customer_id', customer_id)
   return request(`${IP}/home/select/site`, {
     method: 'POST',
-    body: formData,
+    // body: formData,
   })
 }
 
@@ -38,12 +38,12 @@ export function fetchSupplier() {
   })
 }
 
-export function fetchGoods({supplier_id}) {
-  let formData = new FormData()
-  formData.append('supplier_id', supplier_id)
+export function fetchGoods() {
+  // let formData = new FormData()
+  // formData.append('supplier_id', supplier_id)
   return request(`${IP}/home/select/goods`, {
     method: 'POST',
-    body: formData,
+    // body: formData,
   })
 }
 

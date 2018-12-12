@@ -34,7 +34,7 @@ export default {
     setup({dispatch, history}) {
       return history.listen(({pathname, query}) => {
         if (pathname === '/logistics') {
-          dispatch({type: 'getDeliverList', payload: query})
+          dispatch({type: 'balanceFetch', payload: query})
           dispatch({type: 'getDeliverFee', payload: query})
           dispatch({
             type: 'save', payload: {

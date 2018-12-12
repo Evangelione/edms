@@ -122,7 +122,7 @@ class Order extends React.Component {
                 <Tabs onChange={this.callback} activeKey={this.state.tableKey}>
                   <TabPane tab="运费明细" key='2'>
                     <Card style={{paddingTop: 30}}>
-                      <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
+                      <LogisticsTable tableKey={this.state.tableKey}/>
                       <div className='toolBar'>
                         <ExportModal title='批量导出' type='logistics'>
                           <Button className='blueBorder' icon="export">批量导出</Button>

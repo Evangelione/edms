@@ -119,92 +119,78 @@ class OrderModal extends PureComponent {
       //     result_type = '--'
       //   }
       // }
-      this.props.dispatch({
-        type: 'order/fetchGoods',
-        payload: {
-          supplier_id: form.supp_id,
-        },
-      }).then(() => {
-        this.props.dispatch({
-          type: 'order/fetchSite',
-          payload: {
-            customer_id: form.cust_id,
-          },
-        }).then(() => {
+      this.setState({
+        suppbalance: form.s_balance,
+        custombalance: form.c_balance,
+        creditbalance: form.credit - form.credit_used,
+      })
+      this.props.form.setFieldsValue({
+        cust_id: form.cust_id,
+        cust_id2: form.customer_contact,
+        cust_id3: form.customer_mobile,
+        saler_price: form.saler_price,
+        saler_num: form.saler_num,
+        saler_num2: form.saler_num,
+        deliver_type: form.deliver_type === '3' ? '1' : form.deliver_type,
+        distance: form.distance,
+        deliver_price: form.deliver_price,
+        site_id: form.site_id,
+        site_id2: form.site_type,
+        // site_id3: result_type,
+        recv_contact: form.recv_contact,
+        recv_phone: form.recv_phone,
+        recv_time: moment(form.recv_time),
+        delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
+        supp_id: form.supp_id ? form.supp_id : undefined,
+        supp_id2: form.supp_contact,
+        supp_id3: form.supp_mobile,
+        purchase_price: form.purchase_price,
+        shuliang: form.saler_num,
+        goods_id: form.goods_id ? form.goods_id : undefined,
+        goods_source: form.origin_gas_source,
+        goods_contact: form.cargo_contact,
+        goods_mobile: form.cargo_mobile,
+        deliver_fee: form.deliver_fee,
+        cus_deliver_type: form.deliver_type === '2' ? undefined : form.deliver_type,
+        goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
+      })
+      let purchase_price = this.props.form.getFieldValue('purchase_price')
+      let shuliang = this.props.form.getFieldValue('shuliang')
+      let distance = this.props.form.getFieldValue('distance') || 0
+      let deliver_price = this.props.form.getFieldValue('deliver_price') || 0
+      let saler_price = this.props.form.getFieldValue('saler_price')
+      let saler_num2 = this.props.form.getFieldValue('saler_num2') || 0
+      let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
+      let logcost = null
+      if (this.state.currType === '3') {
+        logcost = this.props.form.getFieldValue('deliver_fee') - 0 || 0
+      } else if (this.state.currType === '2') {
+        logcost = 0
+      } else {
+        logcost = isNaN(((distance - 0) * (deliver_price - 0)) * saler_num2) ? 0 : (((distance - 0) * (deliver_price - 0)) * saler_num2)
+      }
+      let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+      let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
+      let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+      this.setState({
+        purchaseCost: purcost.toFixed(2),
+        logisticsCost: logcost.toFixed(2),
+        sales: sales.toFixed(2),
+        diffInSales: diffSales.toFixed(2),
+        total: (total * 1.075).toFixed(2),
+        yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
+        xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
+        maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2),
+      }, () => {
+        if ((this.state.xinyongPay - 0) > 0) {
           this.setState({
-            suppbalance: form.s_balance,
-            custombalance: form.c_balance,
-            creditbalance: form.credit - form.credit_used,
+            payType: '赊销',
           })
-          this.props.form.setFieldsValue({
-            cust_id: form.cust_id,
-            cust_id2: form.customer_contact,
-            cust_id3: form.customer_mobile,
-            saler_price: form.saler_price,
-            saler_num: form.saler_num,
-            saler_num2: form.saler_num,
-            deliver_type: form.deliver_type === '3' ? '1' : form.deliver_type,
-            distance: form.distance,
-            deliver_price: form.deliver_price,
-            site_id: form.site_id,
-            site_id2: form.site_type,
-            // site_id3: result_type,
-            recv_contact: form.recv_contact,
-            recv_phone: form.recv_phone,
-            recv_time: moment(form.recv_time),
-            delivery: form.delivery_province + '/' + form.delivery_city + '/' + (form.delivery_area ? form.delivery_area + '/' : '') + form.detaileds_address,
-            supp_id: form.supp_id ? form.supp_id : undefined,
-            supp_id2: form.supp_contact,
-            supp_id3: form.supp_mobile,
-            purchase_price: form.purchase_price,
-            shuliang: form.saler_num,
-            goods_id: form.goods_id ? form.goods_id : undefined,
-            goods_source: form.origin_gas_source,
-            goods_contact: form.cargo_contact,
-            goods_mobile: form.cargo_mobile,
-            deliver_fee: form.deliver_fee,
-            cus_deliver_type: form.deliver_type === '2' ? undefined : form.deliver_type,
-            goods_delivery: form.cargo_province ? form.cargo_province + '/' + form.cargo_city + '/' + (form.cargo_area ? form.cargo_area + '/' : '') + form.detailed_address : undefined,
-          })
-          let purchase_price = this.props.form.getFieldValue('purchase_price')
-          let shuliang = this.props.form.getFieldValue('shuliang')
-          let distance = this.props.form.getFieldValue('distance') || 0
-          let deliver_price = this.props.form.getFieldValue('deliver_price') || 0
-          let saler_price = this.props.form.getFieldValue('saler_price')
-          let saler_num2 = this.props.form.getFieldValue('saler_num2') || 0
-          let purcost = isNaN((purchase_price - 0) * (shuliang - 0)) ? 0 : ((purchase_price - 0) * (shuliang - 0))
-          let logcost = null
-          if (this.state.currType === '3') {
-            logcost = this.props.form.getFieldValue('deliver_fee') - 0 || 0
-          } else if (this.state.currType === '2') {
-            logcost = 0
-          } else {
-            logcost = isNaN(((distance - 0) * (deliver_price - 0)) * saler_num2) ? 0 : (((distance - 0) * (deliver_price - 0)) * saler_num2)
-          }
-          let sales = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
-          let diffSales = isNaN((sales - purcost - logcost) / shuliang) ? 0 : ((sales - purcost - logcost) / shuliang)
-          let total = isNaN((saler_price - 0) * (shuliang - 0)) ? 0 : (saler_price - 0) * (shuliang - 0)
+        } else {
           this.setState({
-            purchaseCost: purcost.toFixed(2),
-            logisticsCost: logcost.toFixed(2),
-            sales: sales.toFixed(2),
-            diffInSales: diffSales.toFixed(2),
-            total: (total * 1.075).toFixed(2),
-            yuePay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? (total * 1.075).toFixed(2) : (this.state.balance - 0),
-            xinyongPay: ((this.state.balance - 0) - (total * 1.075).toFixed(2)) >= 0 ? 0 : ((total * 1.075).toFixed(2) - (this.state.balance - 0)),
-            maoli: sales.toFixed(2) - purcost.toFixed(2) - logcost.toFixed(2),
-          }, () => {
-            if ((this.state.xinyongPay - 0) > 0) {
-              this.setState({
-                payType: '赊销',
-              })
-            } else {
-              this.setState({
-                payType: '预付款',
-              })
-            }
+            payType: '预付款',
           })
-        })
+        }
       })
       this.props.dispatch({
         type: 'order/getModalPrice',
@@ -304,12 +290,6 @@ class OrderModal extends PureComponent {
     this.setState({
       suppbalance: item.props.balance,
     })
-    this.props.dispatch({
-      type: 'order/fetchGoods',
-      payload: {
-        supplier_id: value,
-      },
-    })
     this.props.form.setFieldsValue({
       supp_id2: item.props.contact,
       supp_id3: item.props.mobile,
@@ -334,7 +314,7 @@ class OrderModal extends PureComponent {
       goods_source: item.props.source,
       goods_contact: item.props.contact,
       goods_mobile: item.props.mobile,
-      goods_delivery: item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address,
+      goods_delivery: item.props.province ? (item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address) : '',
     })
     this.setState({
       report: item.props.report,
@@ -347,12 +327,6 @@ class OrderModal extends PureComponent {
       creditbalance: (item.props.credit - item.props.credit_used).toFixed(2),
       maoli: 0,
       diffInSales: 0,
-    })
-    this.props.dispatch({
-      type: 'order/fetchSite',
-      payload: {
-        customer_id: value,
-      },
     })
     this.setState({
       balance: item.props.balance,
@@ -378,14 +352,14 @@ class OrderModal extends PureComponent {
     this.props.form.setFieldsValue({
       site_id2: item.props.sitetype,
       // site_id3: item.props.usertype,
-      delivery: item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address,
+      delivery: item.props.province ? (item.props.province + '/' + item.props.city + '/' + (item.props.area ? item.props.area + '/' : '') + item.props.address) : '',
       recv_contact: undefined,
       recv_phone: undefined,
       recv_time: undefined,
       deliver_type: undefined,
     })
     this.setState({
-      dataSource: item.props.shouhuo.map(this.renderOption),
+      dataSource: item.props.shouhuo ? item.props.shouhuo.map(this.renderOption) : '',
     })
   }
 
@@ -736,9 +710,9 @@ class OrderModal extends PureComponent {
                       message: '此项为必选项！',
                     }],
                   })(
-                    <AutoComplete placeholder="请选择供应商名称" style={{width: 185}} onSelect={this.suppChange}>
-                      {supplierOptions}
-                    </AutoComplete>,
+                    <AutoComplete placeholder="请选择供应商名称" style={{width: 185}} onChange={this.suppChange}
+                                  dataSource={supplierOptions}
+                                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}/>,
                   )}
                 </FormItem>
               </Col>
@@ -802,9 +776,9 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('goods_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <AutoComplete placeholder="请选择气源名称" style={{width: 185}} onSelect={this.goodsChange}>
-                      {goodsOptions}
-                    </AutoComplete>,
+                    <AutoComplete placeholder="请选择气源名称" style={{width: 185}} onChange={this.goodsChange}
+                                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                                  dataSource={goodsOptions}/>,
                   )}
                 </FormItem>
               </Col>
@@ -880,9 +854,9 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('cust_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <AutoComplete placeholder="请选择客户名称" style={{width: 185}} onSelect={this.customerChange}>
-                      {customOptions}
-                    </AutoComplete>,
+                    <AutoComplete placeholder="请选择客户名称" style={{width: 185}} onChange={this.customerChange}
+                                  dataSource={customOptions}
+                                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}/>,
                   )}
                 </FormItem>
               </Col>
@@ -946,10 +920,10 @@ class OrderModal extends PureComponent {
                   {getFieldDecorator('site_id', {
                     rules: [{required: true, message: '此项为必选项！'}],
                   })(
-                    <AutoComplete placeholder="请选择站点名称" style={{width: 185}} onSelect={this.siteChange}
-                                  disabled={!!this.props.confirm}>
-                      {siteOptions}
-                    </AutoComplete>,
+                    <AutoComplete placeholder="请选择站点名称" style={{width: 185}} onChange={this.siteChange}
+                                  disabled={!!this.props.confirm}
+                                  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                                  dataSource={siteOptions}/>,
                   )}
                 </FormItem>
               </Col>
@@ -978,7 +952,7 @@ class OrderModal extends PureComponent {
                     ],
                   })(
                     <AutoComplete
-                      onSelect={this.autoSelect}
+                      onChange={this.autoSelect}
                       disabled={!!this.props.confirm}
                       dataSource={this.state.dataSource}
                       placeholder="请填写收货联系人姓名"

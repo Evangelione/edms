@@ -32,7 +32,15 @@ export default {
   },
   effects: {
     * fetch({payload: {page = '1', order_type = '3', order_status = '', find_str = '', stime = '', etime = '', time_type = '1'}}, {call, put, select}) {
-      const {data} = yield call(orderService.getOrderList, {page, order_type, order_status, find_str, stime, etime,time_type})
+      const {data} = yield call(orderService.getOrderList, {
+        page,
+        order_type,
+        order_status,
+        find_str,
+        stime,
+        etime,
+        time_type,
+      })
       const currentIndex = yield select(state => state.order.currentIndex)
       if (data.code === 1) {
         yield put({
@@ -67,12 +75,16 @@ export default {
     * fetchSelect({payload}, {call, put}) {
       const custom = yield call(orderService.fetchCustom)
       const supplier = yield call(orderService.fetchSupplier)
-      if (custom.data.code === 1 && supplier.data.code === 1) {
+      const site = yield call(orderService.fetchSite)
+      const goods = yield call(orderService.fetchGoods)
+      if (custom.data.code === 1 && supplier.data.code === 1 && site.data.code === 1 && goods.data.code === 1) {
         yield put({
           type: 'save',
           payload: {
             customOption: custom.data.data.list,
             supplierOption: supplier.data.data.list,
+            siteOption: site.data.data.list,
+            goodsOption: goods.data.data.list,
           },
         })
       }
