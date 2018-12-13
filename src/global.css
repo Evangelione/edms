@@ -7,17 +7,18 @@ html, body, :global(#root) {
   font-family: PingFangHK-Regular;
 }
 
-@media screen and (min-width: 1600px) and (max-width: 1920px){
+@media screen and (min-width: 1600px) {
   html {
     font-size: 14px;
   }
 }
 
-@media screen and (min-width: 1480px) and (max-width: 1600px){
+@media screen and (min-width: 1480px) and (max-width: 1600px) {
   html {
     font-size: 12px;
   }
-  .wrapLine{
+
+  .wrapLine {
     display: inline-block;
     width: 200px;
     overflow: hidden;
@@ -25,6 +26,7 @@ html, body, :global(#root) {
     white-space: nowrap;
     vertical-align: bottom;
   }
+
   .ant-btn {
     font-size: 0.9rem;
     padding: 5px 0.6rem;
@@ -35,7 +37,8 @@ html, body, :global(#root) {
   html {
     font-size: 12px;
   }
-  .wrapLine{
+
+  .wrapLine {
     display: inline-block;
     width: 200px;
     overflow: hidden;
@@ -43,6 +46,7 @@ html, body, :global(#root) {
     white-space: nowrap;
     vertical-align: bottom;
   }
+
   .ant-btn {
     font-size: 0.9rem;
     padding: 5px 0.6rem;
@@ -53,7 +57,8 @@ html, body, :global(#root) {
   html {
     font-size: 10px;
   }
-  .wrapLine{
+
+  .wrapLine {
     display: inline-block;
     width: 200px;
     overflow: hidden;
@@ -61,6 +66,7 @@ html, body, :global(#root) {
     white-space: nowrap;
     vertical-align: bottom;
   }
+
   .ant-btn {
     font-size: 0.9rem;
     padding: 5px 0.6rem;
