@@ -13,12 +13,11 @@ import {
   DatePicker,
   message,
   InputNumber,
-  Tooltip,
 } from 'antd'
 import { connect } from 'dva'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
-import { REGS, IconFont } from '../../../common/constants'
+import { REGS } from '../../../common/constants'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -888,22 +887,22 @@ class OrderModal extends PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={9} style={{color: '#2978EE', fontSize: 16}}>
-                <div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span
-                  style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨
-                  <Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">
-                    <IconFont type='icon-iconfontwenhao1' style={{
-                      fontSize: 18,
-                      marginLeft: 13,
-                      marginTop: '-2px',
-                      verticalAlign: 'middle',
-                      color: '#333',
-                    }}/>
-                  </Tooltip>
-                </div>
-              </Col>
-              <Col span={6}>
-                <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
+              {/*<Col span={9} style={{color: '#2978EE', fontSize: 16}}>*/}
+                {/*<div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span*/}
+                  {/*style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨*/}
+                  {/*<Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">*/}
+                    {/*<IconFont type='icon-iconfontwenhao1' style={{*/}
+                      {/*fontSize: 18,*/}
+                      {/*marginLeft: 13,*/}
+                      {/*marginTop: '-2px',*/}
+                      {/*verticalAlign: 'middle',*/}
+                      {/*color: '#333',*/}
+                    {/*}}/>*/}
+                  {/*</Tooltip>*/}
+                {/*</div>*/}
+              {/*</Col>*/}
+              <Col span={10}>
+                <FormItem labelCol={{span: 8}} wrapperCol={{span: 14}} label="数量" hasFeedback
                           style={{display: 'block', marginLeft: '-5px'}}>
                   {getFieldDecorator('saler_num')(
                     <InputNumber placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled
