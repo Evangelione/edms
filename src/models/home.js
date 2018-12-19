@@ -38,6 +38,7 @@ export default {
     supplierOption: [],
     siteOption: [],
     goodsOption: [],
+    logisticsOption: [],
   },
 
   subscriptions: {
@@ -549,6 +550,23 @@ export default {
           type: 'save',
           payload: {
             goodsOption: data.data.list,
+          },
+        })
+      }
+    },
+    * fetchWuliu({payload}, {call, put}) {
+      const {data} = yield call(customerService.fetchWuliu)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            logisticsOption: data.data.list,
+          },
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            logistics_company: data.data.list[0] ? data.data.list[0].logistics_company : '',
           },
         })
       }

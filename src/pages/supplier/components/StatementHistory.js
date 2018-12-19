@@ -280,7 +280,7 @@ class StatementHistory extends Component {
           <span>选择供应商</span>
           <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
                         placeholder='请输入对账供应商名称'
-                        value={this.props.supp_id}
+                        // value={this.props.supp_id}
                         onSelect={this.fetchList.bind(null, 'supp_id')}
                         onChange={this.isEmptyValue.bind(this, 'supp_id')}
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>

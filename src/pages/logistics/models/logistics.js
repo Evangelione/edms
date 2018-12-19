@@ -29,12 +29,17 @@ export default {
     companyDetail: {},
     currentLogistics: {},
     currentIndex: 0,
+    logistics_company: '',
+    account_status: '',
+    site_id: '',
+    goods_id: '',
+    logisticsOption: [],
   },
   subscriptions: {
     setup({dispatch, history}) {
       return history.listen(({pathname, query}) => {
         if (pathname === '/logistics') {
-          dispatch({type: 'balanceFetch', payload: query})
+          // dispatch({type: 'balanceFetch', payload: query})
           dispatch({type: 'getDeliverFee', payload: query})
           dispatch({
             type: 'save', payload: {
@@ -125,7 +130,7 @@ export default {
         // })
         yield put({
           type: 'order/save',
-          payload: {currentTab: 'icon-icon-test', currentIndex: 0}
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
         })
         yield put({
           type: 'order/fetch',
@@ -154,7 +159,7 @@ export default {
         // })
         yield put({
           type: 'order/save',
-          payload: {currentTab: 'icon-icon-test', currentIndex: 0}
+          payload: {currentTab: 'icon-icon-test', currentIndex: 0},
         })
         yield put({
           type: 'order/fetch',
@@ -168,8 +173,18 @@ export default {
         message.error(data.msg)
       }
     },
-    * balanceFetch({payload: {page = 1, find_str = '', stime, etime, conversion}}, {call, put}) {
-      const {data} = yield call(logisticsService.getBalanceData, {page, find_str, stime, etime, conversion})
+    * balanceFetch({payload: {page = 1, find_str = '', stime, etime, logistics_company, account_status, site_id, goods_id, conversion}}, {call, put}) {
+      const {data} = yield call(logisticsService.getBalanceData, {
+        page,
+        find_str,
+        stime,
+        etime,
+        logistics_company,
+        account_status,
+        site_id,
+        goods_id,
+        conversion,
+      })
       if (data.code === 1) {
         yield put({
           type: 'save',
@@ -196,8 +211,8 @@ export default {
         })
       }
     },
-    * balanceHistoryFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
-      const {data} = yield call(logisticsService.getBalanceHistoryData, {page, find_str, stime, etime})
+    * balanceHistoryFetch({payload: {page = 1, id}}, {call, put}) {
+      const {data} = yield call(logisticsService.getBalanceHistoryData, {page, id})
       if (data.code === 1) {
         yield put({
           type: 'save',
@@ -205,7 +220,6 @@ export default {
             balanceHistoryList: data.data.list,
             balanceHistoryPage: parseInt(page, 10),
             balanceHistoryTotal: parseInt(data.data.count, 10),
-            find_str,
           },
         })
       }
@@ -250,6 +264,93 @@ export default {
             companyDetail: data.data.list,
           },
         })
+      }
+    },
+    * saveChange({payload: {logistics_company, site_id, goods_id, account_status}}, {call, put}) {
+      let filed = logistics_company !== undefined ? 'logistics_company' : '' || site_id !== undefined ? 'site_id' : '' || goods_id !== undefined ? 'goods_id' : '' || account_status !== undefined ? 'account_status' : ''
+      let val = logistics_company || site_id || goods_id || account_status || ''
+      console.log(filed)
+      console.log(val)
+      yield put({
+        type: 'save',
+        payload: {
+          [filed]: val,
+        },
+      })
+    },
+    * fetchHistory({payload: {page = 1, stime, etime, logistics_company, account_status}}, {call, put}) {
+      const {data} = yield call(logisticsService.fetchHistory, {page, stime, etime, logistics_company, account_status})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            historylist: data.data.list,
+            historypage: parseInt(page, 10),
+            historytotal: parseInt(data.data.count, 10),
+            stime,
+            etime,
+            logistics_company,
+            account_status,
+          },
+        })
+      }
+    },
+    * reconciliationConfirm({payload: {id}}, {call, put}) {
+      const {data} = yield call(logisticsService.reconciliationConfirm, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * kaipiao({payload: {id}}, {call, put}) {
+      const {data} = yield call(logisticsService.kaipiao, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteduizhang({payload: {id}}, {call, put}) {
+      const {data} = yield call(logisticsService.deleteduizhang, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * Reconciliation({payload: {ids}}, {call, put}) {
+      const {data} = yield call(logisticsService.Reconciliation, {ids})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * Reconciliation2({payload: {stime, etime, logistics_company, account_status, site_id, goods_id}}, {call, put}) {
+      const {data} = yield call(logisticsService.Reconciliation2, {
+        stime,
+        etime,
+        logistics_company,
+        account_status,
+        site_id,
+        goods_id,
+      })
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({
+          type: 'save',
+          payload: {
+            account_status: '',
+          },
+        })
+      } else {
+        message.error(data.msg)
       }
     },
   },

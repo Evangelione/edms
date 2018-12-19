@@ -180,6 +180,7 @@ class StatementHistory extends Component {
   }
 
   render() {
+    console.log(this.props.customOption)
     const {historylist, historypage, historytotal, customOption, loading} = this.props
     const customOptions = customOption.map(option => {
       return <Option2 key={option.id} value={option.id} mobile={option.customer_mobile}
@@ -255,7 +256,8 @@ class StatementHistory extends Component {
         return (
           <div>
             <Button className='blueBorder' onClick={this.balanceHistory.bind(null, record.id)}>查看明细</Button>
-            <Button type='primary' style={{height: 28, marginLeft: 5}} onClick={this.export.bind(null, record.id)}>导出</Button>
+            <Button type='primary' style={{height: 28, marginLeft: 5}}
+                    onClick={this.export.bind(null, record.id)}>导出</Button>
 
             <Popconfirm title="是否开始此条记录对账?" onConfirm={this.reconciliationConfirm.bind(null, record.id)} okText="对账"
                         cancelText="取消">
@@ -284,7 +286,7 @@ class StatementHistory extends Component {
           <span>选择客户</span>
           <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
                         placeholder='请输入对账客户名称'
-                        value={this.props.customer_id}
+                        // value={this.props.customer_id}
                         onSelect={this.fetchList.bind(null, 'customer_id')}
                         onChange={this.isEmptyValue.bind(this, 'customer_id')}
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>

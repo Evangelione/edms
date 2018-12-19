@@ -131,18 +131,17 @@ export function confirmBill({id, load_num, unload_num, load_time, unload_time, l
   })
 }
 
-export function getBalanceData({page, find_str, stime, etime, conversion}) {
+export function getBalanceData({page, find_str, stime, etime, logistics_company, account_status, site_id, goods_id, conversion}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
   formData.append('find_str', find_str)
-  if (conversion) {
-    formData.append('stime', stime)
-    formData.append('etime', etime)
-  } else {
-    formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
-    formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
-  }
+  formData.append('logistics_company', logistics_company)
+  formData.append('account_status', account_status)
+  formData.append('site_id', site_id)
+  formData.append('goods_id', goods_id)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
   return request(`${IP}/home/logistics/deliver-account`, {
     method: 'POST',
     body: formData,
@@ -169,14 +168,12 @@ export function balanceDetailedFetch({page, find_str, stime, etime, conversion, 
 }
 
 
-export function getBalanceHistoryData({page, find_str, stime, etime}) {
+export function getBalanceHistoryData({page, find_str, id}) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_SIZE)
-  formData.append('find_str', find_str)
-  // formData.append('stime', stime ? stime.format('YYYY-MM-DD') : '')
-  // formData.append('etime', etime ? etime.format('YYYY-MM-DD') : '')
-  return request(`${IP}/home/logistics/deliver-account-log`, {
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/details`, {
     method: 'POST',
     body: formData,
   })
@@ -235,3 +232,70 @@ export function UpUnLoadBill(file) {
   })
 }
 
+
+export function fetchHistory({page, stime, etime, logistics_company, account_status}) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_SIZE)
+  formData.append('stime', stime)
+  formData.append('etime', etime)
+  formData.append('logistics_company', logistics_company)
+  formData.append('account_status', account_status)
+  return request(`${IP}/home/logistics/account-log`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function reconciliationConfirm({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/confirm`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function kaipiao({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/kaipiao`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function deleteduizhang({id}) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/home/logistics/delete`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function Reconciliation({ids}) {
+  let formData = new FormData()
+  formData.append('ids', ids)
+  return request(`${IP}/home/logistics/set-account1`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function Reconciliation2({stime, etime, logistics_company, account_status, site_id, goods_id}) {
+  let formData = new FormData()
+  formData.append('stime', stime)
+  formData.append('etime', etime)
+  formData.append('logistics_company', logistics_company)
+  formData.append('account_status', account_status)
+  formData.append('site_id', site_id)
+  formData.append('goods_id', goods_id)
+  return request(`${IP}/home/logistics/set-account2`, {
+    method: 'POST',
+    body: formData,
+  })
+}

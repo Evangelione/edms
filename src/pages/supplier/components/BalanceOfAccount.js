@@ -200,6 +200,12 @@ class BalanceOfAccount extends PureComponent {
     }
   }
 
+  resetSelectKey = () => {
+    this.setState({
+      selectedRowKeys: [],
+    })
+  }
+
   render() {
     const {balanceList, balancePage, balanceTotal, supplierOption, siteOption, goodsOption, loading} = this.props
     const {selectedRowKeys} = this.state
@@ -416,7 +422,7 @@ class BalanceOfAccount extends PureComponent {
           <Button type='primary' style={{minWidth: 64, height: 28, marginRight: 6}} onClick={this.export}>对账</Button>
           <PromptModal state='duiAllsupp' stime={this.props.stime} etime={this.props.etime}
                        account_status={this.props.account_status} supp_id={this.props.supp_id}
-                       site_id={this.props.site_id} goods_id={this.props.goods_id}>
+                       site_id={this.props.site_id} goods_id={this.props.goods_id} callback={this.resetSelectKey}>
             <Button type='primary' style={{minWidth: 64, height: 28}}
                     disabled={this.props.account_status !== '1'}>全部对账</Button>
           </PromptModal>
