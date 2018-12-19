@@ -5,6 +5,7 @@ import LogisticsDetail from './logisticsDetail'
 import LogisticsBalance from './logisticsBalance'
 import LogisticsHistory from './logisticsHistory'
 import LogisticsTable from './components/LogisticsTable'
+import StatementHistory from './components/StatementHistory'
 import ExportModal from '../../components/ExportModal/ExportModal'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
@@ -135,6 +136,11 @@ class Order extends React.Component {
                       <BalanceOfAccount/>
                     </Card>
                   </TabPane>
+                  <TabPane tab='对账历史' key='4'>
+                    <Card style={{paddingTop: 30}}>
+                      <StatementHistory/>
+                    </Card>
+                  </TabPane>
                 </Tabs>
                 {/*{this.state.tableKey === '1' ?*/}
                 {/*<Card style={{marginTop: 5}}>*/}
@@ -143,7 +149,7 @@ class Order extends React.Component {
                 {this.state.tableKey === '1' ?
                   <Row gutter={10} style={{marginTop: 10}}>
                     <Col span={9}>
-                      <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
+                      <LogisticsTable tableKey={this.state.tableKey}/>
                     </Col>
                     <Col span={15}>
                       {currentLogistics ?

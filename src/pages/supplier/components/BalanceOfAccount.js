@@ -1,23 +1,132 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { Table, Button, Pagination, message } from 'antd'
-import { IP, PAGE_SIZE } from '../../../constants'
+import { Table, Button, Pagination, message, DatePicker, AutoComplete, Dropdown, Menu, Select } from 'antd'
+import { PAGE_SIZE } from '../../../constants'
 import { routerRedux } from 'dva/router'
-import ExportModal from './ExportModal'
+// import ExportModal from './ExportModal'
+import PromptModal from '../../../components/PromptModal/PromptModal'
 import * as dateUtils from '../../../utils/getTime'
+import locale from 'antd/lib/date-picker/locale/zh_CN'
+
+const {RangePicker} = DatePicker
+const {Option} = Select
+const Option2 = AutoComplete.Option
 
 class BalanceOfAccount extends PureComponent {
   constructor(props) {
     super(props)
-    this.state={
-      selectedRowKeys: []
+    this.state = {
+      selectedRowKeys: [],
     }
   }
 
-  UNSAFE_componentWillMount() {
+  fetchList = (filed, value, option) => {
+    this.props.dispatch({
+      type: 'supplier/saveChange',
+      payload: {
+        [filed]: value,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'supplier/balanceFetch',
+        payload: {
+          page: 1,
+          find_str: this.props.find_str,
+          stime: this.props.stime,
+          etime: this.props.etime,
+          supp_id: this.props.supp_id,
+          account_status: this.props.account_status,
+          site_id: this.props.site_id,
+          goods_id: this.props.goods_id,
+        },
+      })
+    })
+  }
+
+  menuClick = (filed, option) => {
+    this.props.dispatch({
+      type: 'supplier/saveChange',
+      payload: {
+        [filed]: option.key,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'supplier/balanceFetch',
+        payload: {
+          page: 1,
+          find_str: this.props.find_str,
+          stime: this.props.stime,
+          etime: this.props.etime,
+          supp_id: this.props.supp_id,
+          account_status: this.props.account_status,
+          site_id: this.props.site_id,
+          goods_id: this.props.goods_id,
+        },
+      })
+    })
+  }
+
+  isEmptyValue = (filed, value) => {
+    this.props.dispatch({
+      type: 'supplier/saveChange',
+      payload: {
+        [filed]: value,
+      },
+    }).then(() => {
+      if (value === '') {
+        this.props.dispatch({
+          type: 'supplier/balanceFetch',
+          payload: {
+            page: 1,
+            find_str: this.props.find_str,
+            stime: this.props.stime,
+            etime: this.props.etime,
+            supp_id: this.props.supp_id,
+            account_status: this.props.account_status,
+            site_id: this.props.site_id,
+            goods_id: this.props.goods_id,
+          },
+        })
+      }
+    })
+  }
+
+  selectStatus = (val) => {
+    this.props.dispatch({
+      type: 'supplier/saveChange',
+      payload: {
+        account_status: val,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'supplier/balanceFetch',
+        payload: {
+          page: 1,
+          find_str: this.props.find_str,
+          stime: this.props.stime,
+          etime: this.props.etime,
+          supp_id: this.props.supp_id,
+          account_status: this.props.account_status,
+          site_id: this.props.site_id,
+          goods_id: this.props.goods_id,
+        },
+      })
+    })
+  }
+
+  dateChange = (val, str) => {
     this.props.dispatch({
       type: 'supplier/balanceFetch',
-      payload: {page: 1, find_str: '', stime: '', etime: ''}
+      payload: {
+        page: 1,
+        find_str: this.props.find_str,
+        stime: str[0],
+        etime: str[1],
+        supp_id: this.props.supp_id,
+        account_status: this.props.account_status,
+        site_id: this.props.site_id,
+        goods_id: this.props.goods_id,
+      },
     })
   }
 
@@ -26,8 +135,14 @@ class BalanceOfAccount extends PureComponent {
       type: 'supplier/balanceFetch',
       payload: {
         page,
-        find_str: this.props.find_str
-      }
+        stime: this.props.stime,
+        etime: this.props.etime,
+        find_str: this.props.find_str,
+        supp_id: this.props.supp_id,
+        account_status: this.props.account_status,
+        site_id: this.props.site_id,
+        goods_id: this.props.goods_id,
+      },
     })
   }
 
@@ -44,36 +159,133 @@ class BalanceOfAccount extends PureComponent {
     } else {
       selectedRowKeys.push(record.id)
     }
+    if (record.account_status !== '1') {
+      return false
+    }
     this.setState({selectedRowKeys})
   }
 
-  onSelectedRowKeysChange = (selectedRowKeys) => {
-    this.setState({selectedRowKeys})
+  onSelectedRowKeysChange = (selectedRowKeys, datasource) => {
+    // this.setState({selectedRowKeys})
   }
 
   export = () => {
     if (this.state.selectedRowKeys.length) {
       let ids = this.state.selectedRowKeys.join(',')
-      window.location.href = `${IP}/home/supplier/excel-supplier-account?ids=${ids}`
+      this.props.dispatch({
+        type: 'supplier/Reconciliation',
+        payload: {
+          ids,
+        },
+      }).then(() => {
+        this.props.dispatch({
+          type: 'supplier/balanceFetch',
+          payload: {
+            page: 1,
+            find_str: this.props.find_str,
+            stime: this.props.stime,
+            etime: this.props.etime,
+            supp_id: this.props.supp_id,
+            account_status: this.props.account_status,
+            site_id: this.props.site_id,
+            goods_id: this.props.goods_id,
+          },
+        })
+      })
+      this.setState({
+        selectedRowKeys: [],
+      })
     } else {
-      message.error('请勾选需要导出的信息')
+      message.error('请勾选需要导出的对账信息')
     }
   }
 
   render() {
-    const {balanceList, balancePage, balanceTotal, loading} = this.props
+    const {balanceList, balancePage, balanceTotal, supplierOption, siteOption, goodsOption, loading} = this.props
     const {selectedRowKeys} = this.state
+    const supplierOptions = supplierOption.map(option => {
+      return <Option2 key={option.id} value={option.id}>{option.supp_name}</Option2>
+    })
+    const siteOptions = siteOption.map(option => {
+      return <Option2 key={option.id}
+                      sitetype={option.site_type}
+                      usertype={option.user_type_name}
+                      province={option.delivery_province}
+                      city={option.delivery_city}
+                      area={option.delivery_area}
+                      address={option.detailed_address}
+                      shouhuo={option.shouhuo}
+                      value={option.id}>{option.site_name}</Option2>
+    })
+    const goodsOptions = goodsOption.map(option => {
+      return <Option2 key={option.id} source={option.origin_gas_source}
+                      contact={option.cargo_contact}
+                      mobile={option.cargo_mobile}
+                      province={option.cargo_province}
+                      city={option.cargo_city}
+                      area={option.cargo_area}
+                      address={option.detailed_address}
+                      report={option.temperament_report}
+                      value={option.id}>{option.name_gas_source}</Option2>
+    })
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
     }
+    const suppliermenu = (
+      <Menu onClick={this.menuClick.bind(null, 'supp_id')}>
+        {supplierOption.map(option => {
+          return <Menu.Item key={option.id} value={option.id}>{option.supp_name}</Menu.Item>
+        })}
+      </Menu>
+    )
+    const sitemenu = (
+      <Menu onClick={this.menuClick.bind(null, 'site_id')}>
+        {siteOption.map(option => {
+          return <Menu.Item key={option.id}
+                            sitetype={option.site_type}
+                            usertype={option.user_type_name}
+                            province={option.delivery_province}
+                            city={option.delivery_city}
+                            area={option.delivery_area}
+                            address={option.detailed_address}
+                            shouhuo={option.shouhuo}
+                            value={option.id}>{option.site_name}</Menu.Item>
+        })}
+      </Menu>
+    )
+    const goodsmenu = (
+      <Menu onClick={this.menuClick.bind(null, 'goods_id')}>
+        {goodsOption.map(option => {
+          return <Menu.Item key={option.id} source={option.origin_gas_source}
+                            contact={option.cargo_contact}
+                            mobile={option.cargo_mobile}
+                            province={option.cargo_province}
+                            city={option.cargo_city}
+                            area={option.cargo_area}
+                            address={option.detailed_address}
+                            report={option.temperament_report}
+                            value={option.id}>{option.name_gas_source}</Menu.Item>
+        })}
+      </Menu>
+    )
     const columns = [{
       title: '订单编号',
       dataIndex: 'order_code',
       key: 'order_code',
-      align: 'center'
+      align: 'center',
     }, {
-      title: '装车日期',
+      title: '供应商',
+      dataIndex: 'supp_name',
+      key: 'supp_name',
+      align: 'center',
+    }, {
+      title: '车牌',
+      dataIndex: 'car_head',
+      key: 'car_head',
+      align: 'center',
+    }, {
+      title: '装车时间',
       dataIndex: 'load_time',
       key: 'load_time',
       align: 'center',
@@ -87,27 +299,22 @@ class BalanceOfAccount extends PureComponent {
               <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
             </div>
           )
-        }  else {
+        } else {
           return (
             <div>--</div>
           )
         }
-      }
+      },
     }, {
-      title: '供应商名称',
-      dataIndex: 'supp_name',
-      key: 'supp_name',
-      align: 'center',
-    }, {
-      title: '气源名称',
+      title: '气源',
       dataIndex: 'name_gas_source',
       key: 'name_gas_source',
       align: 'center',
     }, {
-      title: '车牌照',
-      dataIndex: 'car_head',
-      key: 'car_head',
-      align: 'center'
+      title: '站点简称',
+      dataIndex: 'site_name',
+      key: 'site_name',
+      align: 'center',
     }, {
       title: '装车量(吨)',
       dataIndex: 'load_num',
@@ -134,21 +341,89 @@ class BalanceOfAccount extends PureComponent {
       key: 'purchase_money',
       align: 'center',
     }, {
-      title: '采购预付款余额(元)',
+      title: '预付款余额(元)',
       dataIndex: 'balance',
       key: 'balance',
       align: 'center',
+    }, {
+      title: '订单状态',
+      dataIndex: 'account_status',
+      key: 'account_status',
+      align: 'center',
+      render: (text) => {
+        if (text === '1') {
+          return <div style={{color: '#8897BD'}}>待对账</div>
+        } else if (text === '2') {
+          return <div style={{color: '#3477ED'}}>对账中</div>
+        } else if (text === '3') {
+          return <div style={{color: '#60C899'}}>已对账</div>
+        } else {
+          return <div style={{color: '#F7772A'}}>已开票</div>
+        }
+      },
     }]
     return (
       <div>
-        <div className='toolBar'>
-          <Button type='primary' style={{width: 110,height: 28, marginRight: 6}} onClick={this.export}>导出</Button>
-          <ExportModal>
-            <Button type='primary' icon='export' style={{height: 28}}>批量对账</Button>
-          </ExportModal>
-          <Button className='blueBorder' style={{width: 110}}
-                  onClick={this.balanceHistory.bind(null, this.props.find_str)}>对账历史</Button>
+        <div style={{position: 'absolute', top: 10, left: 32, fontSize: '1rem'}}>
+          <RangePicker locale={locale} style={{width: 210, marginRight: 10}} onChange={this.dateChange}/>
+          <span>选择供应商</span>
+          <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
+                        placeholder='请输入对账供应商名称'
+                        value={this.props.supp_id}
+                        onSelect={this.fetchList.bind(null, 'supp_id')}
+                        onChange={this.isEmptyValue.bind(this, 'supp_id')}
+                        filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>
+            {supplierOptions}
+          </AutoComplete>
+          <Dropdown overlay={suppliermenu} trigger={['click']} style={{fontSize: '1rem'}}>
+            <Button style={{marginRight: 10}}>...</Button>
+          </Dropdown>
+          <span>选择气源</span>
+          <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
+                        placeholder='请输入对账气源名称'
+                        value={this.props.goods_id}
+                        onSelect={this.fetchList.bind(null, 'goods_id')}
+                        onChange={this.isEmptyValue.bind(null, 'goods_id')}
+                        filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>
+            {goodsOptions}
+          </AutoComplete>
+          <Dropdown overlay={goodsmenu} trigger={['click']} style={{fontSize: '1rem'}}>
+            <Button style={{marginRight: 10}}>...</Button>
+          </Dropdown>
+          <span>选择站点</span>
+          <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
+                        placeholder='请输入对账站点名称'
+                        value={this.props.site_id}
+                        onSelect={this.fetchList.bind(null, 'site_id')}
+                        onChange={this.isEmptyValue.bind(null, 'site_id')}
+                        filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>
+            {siteOptions}
+          </AutoComplete>
+          <Dropdown overlay={sitemenu} trigger={['click']} style={{fontSize: '1rem'}}>
+            <Button style={{marginRight: 10}}>...</Button>
+          </Dropdown>
+          <span>选择订单</span>
+          <Select value={this.props.account_status} style={{fontSize: '1rem', marginLeft: 10}}
+                  onSelect={this.selectStatus}>
+            <Option value="" style={{color: '#4A4A4A'}}>全部</Option>
+            <Option value="1" style={{color: '#8897BD'}}>待对账</Option>
+            <Option value="2" style={{color: '#3477ED'}}>对账中</Option>
+            <Option value="3" style={{color: '#60C899'}}>已对账</Option>
+            <Option value="4" style={{color: '#F7772A'}}>已开票</Option>
+          </Select>
         </div>
+        <div className='toolBar'>
+          <Button type='primary' style={{minWidth: 64, height: 28, marginRight: 6}} onClick={this.export}>对账</Button>
+          <PromptModal state='duiAllsupp' stime={this.props.stime} etime={this.props.etime}
+                       account_status={this.props.account_status} supp_id={this.props.supp_id}
+                       site_id={this.props.site_id} goods_id={this.props.goods_id}>
+            <Button type='primary' style={{minWidth: 64, height: 28}}
+                    disabled={this.props.account_status !== '1'}>全部对账</Button>
+          </PromptModal>
+          {/*<Button className='blueBorder' style={{width: 110}}*/}
+          {/*onClick={this.balanceHistory.bind(null, this.props.find_str)}>对账历史</Button>*/}
+        </div>
+        <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
           columns={columns}
           rowSelection={rowSelection}
@@ -156,6 +431,12 @@ class BalanceOfAccount extends PureComponent {
           rowKey={record => record.id}
           pagination={false}
           loading={loading}
+          rowClassName={(record) => {
+            if (record.account_status !== '1') {
+              return 'duizhangIng'
+            }
+          }}
+          highLightColor={'#aaa'}
           onRow={(record) => ({
             onClick: () => {
               this.selectRow(record)
@@ -175,13 +456,25 @@ class BalanceOfAccount extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {balanceList, balancePage, balanceTotal, find_str} = state.supplier
+  const {
+    balanceList, balancePage, balanceTotal, find_str, stime, etime, supp_id, account_status, site_id, goods_id,
+  } = state.supplier
+  const {supplierOption, siteOption, goodsOption} = state.home
   return {
     balanceList,
     balancePage,
     balanceTotal,
     find_str,
-    loading: state.loading.models.supplier
+    stime,
+    etime,
+    supp_id,
+    account_status,
+    site_id,
+    goods_id,
+    supplierOption,
+    siteOption,
+    goodsOption,
+    loading: state.loading.models.supplier,
   }
 }
 

@@ -1,11 +1,22 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { Table, Button, Pagination } from 'antd'
-import { PAGE_SIZE } from '../../../constants'
+import { Table, Button, Pagination, message, Menu, DatePicker, AutoComplete, Dropdown, Select } from 'antd'
+import { IP, PAGE_SIZE } from '../../../constants'
 import { routerRedux } from 'dva/router'
 import ExportModal from './ExportModal'
+import locale from 'antd/lib/date-picker/locale/zh_CN'
+
+const {RangePicker} = DatePicker
+const {Option} = Select
 
 class BalanceOfAccount extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedRowKeys: [],
+    }
+  }
+
   UNSAFE_componentWillMount() {
     this.props.dispatch({
       type: 'logistics/balanceFetch',
@@ -29,8 +40,31 @@ class BalanceOfAccount extends PureComponent {
     }))
   }
 
+  export = () => {
+    if (this.state.selectedRowKeys.length) {
+      let ids = this.state.selectedRowKeys.join(',')
+      window.location.href = `${IP}/home/logistics/excel-logistics-account?ids=${ids}`
+    } else {
+      message.error('请勾选需要导出的对账信息')
+    }
+  }
+  selectRow = (record) => {
+    const selectedRowKeys = [...this.state.selectedRowKeys]
+    if (selectedRowKeys.indexOf(record.id) >= 0) {
+      selectedRowKeys.splice(selectedRowKeys.indexOf(record.id), 1)
+    } else {
+      selectedRowKeys.push(record.id)
+    }
+    this.setState({selectedRowKeys})
+  }
+
   render() {
     const {balanceList, balancePage, balanceTotal, loading} = this.props
+    const {selectedRowKeys} = this.state
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectedRowKeysChange,
+    }
     const columns = [{
       title: '订单编号',
       dataIndex: 'deliver_code',
@@ -95,22 +129,64 @@ class BalanceOfAccount extends PureComponent {
       dataIndex: 'final_deliver_fee',
       align: 'center',
     }]
+    const menu = (
+      <Menu>
+        <Menu.Item key="1">1st menu item</Menu.Item>
+        <Menu.Item key="2">2nd menu item</Menu.Item>
+        <Menu.Item key="3">3rd item</Menu.Item>
+      </Menu>
+    )
     return (
       <div>
-        <div className='toolBar'>
-          <ExportModal str={this.props.find_str}>
-            <Button type='primary' icon='export' style={{height: 28}}>批量对账</Button>
-          </ExportModal>
-          <Button className='blueBorder' style={{width: 110}}
-                  onClick={this.balanceHistory.bind(null, this.props.find_str)}>对账历史</Button>
+        <div style={{position: 'absolute', top: 10, left: 32, fontSize: '1rem'}}>
+          <RangePicker locale={locale} style={{width: 200, marginRight: 10}}/>
+          <span>选择客户</span>
+          <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
+                        placeholder='请输入对账客户名称'/>
+          <Dropdown overlay={menu} trigger={['click']} style={{fontSize: '1rem'}}>
+            <Button style={{marginRight: 10}}>...</Button>
+          </Dropdown>
+          <span>选择气源</span>
+          <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
+                        placeholder='请输入对账气源名称'/>
+          <Dropdown overlay={menu} trigger={['click']} style={{fontSize: '1rem'}}>
+            <Button style={{marginRight: 10}}>...</Button>
+          </Dropdown>
+          <span>选择站点</span>
+          <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
+                        placeholder='请输入对账站点名称'/>
+          <Dropdown overlay={menu} trigger={['click']} style={{fontSize: '1rem'}}>
+            <Button style={{marginRight: 10}}>...</Button>
+          </Dropdown>
+          <span>选择订单</span>
+          <Select defaultValue="1" style={{fontSize: '1rem', marginLeft: 10}}>
+            <Option value="1" style={{color: '#4A4A4A'}}>全部</Option>
+            <Option value="2" style={{color: '#8897BD'}}>待对账</Option>
+            <Option value="3" style={{color: '#3477ED'}}>对账中</Option>
+            <Option value="4" style={{color: '#60C899'}}>已对账</Option>
+            <Option value="5" style={{color: '#F7772A'}}>已开票</Option>
+          </Select>
         </div>
+        <div className='toolBar'>
+          <Button type='primary' style={{minWidth: 64, height: 28, marginRight: 6}} onClick={this.export}>对账</Button>
+          <ExportModal str={this.props.find_str}>
+            <Button type='primary' style={{minWidth: 64, height: 28}}>全部对账</Button>
+          </ExportModal>
+        </div>
+        <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
           columns={columns}
           dataSource={balanceList}
+          rowSelection={rowSelection}
           rowKey={record => record.deliver_code}
           pagination={false}
           loading={loading}
-        ></Table>
+          onRow={(record) => ({
+            onClick: () => {
+              this.selectRow(record)
+            },
+          })}
+        />
         <Pagination
           className='ant-table-pagination'
           current={balancePage}

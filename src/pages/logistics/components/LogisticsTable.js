@@ -653,6 +653,7 @@ class Logistics extends React.Component {
           </Card>
           :
           <div>
+            <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
             <Table
               columns={columns2}
               dataSource={list2}

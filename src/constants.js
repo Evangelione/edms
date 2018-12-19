@@ -1,5 +1,5 @@
 // 全局接口
-export const IP = '/api'
+export const IP = '/xtw'
 
 // 全局表格
 export const PAGE_SIZE = 10

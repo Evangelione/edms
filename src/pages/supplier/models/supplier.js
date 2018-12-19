@@ -24,7 +24,14 @@ export default {
     companyOption: [],
     goodsOption: [],
     companyDetail: {},
-    currentKey: '1'
+    currentKey: '1',
+    supp_id: '',
+    site_id: '',
+    goods_id: '',
+    account_status: '',
+    historylist: [],
+    historypage: 1,
+    historytotal: 0,
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -33,7 +40,7 @@ export default {
         // clientDetail
         // }
       })
-    }
+    },
   },
   effects: {
     * purchaseContractFetch({payload: {page = 1, find_str = ''}}, {call, put}) {
@@ -46,7 +53,7 @@ export default {
             contractPage: parseInt(page, 10),
             contractTotal: parseInt(data.data.count, 10),
             find_str,
-          }
+          },
         })
       }
     },
@@ -61,8 +68,8 @@ export default {
             detailTotal: parseInt(data.data.count, 10),
             find_str,
             stime,
-            etime
-          }
+            etime,
+          },
         })
       }
     },
@@ -73,7 +80,7 @@ export default {
           type: 'save',
           payload: {
             supplierOption: data.data.list,
-          }
+          },
         })
       }
     },
@@ -104,12 +111,22 @@ export default {
           type: 'save',
           payload: {
             company: data.data.info,
-          }
+          },
         })
       }
     },
-    * balanceFetch({payload: {page = 1, find_str = '', stime, etime, conversion}}, {call, put}) {
-      const {data} = yield call(supplierServices.getBalanceData, {page, find_str, stime, etime, conversion})
+    * balanceFetch({payload: {page = 1, find_str = '', stime, etime, supp_id, account_status, site_id, goods_id, conversion}}, {call, put}) {
+      const {data} = yield call(supplierServices.getBalanceData, {
+        page,
+        find_str,
+        stime,
+        etime,
+        supp_id,
+        account_status,
+        site_id,
+        goods_id,
+        conversion,
+      })
       if (data.code === 1) {
         yield put({
           type: 'save',
@@ -117,8 +134,8 @@ export default {
             balanceList: data.data.list,
             balancePage: parseInt(page, 10),
             balanceTotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -131,8 +148,8 @@ export default {
             balanceDetailedList: data.data.list,
             balanceDetailedPage: parseInt(page, 10),
             balanceDetailedTotal: parseInt(data.data.count, 10),
-            find_str
-          }
+            find_str,
+          },
         })
       }
     },
@@ -143,25 +160,25 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            companyOption: data.data.list
-          }
+            companyOption: data.data.list,
+          },
         })
       }
     },
-    * accountNum({payload: {find_str = '', stime, etime,gas_id=''}}, {call, put}) {
-      const {data} = yield call(supplierServices.accountNum, {find_str, stime, etime,gas_id})
+    * accountNum({payload: {find_str = '', stime, etime, gas_id = ''}}, {call, put}) {
+      const {data} = yield call(supplierServices.accountNum, {find_str, stime, etime, gas_id})
       if (data.code === -1) return false
       if (data.code === 1) {
         yield put({
           type: 'save',
           payload: {
-            companyDetail: data.data.list
-          }
+            companyDetail: data.data.list,
+          },
         })
       }
     },
-    * balanceHistoryFetch({payload: {page = 1, find_str = '', stime, etime}}, {call, put}) {
-      const {data} = yield call(supplierServices.getBalanceHistoryData, {page, find_str, stime, etime})
+    * balanceHistoryFetch({payload: {page = 1, id}}, {call, put}) {
+      const {data} = yield call(supplierServices.getBalanceHistoryData, {page, id})
       if (data.code === 1) {
         yield put({
           type: 'save',
@@ -169,8 +186,7 @@ export default {
             balanceHistoryList: data.data.list,
             balanceHistoryPage: parseInt(page, 10),
             balanceHistoryTotal: parseInt(data.data.count, 10),
-            find_str
-          }
+          },
         })
       }
     },
@@ -192,10 +208,97 @@ export default {
         message.error(data.msg)
       }
     },
+    * saveChange({payload: {supp_id, site_id, goods_id, account_status}}, {call, put}) {
+      let filed = supp_id !== undefined ? 'supp_id' : '' || site_id !== undefined ? 'site_id' : '' || goods_id !== undefined ? 'goods_id' : '' || account_status !== undefined ? 'account_status' : ''
+      let val = supp_id || site_id || goods_id || account_status || ''
+      console.log(filed)
+      console.log(val)
+      yield put({
+        type: 'save',
+        payload: {
+          [filed]: val,
+        },
+      })
+    },
+    * Reconciliation({payload: {ids}}, {call, put}) {
+      const {data} = yield call(supplierServices.Reconciliation, {ids})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * Reconciliation2({payload: {stime, etime, supp_id, account_status, site_id, goods_id}}, {call, put}) {
+      const {data} = yield call(supplierServices.Reconciliation2, {
+        stime,
+        etime,
+        supp_id,
+        account_status,
+        site_id,
+        goods_id,
+      })
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+        yield put({
+          type: 'save',
+          payload: {
+            account_status: '',
+          },
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * fetchHistory({payload: {page = 1, stime, etime, supp_id, account_status}}, {call, put}) {
+      const {data} = yield call(supplierServices.fetchHistory, {page, stime, etime, supp_id, account_status})
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            historylist: data.data.list,
+            historypage: parseInt(page, 10),
+            historytotal: parseInt(data.data.count, 10),
+            stime,
+            etime,
+            supp_id,
+            account_status,
+          },
+        })
+      }
+    },
+    * reconciliationConfirm({payload: {id}}, {call, put}) {
+      const {data} = yield call(supplierServices.reconciliationConfirm, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * kaipiao({payload: {id}}, {call, put}) {
+      const {data} = yield call(supplierServices.kaipiao, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
+    * deleteduizhang({payload: {id}}, {call, put}) {
+      const {data} = yield call(supplierServices.deleteduizhang, {id})
+      if (data.code === -1) return false
+      if (data.code === 1) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
+    },
   },
   reducers: {
     save(state, action) {
       return {...state, ...action.payload}
-    }
-  }
+    },
+  },
 }
