@@ -28,7 +28,7 @@ export default {
     supp_id: '',
     site_id: '',
     goods_id: '',
-    account_status: '',
+    account_status: '1',
     historylist: [],
     historypage: 1,
     historytotal: 0,
@@ -135,6 +135,8 @@ export default {
             balancePage: parseInt(page, 10),
             balanceTotal: parseInt(data.data.count, 10),
             find_str,
+            stime,
+            etime
           },
         })
       }

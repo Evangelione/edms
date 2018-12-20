@@ -153,8 +153,11 @@ class Order extends Component {
     const {loading, list, order_type, currentOrder} = this.props
     return (
       <AnimatePage>
-        <div className='searchBox' style={{right: 158}}>
-          <Select defaultValue="1" style={{width: '10rem', marginRight: 10, fontSize: '1rem'}} onChange={this.handleChange}>
+        <div className='searchBox' style={{right: 158}} id='dwww'>
+          <Select defaultValue="1" style={{width: '10rem', marginRight: 10, fontSize: '1rem'}} onChange={this.handleChange}
+                  getPopupContainer={() => {
+                    return document.getElementById('dwww')
+                  }}>
             <Option value="1">预计到达时间</Option>
             <Option value="2">实际装车时间</Option>
           </Select>

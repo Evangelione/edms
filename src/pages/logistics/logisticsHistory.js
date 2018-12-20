@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { Card, Tabs, Button, Table, Pagination } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
-import { PAGE_SIZE } from '../../constants'
+import { IP, PAGE_SIZE } from '../../constants'
 import { routerRedux } from 'dva/router'
 import withRouter from 'umi/withRouter'
 import * as dateUtils from '../../utils/getTime'
@@ -35,6 +35,11 @@ class logisticsHistory extends React.Component {
         id: this.props.location.query.id,
       },
     })
+  }
+
+  export = () => {
+    let id = this.props.location.query.id
+    window.location.href = `${IP}/home/logistics/excel?id=${id}`
   }
 
   render() {
@@ -126,6 +131,8 @@ class logisticsHistory extends React.Component {
         <Card>
           <Tabs onChange={this.callback}>
             <TabPane tab="对账明细" key='1'>
+              <Button type='primary' style={{height: 28, marginLeft: 5, position: 'absolute', top: 12, right: 10}}
+                      onClick={this.export}>导出</Button>
               <Table
                 columns={columns}
                 dataSource={balanceHistoryList}

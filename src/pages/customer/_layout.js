@@ -13,6 +13,7 @@ import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
+
 // const Search = Input.Search
 
 class Client extends React.Component {
@@ -43,12 +44,12 @@ class Client extends React.Component {
           payload: {
             page: 1,
             find_str: '',
-            stime: '',
-            etime: '',
+            stime: this.props.stime,
+            etime: this.props.etime,
             customer_id: this.props.customer_id,
-            account_status: '',
-            site_id: '',
-            goods_id: '',
+            account_status: this.props.account_status,
+            site_id: this.props.site_id,
+            goods_id: this.props.goods_id,
           },
         })
       })
@@ -69,10 +70,10 @@ class Client extends React.Component {
       this.props.dispatch({
         type: 'customer/fetchHistory',
         payload: {
-          stime: '',
-          etime: '',
-          customer_id: '',
-          account_status: '',
+          stime: this.props.stime,
+          etime: this.props.etime,
+          customer_id: this.props.customer_id,
+          account_status: this.props.account_status - 0 > 3 ? '3' : this.props.account_status,
         },
       })
     }
@@ -157,7 +158,7 @@ class Client extends React.Component {
             </span>
                 }
                 {/*<Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"*/}
-                        {/*onSearch={this.iptSearch}/>*/}
+                {/*onSearch={this.iptSearch}/>*/}
               </div>
               <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
                 <TabPane tab="销售合同" key='1'>
@@ -189,13 +190,16 @@ class Client extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {find_str, stime, etime, currentKey, customer_id} = state.customer
+  const {find_str, stime, etime, currentKey, customer_id, site_id, goods_id, account_status} = state.customer
   return {
     find_str,
     stime,
     etime,
     customer_id,
     currentKey,
+    site_id,
+    goods_id,
+    account_status,
     loading: state.loading.models.customer,
   }
 }

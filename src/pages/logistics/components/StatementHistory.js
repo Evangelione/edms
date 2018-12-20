@@ -253,7 +253,6 @@ class StatementHistory extends Component {
             <Button className='blueBorder' onClick={this.balanceHistory.bind(null, record.id)}>查看明细</Button>
             <Button type='primary' style={{height: 28, marginLeft: 5}}
                     onClick={this.export.bind(null, record.id)}>导出</Button>
-
             <Popconfirm title="是否开始此条记录对账?" onConfirm={this.reconciliationConfirm.bind(null, record.id)} okText="对账"
                         cancelText="取消">
               <Button disabled={record.account_status !== '1'} type='primary'
@@ -291,7 +290,7 @@ class StatementHistory extends Component {
             <Button style={{marginRight: 10}}>...</Button>
           </Dropdown>
           <span>选择订单</span>
-          <Select defaultValue="" style={{fontSize: '1rem', marginLeft: 10}} onSelect={this.selectStatus}>
+          <Select defaultValue="1" style={{fontSize: '1rem', marginLeft: 10}} onSelect={this.selectStatus}>
             <Option value="" style={{color: '#4A4A4A'}}>全部</Option>
             <Option value="1" style={{color: '#3477ED'}}>对账中</Option>
             <Option value="2" style={{color: '#60C899'}}>已对账</Option>

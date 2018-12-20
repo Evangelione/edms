@@ -26,7 +26,7 @@ export default {
     currentKey: '1',
     goodsOption: [],
     customer_id: '',
-    account_status: '',
+    account_status: '1',
     site_id: '',
     goods_id: '',
     historylist: [],
@@ -121,6 +121,8 @@ export default {
             balancePage: parseInt(page, 10),
             balanceTotal: parseInt(data.data.count, 10),
             find_str,
+            stime,
+            etime
           },
         })
       }

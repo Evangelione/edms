@@ -290,7 +290,7 @@ class StatementHistory extends Component {
             <Button style={{marginRight: 10}}>...</Button>
           </Dropdown>
           <span>选择订单</span>
-          <Select defaultValue="" style={{fontSize: '1rem', marginLeft: 10}} onSelect={this.selectStatus}>
+          <Select defaultValue="1" style={{fontSize: '1rem', marginLeft: 10}} onSelect={this.selectStatus}>
             <Option value="" style={{color: '#4A4A4A'}}>全部</Option>
             <Option value="1" style={{color: '#3477ED'}}>对账中</Option>
             <Option value="2" style={{color: '#60C899'}}>已对账</Option>

@@ -58,12 +58,12 @@ class Order extends React.Component {
           payload: {
             page: 1,
             find_str: '',
-            stime: '',
-            etime: '',
+            stime: this.props.stime,
+            etime: this.props.etime,
             logistics_company: this.props.logistics_company,
-            account_status: '',
-            site_id: '',
-            goods_id: '',
+            account_status: this.props.account_status,
+            site_id: this.props.site_id,
+            goods_id: this.props.goods_id,
           },
         })
       })
@@ -84,10 +84,10 @@ class Order extends React.Component {
       this.props.dispatch({
         type: 'logistics/fetchHistory',
         payload: {
-          stime: '',
-          etime: '',
+          stime: this.props.stime,
+          etime: this.props.etime,
           logistics_company: this.props.logistics_company,
-          account_status: '',
+          account_status: this.props.account_status - 0 > 3 ? '3' : this.props.account_status,
         },
       })
     }
@@ -212,16 +212,19 @@ class Order extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, deliver_status, statusNum, stime, etime, currentLogistics, logistics_company} = state.logistics
+  const {currentTab, find_str, deliver_status, statusNum, stime, etime, currentLogistics, logistics_company, account_status, goods_id, site_id} = state.logistics
   return {
     currentTab,
     find_str,
     deliver_status,
+    account_status,
     statusNum,
     stime,
     etime,
     currentLogistics,
     logistics_company,
+    goods_id,
+    site_id,
     loading: state.loading.models.logistics,
   }
 }

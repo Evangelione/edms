@@ -30,7 +30,7 @@ export default {
     currentLogistics: {},
     currentIndex: 0,
     logistics_company: '',
-    account_status: '',
+    account_status: '1',
     site_id: '',
     goods_id: '',
     logisticsOption: [],
@@ -193,6 +193,8 @@ export default {
             balancePage: parseInt(page, 10),
             balanceTotal: parseInt(data.data.count, 10),
             find_str,
+            stime,
+            etime
           },
         })
       }

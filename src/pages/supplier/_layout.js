@@ -44,12 +44,12 @@ class Supplier extends React.Component {
           payload: {
             page: 1,
             find_str: '',
-            stime: '',
-            etime: '',
+            stime: this.props.stime,
+            etime: this.props.etime,
             supp_id: this.props.supp_id,
-            account_status: '',
-            site_id: '',
-            goods_id: '',
+            account_status: this.props.account_status,
+            site_id: this.props.site_id,
+            goods_id: this.props.goods_id,
           },
         })
       })
@@ -70,10 +70,10 @@ class Supplier extends React.Component {
       this.props.dispatch({
         type: 'supplier/fetchHistory',
         payload: {
-          stime: '',
-          etime: '',
-          supp_id: '',
-          account_status: '',
+          stime: this.props.stime,
+          etime: this.props.etime,
+          supp_id: this.props.supp_id,
+          account_status: this.props.account_status - 0 > 3 ? '3' : this.props.account_status,
         },
       })
     }
@@ -171,13 +171,16 @@ class Supplier extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {find_str, stime, etime, currentKey, supp_id} = state.supplier
+  const {find_str, stime, etime, currentKey, supp_id, site_id, goods_id, account_status} = state.supplier
   return {
     find_str,
     stime,
     etime,
     currentKey,
     supp_id,
+    site_id,
+    goods_id,
+    account_status,
     loading: state.loading.models.supplier,
   }
 }

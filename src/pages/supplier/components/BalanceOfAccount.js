@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { Table, Button, Pagination, message, DatePicker, AutoComplete, Dropdown, Menu, Select } from 'antd'
+import { Table, Button, Pagination, message, DatePicker, AutoComplete, Select } from 'antd'
 import { PAGE_SIZE } from '../../../constants'
 import { routerRedux } from 'dva/router'
 // import ExportModal from './ExportModal'
@@ -238,43 +238,32 @@ class BalanceOfAccount extends PureComponent {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
     }
-    const suppliermenu = (
-      <Menu onClick={this.menuClick.bind(null, 'supp_id')}>
-        {supplierOption.map(option => {
-          return <Menu.Item key={option.id} value={option.id}>{option.supp_name}</Menu.Item>
-        })}
-      </Menu>
-    )
-    const sitemenu = (
-      <Menu onClick={this.menuClick.bind(null, 'site_id')}>
-        {siteOption.map(option => {
-          return <Menu.Item key={option.id}
-                            sitetype={option.site_type}
-                            usertype={option.user_type_name}
-                            province={option.delivery_province}
-                            city={option.delivery_city}
-                            area={option.delivery_area}
-                            address={option.detailed_address}
-                            shouhuo={option.shouhuo}
-                            value={option.id}>{option.site_name}</Menu.Item>
-        })}
-      </Menu>
-    )
-    const goodsmenu = (
-      <Menu onClick={this.menuClick.bind(null, 'goods_id')}>
-        {goodsOption.map(option => {
-          return <Menu.Item key={option.id} source={option.origin_gas_source}
-                            contact={option.cargo_contact}
-                            mobile={option.cargo_mobile}
-                            province={option.cargo_province}
-                            city={option.cargo_city}
-                            area={option.cargo_area}
-                            address={option.detailed_address}
-                            report={option.temperament_report}
-                            value={option.id}>{option.name_gas_source}</Menu.Item>
-        })}
-      </Menu>
-    )
+    const suppliermenu = supplierOption.map(option => {
+      return <Option key={option.id} value={option.id}
+                     onClick={this.menuClick.bind(null, 'supp_id')}>{option.supp_name}</Option>
+    })
+    const sitemenu = siteOption.map(option => {
+      return <Option key={option.id}
+                     sitetype={option.site_type}
+                     usertype={option.user_type_name}
+                     province={option.delivery_province}
+                     city={option.delivery_city}
+                     area={option.delivery_area}
+                     address={option.detailed_address}
+                     shouhuo={option.shouhuo}
+                     value={option.id} onClick={this.menuClick.bind(null, 'site_id')}>{option.site_name}</Option>
+    })
+    const goodsmenu = goodsOption.map(option => {
+      return <Option key={option.id} source={option.origin_gas_source}
+                     contact={option.cargo_contact}
+                     mobile={option.cargo_mobile}
+                     province={option.cargo_province}
+                     city={option.cargo_city}
+                     area={option.cargo_area}
+                     address={option.detailed_address}
+                     report={option.temperament_report}
+                     value={option.id} onClick={this.menuClick.bind(null, 'goods_id')}>{option.name_gas_source}</Option>
+    })
     const columns = [{
       title: '订单编号',
       dataIndex: 'order_code',
@@ -381,9 +370,10 @@ class BalanceOfAccount extends PureComponent {
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>
             {supplierOptions}
           </AutoComplete>
-          <Dropdown overlay={suppliermenu} trigger={['click']} style={{fontSize: '1rem'}}>
-            <Button style={{marginRight: 10}}>...</Button>
-          </Dropdown>
+          <Select style={{marginRight: 10, width: 37, fontSize: '1rem'}} dropdownMatchSelectWidth={false}
+                  value={this.props.supp_id} className='customSelect'>
+            {suppliermenu}
+          </Select>
           <span>选择气源</span>
           <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
                         placeholder='请输入对账气源名称'
@@ -393,9 +383,10 @@ class BalanceOfAccount extends PureComponent {
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>
             {goodsOptions}
           </AutoComplete>
-          <Dropdown overlay={goodsmenu} trigger={['click']} style={{fontSize: '1rem'}}>
-            <Button style={{marginRight: 10}}>...</Button>
-          </Dropdown>
+          <Select style={{marginRight: 10, width: 37, fontSize: '1rem'}} dropdownMatchSelectWidth={false}
+                  className='customSelect'>
+            {goodsmenu}
+          </Select>
           <span>选择站点</span>
           <AutoComplete className='widthReSize' style={{verticalAlign: 'bottom', fontSize: '1rem', marginLeft: 10}}
                         placeholder='请输入对账站点名称'
@@ -405,9 +396,10 @@ class BalanceOfAccount extends PureComponent {
                         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}>
             {siteOptions}
           </AutoComplete>
-          <Dropdown overlay={sitemenu} trigger={['click']} style={{fontSize: '1rem'}}>
-            <Button style={{marginRight: 10}}>...</Button>
-          </Dropdown>
+          <Select style={{marginRight: 10, width: 37, fontSize: '1rem'}} dropdownMatchSelectWidth={false}
+                  className='customSelect'>
+            {sitemenu}
+          </Select>
           <span>选择订单</span>
           <Select value={this.props.account_status} style={{fontSize: '1rem', marginLeft: 10}}
                   onSelect={this.selectStatus}>
@@ -419,7 +411,8 @@ class BalanceOfAccount extends PureComponent {
           </Select>
         </div>
         <div className='toolBar'>
-          <Button type='primary' style={{minWidth: 64, height: 28, marginRight: 6}} onClick={this.export}>对账</Button>
+          <Button type='primary' style={{minWidth: 64, height: 28, marginRight: 6}} onClick={this.export}
+                  disabled={!this.state.selectedRowKeys.length}>对账</Button>
           <PromptModal state='duiAllsupp' stime={this.props.stime} etime={this.props.etime}
                        account_status={this.props.account_status} supp_id={this.props.supp_id}
                        site_id={this.props.site_id} goods_id={this.props.goods_id} callback={this.resetSelectKey}>
