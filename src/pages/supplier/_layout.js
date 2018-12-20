@@ -44,12 +44,12 @@ class Supplier extends React.Component {
           payload: {
             page: 1,
             find_str: '',
-            stime: this.props.stime,
-            etime: this.props.etime,
+            stime: '',
+            etime: '',
             supp_id: this.props.supp_id,
-            account_status: this.props.account_status,
-            site_id: this.props.site_id,
-            goods_id: this.props.goods_id,
+            account_status: '',
+            site_id: '',
+            goods_id: '',
           },
         })
       })
@@ -70,10 +70,10 @@ class Supplier extends React.Component {
       this.props.dispatch({
         type: 'supplier/fetchHistory',
         payload: {
-          stime: this.props.stime,
-          etime: this.props.etime,
-          supp_id: this.props.supp_id,
-          account_status: this.props.account_status - 0 > 3 ? '3' : this.props.account_status,
+          stime: '',
+          etime: '',
+          supp_id: '',
+          account_status: '',
         },
       })
     }

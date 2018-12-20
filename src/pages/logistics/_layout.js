@@ -58,12 +58,12 @@ class Order extends React.Component {
           payload: {
             page: 1,
             find_str: '',
-            stime: this.props.stime,
-            etime: this.props.etime,
+            stime: '',
+            etime: '',
             logistics_company: this.props.logistics_company,
-            account_status: this.props.account_status,
-            site_id: this.props.site_id,
-            goods_id: this.props.goods_id,
+            account_status: '1',
+            site_id: '',
+            goods_id: '',
           },
         })
       })
@@ -84,10 +84,10 @@ class Order extends React.Component {
       this.props.dispatch({
         type: 'logistics/fetchHistory',
         payload: {
-          stime: this.props.stime,
-          etime: this.props.etime,
-          logistics_company: this.props.logistics_company,
-          account_status: this.props.account_status - 0 > 3 ? '3' : this.props.account_status,
+          stime: '',
+          etime: '',
+          logistics_company: '',
+          account_status: '',
         },
       })
     }

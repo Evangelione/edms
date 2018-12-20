@@ -44,12 +44,12 @@ class Client extends React.Component {
           payload: {
             page: 1,
             find_str: '',
-            stime: this.props.stime,
-            etime: this.props.etime,
+            stime: '',
+            etime: '',
             customer_id: this.props.customer_id,
-            account_status: this.props.account_status,
-            site_id: this.props.site_id,
-            goods_id: this.props.goods_id,
+            account_status: '1',
+            site_id: '',
+            goods_id: '',
           },
         })
       })
@@ -70,10 +70,10 @@ class Client extends React.Component {
       this.props.dispatch({
         type: 'customer/fetchHistory',
         payload: {
-          stime: this.props.stime,
-          etime: this.props.etime,
-          customer_id: this.props.customer_id,
-          account_status: this.props.account_status - 0 > 3 ? '3' : this.props.account_status,
+          stime: '',
+          etime: '',
+          customer_id: '',
+          account_status: '1',
         },
       })
     }

@@ -136,7 +136,11 @@ export default {
             balanceTotal: parseInt(data.data.count, 10),
             find_str,
             stime,
-            etime
+            etime,
+            supp_id,
+            account_status,
+            site_id,
+            goods_id,
           },
         })
       }
