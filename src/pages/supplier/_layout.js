@@ -47,7 +47,7 @@ class Supplier extends React.Component {
             stime: '',
             etime: '',
             supp_id: this.props.supp_id,
-            account_status: '',
+            account_status: '1',
             site_id: '',
             goods_id: '',
           },
