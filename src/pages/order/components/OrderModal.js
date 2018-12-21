@@ -898,8 +898,8 @@ class OrderModal extends PureComponent {
                   </Tooltip>
                 </div>
               </Col>
-              <Col span={6}>
-                <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
+              <Col span={10}>
+                <FormItem labelCol={{span: 8}} wrapperCol={{span: 13}} label="数量" hasFeedback
                           style={{display: 'block', marginLeft: '-5px'}}>
                   {getFieldDecorator('saler_num')(
                     <InputNumber placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled
@@ -907,7 +907,7 @@ class OrderModal extends PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={8} style={{paddingTop: 7, textAlign: 'right'}}>
+              <Col span={6} style={{paddingTop: 7, textAlign: 'right'}}>
                 <div style={{fontSize: 16}}>销售额：<span
                   style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
               </Col>
