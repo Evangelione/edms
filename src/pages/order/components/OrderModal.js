@@ -827,10 +827,6 @@ class OrderModal extends PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={8} style={{paddingTop: 7, textAlign: 'right'}}>
-                <div style={{fontSize: 16}}>销售额：<span
-                  style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
-              </Col>
             </Row>
             <Divider dashed={true}/>
             <Row>
@@ -888,7 +884,7 @@ class OrderModal extends PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={9} style={{color: '#2978EE', fontSize: 16}}>
+              <Col span={9} style={{color: '#2978EE', fontSize: 16, display: 'none'}}>
                 <div style={{paddingLeft: 35, lineHeight: '38px', fontFamily: '微软雅黑'}}>模型价：￥<span
                   style={{color: 'rgb(255, 66, 65)', fontWeight: 600}}>{this.state.saler_price_modal}</span> 元/吨
                   <Tooltip title="模型销售价格是根据业务大数据及数学模型计算出的销售价格,仅供参考。" placement="bottomLeft">
@@ -910,6 +906,10 @@ class OrderModal extends PureComponent {
                                  style={{width: 150}}/>,
                   )}
                 </FormItem>
+              </Col>
+              <Col span={8} style={{paddingTop: 7, textAlign: 'right'}}>
+                <div style={{fontSize: 16}}>销售额：<span
+                  style={{color: '#FF4241'}}>{this.state.sales}元</span></div>
               </Col>
             </Row>
             <Divider dashed={true}/>
