@@ -166,7 +166,7 @@ class BalanceOfAccount extends PureComponent {
   }
 
   onSelectedRowKeysChange = (selectedRowKeys, datasource) => {
-    // this.setState({selectedRowKeys})
+    this.setState({selectedRowKeys})
   }
 
   export = () => {
@@ -237,6 +237,10 @@ class BalanceOfAccount extends PureComponent {
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
+      getCheckboxProps: record => ({
+        disabled: record.account_status !== '1', // Column configuration not to be checked
+        // name: record.name,
+      }),
     }
     const suppliermenu = supplierOption.map(option => {
       return <Option key={option.id} value={option.id}
