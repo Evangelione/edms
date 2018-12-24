@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Card, Tabs, DatePicker, Input } from 'antd'
+import { Card, Tabs, DatePicker } from 'antd'
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import SalesContract from './components/SalesContract'
@@ -8,11 +8,13 @@ import SalesDetail from './components/SalesDetail'
 import BalanceOfAccount from './components/BalanceOfAccount'
 import CustomerHistory from './customerHistory'
 import CustomerBalance from './customerBalance'
+import StatementHistory from './components/StatementHistory'
 import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
 const {RangePicker} = DatePicker
-const Search = Input.Search
+
+// const Search = Input.Search
 
 class Client extends React.Component {
   constructor(props) {
@@ -32,6 +34,49 @@ class Client extends React.Component {
         currentKey: key,
       },
     })
+    if (key === '3') {
+      this.props.dispatch({
+        type: 'home/fetchCustomer',
+        payload: {},
+      }).then(() => {
+        this.props.dispatch({
+          type: 'customer/balanceFetch',
+          payload: {
+            page: 1,
+            find_str: '',
+            stime: '',
+            etime: '',
+            customer_id: this.props.customer_id,
+            account_status: '1',
+            site_id: '',
+            goods_id: '',
+          },
+        })
+      })
+      this.props.dispatch({
+        type: 'home/fetchSite',
+        payload: {},
+      })
+      this.props.dispatch({
+        type: 'home/fetchGoods',
+        payload: {},
+      })
+    }
+    if (key === '4') {
+      this.props.dispatch({
+        type: 'home/fetchCustomer',
+        payload: {},
+      })
+      this.props.dispatch({
+        type: 'customer/fetchHistory',
+        payload: {
+          stime: '',
+          etime: '',
+          customer_id: '',
+          account_status: '1',
+        },
+      })
+    }
   }
 
   rangeChange = (date, dateString) => {
@@ -112,8 +157,8 @@ class Client extends React.Component {
               <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
             </span>
                 }
-                <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
-                        onSearch={this.iptSearch}/>
+                {/*<Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"*/}
+                {/*onSearch={this.iptSearch}/>*/}
               </div>
               <Tabs onChange={this.callback} activeKey={this.props.currentKey}>
                 <TabPane tab="销售合同" key='1'>
@@ -131,6 +176,11 @@ class Client extends React.Component {
                     <BalanceOfAccount/>
                   </Card>
                 </TabPane>
+                <TabPane tab="对账历史" key='4'>
+                  <Card style={{paddingTop: 30}}>
+                    <StatementHistory/>
+                  </Card>
+                </TabPane>
               </Tabs>
             </div>
         }
@@ -140,12 +190,16 @@ class Client extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {find_str, stime, etime, currentKey} = state.customer
+  const {find_str, stime, etime, currentKey, customer_id, site_id, goods_id, account_status} = state.customer
   return {
     find_str,
     stime,
     etime,
+    customer_id,
     currentKey,
+    site_id,
+    goods_id,
+    account_status,
     loading: state.loading.models.customer,
   }
 }

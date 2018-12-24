@@ -115,13 +115,14 @@ class SalesDetail extends React.Component {
             <Button type='primary' icon='export' style={{height: 28}}>批量导出</Button>
           </ExportModal>
         </div>
+        <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
           columns={columns}
           dataSource={detailList}
           rowKey={record => record.id}
           pagination={false}
           loading={loading}
-        ></Table>
+        />
         <Pagination
           className='ant-table-pagination'
           current={detailPage}

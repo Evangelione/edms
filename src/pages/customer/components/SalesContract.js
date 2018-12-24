@@ -123,6 +123,7 @@ class SalesContract extends React.Component {
             <Button className={'blueBorder'} icon='plus'>新增合同</Button>
           </ContractModal>
         </div>
+        <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
         <Table
           columns={columns}
           dataSource={contractList}
@@ -130,7 +131,7 @@ class SalesContract extends React.Component {
           pagination={false}
           // rowClassName={this.setClassName}
           loading={loading}
-        ></Table>
+        />
         <Pagination
           className='ant-table-pagination'
           current={contractPage}

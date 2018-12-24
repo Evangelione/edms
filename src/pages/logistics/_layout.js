@@ -1,20 +1,18 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Card, Tabs, Button, Input, DatePicker, Row, Col } from 'antd'
+import { Card, Tabs, Button, Row, Col } from 'antd'
 import LogisticsDetail from './logisticsDetail'
 import LogisticsBalance from './logisticsBalance'
 import LogisticsHistory from './logisticsHistory'
 import LogisticsTable from './components/LogisticsTable'
+import StatementHistory from './components/StatementHistory'
 import ExportModal from '../../components/ExportModal/ExportModal'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
 import moment from 'moment'
 import BalanceOfAccount from './components/BalanceOfAccount'
 import LogisticsDetailV2 from './components/LogisticsDetailV2'
 import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
-const Search = Input.Search
-const {RangePicker} = DatePicker
 
 class Order extends React.Component {
   constructor(props) {
@@ -49,6 +47,50 @@ class Order extends React.Component {
 
   callback = (key) => {
     this.setState({tableKey: key})
+    if (key === '3') {
+      this.props.dispatch({
+        type: 'home/fetchWuliu',
+        payload: {},
+      }).then(() => {
+        console.log(this.props)
+        this.props.dispatch({
+          type: 'logistics/balanceFetch',
+          payload: {
+            page: 1,
+            find_str: '',
+            stime: '',
+            etime: '',
+            logistics_company: this.props.logistics_company,
+            account_status: '1',
+            site_id: '',
+            goods_id: '',
+          },
+        })
+      })
+      this.props.dispatch({
+        type: 'home/fetchSite',
+        payload: {},
+      })
+      this.props.dispatch({
+        type: 'home/fetchGoods',
+        payload: {},
+      })
+    }
+    if (key === '4') {
+      this.props.dispatch({
+        type: 'home/fetchWuliu',
+        payload: {},
+      })
+      this.props.dispatch({
+        type: 'logistics/fetchHistory',
+        payload: {
+          stime: '',
+          etime: '',
+          logistics_company: '',
+          account_status: '',
+        },
+      })
+    }
   }
 
   iptSearch = (value) => {
@@ -108,17 +150,17 @@ class Order extends React.Component {
               <LogisticsBalance/>
               :
               <div>
-                <div className='searchBox'>
-                  {this.state.tableKey === '1' ? '' :
-                    <span>
-                    <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
-                  </span>
+                {/*<div className='searchBox'>*/}
+                {/*{this.state.tableKey === '1' ? '' :*/}
+                {/*<span>*/}
+                {/*<RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>*/}
+                {/*</span>*/}
 
-                  }
-                  <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
-                          onSearch={this.iptSearch}
-                  />
-                </div>
+                {/*}*/}
+                {/*<Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"*/}
+                {/*onSearch={this.iptSearch}*/}
+                {/*/>*/}
+                {/*</div>*/}
                 <Tabs onChange={this.callback} activeKey={this.state.tableKey}>
                   <TabPane tab="运费明细" key='2'>
                     <Card style={{paddingTop: 30}}>
@@ -135,6 +177,11 @@ class Order extends React.Component {
                       <BalanceOfAccount/>
                     </Card>
                   </TabPane>
+                  <TabPane tab='对账历史' key='4'>
+                    <Card style={{paddingTop: 30}}>
+                      <StatementHistory/>
+                    </Card>
+                  </TabPane>
                 </Tabs>
                 {/*{this.state.tableKey === '1' ?*/}
                 {/*<Card style={{marginTop: 5}}>*/}
@@ -143,7 +190,7 @@ class Order extends React.Component {
                 {this.state.tableKey === '1' ?
                   <Row gutter={10} style={{marginTop: 10}}>
                     <Col span={9}>
-                      <LogisticsTable tableKey={this.state.tableKey}></LogisticsTable>
+                      <LogisticsTable tableKey={this.state.tableKey}/>
                     </Col>
                     <Col span={15}>
                       {currentLogistics ?
@@ -165,15 +212,19 @@ class Order extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {currentTab, find_str, deliver_status, statusNum, stime, etime, currentLogistics} = state.logistics
+  const {currentTab, find_str, deliver_status, statusNum, stime, etime, currentLogistics, logistics_company, account_status, goods_id, site_id} = state.logistics
   return {
     currentTab,
     find_str,
     deliver_status,
+    account_status,
     statusNum,
     stime,
     etime,
     currentLogistics,
+    logistics_company,
+    goods_id,
+    site_id,
     loading: state.loading.models.logistics,
   }
 }

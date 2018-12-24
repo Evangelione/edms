@@ -2,65 +2,28 @@ import React from 'react'
 import { connect } from 'dva'
 import { Card, Tabs, Button, Table, Pagination } from 'antd'
 import PageTitle from '../../components/PageTitle/PageTitle'
-import moment from 'moment'
-import { PAGE_SIZE } from "../../constants"
-import { routerRedux } from "dva/router"
-import BalanceOfAccountModal from '../../components/BalanceOfAccountModal/BalanceOfAccountModal'
+import { IP, PAGE_SIZE } from '../../constants'
+import { routerRedux } from 'dva/router'
+import withRouter from 'umi/withRouter'
+import * as dateUtils from '../../utils/getTime'
 
 const TabPane = Tabs.TabPane
 
-class supplierHistory extends React.Component {
+class logisticsHistory extends React.Component {
 
   UNSAFE_componentWillMount() {
     this.props.dispatch({
       type: 'supplier/balanceHistoryFetch',
-      payload: {page: 1, find_str: '', stime: '', etime: ''}
-    })
-  }
-
-  disabledDate = (current) => {
-    return current && current > moment().endOf('day');
-  }
-
-  iptSearch = (value) => {
-    this.props.dispatch({
-      type: 'supplier/balanceHistoryFetch',
-      payload: {
-        find_str: value,
-        stime: this.props.stime,
-        etime: this.props.etime
-      }
-    })
-  }
-
-  rangeChange = (dates, dateString) => {
-    this.props.dispatch({
-      type: 'supplier/balanceHistoryFetch',
       payload: {
         page: 1,
-        stime: dates[0],
-        etime: dates[1],
-        find_str: this.props.find_str
-      }
+        id: this.props.location.query.id,
+      },
     })
-  }
-
-
-  goBalance = (company, stime, etime, id) => {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/supplier/supplierBalance',
-      query: {
-        company,
-        stime,
-        etime,
-        id
-      }
-    }))
   }
 
   goBack = () => {
     this.props.dispatch(routerRedux.push({
-      pathname: '/supplier'
+      pathname: '/supplier',
     }))
   }
 
@@ -68,117 +31,125 @@ class supplierHistory extends React.Component {
     this.props.dispatch({
       type: 'supplier/balanceHistoryFetch',
       payload: {
-        page
-      }
+        page,
+        id: this.props.location.query.id,
+      },
     })
   }
 
+  export = () => {
+    let id = this.props.location.query.id
+    window.location.href = `${IP}/home/supplier/excel?id=${id}`
+  }
+
   render() {
+    console.log(this.props)
     const {balanceHistoryList, balanceHistoryPage, balanceHistoryTotal, loading} = this.props
     const columns = [{
-      title: '对账时间',
-      dataIndex: 'log_time',
-      key: 'log_time',
-      align: 'center'
+      title: '订单编号',
+      dataIndex: 'order_code',
+      key: 'order_code',
+      align: 'center',
+    }, {
+      title: '装车时间',
+      dataIndex: 'load_time',
+      key: 'load_time',
+      align: 'center',
+      render: (text, record, index) => {
+        if (text) {
+          let time = dateUtils.getTime(text)
+          let date = dateUtils.getYear(text)
+          return (
+            <div>
+              <div>{date}</div>
+              <div style={{fontSize: 14, color: '#ccc'}}>{time}</div>
+            </div>
+          )
+        } else {
+          return (
+            <div>--</div>
+          )
+        }
+      },
     }, {
       title: '供应商名称',
       dataIndex: 'supp_name',
       key: 'supp_name',
-      align: 'center'
-    }, {
-      title: '对账总额(元)',
-      dataIndex: 'total_account',
-      key: 'total_account',
       align: 'center',
     }, {
-      title: '订单周期',
-      key: 'date',
+      title: '站点简称',
+      dataIndex: 'site_name',
+      key: 'site_name',
       align: 'center',
-      render: (text, record, index) => {
-        return (
-          <div>
-            {record.account_cycle_start} - {record.account_cycle_end}
-          </div>
-        )
-      }
     }, {
-      title: '订单数量',
-      dataIndex: 'purchase_count',
-      key: 'purchase_count',
-      align: 'center'
+      title: '车牌照',
+      dataIndex: 'car_head',
+      key: 'car_head',
+      align: 'center',
     }, {
-      title: '对账状态',
+      title: '装车量(吨)',
+      dataIndex: 'load_num',
+      key: 'load_num',
+      align: 'center',
+    }, {
+      title: '卸车量(吨)',
+      dataIndex: 'unload_num',
+      key: 'unload_num',
+      align: 'center',
+    }, {
+      title: '结算量(吨)',
+      dataIndex: 'final_num',
+      key: 'final_num',
+      align: 'center',
+    }, {
+      title: '采购单价(吨)',
+      dataIndex: 'purchase_price',
+      key: 'purchase_price',
+      align: 'center',
+    }, {
+      title: '采购额(元)',
+      dataIndex: 'purchase_money',
+      key: 'purchase_money',
+      align: 'center',
+    }, {
+      title: '预付款余额(元)',
+      dataIndex: 'balance',
+      key: 'balance',
+      align: 'center',
+    }, {
+      title: '订单状态',
       dataIndex: 'account_status',
       key: 'account_status',
       align: 'center',
       render: (text, record, index) => {
-        return (
-          text === '0' ? <div style={{color: '#EA7878'}}>未对帐</div> : <div style={{color: '#59C694'}}>已对账</div>
-        )
-      }
-    }, {
-      title: '操作',
-      dataIndex: 'load_num',
-      key: 'load_num',
-      align: 'center',
-      render: (text, record, index) => {
-        return (
-          <div>
-            {
-              record.account_status === '0' ?
-                <div>
-                  <BalanceOfAccountModal url='supplier/confirmAccount' refAction='supplier/balanceHistoryFetch'
-                                         id={record.id} find_str={this.props.find_str} state='confirm'>
-                    <Button type='primary' style={{marginRight: 10, height: 28}}>确认对账</Button>
-                  </BalanceOfAccountModal>
-                  <BalanceOfAccountModal url='supplier/deleteAccount' refAction='supplier/balanceHistoryFetch'
-                                         id={record.id} find_str={this.props.find_str} state='delete'>
-                    <Button type='primary'
-                            style={{
-                              marginRight: 10,
-                              height: 28,
-                              backgroundColor: '#EA7878',
-                              border: 'none'
-                            }}>删除</Button>
-                  </BalanceOfAccountModal>
-                  <Button style={{height: 28}}
-                          onClick={this.goBalance.bind(null, record.supp_name, record.account_cycle_start, record.account_cycle_end, record.id)}>查看明细</Button>
-                </div>
-                :
-                <div>
-                  <Button className='grayButton' style={{marginRight: 10, height: 28, width: 'auto'}}>确认对账</Button>
-                  <Button className='grayButton' style={{marginRight: 10, height: 28, width: 'auto'}}>删除</Button>
-                  <Button style={{height: 28}}
-                          onClick={this.goBalance.bind(null, record.supp_name, record.account_cycle_start, record.account_cycle_end, record.id)}>查看明细</Button>
-                </div>
-            }
-          </div>
-        )
-      }
+        if (text === '1') {
+          return <div style={{color: '#8897BD'}}>待对账</div>
+        } else if (text === '2') {
+          return <div style={{color: '#3477ED'}}>对账中</div>
+        } else if (text === '3') {
+          return <div style={{color: '#60C899'}}>已对账</div>
+        } else {
+          return <div style={{color: '#F7772A'}}>已开票</div>
+        }
+      },
     }]
     return (
       <div>
         <PageTitle>
           <Button type='primary' onClick={this.goBack}>返回上一级</Button>
         </PageTitle>
-        {/*<div className='searchBox'>*/}
-        {/*<span>*/}
-        {/*<RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>*/}
-        {/*</span>*/}
-        {/*<Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"*/}
-        {/*onSearch={this.iptSearch}*/}
-        {/*/>*/}
-        {/*</div>*/}
         <Card>
           <Tabs onChange={this.callback}>
-            <TabPane tab="对账历史" key='1'>
+            <TabPane tab="对账明细" key='1'>
+              <Button type='primary' style={{height: 28, marginLeft: 5, position: 'absolute', top: 12, right: 10}}
+                      onClick={this.export}>导出</Button>
               <Table
                 columns={columns}
                 dataSource={balanceHistoryList}
                 rowKey={record => record.id}
                 pagination={false}
                 loading={loading}
-              ></Table>
+              />
               <Pagination
                 className='ant-table-pagination'
                 current={balanceHistoryPage}
@@ -203,8 +174,8 @@ function mapStateToProps(state) {
     balanceHistoryList,
     balanceHistoryPage,
     balanceHistoryTotal,
-    loading: state.loading.models.supplier
+    loading: state.loading.models.supplier,
   }
 }
 
-export default connect(mapStateToProps)(supplierHistory)
+export default connect(mapStateToProps)(withRouter(logisticsHistory))

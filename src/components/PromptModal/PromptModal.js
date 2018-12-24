@@ -74,6 +74,27 @@ class PromptModal extends React.Component {
           text: `此操作会彻底删除订单，确定删除吗？`,
           okHandler: this.deleteOrder,
         },
+        duiAll: {
+          icon: 'cancel',
+          okText: '确定',
+          cancelText: '取消',
+          text: `确认后，以下全部页面显示的订单都将加入对账单，是否继续操作？`,
+          okHandler: this.duiAll,
+        },
+        duiAllsupp: {
+          icon: 'cancel',
+          okText: '确定',
+          cancelText: '取消',
+          text: `确认后，以下全部页面显示的订单都将加入对账单，是否继续操作？`,
+          okHandler: this.duiAllsupp,
+        },
+        duilog: {
+          icon: 'cancel',
+          okText: '确定',
+          cancelText: '取消',
+          text: `确认后，以下全部页面显示的订单都将加入对账单，是否继续操作？`,
+          okHandler: this.duilog,
+        },
       },
     }
   }
@@ -241,6 +262,104 @@ class PromptModal extends React.Component {
         payload: {id: this.props.delID},
       })
     }
+  }
+
+  duiAll = (e) => {
+    if (e) e.stopPropagation()
+    this.props.dispatch({
+      type: 'customer/Reconciliation2',
+      payload: {
+        stime: this.props.stime,
+        etime: this.props.etime,
+        account_status: this.props.account_status,
+        customer_id: this.props.customer_id,
+        site_id: this.props.site_id,
+        goods_id: this.props.goods_id,
+      },
+    }).then(() => {
+      this.setState({
+        visible: false,
+      })
+      this.props.dispatch({
+        type: 'customer/balanceFetch',
+        payload: {
+          page: 1,
+          find_str: this.props.find_str,
+          stime: this.props.stime,
+          etime: this.props.etime,
+          customer_id: this.props.customer_id,
+          account_status: this.props.account_status,
+          site_id: this.props.site_id,
+          goods_id: this.props.goods_id,
+        },
+      })
+      this.props.callback()
+    })
+  }
+  duiAllsupp = (e) => {
+    if (e) e.stopPropagation()
+    this.props.dispatch({
+      type: 'supplier/Reconciliation2',
+      payload: {
+        stime: this.props.stime,
+        etime: this.props.etime,
+        account_status: this.props.account_status,
+        supp_id: this.props.supp_id,
+        site_id: this.props.site_id,
+        goods_id: this.props.goods_id,
+      },
+    }).then(() => {
+      this.setState({
+        visible: false,
+      })
+      this.props.dispatch({
+        type: 'supplier/balanceFetch',
+        payload: {
+          page: 1,
+          find_str: this.props.find_str,
+          stime: this.props.stime,
+          etime: this.props.etime,
+          supp_id: this.props.supp_id,
+          account_status: this.props.account_status,
+          site_id: this.props.site_id,
+          goods_id: this.props.goods_id,
+        },
+      })
+      this.props.callback()
+    })
+  }
+
+  duilog = (e) => {
+    if (e) e.stopPropagation()
+    this.props.dispatch({
+      type: 'logistics/Reconciliation2',
+      payload: {
+        stime: this.props.stime,
+        etime: this.props.etime,
+        account_status: this.props.account_status,
+        logistics_company: this.props.logistics_company,
+        site_id: this.props.site_id,
+        goods_id: this.props.goods_id,
+      },
+    }).then(() => {
+      this.setState({
+        visible: false,
+      })
+      this.props.dispatch({
+        type: 'logistics/balanceFetch',
+        payload: {
+          page: 1,
+          find_str: this.props.find_str,
+          stime: this.props.stime,
+          etime: this.props.etime,
+          logistics_company: this.props.logistics_company,
+          account_status: this.props.account_status,
+          site_id: this.props.site_id,
+          goods_id: this.props.goods_id,
+        },
+      })
+      this.props.callback()
+    })
   }
 
   render() {

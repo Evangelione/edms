@@ -1,5 +1,6 @@
 import * as loginServices from '../services/home'
 import * as logisticsService from '../pages/logistics/services/logistics'
+import * as customerService from '../pages/order/services/order'
 import { message, notification } from 'antd'
 
 export default {
@@ -33,6 +34,11 @@ export default {
     time_type: '1',
     load_bill: '',
     unload_bill: '',
+    customOption: [],
+    supplierOption: [],
+    siteOption: [],
+    goodsOption: [],
+    logisticsOption: [],
   },
 
   subscriptions: {
@@ -488,6 +494,79 @@ export default {
           type: 'save',
           payload: {
             unload_bill: data.load_url,
+          },
+        })
+      }
+    },
+    * fetchCustomer({payload}, {call, put}) {
+      const {data} = yield call(customerService.fetchCustom)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            customOption: data.data.list,
+          },
+        })
+        yield put({
+          type: 'customer/save',
+          payload: {
+            customer_id: data.data.list[0] ? data.data.list[0].id : '',
+          },
+        })
+      }
+    },
+    * fetchSupplier({payload}, {call, put}) {
+      const {data} = yield call(customerService.fetchSupplier)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            supplierOption: data.data.list,
+          },
+        })
+        yield put({
+          type: 'supplier/save',
+          payload: {
+            supp_id: data.data.list[0] ? data.data.list[0].id : '',
+          },
+        })
+      }
+    },
+    * fetchSite({payload}, {call, put}) {
+      const {data} = yield call(customerService.fetchSite)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            siteOption: data.data.list,
+          },
+        })
+      }
+    },
+    * fetchGoods({payload}, {call, put}) {
+      const {data} = yield call(customerService.fetchGoods)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            goodsOption: data.data.list,
+          },
+        })
+      }
+    },
+    * fetchWuliu({payload}, {call, put}) {
+      const {data} = yield call(customerService.fetchWuliu)
+      if (data.code === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            logisticsOption: data.data.list,
+          },
+        })
+        yield put({
+          type: 'logistics/save',
+          payload: {
+            logistics_company: data.data.list[0] ? data.data.list[0].logistics_company : '',
           },
         })
       }

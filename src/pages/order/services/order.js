@@ -38,6 +38,12 @@ export function fetchSupplier() {
   })
 }
 
+export function fetchWuliu() {
+  return request(`${IP}/home/select/wuliu`, {
+    method: 'POST',
+  })
+}
+
 export function fetchGoods() {
   // let formData = new FormData()
   // formData.append('supplier_id', supplier_id)
