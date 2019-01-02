@@ -59,12 +59,6 @@ class OrderModal extends PureComponent {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    this.props.dispatch({
-      type: 'order/fetchSelect',
-    })
-  }
-
   showModal = (e) => {
     e.stopPropagation()
     if (this.state.visible === true) return

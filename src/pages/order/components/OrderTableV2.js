@@ -260,7 +260,6 @@ class OrderTableV2 extends PureComponent {
             <div className={styles.order_title}>
               <span>NO.{index + 1}.</span>
               <span>创建时间：{item.order_date}</span>
-              {/*<span>订单编号：{item.order_code}</span>*/}
               <span style={{
                 float: 'right',
                 fontWeight: 600,
@@ -482,7 +481,7 @@ class OrderTableV2 extends PureComponent {
                   transition: 'all 0.5s',
                   marginLeft: 4,
                   verticalAlign: 0,
-                }}></IconFont>
+                }}/>
               </div>
             </div>
             <div style={{transition: 'all 0.5s', overflow: 'hidden', width: '100%'}}
@@ -512,7 +511,7 @@ class OrderTableV2 extends PureComponent {
                         position: 'absolute',
                         top: 0,
                         left: 210,
-                      }}></div>
+                      }}/>
                     </> : <div>未选择气源</div>}
                 </Col>
                 <Col span={6} className={styles.listItem}>

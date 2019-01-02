@@ -46,8 +46,14 @@ class Order extends Component {
     )
   }
 
+  // UNSAFE_componentWillMount() {
+  //   this.props.dispatch({type: 'order/fetch', payload: {}})
+  // }
+
   UNSAFE_componentWillMount() {
-    this.props.dispatch({type: 'order/fetch', payload: {}})
+    this.props.dispatch({
+      type: 'order/fetchSelect',
+    })
   }
 
   changeOrderStatus = (type, state) => {
@@ -201,7 +207,6 @@ class Order extends Component {
                     padding: 22,
                     textAlign: 'center',
                   }}>暂无订单信息</div>}
-
                 </Spin>
               </Col>
               <Col span={12}>
