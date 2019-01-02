@@ -46,14 +46,11 @@ class Order extends Component {
     )
   }
 
-  // UNSAFE_componentWillMount() {
-  //   this.props.dispatch({type: 'order/fetch', payload: {}})
-  // }
-
   UNSAFE_componentWillMount() {
     this.props.dispatch({
       type: 'order/fetchSelect',
     })
+    this.props.dispatch({type: 'order/fetch', payload: {}})
   }
 
   changeOrderStatus = (type, state) => {
@@ -160,7 +157,8 @@ class Order extends Component {
     return (
       <AnimatePage>
         <div className='searchBox' style={{right: 158}} id='dwww'>
-          <Select defaultValue="1" style={{width: '10rem', marginRight: 10, fontSize: '1rem'}} onChange={this.handleChange}
+          <Select defaultValue="1" style={{width: '10rem', marginRight: 10, fontSize: '1rem'}}
+                  onChange={this.handleChange}
                   getPopupContainer={() => {
                     return document.getElementById('dwww')
                   }}>
@@ -175,7 +173,8 @@ class Order extends Component {
           <TabPane tab="订单管理" key="1">
             <div className={'toolBar'} style={{top: 0, right: 0}}>
               <OrderModal>
-                <Button type='primary' style={{boxShadow: '0px 1px 10px #1890ff', width: '10rem', height: 47}}>新的订单</Button>
+                <Button type='primary'
+                        style={{boxShadow: '0px 1px 10px #1890ff', width: '10rem', height: 47}}>新的订单</Button>
               </OrderModal>
             </div>
             <Card style={{borderRadius: 12}}>
@@ -186,15 +185,18 @@ class Order extends Component {
               <div className={styles.radioGp}>
                 <div onClick={this.changeRadio.bind(null, '3')}
                      className={order_type === '3' ? styles.blueFont : styles.grayFont}>
-                  <IconFont type='icon-icon-test11' style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>全部订单
+                  <IconFont type='icon-icon-test11'
+                            style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>全部订单
                 </div>
                 <div onClick={this.changeRadio.bind(null, '1')}
                      className={order_type === '1' ? styles.blueFont : styles.grayFont}>
-                  <IconFont type='icon-xinyongqia' style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>预付款订单
+                  <IconFont type='icon-xinyongqia'
+                            style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>预付款订单
                 </div>
                 <div onClick={this.changeRadio.bind(null, '2')}
                      className={order_type === '2' ? styles.blueFont : styles.grayFont}>
-                  <IconFont type='icon-icon-test10' style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>赊销订单
+                  <IconFont type='icon-icon-test10'
+                            style={{fontSize: '1.714rem', verticalAlign: 'middle', marginRight: 8}}/>赊销订单
                 </div>
               </div>
             </Card>
