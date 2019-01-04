@@ -1,8 +1,5 @@
 import { connect } from 'dva'
-import { Card, Tabs, Input } from 'antd'
-// import UserTable from './components/UserTable'
-// import SupplierTable from './components/SupplierTable'
-// import VehicleTable from './components/VehicleTable'
+import { Card, Tabs } from 'antd'
 import SiteTable from './components/Site'
 import Customer from './components/Customer'
 import Supplier from './components/Supplier'
@@ -20,7 +17,7 @@ import VehicleChecking from './VehicleChecking'
 import AnimatePage from '../../components/AnimatePage/AnimatePage'
 
 const TabPane = Tabs.TabPane
-const Search = Input.Search
+// const Search = Input.Search
 
 function mapStateToProps(state) {
   const {currentTab} = state.maintain
@@ -31,26 +28,26 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
-  function iptSearch(value) {
-    dispatch({
-      type: 'maintain/fetchCustomer',
-      payload: {
-        find_str: value,
-      },
-    })
-    dispatch({
-      type: 'maintain/fetchSupplier',
-      payload: {
-        find_str: value,
-      },
-    })
-    dispatch({
-      type: 'maintain/fetchCar',
-      payload: {
-        find_str: value,
-      },
-    })
-  }
+  // function iptSearch(value) {
+  //   dispatch({
+  //     type: 'maintain/fetchCustomer',
+  //     payload: {
+  //       find_str: value,
+  //     },
+  //   })
+  //   dispatch({
+  //     type: 'maintain/fetchSupplier',
+  //     payload: {
+  //       find_str: value,
+  //     },
+  //   })
+  //   dispatch({
+  //     type: 'maintain/fetchCar',
+  //     payload: {
+  //       find_str: value,
+  //     },
+  //   })
+  // }
 
   function callback(key) {
     dispatch({
@@ -65,10 +62,10 @@ export default connect(mapStateToProps)(({location, dispatch, currentTab}) => {
     <AnimatePage>
       {location.pathname === '/maintain' ?
         <div>
-          <div className='searchBox'>
-            <Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"
-                    onSearch={iptSearch}/>
-          </div>
+          {/*<div className='searchBox'>*/}
+            {/*<Search style={{width: 260, marginLeft: 10}} placeholder="输入关键字进行查询"*/}
+                    {/*onSearch={iptSearch}/>*/}
+          {/*</div>*/}
           <Tabs activeKey={currentTab} onChange={callback}>
             <TabPane tab="客户" key="1">
               <Card style={{paddingTop: 30}}>
