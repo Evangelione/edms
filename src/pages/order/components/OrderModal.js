@@ -741,7 +741,7 @@ class OrderModal extends PureComponent {
                     rules: [{required: true, message: '请填写数字！'}],
                   })(
                     <InputNumber placeholder="请填写数量" addonAfter='吨' onChange={this.calculation}
-                                 disabled={!!this.props.confirm} max={22} min={0} step={0.001}
+                                 disabled={!!this.props.confirm} max={25} min={0} step={0.001}
                                  precision={3} style={{width: 150}}/>,
                   )}
                   <div style={{
@@ -897,7 +897,7 @@ class OrderModal extends PureComponent {
                 <FormItem labelCol={{span: 8}} wrapperCol={{span: 13}} label="数量" hasFeedback
                           style={{display: 'block', marginLeft: '-5px'}}>
                   {getFieldDecorator('saler_num')(
-                    <InputNumber placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled
+                    <InputNumber placeholder="请填写数量" addonAfter='吨' max={25} step={0.001} disabled
                                  style={{width: 150}}/>,
                   )}
                 </FormItem>
@@ -1048,7 +1048,7 @@ class OrderModal extends PureComponent {
                   <FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="数量" hasFeedback
                             style={{display: 'block', marginLeft: '-5px'}}>
                     {getFieldDecorator('saler_num2')(
-                      <InputNumber placeholder="请填写数量" addonAfter='吨' max={22} step={0.001} disabled
+                      <InputNumber placeholder="请填写数量" addonAfter='吨' max={25} step={0.001} disabled
                                    style={{width: 150}}/>,
                     )}
                     <div style={{

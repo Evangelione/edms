@@ -10,22 +10,22 @@ function MyLayout({children, location}) {
   if (location.pathname === '/login') {
     return (
       <Layout className={styles.scrollLayout}>
-        <MyContent location={location} children={children}></MyContent>
+        <MyContent location={location} children={children}/>
       </Layout>
     )
   } else if (location.pathname === '/admin') {
     return (
       <Layout className={styles.scrollLayout}>
-        <MyContent location={location} children={children}></MyContent>
+        <MyContent location={location} children={children}/>
       </Layout>
     )
   }
   return (
     <Layout className={styles.layout}>
-      <MySider></MySider>
+      <MySider/>
       <Layout style={{position: 'relative'}}>
-        <MyHeader location={location}></MyHeader>
-        <MyContent location={location} children={children}></MyContent>
+        <MyHeader location={location}/>
+        <MyContent location={location} children={children}/>
         {/*<MyFooter></MyFooter>*/}
       </Layout>
     </Layout>
