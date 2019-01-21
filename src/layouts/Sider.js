@@ -96,7 +96,7 @@ class MySider extends React.Component {
              collapsed={collapsed}>
         {(this.props.location.pathname.indexOf('/backstage') === 0 || this.props.location.pathname.indexOf('/permission') === 0 || this.props.location.pathname.indexOf('/maintain') === 0) ?
           <div>
-            <div className={styles.logo} style={{backgroundImage: `url(${LOGO[logo].logo})`}}/>
+            <div className={styles.logo} style={{background: `url(${LOGO[logo].logo}) center center no-repeat`}}/>
             <Menu theme="dark"
                   defaultSelectedKeys={this.props.currentKey}
                   selectedKeys={this.props.currentKey}
@@ -117,7 +117,7 @@ class MySider extends React.Component {
           </div>
           :
           <div>
-            <div className={styles.logo} style={{backgroundImage: `url(${LOGO[logo].logo})`}}/>
+            <div className={styles.logo} style={{background: `url(${LOGO[logo].logo}) center center no-repeat`}}/>
             <Menu theme="dark"
                   defaultSelectedKeys={this.props.currentKey}
                   selectedKeys={this.props.currentKey}

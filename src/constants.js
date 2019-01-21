@@ -15,8 +15,8 @@ export const LOGO = {
     logo: require('./assets/image/logo_xny.png')
   },
   sh: {
-    name: '实华',
-    logo: require('./assets/image/Group.png')
+    name: '凡华',
+    logo: require('./assets/image/logo_154_29.png')
   },
   ht: {
     name: '珠海海通 商+',
@@ -24,7 +24,7 @@ export const LOGO = {
   },
   chenchen: {
     name: '蓝采和',
-    logo: require('./assets/image/WechatIMG18.png')
+    logo: require('./assets/image/logo_154_29.png')
   },
   localhost: {
     name: '蓝采和',
