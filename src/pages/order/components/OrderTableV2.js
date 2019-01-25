@@ -322,6 +322,7 @@ class OrderTableV2 extends PureComponent {
                   <span style={{fontSize: '0.857rem'}}>预计到达：{item.recv_time}</span>
                 </div> :
                 <div style={{color: '#4777E5', marginBottom: 25, textAlign: 'right'}}>
+                  <div style={{fontSize: '0.857rem'}}>预计装车：{item.expect_time}</div>
                   {item.order_status === '3' && item.deliver_status - 0 > 2 ?
                     <IconFont type='icon-huoche'
                               style={{fontSize: '1.142rem', marginRight: '0.714rem', verticalAlign: 'inherit'}}/> : ''}

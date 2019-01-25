@@ -3,7 +3,7 @@
 html, body, :global(#root) {
   height: 100%;
   /*overflow: hidden;*/
-  min-width: 1366px;
+  min-width: 1440px;
   font-family: PingFangHK-Regular;
 }
 

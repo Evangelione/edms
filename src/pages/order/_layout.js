@@ -164,6 +164,7 @@ class Order extends Component {
                   }}>
             <Option value="1">预计到达时间</Option>
             <Option value="2">实际装车时间</Option>
+            <Option value="3">预计装车时间</Option>
           </Select>
           <RangePicker locale={locale} onChange={this.rangeChange} disabledDate={this.disabledDate}/>
           <Search style={{width: '18rem', marginLeft: 10}} placeholder='输入关键字进行查询'

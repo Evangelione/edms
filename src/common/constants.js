@@ -7,7 +7,7 @@ export const IP = '/xtw'
 export const PAGE_SIZE = 10
 
 export const REGS = {
-  name: '^[\\u4e00-\\u9fa5A-Za-z\(\)]+$',
+  name: '^[\\u4e00-\\u9fa5A-Za-z1-9\(\)]+$',
   number: '^[0-9.]*$',
   account: '^[A-Za-z0-9]{1,30}$',
   password: '^(\\w){6,16}$',
