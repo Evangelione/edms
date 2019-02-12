@@ -149,13 +149,13 @@ class Supplier extends PureComponent {
   beforeUpload = (file) => {
     const isJPG = file.type === 'image/jpeg'
     const isPNG = file.type === 'image/png'
-    const isLt2M = file.size / 1024 / 1024 < 2
+    const isLt2M = file.size / 1024 / 1024 < 5
     if (!isLt2M) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!')
+      message.error('仅支持JPG、PNG格式，文件小于5MB!')
       return false
     }
     if (!isJPG && !isPNG) {
-      message.error('仅支持JPG、PNG格式，文件小于2MB!')
+      message.error('仅支持JPG、PNG格式，文件小于5MB!')
       return false
     }
   }
