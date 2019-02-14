@@ -150,7 +150,7 @@ class RegisterModal extends React.Component {
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'}/>
-        <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于2MB</div>
+        <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于5MB</div>
       </div>
     )
     return (
