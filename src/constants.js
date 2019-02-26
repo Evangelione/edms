@@ -8,26 +8,30 @@ export const PAGE_SIZE = 10
 export const LOGO = {
   lch: {
     name: '蓝采和',
-    logo: require('./assets/image/Group.png')
+    logo: require('./assets/image/Group.png'),
   },
   xny: {
     name: '鑫能源',
-    logo: require('./assets/image/logo_xny.png')
+    logo: require('./assets/image/logo_xny.png'),
   },
   sh: {
     name: '凡华',
-    logo: require('./assets/image/logo_154_29.png')
+    logo: require('./assets/image/logo_154_29.png'),
   },
   ht: {
     name: '珠海海通 商+',
-    logo: require('./assets/image/ht2.png')
+    logo: require('./assets/image/ht2.png'),
   },
   chenchen: {
     name: '蓝采和',
-    logo: require('./assets/image/logo_154_29.png')
+    logo: require('./assets/image/logo_154_29.png'),
   },
   localhost: {
     name: '蓝采和',
-    logo: require('./assets/image/Group.png')
-  }
+    logo: require('./assets/image/Group.png'),
+  },
+  od: {
+    name: '奥德',
+    logo: require('./assets/image/logo_139_58.png'),
+  },
 }

@@ -1,7 +1,7 @@
 import { Icon } from 'antd'
 import styles from '../layouts/index.css'
 // 全局接口
-export const IP = '/xtw'
+export const IP = '/api'
 
 // 全局表格
 export const PAGE_SIZE = 10
@@ -36,6 +36,10 @@ export const LOGO = {
     name: '蓝采和',
     logo: require('../assets/image/Group.png'),
   },
+  od: {
+    name: '奥德',
+    logo: require('../assets/image/logo_139_58.png'),
+  },
 }
 
 // 阿里图库
@@ -45,10 +49,10 @@ export const IconFont = Icon.createFromIconfontCN({
 
 export const getIcon = icon => {
   if (typeof icon === 'string' && icon.indexOf('http') === 0) {
-    return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`}/>
+    return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`} />
   }
   if (typeof icon === 'string') {
-    return <IconFont type={icon}/>
+    return <IconFont type={icon} />
   }
   return icon
 }

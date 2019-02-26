@@ -46,6 +46,8 @@ class PoundModal extends React.Component {
       unload_time: this.props.unload_time,
       load_bill: this.props.load_bill,
       unload_bill: this.props.unload_bill,
+      expect_time: this.props.expect_time,
+      car_body: this.props.car_body,
       fileList1: [{
         uid: '1',
         name: 'xxx.png',
@@ -79,6 +81,8 @@ class PoundModal extends React.Component {
         unload_time: this.props.unload_time,
         load_bill: this.props.load_url,
         unload_bill: this.props.unload_url,
+        expect_time: this.props.expect_time,
+        car_body: this.props.car_body,
         fileList1: [{
           uid: '1',
           name: 'xxx.png',
@@ -291,7 +295,7 @@ class PoundModal extends React.Component {
     let time = this.state.time.format('YYYY-MM-DD HH:mm:00')
     const uploadButton = (
       <div>
-        <Icon type="plus"/>
+        <Icon type="plus" />
         <div className="ant-upload-text">仅支持JPG、PNG格式，文件小于5MB</div>
       </div>
     )
@@ -343,9 +347,31 @@ class PoundModal extends React.Component {
             <div>
               <Row style={{marginBottom: 10}}>
                 <Col span={4}>
-                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车磅单：</div>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>车牌号码：</div>
                 </Col>
                 <Col span={7}>
+                  <div style={{
+                    lineHeight: '28px',
+                    fontSize: 14,
+                    color: '#545f76',
+                    fontWeight: 600,
+                  }}>{this.state.car_body}</div>
+                </Col>
+                <Col span={5} offset={1}>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>预计装车时间：</div>
+                </Col>
+                <Col span={7}>
+                  <div style={{
+                    lineHeight: '28px',
+                    fontSize: 14,
+                    color: '#545f76',
+                    fontWeight: 600,
+                  }}>{this.state.expect_time}</div>
+                </Col>
+                <Col span={4} style={{margin: '10px 0'}}>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车数量：</div>
+                </Col>
+                <Col span={7} style={{margin: '10px 0'}}>
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{(this.state.load_num - 0).toFixed(3)} 吨</div>
                     :
@@ -353,7 +379,7 @@ class PoundModal extends React.Component {
                       <InputNumber addonAfter='吨' defaultValue={this.state.load_num} precision={3} max={25} step={0.001}
                                    style={{width: 161}}
                                    onChange={this.loadChange} formatter={this.limitDecimals}
-                                   parser={this.limitDecimals}/>
+                                   parser={this.limitDecimals} />
                       <div style={{
                         position: 'absolute',
                         border: '1px solid #d9d9d9',
@@ -369,10 +395,17 @@ class PoundModal extends React.Component {
                     </div>
                   }
                 </Col>
-                <Col span={4} offset={1}>
-                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车时间：</div>
+                <Col span={5} offset={1}>
+                  <div style={{
+                    lineHeight: '28px',
+                    fontSize: 14,
+                    color: '#545f76',
+                    fontWeight: 600,
+                    margin: '10px 0',
+                  }}>实际装车时间：
+                  </div>
                 </Col>
-                <Col span={8}>
+                <Col span={8} style={{margin: '10px 0'}}>
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.load_time}</div>
                     :
@@ -385,7 +418,7 @@ class PoundModal extends React.Component {
                         timePicker24Hour={true}
                         locale={locale}
                         onApply={this.handleApplyConfirm.bind(null, 'load_time')}>
-                        <Input type="text" value={this.state.load_time} readOnly/>
+                        <Input type="text" value={this.state.load_time} readOnly />
                       </DateRangePicker>
                     </div>}
                 </Col>
@@ -393,7 +426,7 @@ class PoundModal extends React.Component {
               <Card style={{borderColor: '#D2D2D2', marginBottom: 10}}>
                 {this.props.type === 'look' ?
                   <ImageModal imgUrl={this.props.load_url}>
-                    <img src={this.props.load_url} alt="" width='100%' height='100%'/>
+                    <img src={this.props.load_url} alt="" width='100%' height='100%' />
                   </ImageModal>
                   :
                   <div>
@@ -414,7 +447,7 @@ class PoundModal extends React.Component {
               </Card>
               <Row style={{marginBottom: 10}}>
                 <Col span={4}>
-                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车磅单：</div>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车数量：</div>
                 </Col>
                 <Col span={7}>
                   {this.props.type === 'look' ?
@@ -424,7 +457,7 @@ class PoundModal extends React.Component {
                       <InputNumber addonAfter='吨' defaultValue={this.state.unload_num} precision={3} max={25}
                                    step={0.001}
                                    style={{width: 161}} onChange={this.unloadChange} formatter={this.limitDecimals}
-                                   parser={this.limitDecimals}/>
+                                   parser={this.limitDecimals} />
                       <div style={{
                         position: 'absolute',
                         border: '1px solid #d9d9d9',
@@ -440,8 +473,8 @@ class PoundModal extends React.Component {
                     </div>
                   }
                 </Col>
-                <Col span={4} offset={1}>
-                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
+                <Col span={5} offset={1}>
+                  <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>实际卸车时间：</div>
                 </Col>
                 <Col span={8}>
                   {this.props.type === 'look' ?
@@ -456,14 +489,14 @@ class PoundModal extends React.Component {
                         timePicker24Hour={true}
                         locale={locale}
                         onApply={this.handleApplyConfirm.bind(null, 'unload_time')}>
-                        <Input type="text" value={this.state.unload_time} readOnly/>
+                        <Input type="text" value={this.state.unload_time} readOnly />
                       </DateRangePicker>
                     </div>}
                 </Col>
               </Row>
               <Card style={{borderColor: '#D2D2D2'}}>
                 {this.props.type === 'look' ? <ImageModal imgUrl={this.props.unload_url}>
-                    <img src={this.props.unload_url} alt="" width='100%' height='100%'/>
+                    <img src={this.props.unload_url} alt="" width='100%' height='100%' />
                   </ImageModal>
                   :
                   <div>
@@ -487,16 +520,38 @@ class PoundModal extends React.Component {
               <div>
                 <Row style={{marginBottom: 10}}>
                   <Col span={4}>
-                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车磅单：</div>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>车牌号码：</div>
                   </Col>
                   <Col span={7}>
+                    <div style={{
+                      lineHeight: '28px',
+                      fontSize: 14,
+                      color: '#545f76',
+                      fontWeight: 600,
+                    }}>{this.state.car_body}</div>
+                  </Col>
+                  <Col span={5} offset={1}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>预计装车时间：</div>
+                  </Col>
+                  <Col span={7}>
+                    <div style={{
+                      lineHeight: '28px',
+                      fontSize: 14,
+                      color: '#545f76',
+                      fontWeight: 600,
+                    }}>{this.state.expect_time}</div>
+                  </Col>
+                  <Col span={4} style={{margin: '10px 0'}}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车数量：</div>
+                  </Col>
+                  <Col span={7} style={{margin: '10px 0'}}>
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.load_num} 吨</div>
                       :
                       <div>
                         <InputNumber addonAfter='吨' precision={3} style={{width: 161}} max={25} step={0.001}
                                      onChange={this.loadChange}
-                                     defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals}/>
+                                     defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals} />
                         <div style={{
                           position: 'absolute',
                           border: '1px solid #d9d9d9',
@@ -513,10 +568,17 @@ class PoundModal extends React.Component {
 
                     }
                   </Col>
-                  <Col span={4} offset={1}>
-                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>装车时间：</div>
+                  <Col span={5} offset={1}>
+                    <div style={{
+                      lineHeight: '28px',
+                      fontSize: 14,
+                      color: '#545f76',
+                      fontWeight: 600,
+                      margin: '10px 0',
+                    }}>实际装车时间：
+                    </div>
                   </Col>
-                  <Col span={7}>
+                  <Col span={7} style={{margin: '10px 0'}}>
                     <DateRangePicker
                       containerStyles={{width: '100%'}}
                       startDate={this.state.time}
@@ -525,7 +587,7 @@ class PoundModal extends React.Component {
                       timePicker24Hour={true}
                       locale={locale}
                       onApply={this.handleApply}>
-                      <Input type="text" value={time} readOnly/>
+                      <Input type="text" value={time} readOnly />
                     </DateRangePicker>
                   </Col>
                 </Row>
@@ -548,16 +610,38 @@ class PoundModal extends React.Component {
               <div>
                 <Row style={{marginBottom: 10}}>
                   <Col span={4}>
-                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车磅单：</div>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>车牌号码：</div>
                   </Col>
-                  <Col span={8}>
+                  <Col span={7}>
+                    <div style={{
+                      lineHeight: '28px',
+                      fontSize: 14,
+                      color: '#545f76',
+                      fontWeight: 600,
+                    }}>{this.state.car_body}</div>
+                  </Col>
+                  <Col span={5} offset={1}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>预计装车时间：</div>
+                  </Col>
+                  <Col span={7}>
+                    <div style={{
+                      lineHeight: '28px',
+                      fontSize: 14,
+                      color: '#545f76',
+                      fontWeight: 600,
+                    }}>{this.state.expect_time}</div>
+                  </Col>
+                  <Col span={4} style={{margin: '10px 0'}}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车数量：</div>
+                  </Col>
+                  <Col span={7} style={{margin: '10px 0'}}>
                     {this.props.type === 'look' ?
                       <div style={{lineHeight: '28px'}}>{this.state.unload_num} 吨</div>
                       :
                       <div>
                         <InputNumber addonAfter='吨' precision={3} max={25} step={0.001} style={{width: 161}}
                                      onChange={this.unloadChange}
-                                     defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals}/>
+                                     defaultValue='0' formatter={this.limitDecimals} parser={this.limitDecimals} />
                         <div style={{
                           position: 'absolute',
                           border: '1px solid #d9d9d9',
@@ -574,10 +658,10 @@ class PoundModal extends React.Component {
 
                     }
                   </Col>
-                  <Col span={4} offset={1}>
-                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>卸车时间：</div>
+                  <Col span={5} offset={1} style={{margin: '10px 0'}}>
+                    <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>实际卸车时间：</div>
                   </Col>
-                  <Col span={7}>
+                  <Col span={7} style={{margin: '10px 0'}}>
                     <DateRangePicker
                       containerStyles={{width: '100%'}}
                       startDate={this.state.time}
@@ -586,7 +670,7 @@ class PoundModal extends React.Component {
                       timePicker24Hour={true}
                       locale={locale}
                       onApply={this.handleApply}>
-                      <Input type="text" value={time} readOnly/>
+                      <Input type="text" value={time} readOnly />
                     </DateRangePicker>
                   </Col>
                 </Row>
@@ -620,7 +704,7 @@ class PoundModal extends React.Component {
             cursor: 'pointer',
           }}
           footer={null}>
-          <img alt='' width='100%' height='100%' onClick={this.rotateImage} src={this.state.previewImage}/>
+          <img alt='' width='100%' height='100%' onClick={this.rotateImage} src={this.state.previewImage} />
         </Modal>
       </div>
     )
