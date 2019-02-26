@@ -168,7 +168,7 @@ class Supplier extends PureComponent {
     const {visible, modaltype, fileList} = this.state
     const uploadButton = (
       <div>
-        <Icon type="plus"/>
+        <Icon type="plus" />
         <div className="ant-upload-text">Upload</div>
       </div>
     )
@@ -231,7 +231,7 @@ class Supplier extends PureComponent {
         <div className='toolBar'>
           <Button type='primary' icon="plus" onClick={this.insertModal}>新增供应商</Button>
         </div>
-        <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}}/>
+        <div style={{backgroundColor: '#D8DDE6', width: '100%', height: 2, marginTop: 6}} />
         <Table
           columns={columns}
           dataSource={supplierlist}
@@ -285,7 +285,7 @@ class Supplier extends PureComponent {
               {getFieldDecorator('supp_name', {
                 rules: [{required: true, message: '请输入供应商名称', pattern: REGS.name}],
               })(
-                <Input placeholder='请输入供应商名称'/>,
+                <Input placeholder='请输入供应商名称' />,
               )}
             </FormItem>
             <FormItem
@@ -298,7 +298,7 @@ class Supplier extends PureComponent {
               })(
                 <Select placeholder="请选择供应商类型">
                   {supp_type.map((value, index) => {
-                    return <Option value={index + 1 + ''}>{value}</Option>
+                    return <Option value={index + ''}>{value}</Option>
                   })}
                 </Select>,
               )}
@@ -311,7 +311,7 @@ class Supplier extends PureComponent {
               {getFieldDecorator('supp_contact', {
                 rules: [{required: true, message: '请输入联系人', pattern: REGS.name}],
               })(
-                <Input placeholder='请输入联系人'/>,
+                <Input placeholder='请输入联系人' />,
               )}
             </FormItem>
             <FormItem
@@ -322,7 +322,7 @@ class Supplier extends PureComponent {
               {getFieldDecorator('supp_mobile', {
                 rules: [{required: true, message: '请输入联系方式', pattern: REGS.phone}],
               })(
-                <Input placeholder='请输入联系方式'/>,
+                <Input placeholder='请输入联系方式' />,
               )}
             </FormItem>
           </Form>
@@ -340,7 +340,7 @@ class Supplier extends PureComponent {
             cursor: 'pointer',
           }}
           footer={null}>
-          <img alt='' width='100%' height='100%' onClick={this.rotateImage} src={this.state.previewImage}/>
+          <img alt='' width='100%' height='100%' onClick={this.rotateImage} src={this.state.previewImage} />
         </Modal>
       </div>
     )
