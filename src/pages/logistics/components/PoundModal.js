@@ -47,7 +47,7 @@ class PoundModal extends React.Component {
       load_bill: this.props.load_bill,
       unload_bill: this.props.unload_bill,
       expect_time: this.props.expect_time,
-      car_body: this.props.car_body,
+      car_head: this.props.car_head,
       fileList1: [{
         uid: '1',
         name: 'xxx.png',
@@ -82,7 +82,7 @@ class PoundModal extends React.Component {
         load_bill: this.props.load_url,
         unload_bill: this.props.unload_url,
         expect_time: this.props.expect_time,
-        car_body: this.props.car_body,
+        car_head: this.props.car_head,
         fileList1: [{
           uid: '1',
           name: 'xxx.png',
@@ -355,7 +355,7 @@ class PoundModal extends React.Component {
                     fontSize: 14,
                     color: '#545f76',
                     fontWeight: 600,
-                  }}>{this.state.car_body}</div>
+                  }}>{this.state.car_head}</div>
                 </Col>
                 <Col span={5} offset={1}>
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>预计装车时间：</div>
@@ -405,7 +405,7 @@ class PoundModal extends React.Component {
                   }}>实际装车时间：
                   </div>
                 </Col>
-                <Col span={8} style={{margin: '10px 0'}}>
+                <Col span={7} style={{margin: '10px 0'}}>
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.load_time}</div>
                     :
@@ -476,7 +476,7 @@ class PoundModal extends React.Component {
                 <Col span={5} offset={1}>
                   <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>实际卸车时间：</div>
                 </Col>
-                <Col span={8}>
+                <Col span={7}>
                   {this.props.type === 'look' ?
                     <div style={{lineHeight: '28px'}}>{this.state.unload_time}</div>
                     :
@@ -528,7 +528,7 @@ class PoundModal extends React.Component {
                       fontSize: 14,
                       color: '#545f76',
                       fontWeight: 600,
-                    }}>{this.state.car_body}</div>
+                    }}>{this.state.car_head}</div>
                   </Col>
                   <Col span={5} offset={1}>
                     <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>预计装车时间：</div>
@@ -618,7 +618,7 @@ class PoundModal extends React.Component {
                       fontSize: 14,
                       color: '#545f76',
                       fontWeight: 600,
-                    }}>{this.state.car_body}</div>
+                    }}>{this.state.car_head}</div>
                   </Col>
                   <Col span={5} offset={1}>
                     <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>预计装车时间：</div>
@@ -658,7 +658,7 @@ class PoundModal extends React.Component {
 
                     }
                   </Col>
-                  <Col span={5} offset={1} style={{margin: '10px 0'}}>
+                  <Col span={5} offset={1} style={{marginTop: '10px'}}>
                     <div style={{lineHeight: '28px', fontSize: 14, color: '#545f76', fontWeight: 600}}>实际卸车时间：</div>
                   </Col>
                   <Col span={7} style={{margin: '10px 0'}}>

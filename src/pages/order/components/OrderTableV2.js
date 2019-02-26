@@ -276,10 +276,16 @@ class OrderTableV2 extends PureComponent {
               borderRadius: 6,
               overflow: 'hidden',
             }}>
-              <img src={item.cust_head} style={{width: '3.142rem', height: '3.142rem'}} alt=''/>
+              <img src={item.cust_head} style={{width: '3.142rem', height: '3.142rem'}} alt='' />
             </div>
             <div style={{display: 'inline-block', verticalAlign: 'top', minWidth: '12rem'}}>
-              <div style={{color: '#4777E5', fontSize: '1.142rem', position: 'relative', marginBottom: 4, fontWeight: 600}}>
+              <div style={{
+                color: '#4777E5',
+                fontSize: '1.142rem',
+                position: 'relative',
+                marginBottom: 4,
+                fontWeight: 600,
+              }}>
                 {item.site_name}
                 {item.order_type === '2' ? <IconFont type='icon-xinyongqia'
                                                      style={{
@@ -288,13 +294,13 @@ class OrderTableV2 extends PureComponent {
                                                        position: 'absolute',
                                                        top: 1,
                                                        right: '2.5rem',
-                                                     }}/> : ''}
+                                                     }} /> : ''}
               </div>
               <div style={{
                 color: '#9DA3A5',
                 fontSize: '0.857rem',
               }}>{item.cargo_province ? item.cargo_province + item.cargo_city : '未选择气源'} - {item.delivery_province}{item.delivery_city}</div>
-              <Divider/>
+              <Divider />
               <div style={{color: '#9096A3', marginBottom: 5}}><span
                 style={{
                   color: '#4777E5',
@@ -317,7 +323,7 @@ class OrderTableV2 extends PureComponent {
                   <div style={{fontSize: '0.857rem'}}>实际装车：{item.load_time}</div>
                   {item.order_status === '3' && item.deliver_status - 0 > 2 ?
                     <IconFont type='icon-huoche'
-                              style={{fontSize: 16, marginRight: '0.714rem', verticalAlign: 'inherit'}}/> : ''}
+                              style={{fontSize: 16, marginRight: '0.714rem', verticalAlign: 'inherit'}} /> : ''}
                   <span style={{fontWeight: 600, fontSize: '1rem', marginRight: '0.714rem'}}>{item.car_head}</span>
                   <span style={{fontSize: '0.857rem'}}>预计到达：{item.recv_time}</span>
                 </div> :
@@ -325,7 +331,7 @@ class OrderTableV2 extends PureComponent {
                   <div style={{fontSize: '0.857rem'}}>预计装车：{item.expect_time}</div>
                   {item.order_status === '3' && item.deliver_status - 0 > 2 ?
                     <IconFont type='icon-huoche'
-                              style={{fontSize: '1.142rem', marginRight: '0.714rem', verticalAlign: 'inherit'}}/> : ''}
+                              style={{fontSize: '1.142rem', marginRight: '0.714rem', verticalAlign: 'inherit'}} /> : ''}
                   <span style={{fontWeight: 600, fontSize: '1rem', marginRight: '0.714rem'}}>{item.car_head}</span>
                   <span style={{fontSize: 12}}>预计到达：{item.recv_time}</span>
                 </div>}
@@ -345,7 +351,7 @@ class OrderTableV2 extends PureComponent {
                     </PromptModal>
                   </div> : item.order_status === '1' ?
                     <div>
-                      <StatusModal id={item.order_id}/>
+                      <StatusModal id={item.order_id} />
                       {/*<Button type='primary'*/}
                       {/*style={{backgroundColor: '#D0021B', marginRight: 10, borderColor: '#D0021B'}}>立即支付</Button>*/}
                       <OrderModal modify={true} currentOrder={item}>
@@ -396,7 +402,8 @@ class OrderTableV2 extends PureComponent {
                               <div>
                                 <PoundModal title='上传装车磅单' load_num={item.load_num}
                                             load_url={item.load_url}
-                                            hidden={'load'} id={item.id}>
+                                            hidden={'load'} id={item.id} car_head={item.car_head}
+                                            expect_time={item.expect_time}>
                                   <Button type='primary'>上传装车磅单</Button>
                                 </PoundModal>
                                 <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
@@ -412,7 +419,8 @@ class OrderTableV2 extends PureComponent {
                                 <div>
                                   <PoundModal title='上传卸车磅单' unload_num={item.unload_num}
                                               unload_url={item.unload_url} hidden={'unload'}
-                                              id={item.id}>
+                                              id={item.id} car_head={item.car_head}
+                                              expect_time={item.expect_time}>
                                     <Button type='primary'>上传卸车磅单</Button>
                                   </PoundModal>
                                   <PromptModal state={'cancelOrder'} cancelId={item.order_id}>
@@ -432,7 +440,9 @@ class OrderTableV2 extends PureComponent {
                                                 unload_url={item.unload_url}
                                                 id={item.id}
                                                 load_time={item.load_time}
-                                                unload_time={item.unload_time}>
+                                                unload_time={item.unload_time}
+                                                car_head={item.car_head}
+                                                expect_time={item.expect_time}>
                                       <Button type='primary'>确认磅单</Button>
                                     </PoundModal>
                                   </div> : ''
@@ -482,12 +492,12 @@ class OrderTableV2 extends PureComponent {
                   transition: 'all 0.5s',
                   marginLeft: 4,
                   verticalAlign: 0,
-                }}/>
+                }} />
               </div>
             </div>
             <div style={{transition: 'all 0.5s', overflow: 'hidden', width: '100%'}}
                  className={this.state[item.id] ? styles.showExpand : styles.hideExpand}>
-              <Divider/>
+              <Divider />
               <Row>
                 <Col span={5} className={styles.listItem}>
                   <div>供应商信息</div>
@@ -512,7 +522,7 @@ class OrderTableV2 extends PureComponent {
                         position: 'absolute',
                         top: 0,
                         left: 210,
-                      }}/>
+                      }} />
                     </> : <div>未选择气源</div>}
                 </Col>
                 <Col span={6} className={styles.listItem}>
@@ -623,7 +633,7 @@ class OrderTableV2 extends PureComponent {
                   {getFieldDecorator('edingzaizhong', {
                     rules: [{required: false, message: '此项为必选项！'}],
                   })(
-                    <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'}/>,
+                    <Input placeholder='选择车挂后显示...' disabled addonAfter={'吨'} />,
                   )}
                 </FormItem>
               </Col>
@@ -663,7 +673,7 @@ class OrderTableV2 extends PureComponent {
                     }],
                     validateTrigger: 'onBlur',
                   })(
-                    <Input placeholder="填写司机电话"/>,
+                    <Input placeholder="填写司机电话" />,
                   )}
                 </FormItem>
               </Col>
@@ -678,7 +688,7 @@ class OrderTableV2 extends PureComponent {
                   {getFieldDecorator('yayunyuan', {
                     rules: [{required: false, message: '此项为必选项！'}],
                   })(
-                    <Input/>,
+                    <Input />,
                   )}
                 </FormItem>
               </Col>
@@ -689,7 +699,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('supercargo_mobile')(
-                    <Input placeholder="选择押运员后显示" disabled/>,
+                    <Input placeholder="选择押运员后显示" disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -703,7 +713,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('zhuanghuolianxiren')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -714,7 +724,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('zhuanghuolianxidianhua')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -739,7 +749,7 @@ class OrderTableV2 extends PureComponent {
                       locale={locale}
                       drops={'up'}
                       onApply={this.handleApply}>
-                      <Input type="text" value={time} readOnly/>
+                      <Input type="text" value={time} readOnly />
                     </DateRangePicker>,
                   )}
                 </FormItem>
@@ -751,7 +761,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('zhuanghuoshuliang')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -765,7 +775,7 @@ class OrderTableV2 extends PureComponent {
                     wrapperCol={{span: 15}}
                   >
                     {getFieldDecorator('zhuanghuodizhi')(
-                      <Input disabled style={{marginLeft: 20}}/>,
+                      <Input disabled style={{marginLeft: 20}} />,
                     )}
                   </FormItem>
                 </Col>
@@ -776,7 +786,7 @@ class OrderTableV2 extends PureComponent {
                     wrapperCol={{span: 20}}
                   >
                     {getFieldDecorator('zhuanghuoxiangxidizhi')(
-                      <Input disabled/>,
+                      <Input disabled />,
                     )}
                   </FormItem>
                 </Col>
@@ -791,7 +801,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuolianxiren')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -802,7 +812,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuolianxidianhua')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -815,7 +825,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuoshijian')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -826,7 +836,7 @@ class OrderTableV2 extends PureComponent {
                   wrapperCol={{span: 13, offset: 1}}
                 >
                   {getFieldDecorator('shouhuoshuliang')(
-                    <Input disabled/>,
+                    <Input disabled />,
                   )}
                 </FormItem>
               </Col>
@@ -840,7 +850,7 @@ class OrderTableV2 extends PureComponent {
                     wrapperCol={{span: 15}}
                   >
                     {getFieldDecorator('shouhuodizhi')(
-                      <Input disabled style={{marginLeft: 20}}/>,
+                      <Input disabled style={{marginLeft: 20}} />,
                     )}
                   </FormItem>
                 </Col>
@@ -851,7 +861,7 @@ class OrderTableV2 extends PureComponent {
                     wrapperCol={{span: 20}}
                   >
                     {getFieldDecorator('shouhuoxiangxidizhi')(
-                      <Input disabled/>,
+                      <Input disabled />,
                     )}
                   </FormItem>
                 </Col>
@@ -865,7 +875,7 @@ class OrderTableV2 extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const {list, total, page, order_status, currentIndex, order_type, stime, etime, find_str,time_type} = state.order
+  const {list, total, page, order_status, currentIndex, order_type, stime, etime, find_str, time_type} = state.order
   const {detailForm, companyOption, carOption} = state.home
   return {
     list,

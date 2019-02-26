@@ -411,23 +411,25 @@ class OrderModal extends PureComponent {
       // }
       // this.props.getNum(yunju, yunfeidanjia, shuliang, xiaoshoujiage)
     }, 100)
-    let value = e.target.value
-    setTimeout(() => {
-      this.props.dispatch({
-        type: 'order/getModalPrice',
-        payload: {
-          purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
-          deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
-          price: value ? value : 0,
-          distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
-          saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0,
-        },
-      }).then(() => {
-        this.setState({
-          saler_price_modal: this.props.modal_price,
-        })
-      })
-    }, 10)
+
+    // 价格模型
+    // let value = e.target.value
+    // setTimeout(() => {
+    //   this.props.dispatch({
+    //     type: 'order/getModalPrice',
+    //     payload: {
+    //       purchase_price: this.props.form.getFieldValue('purchase_price') ? this.props.form.getFieldValue('purchase_price') : 0,
+    //       deliver_price: this.props.form.getFieldValue('deliver_price') ? this.props.form.getFieldValue('deliver_price') : 0,
+    //       price: value ? value : 0,
+    //       distance: this.props.form.getFieldValue('distance') ? this.props.form.getFieldValue('distance') : 0,
+    //       saler_num: this.props.form.getFieldValue('saler_num') ? this.props.form.getFieldValue('saler_num') : 0,
+    //     },
+    //   }).then(() => {
+    //     this.setState({
+    //       saler_price_modal: this.props.modal_price,
+    //     })
+    //   })
+    // }, 10)
   }
 
   calculation = (e) => {
